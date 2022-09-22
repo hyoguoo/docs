@@ -4,8 +4,7 @@
 new를 통해 생성하는 것이 아닌 컨테이너에서 스스로 생성하고 관리하는 객체
 
 ## 스프링 빈 등록
-## 방법
-### 1. 컴포넌트 스캔과 자동 의존 관계
+### 1. 컴포넌트 스캔과 자동 의존 관계를 통한 등록
 @Component Annotation이 있을 경우 스프링 빈으로 자동 등록
 ```java
 @Controller
@@ -47,3 +46,20 @@ MemberController -> MemberService -> MemeberRepository
 ** 스프링 컨테이너에 스프링 빈을 등록할 때 기존적으로 싱글톤으로 등록하며, 다른 설정을 통해 다른 패턴으로 생성할 수 있지만 대부분 싱글톤을 사용
 
 ### 2. 자바 코드를 통한 직접 등록
+정형화 되지 않은 코드거나, 상황에 따라 구현 클래스를 변경해야하는 경우 사용  
+Config Class를 생성해 `@Configuration` Annotation을 붙여 등록할 객체들을 `@Bean` Annotation을 통해 직접 등록
+```java
+@Configuration
+public class SpringConfig {
+    
+    @Bean
+    public MemberService memberService() {
+        return new MemberService(memberRepository());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+}
+```
