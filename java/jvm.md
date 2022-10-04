@@ -19,3 +19,12 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 3. Class Loader는 Dynamic Loading을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area(JVM Memory)로 전달
 4. Execution Engine이 올라온 Byte Code들을 명령어 단위로 하나씩 가져와서 실행
 
+
+## JDK & JRE & JVM
+![img.png](../image/java_jdk_diagram.png)
+### JVM(Java Virtual Machine)
+자바 바이트 코드를 실행시키기 위한 가상 머신
+### JRE(Java Runtime Environment) = JVM + Library
+자바 애플리케이션을 실행하기 위한 도구(필요한 라이브러리 및 필수 파일)가 포함된 실행 환경
+### JDK(Java Development Kit)
+자바로 개발하기 위한 필요 요소(javac 등)를 포함한 개발 키트
