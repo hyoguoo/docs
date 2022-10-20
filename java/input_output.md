@@ -34,11 +34,11 @@
 
 ### 진수 지시자
 
-| specifier | result  |     |
-|:---------:|:-------:|-----|
-|    %x     |  fffff  |     |
-|    %#x    | 0xfffff |     |
-|    %#X    | 0XFFFFF |     |
+| specifier | result  |
+|:---------:|:-------:|
+|    %x     |  fffff  |
+|    %#x    | 0xfffff |
+|    %#X    | 0XFFFFF |
 
 10진수를 2진수로 출력해주는 지시자는 없기 때문에 `Integer.toBinariyString(intgerNumber)`를 사용하면 된다. 또한 C언어에서 처럼 char 타입을 정수로 출력할 수 없고, int
 타입으로 형 변환하여 출력할 수 있다.
