@@ -54,47 +54,59 @@ class ListElement<T> {
 따라서 원소를 head 앞에 추가하거나 제거 할 때는 head 포인터 혹은 레퍼런스를 갱신해주어야한다.
 
 ```java
-public ListElement<Integer> insertInFront(ListElement<Integer> list, int data) {
-    ListElement<Integer> newList = new ListElement<Integer>(data);  // data가 담긴 node 생성
-    newList.setNext(list);  // 새로 생성 된 노드 뒤에 기존 리스트 연결
-    return newList;
+class Main {
+    public ListElement<Integer> insertInFront(ListElement<Integer> list, int data) {
+        ListElement<Integer> newList = new ListElement<Integer>(data);  // data가 담긴 node 생성
+        newList.setNext(list);  // 새로 생성 된 노드 뒤에 기존 리스트 연결
+        return newList;
+    }
 }
 ```
 
 ### 리스트 종주
 
 ```java
-public ListElement<Integer> findData(ListElement<Integer> head,int data) {
-    ListElement<Integer> elem = head;
-    while (elem != null && elem.value() != data) { // 리스트의 끝이거나 데이터가 일치할 때까지 탐색
-        elem = elem.next();
+class Main {
+    public ListElement<Integer> findData(ListElement<Integer> head, int data) {
+        ListElement<Integer> elem = head;
+        while (elem != null && elem.value() != data) { // 리스트의 끝이거나 데이터가 일치할 때까지 탐색
+            elem = elem.next();
+        }
+        return elem;
     }
-    return elem;
 }
 ```
 
 ### 원소의 삽입 및 삭제
 
 단일 연결 리스트에서의 삭제할 경우에는 그 앞 원소의 연결 고리를 수정해주어야한다.
+
 - 첫 번째 원소 삭제
+
 ```java
-public void delete(ListElement<Integer> head, int data) {
-    ListElement<Integer> nextElem = head.next;
-    head.data = null;
-    head.next = null;
-    
-    head = nextElem;
+class Main {
+    public void delete(ListElement<Integer> head, int data) {
+        ListElement<Integer> nextElem = head.next;
+        head.data = null;
+        head.next = null;
+
+        head = nextElem;
+    }
 }
 ```
+
 - 중간 원소 삭제
+
 ```java
-public void delete(ListElement<Integer> head, int data) {
-    ListElement<Integer> elem = head;
-    while (elem.next() != null) {
-        if (elem.next.data == data) {
-            elem.next = elem.next.next; 
-        } else {
-            elem = elem.next;
+class Main {
+    public void delete(ListElement<Integer> head, int data) {
+        ListElement<Integer> elem = head;
+        while (elem.next() != null) {
+            if (elem.next.data == data) {
+                elem.next = elem.next.next;
+            } else {
+                elem = elem.next;
+            }
         }
     }
 }

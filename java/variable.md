@@ -109,3 +109,8 @@ String num1=7+7+"";  // 7 + 7 + "" -> 14 + "" -> "14"
 String num2=""+7+7;  // "" + 7 + 7 -> "7" + 7 -> "77"
 // `문자열 + any type -> 문자열 + 문자열 -> 문자열`
 ```
+
+###### 출처
+
+- Java의 정석
+- https://www.javatpoint.com/string-pool-in-java

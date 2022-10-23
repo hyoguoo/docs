@@ -37,3 +37,7 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 ### JDK(Java Development Kit)
 
 자바로 개발하기 위한 필요 요소(javac 등)를 포함한 개발 키트
+
+###### 출처
+
+- Java의 정석

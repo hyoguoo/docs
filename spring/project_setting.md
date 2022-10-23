@@ -1,11 +1,13 @@
 ### Environment
+
 - macOS
 - Java 11
 - Intellij IDE
 
-
 ### 프로젝트 생성
+
 - Spring Boot Starter Site https://start.spring.io
+
 ```
 - Project: Gradle Project
 - Spring Boot: Recently Stable Version
@@ -16,6 +18,7 @@
 ```
 
 ### Spring 생성 시 프로젝트 구조
+
 ```
 - gradle : gradle 관련 폴더
 - src
@@ -30,10 +33,16 @@
 ```
 
 ### Project JDK 설정
+
 Project Structure(⌘;) -> Project SDK 설정
 
 ### Gradle JDK 설정
+
 Intellij Setting - Build, Execution, Deployment - Gradle projects - Build and run
+
 - Build and run using : Intellij IDEA
-- Run tests using : Intellij IDEA
-Gradle을 통해 실행하게 되면 간혹 느릴 때가 있어, IDEA에서 바로 Java를 실행시키는 것이 훨씬 빠르다.
+- Run tests using : Intellij IDEA Gradle을 통해 실행하게 되면 간혹 느릴 때가 있어, IDEA에서 바로 Java를 실행시키는 것이 훨씬 빠르다.
+
+###### 출처
+
+- https://www.inflearn.com/course/스프링-입문-스프링부트
