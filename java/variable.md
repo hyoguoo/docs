@@ -50,7 +50,7 @@ String에 문자열을 할당하게 되면, JVM은 `String Pool`에 같은 값�
 ```java
 String s1="ogu";
 String s2="ogu";
-String s3=new String("ogu\n");
+String s3=new String("ogu");
 System.out.println(s1==s2); // true
 System.out.println(s2==s3); // false
 ```
