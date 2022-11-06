@@ -43,6 +43,12 @@ Intellij Setting - Build, Execution, Deployment - Gradle projects - Build and ru
 - Build and run using : Intellij IDEA
 - Run tests using : Intellij IDEA Gradle을 통해 실행하게 되면 간혹 느릴 때가 있어, IDEA에서 바로 Java를 실행시키는 것이 훨씬 빠르다.
 
+### Lombok 설정
+
+Intellij Setting - Build, Execution, Deployment - Compiler - Annotation Processors
+
+- Enable annotation processing: `check`
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트
