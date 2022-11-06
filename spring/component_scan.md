@@ -136,3 +136,6 @@ public class RateDiscountPolicy implements DisCountPolicy {
 
 생성자에 `@Autowired`를 지정하면, 스프링 컨테이너가 스프링 빈(타입이 같은 빈)을 찾아서 해당 파라미터에 넣어준다.
 
+###### 출처
+
+- https://www.inflearn.com/course/스프링-핵심-원리-기본편
