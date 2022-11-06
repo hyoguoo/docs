@@ -12,11 +12,13 @@
 
 ### 1. 생성자 주입
 
+생성자를 통해서 의존 관계를 주입 받는 방법
+
 ```java
 
 @Controller
 public class MemberController {
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @Autowired // 생략가능
     public MemberController(MemberService memberService) {
@@ -25,9 +27,13 @@ public class MemberController {
 }
 ```
 
-만약 생성자가 하나라면 `@Autowired` 생략 할 수 있다.
+- 생성자 호출 시점에 딱 한 번만 호출되는 것이 보장
+- 불변/필수 의존관계에 사용
+- 만약 생성자가 하나라면 `@Autowired` 생략 가능
 
 ### 2. Field 주입
+
+필드에 바로 주입하는 방법
 
 ```java
 
@@ -38,12 +44,13 @@ public class MemberController {
 }
 ```
 
-필드에 `@Autowired` Annotation을 붙여 주입하는 방법으로 제일 간단하지만 아래의 단점이 존재한다.
-
-- 외부에서 변경이 힘듬
-- 프레임워크에 의존적이며 객체지향적으로 좋지 않음
+- 외부에서 변경이 힘들어 테스트 코드 작성하기 힘들어짐
+- DI 프레임워크에 의존적이며 객체지향적으로 좋지 않음
+- 애플리케이션 실제 코드와 관계 없는 테스트 코드나 설정을 목적으로 하는 `@Configuration` 같은 곳에서만 특별한 용도로 사용하는것을 권장
 
 ### 3. 수정자 주입(Setter Injection)
+
+Setter 메서드에 `@Autowired` Annotation을 붙이는 방법
 
 ```java
 
@@ -51,15 +58,35 @@ public class MemberController {
 public class MemberController {
     private MemberService memberService;
 
-    @Autowired // 생략가능
+    @Autowired
     public void setMemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 }
 ```
 
-Setter 메서드에 `@Autowired` Annotation을 붙이는 방법으로 거의(아예) 사용하지 않는다.  
-setter를 public으로 열어두어야 하리 때문에 실행 중에 의존 관계가 변경 될 가능성이 있다.
+- 선택/변경 가능성이 있는 의존관계에서 사용
+- 결국 `Setter`를 `public`으로 열어두어야 하기 때문에 실행 중에 의존 관계가 변경 될 가능성 존재하여 위험
+
+### 4. 일반 메서드 주입
+
+일반 메서드를 통해 주입
+
+```java
+
+@Controller
+public class MemberController {
+    private MemberService memberService;
+
+    @Autowired
+    public void init(MemberService memberService) {
+        this.memberService = memberService;
+    }
+}
+```
+
+- 한 번에 여러 필드를 주입 받을 수 있음
+- 일반적으로 잘 사용하지 않음
 
 ## 의존성 주입 방법 중 권장하는 방법
 
