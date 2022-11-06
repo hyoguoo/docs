@@ -187,6 +187,38 @@ public class MemberTest {
 테스트가 불가능해진다.  
 만약 Setter 주입을 사용하면 불변성이 꺠지게 되며, 테스트 코드를 Spring 프레임 워크 위에서 돌리게 되면 테스트 비용(시간)이 증가하게 된다.
 
+## 롬복
+
+생성자 주입은 많은 장점을 가져다주지만 편의성 면에선 조금 떨어지는데 Lombok을 사용하면 이를 극복할 수 있다.  
+생성자를 딱 한 개만 두고 `@Autowired`를 생략하는 방법을 사용 중이라면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되면 생성자 관련 코드를 생략할 수 있게 된다.
+
+- 이전 코드
+
+```java
+
+@Controller
+public class MemberController {
+    private final MemberService memberService;
+
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+}
+```
+
+- 이후 코드
+
+```java
+
+@Controller
+@RequiredArgsConstructor
+public class MemberController {
+    private final MemberService memberService;
+}
+```
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트
+- https://www.inflearn.com/course/스프링-핵심-원리-기본편
