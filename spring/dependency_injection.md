@@ -294,6 +294,38 @@ public class OrderService {
 
 만약 `@Qualifier`에 해당 하는 `Qualifier`값이 없는 경우 그 이름의 스프링 빈을 추가로 찾는다.(이런 상황이 발생하지 않는 것이 좋다.)
 
+#### 애노테이션을 통한 등록
+
+```java
+
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
+        ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Qualifier("mainDiscountPolicy")
+public @interface MainDiscountPolicy {
+}
+```
+
+```java
+
+@Component
+@MainDiscountPolicy
+public class FixDiscountPolicy implements DiscountPolicy {
+}
+
+@Component
+public class OrderService {
+
+    private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(@MainDiscountPolicy DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+}
+```
+
 ### @Primary 사용
 
 우선 순위를 정해주는 방법으로 여러 빈이 매칭 됐을 경우 해당 애노테이션을 가진 빈이 우선권을 가진다.
