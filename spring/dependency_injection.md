@@ -218,6 +218,110 @@ public class MemberController {
 }
 ```
 
+## 두 개 이상의 빈
+
+`DiscountPolicy`의 하위 타입 두 개를 스프링 빈으로 등록하고 해당 타입으로 자동 주입을 했을 경우 `NoUniqueBeanDefinitionException`이 발생한다.
+
+```java
+
+@Component
+public class FixDiscountPolicy implements DiscountPolicy {
+}
+
+@Component
+public class RateDiscountPolicy implements DiscountPolicy {
+}
+
+// 의존성 주입
+@Component
+public class OrderService {
+
+    private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+}
+```
+
+하위 타입으로 변경 지정할 수 있지만 이는 DIP 위배하고, 유연성이 떨어지는 문제가 있어 다른 해결 방법을 사용하는 것이 좋다.
+
+### @Autowired 필드명 매칭
+
+`@Autowired`는 타입 매칭을 시도하고, 같은 타입의 빈이 있으면 필드 이름/파라미터 이름으로 이름을 추가 매칭하여 조회한다.
+
+```java
+public class OrderService {
+
+    private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(DiscountPolicy rateDiscountPolicy) { // 이름 변경
+        this.discountPolicy = rateDiscountPolicy;
+    }
+}
+```
+
+### Qualifier 사용
+
+빈 이름 자체를 변경하는 개념은 아니고 추가 구분자를 붙여주는 개념
+
+```java
+
+@Component
+@Qualifier("mainDiscountPolicy")
+public class FixDiscountPolicy implements DiscountPolicy {
+}
+
+@Component
+@Qualifier("fixDiscountPolicy")
+public class RateDiscountPolicy implements DiscountPolicy {
+}
+
+// 의존성 주입
+@Component
+public class OrderService {
+
+    private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(@Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+}
+```
+
+만약 `@Qualifier`에 해당 하는 `Qualifier`값이 없는 경우 그 이름의 스프링 빈을 추가로 찾는다.(이런 상황이 발생하지 않는 것이 좋다.)
+
+### @Primary 사용
+
+우선 순위를 정해주는 방법으로 여러 빈이 매칭 됐을 경우 해당 애노테이션을 가진 빈이 우선권을 가진다.
+
+```java
+
+@Component
+@Primary
+public class RateDiscountPolicy implements DiscountPolicy {
+}
+```
+
+`@Qualifier`는 사용하는 모든 코드에 붙여줘야 하지만, `@Primary`는 해당 코드에만 붙여주면 의존성 주입 정리가 끝난다.
+
+### 정리
+
+메인으로 사용 할 스프링 빈은 `@Primary` 를 적용해서 편리하게 조회하고, 서브로 사용할 빈은 `@Qualifier` 를 지정해서 명시적으로 획득 하는 방식으로 사용하면 코드를 깔끔하게 유지할 수 있다.
+
+- `@Autowired`
+    1. 타입 매칭
+    2. 타입 매칭의 결과가 2개 이상일 때 필드명/파라미터명으로 빈 이름 매칭
+- `@Qualifier`
+    1. `@Qualifier`끼리 매칭
+    2. 빈 이름 매칭
+    3. 둘 다 없는 경우 `NoSuchBeanDefinitionException`
+- `@Primary`
+    1. 우선 순위 가짐
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트
