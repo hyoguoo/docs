@@ -8,14 +8,14 @@
 
 ## printf
 
-지시자(specifier)를 통해 변수의 값을 여러 가지 형식으로 변호나하여 출력하는 기능을 가지고 있다.
+지시자(specifier)를 통해 변수의 값을 여러 가지 형식으로 변환하여 출력하는 기능을 가지고 있다.
 
 ### 자주 사용되는 지시자
 
 | specifier |   description   |
 |:---------:|:---------------:|
 |    %b     |     boolean     |
-|    %b     | decimal integer |
+|    %d     | decimal integer |
 |    %o     |  octal integer  |
 |  %x, %X   |  hexa-decimal   |
 |    %f     | floating-point  |
@@ -24,7 +24,6 @@
 |    %s     |     string      |
 
 ### 공간 지시자
-
 | specifier | result  |
 |:---------:|:-------:|
 |    %d     |  [10]   |
