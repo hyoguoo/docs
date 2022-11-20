@@ -153,6 +153,58 @@ class Example {
 }
 ```
 
+## 오버로딩(Overloading)
+
+> 같은 이름의 메서드를 여러 개 정의하는 것
+
+### 오버로딩의 조건
+
+1. 메서드의 이름이 같아야 한다.
+2. 매개변수의 개수 또는 타입이 달라야 한다.
+
+```java
+class PrintStream {
+
+    void println(int x);
+
+    void println(boolean x);
+
+    void println(double x);
+
+    void println(String x);
+    
+    // ...
+}
+```
+
+### 가변인자(varargs)와 오버로딩
+
+가변인자는 메서드의 매개변수의 개수가 일정하지 않을 때 사용한다.
+
+```java
+class Example {
+
+    void println(int x) {
+        System.out.println(x);
+    }
+
+    void println(int x, int y) {
+        System.out.println(x + ", " + y);
+    }
+
+    void println(int x, int y, int z) {
+        System.out.println(x + ", " + y + ", " + z);
+    }
+
+    // 가변 인자를 통해 위의 메서드를 대체할 수 있다.
+    void println(int... x) {
+        for (int i : x) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
 ###### 출처
 
 - Java의 정석
