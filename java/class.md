@@ -89,15 +89,15 @@ class Example {
 
 ```java
 class Example {
-    
+
 
     // error
     int add1(int a, int b) {
         if (a > b) {
             return a;
-        } 
+        }
     }
-    
+
     // ok
     int add2(int a, int b) {
         if (a > b) {
@@ -108,3 +108,51 @@ class Example {
     }
 }
 ```
+
+### static
+
+메서드 중에서 인스턴드와 관계없는(인스턴스 변수나 인스턴스 메서드를 사용자히 않는) 메서드는 클래스 메서드로 선언할 수 있다.
+
+인스턴스가 멤버가 존재하는 시점에는 클래스 멤버가 항상 존재하지만, 클래스 멤버가 존재하는 시점에 인스턴스 멤버가 존재하지 않을 수 있다.  
+때문에 같은 클래스 내에 있는 클래스 멤버는 인스턴스 멤버를 사용할 수 없다.  
+만약 클래스 멤버 내에서 인스턴스 멤버를 사용해야 할 경우 내부에서 인스턴스를 생성하여 사용할 수 있다.(이 경우 애초에 인스턴스 메서드로 작성해야하는 것은 아닌지 점검 필요)
+
+```java
+class Example {
+
+    int instanceVar; // 인스턴스 변수
+    static int classVar; // 클래스 변수
+
+    void instanceMethod() {
+    }
+
+    static void staticMethod() {
+    }
+
+    void instanceMethod2() {
+        instanceMethod(); // ok
+        staticMethod(); // ok
+        System.out.println(instanceVar); // ok
+        System.out.println(classVar); // ok
+    }
+
+    static void staticMethod2() {
+        instanceMethod(); // error
+        staticMethod(); // ok
+        System.out.println(instanceVar); // error
+        System.out.println(classVar); // ok
+    }
+
+    static void staticMethod3() {
+        Example e = new Example();
+        e.instanceMethod(); // ok
+        e.staticMethod(); // ok
+        System.out.println(e.instanceVar); // ok
+        System.out.println(e.classVar); // ok
+    }
+}
+```
+
+###### 출처
+
+- Java의 정석
