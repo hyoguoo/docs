@@ -1,8 +1,6 @@
 # 변수
 
-```
-단 하나의 값을 저장할 수 있는 메모리 공간
-```
+> 단 하나의 값을 저장할 수 있는 메모리 공간
 
 ## 변수 명명 규칙
 
@@ -31,8 +29,12 @@
 - 리터럴(literal): 그 자체로 값을 의미하는 것
 
 ```java
-int age=14; // 변수
-final int OGU_NUMBER=59; // 상수
+class Example {
+    void example() {
+        int age = 14; // 변수
+        final int OGU_NUMBER = 59; // 상수
+    }
+}
 ```
 
 ### String Pool
@@ -48,11 +50,15 @@ String에 문자열을 할당하게 되면, JVM은 `String Pool`에 같은 값�
 그래서 아래와 같이 생성자를 통해 생성했을 경우에 같은 문자열을 가진 값이더라도 다른 주소값을 가지게 되어 논리 연산 결과가 `false` 가 반환하게 된다.
 
 ```java
-String s1="ogu";
-String s2="ogu";
-String s3=new String("ogu");
-System.out.println(s1==s2); // true
-System.out.println(s2==s3); // false
+class Example {
+    void example() {
+        String s1 = "ogu";
+        String s2 = "ogu";
+        String s3 = new String("ogu");
+        System.out.println(s1 == s2); // true
+        System.out.println(s2 == s3); // false
+    }
+}
 ```
 
 ## 리터럴 타입
@@ -97,17 +103,21 @@ System.out.println(s2==s3); // false
 ### 리터럴 타입 할당
 
 ```java
-float pi=3.14;          // 변수와 리터럴 타입 불 일치 -> error
-double rate=59.59;       // double 리터럴 타입 생략 가능 -> OK
-int i='A';            // 문자 'A'의 아스키코드인 65가 할당 -> OK
-long d=59;             // 저장 범위가 넓은 타입에 좁은 타입 저장 가능 -> OK
-int ii=0x123456789;   // int 타입의 범위를 넘는 값 저장 -> error
-String str="";           // 빈 문자열 할당 -> OK
-char ch='';            // 빈 문자 할당, 하나의 문자 반드시 필요 -> error
-char chch=' ';         // 공백 문자 할당 가능 -> OK
-String num1=7+7+"";  // 7 + 7 + "" -> 14 + "" -> "14"
-String num2=""+7+7;  // "" + 7 + 7 -> "7" + 7 -> "77"
-// `문자열 + any type -> 문자열 + 문자열 -> 문자열`
+class Example {
+    void example() {
+        float pi = 3.14;          // 변수와 리터럴 타입 불 일치 -> error
+        double rate = 59.59;       // double 리터럴 타입 생략 가능 -> OK
+        int i = 'A';            // 문자 'A'의 아스키코드인 65가 할당 -> OK
+        long d = 59;             // 저장 범위가 넓은 타입에 좁은 타입 저장 가능 -> OK
+        int ii = 0x123456789;   // int 타입의 범위를 넘는 값 저장 -> error
+        String str = "";           // 빈 문자열 할당 -> OK
+        char ch = '';            // 빈 문자 할당, 하나의 문자 반드시 필요 -> error
+        char chch = ' ';         // 공백 문자 할당 가능 -> OK
+        String num1 = 7 + 7 + "";  // 7 + 7 + "" -> 14 + "" -> "14"
+        String num2 = "" + 7 + 7;  // "" + 7 + 7 -> "7" + 7 -> "77"
+        // `문자열 + any type -> 문자열 + 문자열 -> 문자열`
+    }
+}
 ```
 
 ###### 출처
