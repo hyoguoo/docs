@@ -65,4 +65,4 @@
 
 ###### 출처
 
-- 프로그래밍 면접 이렇게 준비한다
+- [프로그래밍 면접 이렇게 준비한다](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=195800711)

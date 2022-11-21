@@ -117,4 +117,4 @@ class Example {
 
 ###### 출처
 
-- Java의 정석
+- [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)

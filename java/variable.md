@@ -112,5 +112,5 @@ String num2=""+7+7;  // "" + 7 + 7 -> "7" + 7 -> "77"
 
 ###### 출처
 
-- Java의 정석
+- [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
 - https://www.javatpoint.com/string-pool-in-java

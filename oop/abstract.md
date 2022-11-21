@@ -32,4 +32,4 @@
 
 ###### 출처
 
-- 객체지향의 사실과 오해
+- [객체지향의 사실과 오해](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=60550259)

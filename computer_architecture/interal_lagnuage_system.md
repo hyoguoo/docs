@@ -149,4 +149,4 @@ bit(비트) : binary + digit의 합성어로 2진법을 표현하는 수단
 
 ###### 출처
 
-- 한 권으로 읽는 컴퓨터 구조와 프로그래밍
+- [한 권으로 읽는 컴퓨터 구조와 프로그래밍](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=268444562)
