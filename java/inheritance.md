@@ -222,4 +222,4 @@ class Point3D extends Point {
 
 ###### 출처
 
-- [자바의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
+- [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
