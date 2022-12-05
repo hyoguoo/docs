@@ -6,15 +6,15 @@
 
 ## 정적 컨텐츠
 
-![img.png](../../image/spring_static_contents_operating.png)
+![img.png](../image/spring_static_contents_operating.png)
 
 ## MVC & 템플릿 엔진
 
-![img.png](../../image/spring_view_page_operating.png)
+![img.png](../image/spring_view_page_operating.png)
 
 ## API
 
-![img.png](../../image/spring_response_body_operating.png)
+![img.png](../image/spring_response_body_operating.png)
 
 - http body에 문자 내용 반환
 - `HttpMessageConverter` 동작

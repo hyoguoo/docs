@@ -37,4 +37,4 @@
 
 `DefaultkeyBinding.dict` 파일을 통한 \`키 변경을 하게 되면 IntelliJ 내부에서는 한글 자판에선 그대로 `₩`가 출력되는데,  
 해당 파일을 사용하지 않고 `Karabiner-Elements`를 통해 키를 변경하면 한글 자판에서도 \`이 정상적으로 출력
-![img.png](../../image/karabiner.png)
+![img.png](../image/karabiner.png)

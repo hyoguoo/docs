@@ -17,7 +17,7 @@ CPU가 주기억장치에 접근하는 것을 관리하는 장치로, 일반적�
 | 읽기/쓰기보호  |                     읽기/쓰기 가능 여부 영역 관리                      |
 |  메모리보호   | 각 프로세스들이 별도의 분리된 영역에서 운용되도록 통제 / 상한 레지스터 보다 큰 값이 오는 경우도 체크 |
 
-![img.png](../../image/mmu_work_schematic.png)
+![img.png](../image/mmu_work_schematic.png)
 
 ## Virtual Memory
 

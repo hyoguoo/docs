@@ -26,7 +26,7 @@ class Example {
 
 `병합`: 준영속 상태의 엔티티를 다시 영속 상태로 변경하는 기능
 
-![img.png](../../image/entity_merge.png)
+![img.png](../image/entity_merge.png)
 
 ```java
 class Example {
