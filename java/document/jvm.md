@@ -15,7 +15,7 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 
 ## Java 실행 과정
 
-![img.png](../image/java_excution_process.png)
+![img.png](../../image/java_excution_process.png)
 
 1. 작성된 Java Source를 Java Compiler를 통해 Java Byte Code로 컴파일
 2. 컴파일 된 Byte Code를 JVM의 Class Loader에 전달
@@ -24,7 +24,7 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 
 ## JDK & JRE & JVM
 
-![img.png](../image/java_jdk_diagram.png)
+![img.png](../../image/java_jdk_diagram.png)
 
 ### JVM(Java Virtual Machine)
 

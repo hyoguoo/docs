@@ -18,7 +18,7 @@ public class HelloController {
 }
 ```
 
-![img.png](../image/spring_view_page_operating.png)
+![img.png](../../image/spring_view_page_operating.png)
 
 - Controller에서 문자 반환 시 `viewResolver`에서 `resources/templates/{name}.html` 반환
 - `spring-boot-devtools`라이브러리 : html 파일을 컴파일하면 서버 재시작 없이 view 파일 변경 가능
