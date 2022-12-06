@@ -1,4 +1,4 @@
-# Git
+# Java
 
 - [JVM](./document/jvm.md)
 - [버전 관리](./document/version_control.md)
