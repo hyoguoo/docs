@@ -16,7 +16,7 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 [제공 메서드](https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html)
 
-## 자료구조별 특징
+## Collection 하위 Class 특징
 
 |     Class     |       Base Class       | Base Interface | Duplicate | Order | Sort |         Description         |
 |:-------------:|:----------------------:|:--------------:|:---------:|:-----:|:----:|:---------------------------:|
