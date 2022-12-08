@@ -302,10 +302,10 @@ class InitTest {
 }
 ```
 
-| 변수  | (클래스 초기화)기본값 | (클래스 초기화)명시적 초기화 | 클래스 초기화 블럭 | (인스턴스 초기화)기본값 | (인스턴스 초기화)명시적 초기화 | 인스턴스 초기화 블럭 | 생성자  |
-|:---:|:------------:|:----------------:|:----------:|:-------------:|:-----------------:|:-----------:|:----:|
-| cv  |      0       |        1         |     2      |       2       |         2         |      2      |  2   |
-| iv  |      -       |        -         |     -      |       0       |         1         |      2      |  3   |
+| 변수  | (클래스 초기화)기본값 | (클래스 초기화)명시적 초기화 | 클래스 초기화 블럭 | (인스턴스 초기화)기본값 | (인스턴스 초기화)명시적 초기화 | 인스턴스 초기화 블럭 | 생성자 |
+|:---:|:------------:|:----------------:|:----------:|:-------------:|:-----------------:|:-----------:|:---:|
+| cv  |      0       |        1         |     2      |       2       |         2         |      2      |  2  |
+| iv  |      -       |        -         |     -      |       0       |         1         |      2      |  3  |
 
 1. `cv`가 메모리(method area)에 생성되고, 타입 기본 값인 0이 저장
 2. 명시적 초기화(`int cv = 1`)가 수행되어 1로 저장
@@ -314,6 +314,64 @@ class InitTest {
 5. 명시적 초기화(`int iv = 1`)가 수행되어 1로 저장
 6. 인스턴스 초기화 블럭이 수행되어 2로 저장
 7. 생성자가 수행되어 3으로 저장
+
+## 내부 클래스
+
+> 클래스 안에 또 다른 클래스를 선언하는 것으로 내부 클래스에서 외부 클래스의 멤버를 직접 사용할 수 있다.
+
+### 내부 클래스의 종류
+
+1. 인스턴스 클래스 : 외부 클래스의 인스턴스 멤버처럼 사용
+    - `static` 멤버를 가질 수 없음(상수인 `static final`은 가능)
+2. 스태틱 클래스 : 외부 클래스의 static 멤버처럼 사용
+    - `static` 멤버를 가질 수 있음
+3. 지역 클래스 : 외부 클래스의 메서드나 초기화 블럭 안에 선언되며 외부 클래스의 지역변수처럼 사용
+    - `static` 멤버를 가질 수 없음(상수인 `static final`은 가능)
+4. 익명 클래스 : 이름이 없는 지역 클래스
+
+```java
+class Outer {
+    void myMethod() {
+        class LocalInner {
+            static final int CV = 500;
+            //       static int CV2 = 600; // 에러! static 변수 선언 불가
+            int iv = 400;
+        }
+    }
+
+    static class StaticInner {
+        static int cv = 300; // static class에서만 static 변수 선언 가능
+        int iv = 200;
+    }
+
+    class InstanceInner {
+        static final int CONST = 100; // 상수(static final)만 선언 가능
+        //        static int cv = 100; // 에러! static 변수 선언 불가
+        int iv = 100;
+    }
+}
+```
+
+내부 클래스도 클래스이기 때문에 `abstract`, `final`, `private`, `protected` 같은 제어자를 사용할 수 있다.
+
+### 익명 클래스(Anonymous Class)
+
+> 이름이 없는 지역 클래스로, 이름이 없기 때문에 생성자를 가질 수 없다.
+
+Comparator [인터페이스로 구현하는 익명 클래스](interface.md#익명-구현-객체--anonymous-implement-object-)의 예시
+
+```java
+class Example {
+    public static void main(String[] args) {
+        Arrays.sort(arr, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
+            }
+        });
+    }
+}
+```
 
 ###### 출처
 
