@@ -258,6 +258,30 @@ class CalculatorTest {
 | default  |     가능      |   가능   |  클래스명.메서드명  |
 | abstract |     불가능     |   가능   |  클래스명.메서드명  |
 
+## 익명 구현 객체(Anonymous Implement Object)
+
+- 구현 클래스를 정의하지 않고, 인터페이스를 구현하는 객체를 생성하는 방법
+- 인터페이스를 구현하는 익명 구현 객체는 인터페이스를 구현하는 클래스의 인스턴스를 생성하는 것과 같다.
+
+```java
+interface Calculator {
+    int exec(int a, int b);
+}
+
+class CalculatorTest {
+    public static void main(String[] args) {
+        Calculator cal = new Calculator() {
+            @Override
+            public int exec(int a, int b) {
+                return a + b;
+            }
+        };
+
+        System.out.println(cal.exec(3, 9)); // 12
+    }
+}
+```
+
 ###### 출처
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
