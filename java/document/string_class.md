@@ -33,6 +33,41 @@ class Example {
 }
 ```
 
+### String 클래스의 equals
+
+- `String` 클래스의 `equals()` 메서드는 `Object` 클래스의 `equals()` 메서드를 오버라이딩한 것이다.
+- `String` 클래스의 `equals()` 메서드는 두 객체의 내용이 같은지 비교한다.
+
+```java
+public class StringEqualsTest {
+    public static void main(String[] args) {
+        String s1 = "ogu";
+        String s2 = "ogu";
+        String s3 = new String("ogu");
+        System.out.println(s1 == s2); // true
+        System.out.println(s2 == s3); // false
+        System.out.println(s2.equals(s3)); // true
+    }
+
+
+    // 실제 String 클래스의 equals() 메서드
+    public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (anObject instanceof String) {
+            String aString = (String) anObject;
+            if (coder() == aString.coder()) {
+                return isLatin1() ? StringLatin1.equals(value, aString.value)
+                        : StringUTF16.equals(value, aString.value);
+            }
+        }
+        return false;
+    }
+}
+```
+
+
 ### Constant Pool
 
 > JVM이 시작될 때 생성되는 메모리 공간
