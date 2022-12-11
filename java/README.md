@@ -12,5 +12,7 @@
 - [다형성](./document/polymorphism.md)
 - [인터페이스](./document/interface.md)
 - [예외처리](./document/exception_handling.md)
+- java.lang 패키지
+    - [Object 클래스](./document/object_class.md)
 - [컬렉션](./document/collections.md)
 - [맵](./document/map.md)
