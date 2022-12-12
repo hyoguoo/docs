@@ -67,7 +67,6 @@ public class StringEqualsTest {
 }
 ```
 
-
 ### Constant Pool
 
 > JVM이 시작될 때 생성되는 메모리 공간
@@ -81,7 +80,54 @@ String에 문자열을 할당하게 됐을 때 JVM은 아래와 같은 과정을
 2. 있으면 해당 인스턴스를 반환
 3. 없으면 새로운 인스턴스를 생성하고 `Constant Pool`에 저장
 
-만약 `new String()`을 통해 문자열을 생성하게 되면, `Constant Pool`에 저장되지 않고, 항상 새 객체를 생성하고 heap 영역에 저장하게 된다.  
+만약 `new String()`을 통해 문자열을 생성하게 되면, `Constant Pool`에 저장되지 않고, 항상 새 객체를 생성하고 heap 영역에 저장하게 된다.
+
+## StringBuffer & StringBuilder
+
+> 문자열을 변경할 수 있는 클래스
+
+기존 String 클래스는 문자열을 변경할 때마다 새로운 인스턴스를 생성하고, 기존 인스턴스는 GC의 대상이 되기 때문에 문자열을 변경할 때는 `StringBuffer`나 `StringBuilder`를 사용하는 것이
+좋다.
+
+### StringBuffer
+
+- 내부적으로 문자열 편집을 위한 `buffer`를 가지고 있음
+- 생성자를 통해 초기 용량을 지정할 수 있으며 버퍼의 크기가 부족할 경우 자동으로 증가
+
+#### StringBuffer 문자열 비교
+
+StringBuffer 클래스의 equals 메서드는 오버라이딩하지 않아 Object 클래스의 equals 메서드(==)를 사용하게 된다.  
+담고있는 문자열을 반환하는 `toString()`은 오버라이딩 되어 있어 해당 메서드를 통해 비교가 가능하다.
+
+```java
+public class StringBufferTest {
+    public static void main(String[] args) {
+        StringBuffer sb1 = new StringBuffer("ogu");
+        StringBuffer sb2 = new StringBuffer("ogu");
+        System.out.println(sb1 == sb2); // false
+        System.out.println(sb1.equals(sb2)); // false
+        System.out.println(sb1.toString().equals(sb2.toString())); // true
+    }
+}
+```
+
+### StringBuilder
+
+- `thread safe`한 StringBuffer와 달리 `thread unsafe`
+- 위 기능을 제외하고는 StringBuffer와 동일
+
+### 비교
+
+- String : 불변하기 때문에 문자열 연산이 적은 경우 사용
+- StringBuffer : 문자열 연산이 많고 멀티쓰레드인 경우 사용
+- StringBuilder : 문자열 연산이 많고 단일쓰레드이거나 동기화를 고려하지 않아도 될 경우 사용
+
+|      -       |   String    | StringBuffer | StringBuilder |
+|:------------:|:-----------:|:------------:|:-------------:|
+|   storage    | String Pool |     Heap     |     Heap      |
+|    modify    |      X      |      O       |       O       |
+| thread safe  |      O      |      O       |       X       |
+| synchronized |      O      |      O       |       X       |
 
 ###### 출처
 
