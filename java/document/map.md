@@ -11,7 +11,7 @@
 ## Map Interface
 
 - `Map` 인터페이스는 `Collection` 인터페이스를 상속받지 않는다.
-- `Map` 인터페이스는 `key`와 `value`로 이루어진 데이터를 저장한다.
+- `Map` 인터페이스는 `key`와 `value`를 묶어서 하나의 데이터를 `entry`로 저장한다.
 - put, get, remove, containsKey, containsValue, size, isEmpty, clear 등의 메소드를 제공한다.
 
 [제공 메서드](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
@@ -39,4 +39,4 @@
 ### LinkedHashMap
 
 - `HashMap`과 동일하게 내부적으로 `Entry` 배열을 만들어 관리
-- `before`와 `after`를 이용하여 `Entry`를 추가한 순서대로 `Entry`를 관리하기 때문에 순서가 보장됨
+- `before`와 `after`를 이용하여 `Entry`를 추가한 순서대로 `Entry`를터 관리하기 때문에 순서가 보장됨
