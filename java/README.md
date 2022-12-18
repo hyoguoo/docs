@@ -15,5 +15,6 @@
 - java.lang 패키지
     - [Object 클래스](./document/object_class.md)
     - [String 클래스](./document/string_class.md)
+    - [Wrapper 클래스](./document/wrapper_class.md)
 - [컬렉션](./document/collections.md)
 - [맵](./document/map.md)
