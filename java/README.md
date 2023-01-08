@@ -19,3 +19,4 @@
 - [컬렉션](./document/collections.md)
 - [맵](./document/map.md)
 - [Generic](./document/generic.md)
+- [Enums](./document/enums.md)
