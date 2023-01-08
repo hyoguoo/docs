@@ -18,3 +18,4 @@
     - [Wrapper 클래스](./document/wrapper_class.md)
 - [컬렉션](./document/collections.md)
 - [맵](./document/map.md)
+- [Generic](./document/generic.md)
