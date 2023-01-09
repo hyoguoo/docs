@@ -204,39 +204,87 @@ public class Main {
 
 ## 제네릭 메서드
 
-> 메서드의 선언부에 제네릭 타입이 선언된 메서드
+> 메서드의 선언부에 제네릭 타입이 선언된 메서드, 반환 타입 이전에 제네릭 타입을 선언
+
+인스턴스 생성할 때의 타입과 상관없이 독립적으로 제네릭 유형을 선언하여 쓸 수 있다.
 
 ```java
-class Util {
-    public static <T extends Number> int compare(T t1, T t2) {
-        double v1 = t1.doubleValue();
-        double v2 = t2.doubleValue();
-        return Double.compare(v1, v2);
+class ClassName<E> {
+
+    private E element;
+
+    // 제네릭 파라미터 메소드
+    void set(E element) {
+        this.element = element;
     }
-}
-```
 
-위의 `makeJuice` 메서드를 제네릭 메서드로 변경하면 다음과 같이 변경된다.
+    // 제네릭 타입 반환 메소드
+    E get() {
+        return element;
+    }
 
-```java
-class Juicer {
-    // static Juice makeJuice(FruitBox<? extends Fruit> box) {
-    static <T extends Fruit> Juice makeJuice(FruitBox<T> box) {
-        String tmp = "";
-        for (Fruit f : box.getList()) tmp += f + " ";
-        return new Juice(tmp);
+    // 제네릭 메소드
+    <T> T genericMethod(T o) {
+        return o;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
-        FruitBox<Apple> appleBox = new FruitBox<Apple>();
 
-        System.out.println(Juicer.<Fruit>makeJuice(fruitBox));
-        System.out.println(Juicer.makeJuice(fruitBox)); // 컴파일러가 타입을 추정할 수 있어 생략 가능
-        System.out.println(Juicer.<Apple>makeJuice(appleBox));
-        System.out.println(Juicer.makeJuice(appleBox)); // 컴파일러가 타입을 추정할 수 있어 생략 가능
+        ClassName<String> a = new ClassName<String>();
+        ClassName<Integer> b = new ClassName<Integer>();
+
+        a.set("10");
+        b.set(10);
+
+        System.out.println("a data : " + a.get()); // a data : 10
+        System.out.println("a E Type : " + a.get().getClass().getName()); // a E Type : java.lang.String
+
+        System.out.println("b data : " + b.get()); // b data : 10
+        System.out.println("b E Type : " + b.get().getClass().getName()); // b E Type : java.lang.Integer
+
+        // 제네릭 메소드 Integer
+        System.out.println("<T> returnType : " + a.genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer
+        // 제네릭 메소드 String
+        System.out.println("<T> returnType : " + a.genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String
+        // 제네릭 메소드 ClassName b
+        System.out.println("<T> returnType : " + a.genericMethod(b).getClass().getName()); // <T> returnType : ClassName
+    }
+}
+```
+
+위와 같이 구현을 하게되면 클래스에서 지정한 제네릭 타입과 별도로 메서드에서 지정한 제네릭 타입을 사용할 수 있다.
+
+### static
+
+위와 같이 제네릭 메서드 선언은 정적 메서드로 선언할 때 사용할 수 있다.  
+제네릭 타입은 해당 클래스 객체가 인스턴스화 했을 때 외부에서 지정된 타입으로 결정되는데, `static`은 프로그램 실행 시 메모리에 이미 올라가 있기 때문에 클래스와 별도로 독립적인 제네릭을 사용해야 한다.
+
+```java
+class ClassName<E> {
+    // 에러 발생, static 메서드는 객체가 생성되기 이전 시점에 메모리에 올라가기 때문에 E 유형을 가져올 수 없다.
+    static E genericStaticMethod1(E o) {
+        return o;
+    }
+
+    // 제네릭 클래스의 E 타입과 다른 독립적인 타입 
+    static <E> E genericStaticMethod2(E o) {
+        return o;
+    }
+
+    static <T> T genericStaticMethod3(T o) {
+        return o;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(ClassName.<String>genericStaticMethod2("ABCD")); // ABCD
+        System.out.println(ClassName.<Integer>genericStaticMethod2(10)); // 10
+
+        System.out.println(ClassName.<String>genericStaticMethod3("ABCD")); // ABCD
+        System.out.println(ClassName.<Integer>genericStaticMethod3(10)); // 10
     }
 }
 ```
@@ -244,3 +292,4 @@ public class Main {
 ###### 출처
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
+- [제네릭(Generic)의 이해](https://st-lab.tistory.com/153)
