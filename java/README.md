@@ -20,3 +20,4 @@
 - [맵](./document/map.md)
 - [Generic](./document/generic.md)
 - [Enums](./document/enums.md)
+- [쓰레드](./document/thread.md)
