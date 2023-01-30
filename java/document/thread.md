@@ -197,6 +197,386 @@ OS마다 다른 방식으로 스케쥴링하기 때문에 실행 결과는 정�
 5. 지정된 일시정지시간이 다 되거나 `time-out()`, `notify()`, `resume()`, `interrupt()` 등의 메서드를 호출하면 다시 실행대기상태가 됨
 6. 실행을 모두 마치거나 `stop()`을 호출하면 종료상태가 됨
 
+## 쓰레드 동기화(`Synchronization`)
+
+싱글 쓰레드 프로세스 경우 프로세스 내에서 하나의 쓰레드만 작업할 경우엔 프로세스 자원을 가지고 작업하는데에 문제가 없지만 쓰레드가 여러개인 경우에는 프로세스 자원을 공유하게 되는데,  
+이 때 여러 쓰레드가 동시에 하나의 자원을 사용하려고 할 때 문제가 발생할 수 있다.  
+이러한 일을 방지하기 위해 다른 쓰레드의 접근을 막아주는 임계 영역(`critical section`)과 잠금(`lock`) 개념이 필요하다.
+
+1. 공유 데이터를 사용하는 코드 영역을 임계 영역으로 지정
+2. 공유 데이터(객체)가 가지고 있는 잠금을 획득한 단 하나의 쓰레드만 이 영역 내의 코드를 수행할 수 있게 함
+3. 해당 쓰레드가 임계 영역 내의 모든 코드를 수행하고 잠금을 반납 한 후
+4. 다른 쓰레드가 잠금을 획득하여 임계 영역 내의 코드를 수행할 수 있다.
+
+이러한 것을 `synchronized` 라고 한다.
+
+### `synchronized` 키워드
+
+`synchronized` 키워드는 메서드나 블럭에 사용할 수 있다.
+
+```java
+class Example {
+    // 1. 메서드 전체를 임계 영역 지정
+    public synchronized void method() {
+        // ...
+    }
+
+    public void method() {
+        // 2. 메서드 내의 특정 영역을 임계 영역 지정
+        synchronized (this) {
+            // ...
+        }
+    }
+}
+```
+
+`synchronized` 키워드를 사용하면 해당 메서드나 블럭이 실행되는 동안에는 다른 쓰레드가 해당 메서드나 블럭에 접근할 수 없다.  
+두 방법 모두 임계 영역에 들어가는 순간 잠금을 획득하고, 임계 영역을 빠져나오는 순간 잠금을 반납한다.  
+이 영역을 잘 설정해야 멀티쓰레드 프로그램의 성능을 최대한 끌어올릴 수 있다.
+
+- 쓰레드 동기화 예시
+
+```java
+class Example {
+    public static void main(String[] args) {
+        Runnable runnable = new Runnable();
+        new Thread(runnable).start();
+        new Thread(runnable).start();
+    }
+}
+
+class Account {
+    private int balance = 1000;
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public /*synchronized*/ void withdraw(int money) {
+        if (balance >= money) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignored) {
+            }
+            balance -= money;
+        }
+    }
+}
+
+class Withdraw implements Runnable {
+    Account acc = new Account();
+
+    @Override
+    public void run() {
+        while (acc.getBalance() > 0) {
+            int money = (int) (Math.random() * 3 + 1) * 100;
+            acc.withdraw(money);
+            System.out.println("balance : " + acc.getBalance());
+        }
+    }
+}
+```
+
+위의 예시에서 `withdraw()` 메서드에 `synchronized` 키워드를 붙이면 잘 동작하지만, `synchronized` 키워드를 붙이지 않으면 잔액이 마이너스가 되는 경우가 발생한다.  
+`withdraw()` 메서드가 임계 영역으로 지정되지 않으면 두 쓰레드가 동시에 `withdraw()` 메서드를 실행할 수 있기 때문이다.  
+그렇게 되면 두 쓰레드가 동시에 `balance` 변수의 값을 읽어오고, `balance` 변수의 값이 `money` 변수의 값보다 큰지 확인하고, `balance` 변수의 값을 `money` 변수의 값만큼
+감소시키는 과정을 거치는데, 이 과정이 동시에 일어나면 잘못된 결과가 나올 수 있다.
+
+### wait() / notify()
+
+- `wait()`: 쓰레드를 일시 정지 상태로 만든다.
+- `notify()`: 일시 정지 상태에 있는 쓰레드를 실행 대기 상태로 만든다.
+
+아래 코드는 `wait()`와 `notify()`를 사용하여 두 쓰레드가 번갈아가며 실행되도록 한 예시이다.
+
+```java
+class Example {
+    public static void main(String[] args) {
+        Table table = new Table();
+
+        new Thread(new Cook(table), "COOK").start();
+        new Thread(new Customer(table, "donut"), "CUST1").start();
+        new Thread(new Customer(table, "burger"), "CUST2").start();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ignored) {
+        }
+        System.exit(0);
+    }
+}
+
+class Customer implements Runnable {
+    private Table table;
+    private String food;
+
+    Customer(Table table, String food) {
+        this.table = table;
+        this.food = food;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ignored) {
+            }
+            String name = Thread.currentThread().getName();
+
+            table.remove(food);
+            System.out.println(name + " ate a " + food);
+        }
+    }
+}
+
+class Cook implements Runnable {
+    private Table table;
+
+    Cook(Table table) {
+        this.table = table;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            int idx = (int) (Math.random() * table.dishNum());
+            table.add(table.dishNames[idx]);
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+}
+
+class Table {
+    final int MAX_FOOD = 6;
+    String[] dishNames = {"donut", "donut", "burger"};
+    private ArrayList<String> dishes = new ArrayList<>();
+
+    public synchronized void add(String dish) {
+        while (dishes.size() >= MAX_FOOD) {
+            String name = Thread.currentThread().getName();
+            System.out.println(name + " is waiting.");
+            try {
+                // 현재 실행 중인 스레드를 대기로 보냄
+                wait();
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+            }
+        }
+        dishes.add(dish);
+        // 음식을 추가했으니 다른 스레드를 깨워 음식을 먹을 수 있도록 함
+        notify();
+        System.out.println("Dishes: " + dishes.toString());
+    }
+
+    public void remove(String dishName) {
+        synchronized (this) {
+            String name = Thread.currentThread().getName();
+
+            while (dishes.size() == 0) {
+                System.out.println(name + " is waiting.");
+                try {
+                    // 현재 음식이 없으니 스레드를 대기로 보냄
+                    wait();
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
+            }
+
+            while (true) {
+                for (int i = 0; i < dishes.size(); i++) {
+                    if (dishName.equals(dishes.get(i))) {
+                        dishes.remove(i);
+                        // 음식을 먹었으니 다른 스레드를 깨워 음식을 추가할 수 있도록 함
+                        notify();
+                        return;
+                    }
+                }
+
+                try {
+                    System.out.println(name + " is waiting.");
+                    // 음식을 찾지 못했으니 스레드를 대기로 보냄
+                    wait();
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+    }
+
+    public int dishNum() {
+        return dishNames.length;
+    }
+}
+```
+
+## Lock 클래스
+
+- `Lock`은 `synchronized`와 비슷하지만 더 많은 기능을 제공한다.
+- 종류
+    - `ReentrantLock` : 재진입이 가능한 lock, 가장 일반적인 배타 lock으로 `synchronized`와 동일한 기능을 제공한다.
+    - `ReentrantReadWriteLock` : 읽기와 쓰기에 대한 lock을 분리하여 동시에 읽기가 가능하다.
+    - `StampedLock` : `ReentrantReadWriteLock`에 낙관적인 lock 기능을 추가한 lock이다.
+
+### ReentrantLock
+
+- `synchronized`와 동일한 기능을 제공한다.
+- 자동으로 lock의 잠금과 해제가 관리되는 `synchronized`와 달리 `lock()`과 `unlock()`를 직접 호출해야 한다.
+- `unlock`을 호출하지 않으면 다른 스레드가 lock을 획득할 수 없기 때문에 모든 상황에 대해 `unlock`을 처리하기 위해 일반적으로 `try-finally`를 통해 처리한다.
+
+```java
+class Example {
+    private Lock lock = new ReentrantLock();
+
+    public void method() {
+        lock.lock();
+        try {
+            // 임계 영역
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+### Condition
+
+- `Condition`은 `Object`의 `wait()`와 `notify()`를 대체하는 인터페이스이다.
+- `wait()` / `notify()` 예제에서 Cook 스레드와 Customer 스레드를 구분해서 처리하지 못했던 문제를 해결할 수 있다.
+- `Condition`은 `Lock`의 `newCondition()` 메소드를 통해 생성한다.
+- 메서드는 아래와 같이 대응된다.
+
+|    Object     |   Condition   |
+|:-------------:|:-------------:|
+|  void wait()  | void await()  |
+| void notify() | void signal() |
+
+```java
+class Table {
+    final int MAX_FOOD = 6;
+    String[] dishNames = {"donut", "donut", "burger"};
+    private ArrayList<String> dishes = new ArrayList<>();
+
+    // Lock 생성
+    private Lock lock = new ReentrantLock();
+    // lock에 대한 Condition 생성
+    private Condition forCook = lock.newCondition();
+    private Condition forCust = lock.newCondition();
+
+    public void add(String dish) {
+        lock.lock();
+        try {
+            while (dishes.size() >= MAX_FOOD) {
+                String name = Thread.currentThread().getName();
+                System.out.println(name + " is waiting.");
+                try {
+                    // 현재 실행 중인 Cook 스레드를 대기로 보냄
+                    forCook.await();
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
+            }
+            dishes.add(dish);
+            // 음식을 추가했으니 Customer 스레드를 깨워 음식을 먹을 수 있도록 함
+            forCust.signal();
+            System.out.println("Dishes: " + dishes.toString());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void remove(String dishName) {
+        lock.lock();
+        String name = Thread.currentThread().getName();
+
+        try {
+            while (dishes.size() == 0) {
+                System.out.println(name + " is waiting.");
+                try {
+                    // 현재 음식이 없으니 Customer 스레드를 대기로 보냄
+                    forCust.await();
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
+            }
+
+            while (true) {
+                for (int i = 0; i < dishes.size(); i++) {
+                    if (dishName.equals(dishes.get(i))) {
+                        dishes.remove(i);
+                        // 음식을 먹었으니 Cook 스레드를 깨워 음식을 추가할 수 있도록 함
+                        forCook.signal();
+                        return;
+                    }
+                }
+
+                try {
+                    System.out.println(name + " is waiting.");
+                    // 음식을 찾지 못했으니 Customer 스레드를 대기로 보냄
+                    forCust.await();
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public int dishNum() {
+        return dishNames.length;
+    }
+}
+```
+
+## volatile
+
+코어에는 코어마다 별도의 캐시를 가지고 있는데, 읽어온 값을 캐시에 저장하고 캐시에서 값을 읽어온다. 다시 같은 값을 읽어오려고 하면 캐시에서 읽어오기 때문에 메모리의 값이 변경되어도 캐시에 저장된 값이 변경되지
+않는다.  
+`volatile`은 변수를 캐시가 아닌 메모리에서 직접 읽고 쓰도록 하여, 변수의 값을 쓰레드 간에 공유할 수 있게 해준다.
+
+```java
+class Example {
+    volatile boolean v = false;
+}
+```
+
+`volatile` 대신 `synchronized`를 사용해도 같은 효과를 얻을 수 있는데, 이는 쓰레드가 `synchronized` 블록에 진입하기 전에 메모리에서 값을 읽어오고, 빠져나올 때 메모리에 값을 쓰기
+때문에 동기화가 이루어져 값의 불일치가 해소되기 때문이다.
+
+### 원자화
+
+JVM은 데이터를 4byte 단위로 읽어오고 쓰기 때문에 `int`나 보다 작은 타입들은 원자적으로 읽고 쓸 수 있다.  
+하지만 `long`이나 `double` 같은 큰 타입은 하나의 명령어로 읽고 쓸 수 없기 때문에 변수의 값을 읽어오거나 쓰는 도중에 다른 쓰레드가 값을 변경하면 값의 불일치가 발생할 수 있다.  
+이는 `volatile`을 사용하거나 `synchronized`를 사용하여 해결할 수 있다.
+
+- `volatile` : 해당 변수에 대한 읽기/쓰기가 원자적으로 이루어진다.
+- `synchronized` : 해당 블록에 감싸진 코드가 원자적으로 이루어진다.
+
+### volatile의 한계
+
+`volatile`는 변수의 읽기/쓰기만 원자화 시킬 뿐, 동기화 시키는 개념은 아니다.  
+아래 코드에서 `balance`는 `volatile`로 선언되어 있지만, `getBalance()`와 `withdraw()`는 `synchronized`로 동기화되어 있지 않았다면  
+`balance`의 값이 변경되는 도중에 `getBalance()`가 호출되면 값의 불일치가 발생할 수 있다.
+
+```java
+class Example {
+    volatile int balance;
+
+    synchronized int getBalance() {
+        return balance;
+    }
+
+    synchronized void withdraw(int amount) {
+        balance -= amount;
+    }
+}
+```
+
 ###### 출처
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
