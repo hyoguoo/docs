@@ -21,3 +21,4 @@
 - [Generic](./document/generic.md)
 - [Enums](./document/enums.md)
 - [쓰레드](./document/thread.md)
+- [람다식](./document/lambda.md)
