@@ -22,3 +22,4 @@
 - [Enums](./document/enums.md)
 - [쓰레드](./document/thread.md)
 - [람다식](./document/lambda.md)
+- [스트림](./document/stream.md)
