@@ -98,10 +98,10 @@ public class HashCodeTest {
     public static void main(String[] args) {
         String s1 = "ogu";
         String s2 = "ogu";
-        System.out.println(s1.hashCode());
-        System.out.println(s2.hashCode());
-        Object o1 = new Object(); // 109981
-        Object o2 = new Object(); // 109981
+        System.out.println(s1.hashCode()); // 109981
+        System.out.println(s2.hashCode()); // 109981
+        Object o1 = new Object();
+        Object o2 = new Object();
         System.out.println(o1.hashCode()); // 424058530
         System.out.println(o2.hashCode()); // 321001045
     }
@@ -302,7 +302,6 @@ class Animal implements Cloneable {
     public Animal clone() {
         try {
             Animal clone = (Animal) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
