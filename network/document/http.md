@@ -1,11 +1,31 @@
 # HTTP(HyperText Transfer Protocol)
 
+HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 전송 가능하다.  
+서버 간 통신을 할 때도 대부분 HTTP를 통해 통신한다.
+
+## 역사
+
+- HTTP/0.9: GET 메서드만 지원, 헤더 없음
+- HTTP/1.0: 메서드/헤더 추가
+- HTTP/1.1: 가장 많이 사용하는 버전, 지속 연결 지원, 파이프라이닝 지원
+- HTTP/2: HTTP/1.1의 단점 보완, 성능 향상
+- HTTP/3: TCP 대신 UDP 사용, 성능 향상
+
+## 기반 프로토콜
+
+- TCP: HTTP/1.1, HTTP/2
+- UDP: HTTP/3
+
+HTTP/3는 UDP 프로토콜 위에 애플리케이션 레벨에서 성능을 최적화하도록 새로 설계된
+프로토콜이다.([참고 링크](https://evan-moon.github.io/2019/10/08/what-is-http3/))
+
 ## HTTP 특징
 
 - `Client` <---> `Server` 존재
 - `request`를 보내면 `response`로 되돌아옴
 - `request` 없이는 `response` 없음
 - 상태를 유지하지 않는 프로토콜(`stateless`)
+- 비연결성(`connectionless`)
 - `GET` / `POST` / `PUT` / `HEAD` / `DELETE` / `OPTIONS` 메서드 존재
 
 ## 연결 방식
@@ -27,20 +47,57 @@
 
 > HTTP 애플레키에션 간에 주고받는 데이터 단위
 
-복수 행(개행 문자 CR+LF)의 데이터로 구성되며 헤더와 행바디로 구분됨
-
-- Request Header
-
 ```http request
-request line
-request header field
-general header field
-entity header field
-etc..
-CRLF
+<start-line>
+<headers>
+<CRLF>
+<message-body>
 ```
 
-- Response Header
+### HTTP Request Message 구조 예시
+
+```http request
+GET /index.html HTTP/1.1
+Host: www.example.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:70.0) Gecko/20100101 Firefox/70.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+```
+
+### HTTP Response Message 구조 예시
+
+```http response
+HTTP/1.1 200 OK
+Date: Mon, 18 Nov 2019 07:28:00 GMT
+Server: Apache/2.4.18 (Ubuntu)
+Last-Modified: Mon, 18 Nov 2019 07:27:30 GMT
+ETag: "1d3-5a115e6ee8400"
+Accept-Ranges: bytes
+Content-Length: 467
+Vary: Accept-Encoding
+Content-Type: text/html
+
+<html>
+  ...
+</html>
+```
+
+### Start Line
+
+- Request
+    - HTTP 메서드
+    - 요청 대상
+    - HTTP 버전
+- Response
+    - HTTP 버전
+    - 상태 코드
+    - 이유 문구
+
+### Header
 
 ```http request
 status line
@@ -51,12 +108,18 @@ etc..
 CRLF
 ```
 
-### Message Body / Entity Body
+- HTTP 전송에 필요한 모든 부가정보
+    - 메시지 바디의 내용/바디의 크기/압축/인증 등 표준 헤더 필더가 매우 많으며, 사용자 정의 헤더 필드도 사용 가능
 
-기본적으로 Message Body와 Entity Body는 동일하지만 전송 코딩이 적용되어 있을 경우 Entity Body의 내용이 변화할 수 있기 때문에 Message Body와 달라짐
+### Message Body(Entity Body)
+
+실제 전송할 데이터로, byte로 표현할 수 있는 모든 데이터를 전송할 수 있다.  
+기본적으로 Message Body와 Entity Body는 동일하지만 청크 전송 인코딩을 사용하면 Message Body와 Entity Body가 다를 수 있다.
 
 - Message Body: HTTP 통신의 기본단위로 Octet sequence로 구성되며 통신을 통해 전송
 - Entity Body: 리퀘스트랑 리스폰스의 페이로드로 전송되는 정보로 Entity Header Field + Entity Body로 구성
+
+## Method
 
 ## Encoding
 
@@ -94,8 +157,8 @@ Range: bytes=1000-1999
 ```
 
 - response example
-  - 206 상태 코드와 함께 Content-Range 헤더 필드를 포함
-  - 만약 서버에서 리퀘스트 레인지를 지원하지 않는 경우 200 상태 코드와 함께 전체 엔티티를 전송
+    - 206 상태 코드와 함께 Content-Range 헤더 필드를 포함
+    - 만약 서버에서 리퀘스트 레인지를 지원하지 않는 경우 200 상태 코드와 함께 전체 엔티티를 전송
 
 ```http response
 HTTP/1.1 206 Partial Content
