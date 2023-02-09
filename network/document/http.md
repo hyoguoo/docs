@@ -210,6 +210,70 @@ CRLF
     - `SameSite` 속성을 지정하면 `SameSite` 속성에 지정한 도메인과 같은 도메인에서만 쿠키가 전송됨
     - `SameSite=Strict` : 동일한 도메인에서만 쿠키가 전송됨
 
+## 캐시(Cache)
+
+> 웹 서버에서 클라이언트로 전송된 리소스를 임시로 저장하는 장소
+
+```http request
+HTTP/1.1 200 OK
+Content-Type: image/jpeg
+Cache-Control: max-age=3600
+
+ghuhgrhejiofjdwqieuqwiloguoguioqijddwhud
+```
+
+`Cache-Control` 헤더를 사용하여 캐시를 제어할 수 있으며 `max-age` 속성을 사용하여 캐시 유효 시간을 지정할 수 있다.  
+유효기간 내에 재요청이 발생하면 캐시된 리소스를 사용하고 유효기간이 지나면 서버에 재요청을 보내 새로운 리소스를 받아온다.  
+여기서 리소스가 변경되지 않았을 경우 불필요한 네트워크 트래픽이 발생하는데, 이를 방지하기 위해 검증 헤더와 조건부 요청을 사용한다.
+
+- Cache-Control 캐시 지시어
+    - `max-age` : 캐시 유효 시간을 초 단위로 지정
+    - `no-cache` : 데이터는 캐시해도 되지만, 캐시된 데이터를 사용하기 전에 항상 원 서버에 검증을 요청
+    - `no-store` : 데이터에 민감한 정보가 포함되어 있으므로 캐시에 저장하지 않음
+    - `must-revalidate`: 캐시 만료 후 최조 조회 시 원 서버에 검증 필요
+    - `expires` : 캐시 유효 시간을 날짜와 시간으로 지정, `max-age`가 지정되어 있으면 무시되며 `max-age` 사용을 권장`
+    - `public` : 응답 데이터를 public 캐시(프록시 캐시 서버)에 저장할 수 있음
+    - `private` : 응답 데이터를 private 캐시에 저장할 수 있음(해당 사용자만 캐시를 사용할 수 있음, 기본값)
+    - `s-maxage` : `max-age`와 동일하지만, 프록시 캐시에만 적용됨
+
+### 검증 헤더 & 조건부 요청
+
+- 조건부 요청 헤더(`If-Modified-Since`, `If-None-Match`): 클라이언트가 캐시된 리소스를 사용할 수 있는지 검증하기 위해 서버에게 요청하는 헤더
+
+```http request
+GET /image.jpg HTTP/1.1
+if-Modified-Since: Thu, 09 Feb 2023 05:59:59 KST
+if-None-Match: "oguoguogu"
+```
+
+- 검증 헤더(`Last-Modified`, `ETag`): 서버에서 클라이언트에게 리소스의 변경 여부를 알려주는 헤더
+
+```http request
+HTTP/1.1 200 OK
+Content-Type: image/jpeg
+Cache-Control: max-age=3600
+Last-Modified: Thu, 09 Feb 2023 05:59:59 KST
+ETag: "oguoguogu"
+```
+
+#### `Last-Modified` & `If-Modified-Since` 방식
+
+`Last-Modified` 리소스가 마지막으로 변경된 시간을 나타내는 헤더로 리소스를 요청할 때 `If-Modified-Since` 헤더와 함께 요청한다.
+
+- 수정된 경우
+  서버에서 리소스 수정일을 확인하고 변경되지 않았다면 HTTP Body를 제외하여 `304 Not Modified` 응답을 보내게 되고,
+  서버가 보낸 응답 헤더 정보로 캐시의 메타 정보를 갱신하며 캐시된 리소스를 사용하게 된다.
+
+- 변경된 경우
+  `200 OK` 응답을 보내고 새로운 리소스를 전송한다.
+
+여기서 데이터를 수정해서 저장했지만, 실제로 내용이 변경되지 않았을 경우에도 `Last-Modified` 헤더의 값이 변경되기 때문에 캐시된 리소스를 사용할 수 없는 단점이 존재한다.
+
+#### `ETag(Entity Tag)` & `If-None-Match` 방식
+
+`ETag`는 리소스의 고유한 버전 정보를 나타내는 헤더로, 리소스를 요청할 때 `If-None-Match` 헤더와 함께 요청한다.  
+`ETag`와 `If-None-Match` 헤더를 비교하여 리소스의 변경 여부를 확인하게 되고 로직은 위의 방식과 동일하다.
+
 ## MIME(Multipurpose Internet Mail Extensions)
 
 > 텍스트/영상/이미지 등 다양한 데이터를 다루기 위한 기능
