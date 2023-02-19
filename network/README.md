@@ -12,8 +12,8 @@
   - [터널]
   - [캐시]
 - HTTP
-  - [HTTP](./document/http.md)
-  - [HTTP 메시지](./document/http_message.md)
-  - [Method](./document/method.md)
-  - [Connection](./document/connection.md)
-  - [HTTPS](./document/https.md)
+  - [HTTP](document/http/http.md)
+  - [HTTP 메시지](document/http/http_message.md)
+  - [Method](document/http/method.md)
+  - [Connection](document/http/connection.md)
+  - [HTTPS](document/http/https.md)
