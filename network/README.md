@@ -9,6 +9,7 @@
   - [HTTP](document/http/http.md)
   - [HTTP 메시지](document/http/http_message.md)
   - [Method](document/http/method.md)
+  - [Connection](document/http/connection.md)
   - [HTTPS](document/http/https.md)
 - [통신 중계](./document/communication_relay.md)
   - [프록시]
