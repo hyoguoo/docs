@@ -21,50 +21,45 @@
 ## 전송된 데이터 형태
 
 ```
--- IP 패킷: 출발지 IP, 목적지 IP, 기타
------- TCP 세그먼트: 출발지 포트, 목적지 포트, 전송 제어, 순서, 검증 정보, 기타
----------- 데이터: 전송 데이터
+- *IP 패킷 헤더
+----- 버전 / 헤더 길이 / 서비스 유형 / 총 데이터그램 길이(바이트)
+----- 패킷 ID / 플래그 / 플래그 오프셋
+----- 유지 시간(TTL) / 상위 계층 프로토콜 / 헤더 체크섬
+----- 발신지 IP 주소
+----- 목적지 IP 주소
+--------- *TCP 세그먼트 헤더
+------------- 발신지 포트 / 목적지 포트
+------------- TCP 순서 번호
+------------- 편승(piggback) 확인 응답
+------------- 헤더 길이 / 예약어 / URG / ACK / PSH / RST / SYN / FIN / 윈도우 크기
+------------- TCP 체크섬
+------------- 긴급 포인터
+----------------- *TCP 데이터 조각
+-------------------- HTTP 메시지
 ```
 
-# 웹 브라우저 요청 흐름
+## 소켓 인터페이스를 사용한 HTTP 네트워크 흐름
 
-1. DNS 서버에 도메인 이름을 IP 주소로 변환
-2. HTTP 레이어에서 웹 서버에 보낼 HTTP 요청 메시지 작성
-
-```http request
-GET /search?q=hello&hl=ko HTTP/1.1
-Host: www.google.com
-```
-
-3. SOCKET 라이브러리를 통해 TCP/IP 연결
-4. TCP 레이어에서 HTTP 요청 메시지를 통신하기 쉽도록 패킷으로 분해(TCP 세그먼트로 작성)
-
-```http request
-출발지 IP, PORT + 목적지 IP, PORT
-GET /search?q=hello&hl=ko HTTP/1.1
-Host: www.google.com
-```
-
-5. IP 레이어에서 상대가 어디에 있는지 찾아 중계해가며 서버로 패킷 전달
-6. 서버에서 요청 패킷을 받아 HTTP 요청 메시지 파싱
-7. 서버에서 HTTP 응답 메시지 생성
-
-```http request
-HTTP/1.1 200 OK
-Content-Type: text/html;charset=UTF-8
-...
-
-<!doctype html>
-<html itemscope="" itemtype="http://schema.org/SearchResultsPage" lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>hello - Google 검색</title>
-```
-
-8. 응답 패킷 전송
-9. 응답 패킷 도착
-10. 웹 브라우저 HTML 렌더링
+|     클라이언트     |       서버       |
+|:-------------:|:--------------:|
+|               |   새로운 소켓 생성    |
+|               |  80포트로 소켓을 묶음  |
+|               |   소켓 커넥션 허가    |
+|               |    커넥션을 기다림    |
+| IP 주소와 포트를 얻음 |                |
+|   새로운 소켓 생성   |                |
+| 서버의 IP 포트로 연결 |                |
+|               | 애플리케이션 커넥션 통지  |
+|               |   요청을 읽기 시작    |
+|     연결 성공     |                |
+|  HTTP 요청을 보냄  |                |
+|  HTTP 응답 대기   |                |
+|               | HTTP 요청 메시지 처리 |
+|               | HTTP 응답 메시지 전송 |
+|  HTTP 응답 처리   |                |
+|    커넥션 닫음     |     커넥션 닫음     |
 
 ###### 출처
 
 - https://www.inflearn.com/course/http-웹-네트워크
+- [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)
