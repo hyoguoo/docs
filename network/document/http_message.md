@@ -2,6 +2,17 @@
 
 > HTTP 애플레키에션 간에 주고받는 데이터 단위
 
+## 메시지의 흐름
+
+- 인바운드(Inbound) : 클라이언트에서 서버로의 방향
+- 아웃바운드(Outbound) : 서버에서 클라이언트로의 방향
+- 업스트림(Upstream) : 발송자
+- 다운스트림(Downstream) : 수신자
+
+메시지는 항상 업스트림에서 다운스트림으로 흐르며, 서버냐 클라이언트냐를 나누는 개념이 아니고 메시지의 발송자와 수신자를 나누는 개념이다.
+
+## HTTP 구조
+
 ```http request
 <start-line>
 <headers>
@@ -9,7 +20,7 @@
 <message-body>
 ```
 
-## HTTP Request Message 구조 예시
+- HTTP Request Message 구조 예시
 
 ```http request
 GET /index.html HTTP/1.1
@@ -23,7 +34,7 @@ Upgrade-Insecure-Requests: 1
 Cache-Control: max-age=0
 ```
 
-## HTTP Response Message 구조 예시
+- HTTP Response Message 구조 예시
 
 ```http response
 HTTP/1.1 200 OK
@@ -41,18 +52,23 @@ Content-Type: text/html
 </html>
 ```
 
-## Start Line
+### Start Line
 
 - Request
-    - HTTP 메서드
-    - 요청 대상
-    - HTTP 버전
-- Response
-    - HTTP 버전
-    - 상태 코드
-    - 이유 문구
 
-## Headers
+```http request
+<method> <request-URI> <HTTP-version>
+```
+
+- Response
+
+```http request
+<HTTP-version> <status-code> <reason-phrase>
+```
+
+HTTP 메시지의 첫 줄로, 메시지의 종류와 버전 등과 무엇을 하는지에 대한 정보를 담고 있다.
+
+### Headers
 
 ```http request
 status line
@@ -69,8 +85,9 @@ CRLF
     - General Header: 메시지 전체에 적용되는 정보
     - Request(Response) Header: 요청(응답)에 대한 정보
     - Entity Header: 엔티티 바디에 대한 정보
+    - Extension Header: 명세에 정의되지 않은 새로운 헤더
 
-## Message Body(Entity Body)
+### Message Body(Entity Body)
 
 실제 전송할 데이터로, byte로 표현할 수 있는 모든 데이터를 전송할 수 있다.  
 기본적으로 Message Body와 Entity Body는 동일하지만 청크 전송 인코딩을 사용하면 Message Body와 Entity Body가 다를 수 있다.
@@ -80,7 +97,7 @@ CRLF
     - Entity Header: Entity Body에 대한 부가 정보로, 엔티티 본문의 데이터를 해석할 수 있는 정보 제공
     - RFC 7230에서는 Entity Body라는 용어를 사용하지 않고, 표현(Representation)이라는 용어를 사용한다.
 
-## 표현(`Representation`)
+## 표현(Representation)
 
 - Representation Metadata: 표현 데이터를 해석할 수 있는 정보
     - 형식/인코딩/문자집합과 같은 데이터 표현에 대한 정보
