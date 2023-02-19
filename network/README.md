@@ -14,4 +14,5 @@
 - HTTP
   - [HTTP](./document/http.md)
   - [HTTP 메시지](./document/http_message.md)
+  - [Method](./document/method.md)
   - [HTTPS](./document/https.md)
