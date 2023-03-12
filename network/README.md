@@ -12,7 +12,7 @@
   - [Connection](document/http/connection.md)
   - [HTTPS](document/http/https.md)
 - [통신 중계](./document/communication_relay.md)
-  - [프록시]
+  - [프록시](./document/proxy.md)
   - [게이트웨이]
   - [터널]
   - [캐시]
