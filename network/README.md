@@ -12,8 +12,8 @@
     - [Connection](document/http/connection.md)
     - [HTTPS](document/http/https.md)
     - [캐시](document/http/cache.md)
-- [통신 중계](./document/communication_relay.md)
+- 통신 중개
     - [프록시](./document/proxy.md)
-    - [게이트웨이]
-    - [터널]
+    - [게이트웨이](./document/gateway.md)
+    - [터널](./document/tunnel.md)
 - [CORS](./document/cors.md)
