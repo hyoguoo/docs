@@ -2,6 +2,12 @@
 
 > Spring에서 제공하는 웹 모듈로, Model / View / Controller 세 가지 구성요소를 사용해 HTTP 요청을 처리를 지원해주는 프레임워크
 
+## MVC 패턴 구조
+
+- Model : 애플리케이션 데이터
+- View : 모델을 사용자에게 표시
+- Controller : 모델 데이터를 조작
+
 ## DispatcherServlet
 
 `org.springframework.web.servlet.DispatcherServlet`
