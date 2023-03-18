@@ -34,7 +34,11 @@ class Example {
         }
         // 2.핸들러 어댑터 조회 - 핸들러를 처리할 수 있는 어댑터
         HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
-        // 3. 핸들러 어댑터 실행 -> 4. 핸들러 어댑터를 통해 핸들러 실행 -> 5. ModelAndView 반환 mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+        /**
+         * 3. 핸들러 어댑터 실행
+         * 4. 핸들러 어댑터를 통해 핸들러 실행
+         * 5. ModelAndView 반환 mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+         */
         processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
     }
 
