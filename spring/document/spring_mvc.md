@@ -8,6 +8,19 @@
 - View : 모델을 사용자에게 표시
 - Controller : 모델 데이터를 조작
 
+## 구성 요소
+
+|       구성 요소       |                                    설명                                    |
+|:-----------------:|:------------------------------------------------------------------------:|
+| DispatcherServlet | 클라이언트의 요청을 전달받아, Controller에게 클라이언트의 요청을 전달하고, 리턴한 결과를 View에 전달하여 응답을 생성 |
+|  HandlerMapping   |              클라이언트의 요청 URL을 분석하여, 해당 요청을 처리할 Controller를 결정              |
+|  HandlerAdapter   |                   Controller를 처리할 수 있는 Adapter를 찾아 반환                    |
+|    Controller     |           클라이언트의 요청을 처리하고, 처리 결과를 DispatcherServlet에게 반환하는 객체            |
+|   ViewResolver    |                           처리 결과를 보여줄 View를 결정                            |
+|       View        |                                보여줄 응답을 생성                                |
+
+이 중 `DispatcherServlet`이 가장 중요한 역할을 한다.
+
 ## DispatcherServlet
 
 `org.springframework.web.servlet.DispatcherServlet`
