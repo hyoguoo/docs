@@ -8,6 +8,7 @@
 - [JPA](./jpa/README.md)
 - [리눅스](./linux/README.md)
 - [네트워크](./network/README.md)
+- [MySQL](./mysql/README.md)
 - [객체지향프로그래밍](./oop/README.md)
 - [보안](./secure/README.md)
 - [Spring](./spring/README.md)
