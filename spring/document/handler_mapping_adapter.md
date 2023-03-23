@@ -6,6 +6,7 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 ## HandlerMapping
 
 - 들어오는 요청의 URL을 분석하여 적절한 컨트롤러 메서드에 매핑하는 역할
+- 처리할 수 있는 핸들러를 찾아 반환
 
 ### 구현체와 우선 순위
 
@@ -18,6 +19,7 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 
 - 요청을 컨트롤러 메서드에 적용하는 역할
 - 기본적으로 컨트롤러 메서드를 래핑하고 요청을 처리하는 데 필요한 컨텍스트와 매개 변수를 제공
+- 실제 컨트롤러 메서드를 호출하고 반환된 결과를 ModelAndView로 변환
 
 ### 구현체와 우선 순위
 
@@ -26,7 +28,6 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 |  RequestMappingHandlerAdapter  |  애노테이션 기반의 컨트롤러인 @RequestMapping 에서 사용  |     0 |
 |   HttpRequestHandlerAdapter    | HttpRequestHandler 인터페이스를 구현한 컨트롤러에서 사용 |     1 |
 | SimpleControllerHandlerAdapter |     Controller 인터페이스를 구현한 컨트롤러에서 사용     |     2 |
-
 
 ###### 출처
 

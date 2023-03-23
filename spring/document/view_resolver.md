@@ -11,6 +11,15 @@ Spring MVC 프레임워크에서 ViewResolver는 컨트롤러 메서드에 의�
 
 이외에도 UrlBasedViewResolver, FreeMarkerViewResolver 등이 있음
 
+## prefix / suffix
+
+ViewResolver는 논리적 뷰 이름에 prefix와 suffix를 추가하여 뷰를 찾음
+
+```text
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+
 ## ViewResolver 동작 과정
 
 1. 핸들러 어댑터를 통해 컨트롤러 메서드가 반환한 논리적 뷰 이름을 확인
