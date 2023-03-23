@@ -36,6 +36,40 @@
 |  7  |      View 반환       | 뷰 리졸버는 논리 뷰 이름을 물리 뷰 이름으로 변환해서 반환 후 렌더링 역할을 담항하는 View 객체를 반환 |
 |  8  |       뷰 렌더링        |             View 객체의 `render()` 메서드를 호출해서 뷰 렌더링              |
 
+## Spring MVC Code
+
+```java
+
+@Controller("/spring")
+public class SpringExmapleController {
+
+    @GetMapping("/example")
+    public String process(Model model) {
+        List<Member> members = new ArrayList<>();
+        members.add(new Member("memberA", 10));
+        members.add(new Member("memberB", 20));
+
+        model.addAttribute("members", members);
+        return "example";
+    }
+}
+```
+
+- `@Controller`
+    - 스프링이 자동으로 스프링 빈으로 등록할 수 있도록 함
+    - 내부에 `@Component` 애노테이션이 있어 컴포넌트 스캔의 대상
+    - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
+    - [RequestMappingHandlerMapping](handler_mapping_adapter.md)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
+- `@RequestMapping`(=`@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`)
+    - 요청 정보를 매핑하여 해당 URL이 호출되면 애노테이션이 있는 메서드가 호출됨
+    - 애노테이션 기반으로 동작하기 때문에 임의의 이름으로 지어도 상관 없음
+- `String`
+    - 뷰의 논리 이름
+    - `ViewResolver`가 논리 이름을 실제 뷰 이름으로 변환하여 뷰를 찾음
+- `Model`
+    - 뷰에 전달할 데이터를 담는 객체
+    - `Model`에 데이터를 담으면 `Model`은 `Map`으로 변환되어 뷰에 전달됨
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-mvc-1
