@@ -63,6 +63,28 @@
 - 자바 언어의 가장 큰 특징인 객체지향을 살려내는 프레임워크
 - 동시에 좋은 객체 지향 애플리케이션을 개발할 수 있도록 도와주는 프레임워크
 
+스프링에서 응답 데이터를 만들어 내는 방법은 크게 아래 3가지가 있다.
+
+## 스프링의 3가지 컨텐츠 제공 방법
+
+### 1. 정적 컨텐츠
+
+![img.png](../image/spring_static_contents_operating.png)
+
+### 2. MVC & 템플릿 엔진
+
+![img.png](../image/spring_view_page_operating.png)
+
+### 3. API
+
+![img.png](../image/spring_response_body_operating.png)
+
+- http body에 문자 내용 반환
+- `HttpMessageConverter` 동작
+    - 문자: `StringHttpMessageConverter`
+    - 객체: `MappingJackson2HttpMessageConverter`
+    - 그 외에도 여러 converter 존재
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

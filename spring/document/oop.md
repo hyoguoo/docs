@@ -36,15 +36,15 @@
 
 ```java
 public interface MemberRepository {
-  ...
+    // ...
 }
 
 public class JdbcMemberRepository implements MemberRepository {
-  ...
+    // ...
 }
 
 public class MemoryMemberRepository implements MemberRepository {
-  ...
+    // ...
 }
 
 public class MemberService {
@@ -105,7 +105,7 @@ public class MemberService {
 
 ```java
 public class MemberService {
-    //    private MemberRepository memberRepository = new MemoryMemberRepository();
+    //  private MemberRepository memberRepository = new MemoryMemberRepository();
     private MemberRepository memberRepository = new JdbcMemberRepository();
 }
 ```
