@@ -29,6 +29,18 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 |   HttpRequestHandlerAdapter    | HttpRequestHandler 인터페이스를 구현한 컨트롤러에서 사용 |     1 |
 | SimpleControllerHandlerAdapter |     Controller 인터페이스를 구현한 컨트롤러에서 사용     |     2 |
 
+## HandlerMappingAdapter와 [Message Converter](./message_converter.md)
+
+메시지 컨버터는 HTTP 요청 본문을 객체로 변환하거나, 객체를 HTTP 응답 본문으로 변환할 때 사용하는데,  
+`@RequestMapping`을 처리하는 핸들러 어댑터인 `RequestMappingHandlerAdapter`에서 메시지컨버터를 사용한다.
+
+1. 컨트롤러 파라미터, 애노테이션 정보를 기반으로 전달 데이터를 `ArgumentResolver`에 전달
+2. `ArgumentResolver`는 전달받은 데이터를 `Message Converter`를 사용해 적절한 타입으로 변환
+3. 변환된 데이터를 컨트롤러 메서드에 전달
+4. 컨트롤러 메서드가 반환한 결과를 `Return Value Handler`에 전달
+5. `Return Value Handler`는 반환값을 `Message Converter`를 사용해 적절한 타입으로 변환
+6. 변환된 데이터를 HTTP 응답으로 전달
+
 ###### 출처
 
 - https://www.inflearn.com/course/스프링-mvc-1
