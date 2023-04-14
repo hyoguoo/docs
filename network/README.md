@@ -13,6 +13,7 @@
     - [HTTPS](document/http/https.md)
     - [캐시](document/http/cache.md)
     - [HTTP/2.0](document/http/http2.md)
+    - [쿠키](document/http/cookie.md)
 - 통신 중개
     - [프록시](./document/proxy.md)
     - [게이트웨이](./document/gateway.md)

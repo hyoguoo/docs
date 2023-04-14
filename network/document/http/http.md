@@ -57,53 +57,6 @@ HTTP/3는 UDP 프로토콜 위에 애플리케이션 레벨에서 성능을 최�
 
 자세한 내용은 [HTTP Status](https://developer.mozilla.org/ko/docs/Web/HTTP/Status) 참고
 
-## 쿠키(Cookie)
-
-`Stateful`는 리소스 사용을 줄이는 장점이 있지만, `Stateless`는 `Client`의 상태를 유지하지 않기 때문에 `Client`의 상태를 유지하기 위해 `Cookie`를 사용한다.
-
-- 사용처
-    - 사용자 로그인 세션 관리
-    - 사용자 선호 설정
-    - 광고 정보 트래킹
-- 항상 `HTTP` 헤더에 포함되어 전송됨
-    - 네트워크 트래픽 증가
-    - 최소한의 정보만을 담는 것을 권장하며, 보안에 민감한 정보는 저장하지 않는 것이 좋음
-
-### 쿠키의 생명주기
-
-- `Session Cookie`: 브라우저가 종료되면 쿠키가 삭제됨
-- `Persistent Cookie`: 브라우저가 종료되어도 쿠키가 삭제되지 않음
-- `Expires`나 `Max-Age`를 지정하지 않으면 세션 쿠키로 생성됨
-    - `Expires` : 쿠키의 만료 시간을 지정
-    - `Max-Age` : 쿠키의 만료 시간을 초 단위로 지정
-
-### 도메인
-
-해당 쿠키가 적용될 도메인을 지정하는 속성(`domain=example.com`)
-
-- 명시하는 경우
-    - `Domain` 속성에 도메인을 지정
-    - `Domain` 속성에 지정한 도메인과 하위 도메인에 쿠키가 적용됨(`dev.example.com`에도 적용됨)
-- 명시하지 않는 경우
-    - `Domain` 속성에 현재 도메인이 지정됨
-    - `Domain` 속성에 지정한 도메인만 쿠키가 적용됨(`dev.example.com`에는 적용되지 않음)
-
-### 경로
-
-해당 쿠키가 적용될 하위 경로를 지정하는 속성으로 일반적으로 루트로 지정(`path=/`)
-
-### 보안
-
-- `Secure`
-    - 쿠키는 원래 `HTTP`, `HTTPS`를 구분하지 않고 전송
-    - `Secure` 속성을 지정하면 `HTTPS`에서만 쿠키가 전송됨
-- `HttpOnly`
-    - 자바스크립트 코드에서 쿠키에 접근이 가능한데 이를 막기 위해 `HttpOnly` 속성을 지정(XSS 공격 방지)
-    - HTTP 전송에만 쿠키를 사용할 수 있게 됨
-- `SameSite`
-    - `SameSite` 속성을 지정하면 `SameSite` 속성에 지정한 도메인과 같은 도메인에서만 쿠키가 전송됨
-    - `SameSite=Strict` : 동일한 도메인에서만 쿠키가 전송됨
-
 ## MIME(Multipurpose Internet Mail Extensions)
 
 > 텍스트/영상/이미지 등 다양한 데이터를 다루기 위한 기능
