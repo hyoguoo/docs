@@ -6,6 +6,8 @@ HTTP에 SSL 혹은 TLS를 적용한 것으로, HTTP에 SSL이나 TLS를 적용�
 - SSL(Secure Socket Layer) : 1994년에 공개된 암호화 프로토콜
 - TLS(Transport Layer Security) : SSL의 후속 프로토콜
 
+## SSL과 HTTPPS에 이용되는 [디지털 암호학](../../../secure/document/digital_cryptography_basic.md)
+
 ## SSL Handshake
 
 1. 클라이언트에 해당하는 브라우저가 웹 서버에 접속을 시도
