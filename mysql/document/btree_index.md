@@ -199,8 +199,7 @@ WHERE gender = 'M'
 
 ```sql
 -- 인덱스 스킵 스캔 기능 비활성화
-SET
-optimizer_switch='skip_scan=off';
+SET optimizer_switch='skip_scan=off';
 
 EXPLAIN
 SELECT gender, birth_date
