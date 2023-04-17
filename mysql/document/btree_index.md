@@ -199,7 +199,8 @@ WHERE gender = 'M'
 
 ```sql
 -- 인덱스 스킵 스캔 기능 비활성화
-SET optimizer_switch='skip_scan=off';
+SET
+optimizer_switch='skip_scan=off';
 
 EXPLAIN
 SELECT gender, birth_date
@@ -265,6 +266,102 @@ WHERE gender = 'F'
 - 쿼리가 인덱스에 존재하는 컬럼만으로 처리 가능해야 한다.(=커버링 인덱스)
     - 인덱스 외의 컬럼을 필요로 하는 경우 풀 테이블 스캔으로 처리된다.
     - 옵티마이저가 개선되면 해결될 가능성도 있다.
+
+## 다중 컬럼(Multi-column) 인덱스
+
+두 개 이상의 컬럼을 포함하는 인덱스를 다중 컬럼 인덱스라고 하며, 실제 서비스 환경에서는 다중 컬럼 인덱스를 사용하는 경우가 많다.  
+다중 컬럼 인덱스에서 인덱스 내의 각 컬럼 위치가 성능에 중요한 영향을 미치기 때문에 인덱스를 생성할 때 컬럼의 순서를 잘 고려해야 한다.
+
+## B-Tree 인덱스의 정렬 및 스캔 방향
+
+인덱스를 생성하면 설정한 정렬 규칙에 따라 항상 오름차순/내림차순 중 하나로 정렬되어 저장된다.  
+하지만 생성된 인덱스를 스캔 할 때는 생성된 인덱스의 정렬 규칙과는 상관없이 원하는 방향으로 스캔할 수 있다.(옵티마이저가 실시간으로 만들어낸 실행 계획에 따라 결정)
+
+### 인덱스의 정렬
+
+인덱스를 생성한는 시점에 인덱스를 구성하는 각 컬럼의 정렬을 혼합하여 지정할 수 있다.(MySQL 8.0 이상)
+
+```sql
+CREATE INDEX ix_teamname_userscore ON employees (team_name ASC, user_score DESC);
+```
+
+### 인덱스 스캔 방향
+
+아래 쿼리가 있을 때 인덱스 스캔 방향은 처음부터 끝까지 스캔하는 하여 마지막 행을 조회하는 것이 아니라,  
+MySQL 옵티마이저가 효율적인 방향으로 스캔하기 때문에 인덱스 역순으로 접근하여 첫 번째 레코드만 읽게 된다.
+
+```sql
+SELECT *
+FROM employees
+ORDER BY first_name DESC LIMIT 1;
+```
+
+## B-Tree 인덱스의 가용성과 효율성
+
+### 비교 조건 종류
+
+다중 컬럼 인덱스에서 각 컬럼의 순서와 비교 조건에 따라 인덱스의 가용성과 효율성이 달라진다.
+
+```mysql
+SELECT *
+FROM dept_emp
+WHERE dept_no = 'd002'
+  AND emp_no >= 10114;
+```
+
+- 케이스 A: INDEX(dept_no, emp_no)
+    - `dept_no='d002' AND emp_no>=10114`인 레코드를 찾고 dept_no가 'd002'가 아닐 때 까지 스캔
+
+| 페이지 번호 | dept_no | emp_no | 스캔 여부 |
+|:------:|:-------:|:------:|:-----:|
+|  ...   |   ...   |  ...   |   X   |
+|   6    |  d002   | 10114  |   O   |
+|   6    |  d002   | 10117  |   O   |
+|   6    |  d002   | 10300  |   O   |
+|  ...   |   ...   |  ...   |   O   |
+|   7    |  d002   | 10595  |   O   |
+|   7    |  d003   | 10111  |   X   |
+|  ...   |   ...   |  ...   |   X   |
+
+- 케이스 B: INDEX(emp_no, dept_no)
+    - `dept_no='d002' AND emp_no>=10114`인 레코드를 찾고 그 후 모든 레코드에 대해 dept_no가 'd002'인지 확인
+
+| 페이지 번호 | emp_no | dept_no | 스캔 여부 |
+|:------:|:------:|:-------:|:-----:|
+|  ...   |  ...   |   ...   |  ...  |
+|   6    | 10111  |  d003   |   X   |
+|   6    | 10114  |  d002   |   O   |
+|   6    | 10117  |  d002   |   O   |
+|   6    | 10300  |  d002   |   O   |
+|  ...   |  ...   |   ...   |   O   |
+|   7    | 10595  |  d002   |   O   |
+|  ...   |  ...   |  d001   |   O   |
+
+### 인덱스의 가용성
+
+B-Tree 인덱스의 특징은 왼쪽 값에 기준해서(Left-most) 오른쪽 값이 정렬돼 있다는 것인데, 하나의 컬럼 내에서뿐만 아니라 다중 컬럼 인덱스의 컬럼에 대해서도 함께 적용된다.  
+떄문에 `LIKE '%mer'` 같은 조건은 왼쪽부터 비교할 수 없기 때문에 인덱스를 사용할 수 없다.  
+그 외에도 다음과 같은 조건은 작업 범위 결정 조건으로 사용할 수 없다.(경우에 따라 체크 조건으로 인덱스를 사용할 수는 있음)
+
+- NOT-EQUAL로 비교된 경우
+    - `WHERE column <> 'N'`
+    - `WHERE column NOT IN ('N', 'M')`
+    - `WHERE column IS NOT NULL`
+- LIKE '%??'(뒷 부분 일치)로 비교된 경우
+    - `WHERE column LIKE '%mer'`
+    - `WHERE column LIKE '_mer'`
+    - `WHERE column LIKE '%mer%'`
+- 스토어드 함수나 다른 연산자로 인덱스 컬럼이 변형된 후 비교된 경우
+    - `WHERE SUBSTRING(column, 1, 1) = 'X'`
+    - `WHERE DAYOFMONTH(column) = 1`
+- NOT-DETERMINISTIC 속성의 스토어드 함수가 비교 조건에 사용된 경우
+    - `WHERE column = deterministic_function()`
+- 데이터 타입이 서로 다른 비교
+    - `WHERE char_column = 10`
+- 문자열 데이터 타입의 콜레이션이 다른 경우
+    - `WHERE utf8_bin_char_column = euckr_bin_char_column`
+
+
 
 ###### 출처
 
