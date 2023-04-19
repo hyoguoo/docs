@@ -8,3 +8,4 @@
 - [Isolation Level](./document/isolation_level.md)
 - [Index](./document/index.md)
   - [B-Tree Index](./document/btree_index.md)
+  - [ETC Index](./document/etc_index.md)
