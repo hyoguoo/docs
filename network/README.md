@@ -8,6 +8,7 @@
 - HTTP
     - [HTTP](document/http/http.md)
     - [HTTP 메시지](document/http/http_message.md)
+    - [엔티티](document/http/entity.md)
     - [Method](document/http/method.md)
     - [Connection](document/http/connection.md)
     - [HTTPS](document/http/https.md)
