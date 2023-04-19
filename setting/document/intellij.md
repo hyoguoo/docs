@@ -33,13 +33,10 @@
 
 ## 개인적으로 사용하는 플러그인
 
-- Atom Material Icons
 - GitToolBox
 - Key Prometer X
-- Prettier
-- Rainbow Brackets
 - String Manipulation
-- Tab Shifter
+- Translation
 
 ## 그 외 세팅
 
