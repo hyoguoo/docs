@@ -16,6 +16,7 @@
     - [HTTP/2.0](document/http/http2.md)
     - [쿠키](document/http/cookie.md)
     - [인코딩](document/http/encoding.md)
+    - [국제화](document/http/internationalization.md)
 - 통신 중개
     - [프록시](./document/proxy.md)
     - [게이트웨이](./document/gateway.md)
