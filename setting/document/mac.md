@@ -9,6 +9,8 @@
 
 ## `Karabiner-Elements` 활용한 키 할당 변경
 
+![img.png](../image/karabiner.png)
+
 ### 한글 자판 시 원화 `₩` 출력 방지
 
 `DefaultkeyBinding.dict` 파일을 통한 \`키 변경을 하게 되면 IntelliJ 내부에서는 한글 자판에선 그대로 `₩`가 출력되는데,  
@@ -67,4 +69,48 @@
 }
 ```
 
-![img.png](../image/karabiner.png)
+### COMMAND-H / COMMAND-M 비활성화
+
+`to`에 아무런 동작을 하지 않도록 하여 `from`에 할당한 키를 눌렀을 때 아무런 동작이 없도록 설정
+
+```json
+{
+  "title": "Disable Key",
+  "rules": [
+    {
+      "description": "Disable COMMAND-M(Minimize)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "description": "",
+          "from": {
+            "key_code": "m",
+            "modifiers": {
+              "mandatory": [
+                "command"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "description": "Disable COMMAND-H(Hide Window)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "description": "",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "mandatory": [
+                "command"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
