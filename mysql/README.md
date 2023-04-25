@@ -10,3 +10,4 @@
     - [B-Tree Index](./document/btree_index.md)
     - [ETC Index](./document/etc_index.md)
 - [Optimizer](./document/optimizer.md)
+- [데이터 처리](./document/data_processing.md)
