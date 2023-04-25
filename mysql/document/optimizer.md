@@ -26,5 +26,3 @@
 ###### 출처
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)
-
-(9.3 고급 최적화 / 9.4 쿼리 힌트 제외)
