@@ -66,6 +66,6 @@
 
     - 컨테이너가 서블릿에 종료를 명령하면 `destroy()` 메서드를 호출
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

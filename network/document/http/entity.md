@@ -46,6 +46,6 @@ Content-Type 헤더 필드는 엔티티 본문의 MIME 타입을 기술하며, �
 - subtype: type에 따라 맞는 하위 타입이 존재
 - 
 
-###### 출처
+###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)

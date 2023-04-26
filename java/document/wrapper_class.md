@@ -55,6 +55,6 @@ class Example {
 
 Number 클래스에는 `BigInteger`, `BigDecimal` 클래스가 존재하는데, 이는 long, double의 범위를 넘어서는 큰 수를 다룰 때 사용한다.
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)

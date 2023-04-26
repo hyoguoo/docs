@@ -374,6 +374,6 @@ class Example {
           존재([문서](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html) 참고)
         - 그 외에도 직접 구현하여 사용할 수 있다.
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)

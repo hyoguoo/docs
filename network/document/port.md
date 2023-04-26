@@ -11,6 +11,6 @@
 - 0 ~ 1023 : Well-known port
     - FTP(21), Telnet(23), HTTP(80), HTTPS(443), SMTP(25), POP3(110), IMAP(143)
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크

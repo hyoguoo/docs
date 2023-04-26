@@ -198,6 +198,6 @@ public class ConfigurationSingletonTest {
 - `AppConfig@CGLIB`가 `@Bean`이 붙은 메서드마다 이미 스프링 빈이 존재하면 존재하는 스프링 빈을 반환하고, 스프링 빈이 없으면 생성해서 스프링 빈으로 등록하고 반환하는 코드가 동적으로 생성하여
   싱글톤 패턴 보장
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

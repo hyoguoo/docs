@@ -53,6 +53,6 @@ class Example {
 }
 ```
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

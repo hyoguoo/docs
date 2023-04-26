@@ -107,6 +107,6 @@ MVCC 기술을 이용해 잠금을 걸지 않고 읽기 작업을 수행할 수 
 
 Double Write Buffer, Change Buffer, Redo log, Log Buffer, Adaptive Hash Index 등이 있다.
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

@@ -368,7 +368,7 @@ Client --> Proxy Class --> Example Bean
 - 실제로 객체 조회가 꼭 필요한 시점까지 지연처리 할 수 있는 큰 특징이 있다.
 - `Annotation` 설정 변경만으로 원본 객체를 `Proxy` 객체로 대체할 수 있다.
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

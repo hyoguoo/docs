@@ -51,6 +51,6 @@ public interface HttpMessageConverter<T> {
     - 대상 클래스 타입을 지원하는지, HTTP 응답의 Content-Type 미디어 타입을 지원하는지 확인
 5. `canWrite()` 조건을 만족하는 경우 `write()` 호출하여 HTTP 응답 메시지 바디에 데이터 생성
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

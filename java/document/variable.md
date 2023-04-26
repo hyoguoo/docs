@@ -96,7 +96,7 @@ class Example {
 }
 ```
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
 - https://www.javatpoint.com/string-pool-in-java

@@ -289,7 +289,7 @@ public class Main {
 }
 ```
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
 - [제네릭(Generic)의 이해](https://st-lab.tistory.com/153)

@@ -85,6 +85,6 @@
     - 객체: `MappingJackson2HttpMessageConverter`
     - 그 외에도 여러 converter 존재
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

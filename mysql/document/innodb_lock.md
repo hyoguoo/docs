@@ -101,6 +101,6 @@ FROM performance_schema.data_lock_waits w
 
 여기서 만약 1번 스레드를 종료(`KILL 1`)하게 되면 2번 스레드와 3번 스레드는 락을 획득할 수 있게 된다.
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

@@ -59,7 +59,7 @@
 |  HTTP 응답 처리   |                |
 |    커넥션 닫음     |     커넥션 닫음     |
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)

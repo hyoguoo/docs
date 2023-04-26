@@ -69,6 +69,6 @@ CREATE TABLE tb_child
 
 전문 검색 인덱스 / 멀티 밸류 인덱스 / 클러스터링 인덱스 / R-Tree 인덱스 / 함수 기반 인덱스 등이 존재한다.
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

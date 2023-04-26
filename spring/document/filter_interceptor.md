@@ -81,7 +81,7 @@ public interface HandlerInterceptor {
 - 로그인 사용자의 권한 체크
 - Controller에 넘겨주기 전 `HttpServletRequest` / `HttpServletResponse` 내부 데이터 가공
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-2
 - https://mangkyu.tistory.com/173

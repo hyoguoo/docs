@@ -92,7 +92,7 @@ HTTP의 조건부 메서드를 통해 재검사를 더 효율적으로 할 수 �
     - `private` : 응답 데이터를 private 캐시에 저장할 수 있음(해당 사용자만 캐시를 사용할 수 있음, 기본값)
     - `s-maxage` : `max-age`와 동일하지만, 프록시 캐시에만 적용됨
 
-###### 출처
+###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)
 - [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)

@@ -73,6 +73,6 @@ Validated는 AOP 기반으로 메서드 요청을 인터셉터하여 처리하�
 |               컨트롤러에서만 동작                |          컨트롤러가 아닌 모든 곳에서 동작          |
 | `MethodArgumentNotValidException` 예외 발생 | `ConstraintViolationException` 예외 발생 |
 
-###### 출처
+###### 참고자료
 
 - https://mangkyu.tistory.com/174

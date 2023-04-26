@@ -372,7 +372,7 @@ public class RateDiscountPolicy implements DiscountPolicy {
 `기술 지원 빈`은 잘 적용 되고 있는지 아닌지 파악하기 어려운 경우가 많아 설정 정보에 나타나도록 수동으로 등록하는 것이 좋다.  
 그 외에도 비즈니스 로직 중에서 다형성을 적극 활용해야하는 경우엔 수동 등록을 고민해 볼 수 있다.
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

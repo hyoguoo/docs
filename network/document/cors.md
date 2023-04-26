@@ -39,7 +39,7 @@
 결과를 성공적으로 확인 후 `cross-origin` 요청을 보내서 그 이후 과정을 진행하게 된다. 때문에 `cross-origin` 요청을 보낼 때 마다 preflight 요청을 보낸다고 생각할 수 있는데,  
 캐싱을 통해 그 결과를 일정 기간 저장시켜 바로 요청을 가능하도록 한다. 캐싱 시간은 서버 쪽 `cross-origin` 설정 중 `maxAge`에 값을 주어 설정할 수 있다.
 
-###### 출처
+###### 참고자료
 
 - https://hwanchang.tistory.com/
 - https://developer.mozilla.org/ko/docs/Web/HTTP/CORS

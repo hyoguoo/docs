@@ -126,6 +126,6 @@ class Direction {
 
 Direction 클래스의 static final 필드인 EAST, SOUTH, WEST, NORTH 값은 객체의 주소이며, 바뀌지 않는 값이므로 `==`로 비교가 가능하다.
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)

@@ -31,6 +31,6 @@ spring.mvc.view.suffix=.jsp
 4. ViewResolver가 반환한 View를 사용하여 뷰 렌더링
 5. 뷰 렌더링 결과를 클라이언트에게 응답
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

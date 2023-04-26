@@ -102,6 +102,6 @@ memberService -> memberRepository <- orderService -> discountPolicy
 
 - 스프링 컨테이너는 설정 정보를 참고해서 의존 관계를 주입(DI)
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-핵심-원리-기본편

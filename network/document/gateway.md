@@ -7,6 +7,6 @@
   `클라이언트 <---> 게이트웨이 <---> HTTP 이외의 서버`
 - 그 예로 HTTP/FTP 게이트웨이는 FTP URI에 대한 HTTP 요청을 받아들인 뒤, FTP 프로토콜을 이용해 문서를 가져와 HTTP 메시지로 변환한 뒤 클라이언트에게 보낸다.
 
-###### 출처
+###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)

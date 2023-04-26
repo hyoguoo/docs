@@ -63,6 +63,6 @@
 
 [//]: # (TODO: 빅오 분석 별도 문서화 필요)
 
-###### 출처
+###### 참고자료
 
 - [프로그래밍 면접 이렇게 준비한다](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=195800711)

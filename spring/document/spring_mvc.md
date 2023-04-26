@@ -70,6 +70,6 @@ public class SpringExmapleController {
     - 뷰에 전달할 데이터를 담는 객체
     - `Model`에 데이터를 담으면 `Model`은 `Map`으로 변환되어 뷰에 전달됨
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

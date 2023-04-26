@@ -15,6 +15,6 @@ SELECT {{SAME QUERY...}}
 -- [2023-04-14 02:53:19] 8 rows retrieved starting from 1 in 73 ms (execution: 55 ms, fetching: 18 ms)
 ```
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

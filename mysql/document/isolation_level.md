@@ -116,6 +116,6 @@ MVCC란 InnoDB 스토리지 엔진이 트랜잭션이 `ROLLBACK`될 가능성에
 하지만 InnoDB 스토리지 엔진에서는 갭 락과 넥스트 키 락을 사용해 `READ COMMITTED` 격리 수준에서도 `PHANTOM READ` 문제를 해결할 수 있기 때문에  
 `SERIALIZABLE` 격리 수준은 거의 사용되지 않는다.
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

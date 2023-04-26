@@ -110,7 +110,7 @@ CRLF
     - 컨텐츠 유형, 컨텐츠 길이 및 인코딩과 같이 요청되는 리소스 또는 반환되는 응답에 대한 정보를 제공하는 HTTP 헤더의 구성 요소
     - 클라이언트와 서버에서 보내고 받는 표현 유형을 협상하는 데 사용
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크
 - [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)

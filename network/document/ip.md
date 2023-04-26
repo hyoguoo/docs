@@ -18,7 +18,7 @@
 
 이러한 한계를 보완하기 위해 [TCP](./tcp.md) 프로토콜이 등장
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크
 - [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)

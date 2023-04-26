@@ -41,6 +41,6 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 5. `Return Value Handler`는 반환값을 `Message Converter`를 사용해 적절한 타입으로 변환
 6. 변환된 데이터를 HTTP 응답으로 전달
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-mvc-1

@@ -438,6 +438,6 @@ STORE [12]
 | 102 | STORE 12  |
 | 103 |     0     |
 
-###### 출처
+###### 참고자료
 
 - https://youtu.be/rTaNNQhwmt0

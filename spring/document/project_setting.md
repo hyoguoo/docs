@@ -49,6 +49,6 @@ Intellij Setting - Build, Execution, Deployment - Compiler - Annotation Processo
 
 - Enable annotation processing: `check`
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링-입문-스프링부트

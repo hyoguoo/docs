@@ -363,6 +363,6 @@ B-Tree 인덱스의 특징은 왼쪽 값에 기준해서(Left-most) 오른쪽 �
 
 
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

@@ -140,6 +140,6 @@ Via: 1.1 proxy-62.irenes-isp.net, 1.0 cache.joes-hardware.com
 
 프락시에서는 요청을 보내기 전에 자신을 가리키는 유일한 문자열을 Via 헤더에 삽입해야 하며 라우팅 루프를 탐지하기 위해 이 문자열이 들어온 요청에 존재하는지 검사해야 한다.
 
-###### 출처
+###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)

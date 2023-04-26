@@ -49,6 +49,6 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 이외에도 PC Register, Native Method Stack이 존재한다.
 
 
-###### 출처
+###### 참고자료
 
 - [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)

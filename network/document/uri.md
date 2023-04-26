@@ -64,7 +64,7 @@ URL은 인터넷에 있는 리소스를 나타내는 유일한 방법이지만, 
 이를 해결하기 위해 URN을 도입하는 등의 시도가 있었지만, 이미 널리 사용되고 있는 URL을 대체하기 위해서는 많은 시간이 필요하고 많은 비용이 들어가기 때문에 사용하지 않게 되었다.
 
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)

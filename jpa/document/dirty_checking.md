@@ -56,6 +56,6 @@ class Example {
 - `transaction` 커밋 시점에 변경 감지가 동작해서 데이터베이스에 UPDATE SQL 실행
 - `transaction`이 걸린 서비스 로직(메서드)의 경우 외부에서 식별자 값을 찾고 그 안에서 `entity`를 조회하는 것이 좋다(트랜잭션 내 영속성 보장으로 변경감지 기능 사용 가능)
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/스프링부트-JPA-활용-1

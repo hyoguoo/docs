@@ -21,6 +21,6 @@
 - 성능
 - 데이터 접근 추상화와 벤더 독립성
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/ORM-JPA-Basic

@@ -40,6 +40,6 @@ SELECT COUNT(*)
 FROM TABLE_NAME;
 ```
 
-###### 출처
+###### 참고자료
 
 - [Real MySQL 8.0 1](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=284710853)

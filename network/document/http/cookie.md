@@ -48,7 +48,7 @@
     - `SameSite` 속성을 지정하면 `SameSite` 속성에 지정한 도메인과 같은 도메인에서만 쿠키가 전송됨
     - `SameSite=Strict` : 동일한 도메인에서만 쿠키가 전송됨
 
-###### 출처
+###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)
 - [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)

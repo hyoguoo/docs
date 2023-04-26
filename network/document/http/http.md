@@ -104,7 +104,7 @@ HTTP는 클라이언트가 서버에게 요청을 보낼 때, 서버가 해당 �
 HTTP는 메시지가 중간에 변조되지 않았는지 확인할 수 없기 때문에 변조가 가능하다.(요청이나 응답을 가로채서 변조하는 공격을 `중간자(Man in the Middle) 공격`이라고 한다.)  
 이를 방지하기 위한 방법이 `디지털 서명`이라는 방법이 존재하나, 이 방법 하나만으로는 완벽한 보안을 보장할 수 없다.
 
-###### 출처
+###### 참고자료
 
 - https://www.inflearn.com/course/http-웹-네트워크
 - [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)
