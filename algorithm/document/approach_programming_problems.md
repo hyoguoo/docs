@@ -65,4 +65,4 @@
 
 ###### 참고자료
 
-- [프로그래밍 면접 이렇게 준비한다](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=195800711)
+- [프로그래밍 면접 이렇게 준비한다](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=프로그래밍+면접+이렇게&isbn=9791162241998&cipId=227568967%2C)

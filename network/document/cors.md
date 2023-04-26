@@ -41,5 +41,4 @@
 
 ###### 참고자료
 
-- https://hwanchang.tistory.com/
-- https://developer.mozilla.org/ko/docs/Web/HTTP/CORS
+- [MDN](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS)

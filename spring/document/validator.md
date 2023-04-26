@@ -75,4 +75,4 @@ Validated는 AOP 기반으로 메서드 요청을 인터셉터하여 처리하�
 
 ###### 참고자료
 
-- https://mangkyu.tistory.com/174
+- [망나니개발자 티스토리](https://mangkyu.tistory.com/174)

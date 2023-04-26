@@ -7,4 +7,4 @@
 
 ###### 참고자료
 
-- [HTTP 완벽 가이드](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=294437345)
+- [HTTP 완벽 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=HTTP+완벽+가이드&isbn=9788966261208&cipId=200309770%2C4096969)

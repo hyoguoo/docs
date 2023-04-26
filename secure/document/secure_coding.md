@@ -428,6 +428,6 @@ Node 기반 프로젝트의 경우 pm2 cluster 모드를 통해 스케줄링을 
 
 ###### 참고자료
 
-- Python 시큐어코딩 가이드 - 한국인터넷진흥원
-- Java 시큐어코딩 가이드 - 행정자치부
-- https://blog.naver.com/skinfosec2000/220694143144
+- [한국인터넷진흥원](https://www.kisa.or.kr/2060204/form?postSeq=13&lang_type=KO)
+- [행정자치부](https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do%3Bjsessionid=fr7QaTyG2gK5o02XJnYETp3havIQ1MGLKMYdWaaEe5me9IOk932SIy2BbP1AM08Z.mopwas54_servlet_engine1?bbsId=BBSMSTR_000000000012&nttId=42152)
+- [인포섹 네이버 블로그](https://blog.naver.com/skinfosec2000/220694143144)

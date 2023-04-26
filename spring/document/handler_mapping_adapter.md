@@ -43,4 +43,4 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 
 ###### 참고자료
 
-- https://www.inflearn.com/course/스프링-mvc-1
+- [스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술](https://www.inflearn.com/course/스프링-mvc-1)

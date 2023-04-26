@@ -108,5 +108,5 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ###### 참고자료
 
-- [Collections in Java](https://www.javatpoint.com/collections-in-java)
+- [java T point](https://www.javatpoint.com/collections-in-java)
 - [Oracle Docs](https://docs.oracle.com/javase/8/docs/api/)

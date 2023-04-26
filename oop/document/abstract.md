@@ -32,4 +32,4 @@
 
 ###### 참고자료
 
-- [객체지향의 사실과 오해](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=60550259)
+- [객체지향의 사실과 오해: 역할, 책임, 협력 관점에서 본 객체지향](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=객체지향의+사실&isbn=9788998139766&cipId=200539082%2C4626710)

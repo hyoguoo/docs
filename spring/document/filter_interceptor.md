@@ -83,5 +83,5 @@ public interface HandlerInterceptor {
 
 ###### 참고자료
 
-- https://www.inflearn.com/course/스프링-mvc-2
-- https://mangkyu.tistory.com/173
+- [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/스프링-mvc-2)
+- [망나니개발자 티스토리](https://mangkyu.tistory.com/173)

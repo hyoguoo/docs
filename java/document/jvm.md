@@ -51,4 +51,4 @@ Java Application은 위와 같이 JVM 위에서 실행이 되는데, 해당 OS�
 
 ###### 참고자료
 
-- [Java의 정석](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=76083001)
+- [java의 정석](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Java의+정석&isbn=9788994492032&cipId=200741285%2C)

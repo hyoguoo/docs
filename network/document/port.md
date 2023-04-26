@@ -13,4 +13,4 @@
 
 ###### 참고자료
 
-- https://www.inflearn.com/course/http-웹-네트워크
+- [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-웹-네트워크)

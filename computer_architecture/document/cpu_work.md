@@ -440,4 +440,4 @@ STORE [12]
 
 ###### 참고자료
 
-- https://youtu.be/rTaNNQhwmt0
+- [CPU가 일하는 방법](https://youtu.be/rTaNNQhwmt0)

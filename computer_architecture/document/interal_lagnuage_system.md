@@ -149,4 +149,4 @@ bit(비트) : binary + digit의 합성어로 2진법을 표현하는 수단
 
 ###### 참고자료
 
-- [한 권으로 읽는 컴퓨터 구조와 프로그래밍](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=268444562)
+- [한 권으로 읽는 컴퓨터 구조와 프로그래밍 - 더 나은 소프트웨어 개발을 위한 하드웨어, 자료구조, 필수 알고리즘 등 프로그래머의 비밀 노트](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=한+권으로+읽는+컴퓨터+구조와&isbn=9791189909284&cipId=228263315%2C)
