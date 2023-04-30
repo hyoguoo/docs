@@ -8,7 +8,7 @@
 
 WAS에서는 등록한 에러에 맞게 요청을 전달하게 되는데, 에러 컨트롤러(`BasicErrorController`)를 한 번 더 호출하여 에러를 처리하게 된다.  
 여기서 요청할 때 인터셉터나 필터가 작동하지 않기 위해 dispatcherType을 `ERROR`로 하여 요청을 보낸다.(일반적인 요청은 `REQUEST`)  
-이 방법은 WAS에서 두 번의 요청이 발생하게 되면서 세밀한 예외 처리가 어렵다는 단점이 있다.  
+이 방법은 WAS에서 두 번의 요청이 발생하기 때문에 비효율적이며, 예외 처리를 세밀하게 제어하기 어렵다는 단점이 있다.    
 떄문에 스프링에서는 `HandlerExceptionResolver`라는 인터페이스를 제공하여 예외 처리를 세밀하게 제어하게 제공해주며, 우선 순위는 종류는 아래와 같다.
 
 1. `ExceptionHandlerExceptionResolver`: 에러 응답을 위한 Controller나 ControllerAdvice에 있는 ExceptionHandler 처리
