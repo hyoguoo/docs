@@ -11,3 +11,5 @@
     - [ETC Index](./document/etc_index.md)
 - [Optimizer](./document/optimizer.md)
 - [데이터 처리](./document/data_processing.md)
+- 실행 계획(Execution Plan)
+    - [통계 정보](./document/statistics.md)
