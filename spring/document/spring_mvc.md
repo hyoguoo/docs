@@ -59,7 +59,7 @@ public class SpringExmapleController {
     - 스프링이 자동으로 스프링 빈으로 등록할 수 있도록 함
     - 내부에 `@Component` 애노테이션이 있어 컴포넌트 스캔의 대상
     - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
-    - [RequestMappingHandlerMapping](handler_mapping_adapter.md)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
+    - [RequestMappingHandlerMapping](mvc/handler_mapping_adapter.md)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
 - `@RequestMapping`(=`@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`)
     - 요청 정보를 매핑하여 해당 URL이 호출되면 애노테이션이 있는 메서드가 호출됨
     - 애노테이션 기반으로 동작하기 때문에 임의의 이름으로 지어도 상관 없음

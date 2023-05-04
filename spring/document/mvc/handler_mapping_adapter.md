@@ -29,7 +29,7 @@ MVC 프레임워크의 핵심을 형성하고 HTTP 요청을 처리하기 위한
 |   HttpRequestHandlerAdapter    | HttpRequestHandler 인터페이스를 구현한 컨트롤러에서 사용 |     1 |
 | SimpleControllerHandlerAdapter |     Controller 인터페이스를 구현한 컨트롤러에서 사용     |     2 |
 
-## HandlerMappingAdapter와 [Message Converter](./message_converter.md)
+## HandlerMappingAdapter와 [Message Converter](message_converter.md)
 
 메시지 컨버터는 HTTP 요청 본문을 객체로 변환하거나, 객체를 HTTP 응답 본문으로 변환할 때 사용하는데,  
 `@RequestMapping`을 처리하는 핸들러 어댑터인 `RequestMappingHandlerAdapter`에서 메시지컨버터를 사용한다.

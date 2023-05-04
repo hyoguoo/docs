@@ -5,7 +5,6 @@
 - [자료 구조](./data_structure/README.md)
 - [Git](./git/README.md)
 - [Java](./java/README.md)
-- [JPA](./jpa/README.md)
 - [리눅스](./linux/README.md)
 - [네트워크](./network/README.md)
 - [MySQL](./mysql/README.md)

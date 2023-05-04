@@ -16,3 +16,8 @@
 - [검증](./document/validator.md)
 - [필터와 인터셉터](./document/filter_interceptor.md)
 - [에외 처리](./document/exception_handling.md)
+- DB Connection
+    - JPA
+        - [기본](document/database_connection/jpa/basic.md)
+        - [엔티티 디자인](document/database_connection/jpa/entity_design.md)
+        - [변경 감지](document/database_connection/jpa/dirty_checking.md)
