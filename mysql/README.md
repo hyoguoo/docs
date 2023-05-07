@@ -13,3 +13,4 @@
 - [데이터 처리](./document/data_processing.md)
 - 실행 계획(Execution Plan)
     - [통계 정보](./document/statistics.md)
+    - [실행 계획 확인](./document/check_execution_plan.md)
