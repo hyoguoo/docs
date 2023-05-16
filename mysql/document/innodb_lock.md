@@ -65,9 +65,9 @@ WHERE first_name = 'Kwon'
 
 |                            커넥션1                             |                            커넥션2                            |                                     커넥션3                                     |
 |:-----------------------------------------------------------:|:----------------------------------------------------------:|:----------------------------------------------------------------------------:|
-|                          `BEGIN;`                           |||
-| `UPDATE employees SET birth_date=NOW() WHERE emp_no=10001;` |||
-|                                                             | `UPDATE employees SET hire_date=NOW() WHERE emp_no=10001;` ||
+|                          `BEGIN;`                           |                                                            |                                                                              |
+| `UPDATE employees SET birth_date=NOW() WHERE emp_no=10001;` |                                                            |                                                                              |
+|                                                             | `UPDATE employees SET hire_date=NOW() WHERE emp_no=10001;` |                                                                              |
 |                                                             |                                                            | `UPDATE employees SET hire_date=NOW(), birth_date=NOW() WHERE emp_no=10001;` |
 
 커넥션 1이 아직 `COMMIT`을 실행하지 않은 상태이므로 해당 레코드의 잠금을 그대로 가지고 있으며, 커넥션 2 / 커넥션 3은 해당 레코드의 잠금을 대기하고 있다.  
