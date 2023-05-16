@@ -15,3 +15,5 @@
     - [통계 정보](./document/statistics.md)
     - [실행 계획 확인](./document/check_execution_plan.md)
     - [실행 계획 분석](./document/analyze_execution_plan.md)
+- [쿼리(Query)]
+    - [쿼리 작성과 연관된 시스템 변수](./document/query_system_variable.md)
