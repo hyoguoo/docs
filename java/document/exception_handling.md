@@ -104,7 +104,8 @@ class Example {
 
 예를 들어 `Object` 클래스의 `wait()` 메서드를 사용하려는 사람에게 이 메서드를 호출하고자 하는 메서드 내에 `InterruptedException` 처리를 해주어야 함을 알려줄 수 있다.  
 추가적으로 `wait()` 에는 `InterruptedException` 이외에도 `IllegalMonitorStateException` 이 발생할 수 있는데, `IllegalMonitorStateException`
-은 `RuntimeException`(`unchecked exception`) 을 상속받은 예외는 메서드 선언부에 예외를 선언하지(처리하지) 않아도 된다.
+은 `RuntimeException`(`unchecked exception`) 을 상속받은 예외는 메서드 선언부에 예외를 선언하지(처리하지) 않아도 된다.  
+예외 처리를 할 때 `Throwable`을 상속받게 되면 잡으면 안되는 `Error`도 잡게 되므로 사용하지 않는 것이 좋다. 
 
 메서드의 throws 절에 선언된 예외는 예외를 처리하는 것이 아닌 호출한 메서드에 예외를 전달하는 것이다.  
 예외를 계속 호출 스택에 있는 메서드로 전달하다가 main 메서드까지 처리되지 않으면 프로그램은 종료된다.
