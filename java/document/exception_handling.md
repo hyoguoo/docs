@@ -155,7 +155,7 @@ class MyException extends Exception {
 }
 ```
 
-기존에는 위 예시처럼 `Exception` 클래스를 상속받아 사용자 정의 예외를 만들었지만, `RuntimeException` 클래스를 상속받아 사용자 정의 예외를 만들어 예외 처리를 강제하지 않는다.  
+기존에는 위 예시처럼 `Exception` 클래스를 상속받아 사용자 정의 예외를 만들었지만, `RuntimeException` 클래스를 상속받아 사용자 정의 예외를 만들면 예외 처리를 강제하지 않는다.  
 `checked exception`은 불필요한 경우에도 `try-catch`문을 넣어야 하기 때문에 코드가 복잡해지고 가독성이 떨어지는 단점이 있기 때문이다.
 
 ```java
