@@ -14,6 +14,7 @@
     - `Exception` 클래스 : 프로그램에서 코드에 의해서 수습될 수 있는 미약한 오류
 
 ![img.png](../image/throwable_class.png)
+
 [출처](https://rollbar.com/blog/java-exceptions-hierarchy-explained/)
 
 ## try-catch-finally
