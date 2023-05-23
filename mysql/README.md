@@ -19,3 +19,4 @@
     - [쿼리 작성과 연관된 시스템 변수](./document/query_system_variable.md)
     - [리터럴 표기법](./document/literal_notation.md)
     - [연산자](./document/operator.md)
+    - [내장 함수](./document/built_in_function.md)
