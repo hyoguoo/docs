@@ -1,8 +1,8 @@
 # GitHub Multiple Accounts
 
-### Environment
+## Environment
 
-- macOS
+- MacOS 13.4
 
 ## Introduction
 
@@ -10,9 +10,9 @@
 그리고 그 저장소인 GitHub을 사용하게 되는데,  
 여러 계정을 사용하고 싶을 경우 SSH Key 생성 및 gitconfig 추가적인 설정이 필요하다.
 
-[//]: # (TODO: SSH 공부필요)
-
 ## How To Use
+
+`personal` 부분은 자신의 계정으로 변경하여 사용하면 되며, GitHub 계정명과 동일하게 사용하는 것이 여러 모로 편하다.
 
 ### 1. SSH Key 생성
 
@@ -99,10 +99,10 @@ commit은 gitconfig에 설정된 email과 name으로 commit이 찍히게 되는�
 - ~/.gitconfig
 
 ```shell
-[includeIf "gitdir:~/dev/personal-repo/"]
+[includeIf "gitdir:~/Repository/personal/"]
 	path = ~/.gitconfig-personal
 
-[includeIf "gitdir:~/dev/work-repo/"]
+[includeIf "gitdir:~/Repository/work/"]
 	path = ~/.gitconfig-work
 ```
 
