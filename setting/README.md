@@ -5,3 +5,4 @@
     - [GitHub Verified Commit](./document/github_verified_commit.md)
 - [IntelliJ](./document/intellij.md)
 - [Mac](./document/mac.md)
+- [brew](./document/brew.md)
