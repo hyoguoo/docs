@@ -4,7 +4,6 @@
 - [운영체제](./operating_system/README.md)
 - [컴퓨터 구조](./computer_architecture/README.md)
 - [자료 구조](./data_structure/README.md)
-- [Git](./git/README.md)
 - [Java](./java/README.md)
 - [리눅스](./linux/README.md)
 - [네트워크](./network/README.md)
