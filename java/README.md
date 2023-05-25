@@ -1,7 +1,6 @@
 # Java
 
 - [JVM](./document/jvm.md)
-- [버전 관리](./document/version_control.md)
 - [변수](./document/variable.md)
 - [연산자](./document/operator.md)
 - [출력](./document/print.md)

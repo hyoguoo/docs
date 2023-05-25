@@ -6,3 +6,4 @@
 - [IntelliJ](./document/intellij.md)
 - [Mac](./document/mac.md)
 - [brew](./document/brew.md)
+- [JVM 버전 관리](./document/jvm_version_control.md)
