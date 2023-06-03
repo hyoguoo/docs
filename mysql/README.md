@@ -20,3 +20,4 @@
     - [리터럴 표기법](./document/literal_notation.md)
     - [연산자](./document/operator.md)
     - [내장 함수](./document/built_in_function.md)
+    - [SELECT](./document/select.md)
