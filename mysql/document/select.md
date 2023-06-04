@@ -113,6 +113,76 @@ GROUP BY 절과 ORDER BY 절에 명시된 컬럼의 순서와 내용이 모두 �
 
 ![index-flow-chart.png](../image/index-flow-chart.png)
 
+## WHERE 절 비교 조건 사용 시 주의사항
+
+### NULL 비교
+
+MySQL에서는 NULL 값도 하나의 값으로 인정하여 포함된 레코드도 인덱스로 관리한다.(SQL 표준에서는 NULL 값은 비교할 수 없는 값으로 정의되어 있음)  
+하지만 모든 쿼리 실행 계획에서 NULL 값을 레인지 스캔으로 처리하지는 않는다.
+
+```mysql
+# 1
+SELECT *
+FROM titles
+WHERE to_date IS NULL;
+# 2
+SELECT *
+FROM titles
+WHERE ISNULL(to_date);
+# 3
+SELECT *
+FROM titles
+WHERE ISNULL(to_date) = 1;
+# 4
+SELECT *
+FROM titles
+WHERE ISNULL(to_date) = true; # 4
+```
+
+1 / 2 쿼리는 정상적으로 레인지 스캔을 사용하지만, 3 / 4 쿼리는 레인지 스캔을 사용하지 못하고 풀 스캔을 사용하게 된다.
+
+### 문자열 / 숫자 비교
+
+문자열 / 숫자 컬럼 비교 시 반드시 그 타입에 맞는 상수값 사용해야 인덱스를 정상적으로 사용할 수 있다.
+
+### 날짜 비교
+
+날짜를 저장하는 타입에는 DATETIME, DATE, TIMESTAMP, TIME 이 존재하기 때문에 각각 타입을 비교할 때 주의해야 한다.
+
+#### DATE(DATETIME) - 문자열 비교
+
+기본적으러 문자열 값을 `STR_TO_DATE`를 명시하지 않아도 자동으로 DATETIME 타입으로 변환하여 비교를 수행하게 된다.(인덱스 또한 정상 적용)  
+이렇게 상수를 변환하는 것은 인덱스를 사용하는데에 영향이 없지만, 날짜 컬럼을 `DATE_FORMAT`, `DATE_ADD` 등의 함수를 사용하여 변환하는 경우에는 인덱스를 사용할 수 없다.
+
+#### DATE - DATETIME 비교
+
+변환을 따로 명시하지 않는 경우엔 DATE 컬럼을 DATETIME 타입으로 변환하여 비교를 수행하게 된다.  
+`2023-05-09` -> `2023-05-09 00:00:00` 으로 변환되어 비교를 수행하게 되는데, 타입 변환이 인덱스 사용 여부에 영향을 주지 않기 때문에 쿼리 결과에만 주의를 하면 된다.
+
+#### TIMESTAMP - DATETIME 비교
+
+DATETIME - TIMESTAMP 별도 타입 변환 없이 비교 시 문제없이 작동하는 것처럼 보일 수 있지만 실제로는 그렇지 않을 수 있기 때문에 주의해야 한다.
+
+```mysql
+SELECT COUNT(*)
+FROM employees
+WHERE hire_date < UNIX_TIMESTAMP('2023-05-09 12:05:09'); # hire_date: datetime 타입
+```
+
+UNIX_TIMESTAMP 함수는 내부적으로 단순 숫자 값에 불과하기 때문에 정상적으로 DATETIME 타입으로 변환되지 않아 올바르지 않은 결과를 반환하게 된다.  
+이런 경우에는 `FROM_UNIXTIME` 함수를 사용하여 타입 변환을 명시해야 한다.
+
+```mysql
+SELECT COUNT(*)
+FROM employees
+WHERE hire_date < FROM_UNIXTIME(UNIX_TIMESTAMP('2023-05-09 12:05:09')); # hire_date: datetime 타입
+```
+
+## Short Circuit Evaluation
+
+기본적으로 WHERE 조건 중 인덱스가 있는 경우엔 해당 컬럼을 먼저 조건 검사하지만, 아닌 경우엔 WHERE에 명시된 순서대로 조건 검사를 수행한다.  
+떄문에 많은 리소스가 소모하는 조건을 나중에 명시하면 더 빠르게 쿼리를 수행할 수 있다.
+
 ###### 참고자료
 
 - [Real MySQL 8.0 2 - 개발자와 DBA를 위한 MySQL 실전 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Real+MySql+8.0&isbn=9791158392727&cipId=228440238%2C)
