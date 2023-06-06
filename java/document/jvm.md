@@ -17,6 +17,10 @@ Java Application은 위와 같이 Computer -> OS -> JVM -> Java Application 레�
 
 ![img.png](../image/java_excution_process.png)
 
+- Class Loader: 바이트 코드 로딩 / 검증 / 링킹 등 수행
+- Runtime Data Area: 앱 실행을 위해 사용되는 JVM 메모리 영역
+- Execution Engine: 메모리 영역에 있는 데이터를 가져와 해당하는 작업 수행
+
 1. 작성된 Java Source를 Java Compiler를 통해 Java Byte Code로 컴파일
 2. 컴파일 된 Byte Code를 JVM의 Class Loader에 전달
 3. Class Loader는 Dynamic Loading을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area(JVM Memory)로 전달
