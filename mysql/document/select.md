@@ -183,6 +183,67 @@ WHERE hire_date < FROM_UNIXTIME(UNIX_TIMESTAMP('2023-05-09 12:05:09')); # hire_d
 기본적으로 WHERE 조건 중 인덱스가 있는 경우엔 해당 컬럼을 먼저 조건 검사하지만, 아닌 경우엔 WHERE에 명시된 순서대로 조건 검사를 수행한다.  
 떄문에 많은 리소스가 소모하는 조건을 나중에 명시하면 더 빠르게 쿼리를 수행할 수 있다.
 
+## LIMIT n
+
+쿼리 결과에서 지정된 순서에 위치한 레코드만 가져올 때 사용하는 문법이다.  
+MySQL의 LIMIT은 WHERE 조건이 아니기 때문에 항상 쿼리의 마지막에 실행된다.
+
+```mysql
+SELECT *
+FROM employees
+WHERE emp_no BETWEEN 10001 AND 10010 # 1. employees 테이블에서 WHERE 조건에 일치하는 레코드를 전부 읽음
+ORDER BY first_name # 2. 1번에서 읽어온 레코드를 first_name 컬럼값에 따라 정렬
+LIMIT 0, 5; # 3. 정렬된 결과에서 상쉬 5개의 레코드만 반환
+```
+
+LIMIT은 필요한 레코드 건수가 조회되면 즉시 쿼리를 종료하게 되는데, 쿼리에 따라 성능 향상을 기대할 수 있다.
+
+- 인덱스 처리 되지 않은 GROUP BY / ORDER BY: 모든 레코드를 읽어야 하므로 성능 향상 미미
+- DISTINCT: 유니크한 레코드 건수가 LIMIT에 명시된 값보다 큰 경우 성능 향상 기대(테이블을 읽는 도중 중단)
+- 위에 해당하지 않음: 큰 성능 향상 기대 가능
+
+### 페이징
+
+직관적으로 페이징하는 방법은 LIMIT을 통해 페이지 번호와 페이지 당 레코드 수를 곱한 값을 LIMIT에 명시하는 것이다.
+
+- 일반적인 LIMIT 사용
+
+```mysql
+SELECT *
+FROM salaries
+ORDER BY salary
+LIMIT 200000, 10;
+```
+
+적은 양의 데이터에서는 문제가 되지 않지만 성능에 영향을 줄 정도의 양의 데이터를 조회하는 경우에는 결국엔 해당 페이지까지의 모든 레코드를 읽어야 하기 때문에 성능에 영향을 줄 수 있다.
+
+- 포인터(커서) 개념을 사용한 페이징
+
+```mysql
+# 첫 페이지 조회
+SELECT *
+FROM salaries
+ORDER BY salary
+LIMIT 0, 10;
+
+# 그 다음 페이지 조회
+SELECT *
+FROM salaries
+WHERE salary >= 5959 AND NOT (salary = 5959 AND emp_no <= 10001) # 첫 페이지에서 가장 마지막 레코드의 salary 값
+ORDER BY salary
+LIMIT 0, 10;
+
+# ...
+# 계속해서 다음 페이지 조회
+SELECT *
+FROM salaries
+WHERE salary >= 1295000 AND NOT (salary = 1295000 AND emp_no <= 20344) # 이전 페이지에서 가장 마지막 레코드의 salary 값
+ORDER BY salary
+LIMIT 0, 10;
+```
+
+위와 같이 포인터(커서) 개념을 사용하면 데이터 건수에 따라 비약적인 성능 향상을 기대할 수 있다.
+
 ###### 참고자료
 
 - [Real MySQL 8.0 2 - 개발자와 DBA를 위한 MySQL 실전 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Real+MySql+8.0&isbn=9791158392727&cipId=228440238%2C)
