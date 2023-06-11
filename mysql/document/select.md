@@ -229,7 +229,8 @@ LIMIT 0, 10;
 # 그 다음 페이지 조회
 SELECT *
 FROM salaries
-WHERE salary >= 5959 AND NOT (salary = 5959 AND emp_no <= 10001) # 첫 페이지에서 가장 마지막 레코드의 salary 값
+WHERE salary >= 5959
+  AND NOT (salary = 5959 AND emp_no <= 10001) # 첫 페이지에서 가장 마지막 레코드의 salary 값
 ORDER BY salary
 LIMIT 0, 10;
 
@@ -237,12 +238,28 @@ LIMIT 0, 10;
 # 계속해서 다음 페이지 조회
 SELECT *
 FROM salaries
-WHERE salary >= 1295000 AND NOT (salary = 1295000 AND emp_no <= 20344) # 이전 페이지에서 가장 마지막 레코드의 salary 값
+WHERE salary >= 1295000
+  AND NOT (salary = 1295000 AND emp_no <= 20344) # 이전 페이지에서 가장 마지막 레코드의 salary 값
 ORDER BY salary
 LIMIT 0, 10;
 ```
 
 위와 같이 포인터(커서) 개념을 사용하면 데이터 건수에 따라 비약적인 성능 향상을 기대할 수 있다.
+
+## COUNT()
+
+결과 레코드의 건수를 반환하는 함수
+
+- 내부 인자: 컬럼명이나 `*`, `1`을 사용할 수 있다.
+    - `*`는 SELECT 절에서 사용되는 것처럼 모든 컬럼을 가져오는 것을 의미하는 것이 아니라 레코드 자체를 의미
+    - 1이나 특정 컬럼명을 사용하는 것과 성능상 동일
+    - 만약 인자로 컬럼을 넣은 경우 해당 컬럼이 NULL이 아닌 레코드만 카운트
+- WHERE 조건
+    - WHERE 조건이 없는 경우엔 메타 정보에서 레코드 건수를 가져오기 때문에 바로 결과를 반환해 빠르게 처리
+    - 조건이 있는 경우엔 WHERE 조건에 일치하는 레코드 조회하기 때문에 일반적인 DBMS와 동일하게 처리
+- ORDER BY
+    - 갯수 조회를 하는 데에 정렬이 필요하지 않기 때문에 성능 저하를 유발할 수 있음(MySQL 8.0 미만)
+    - MySQL 8.0 이상부터는 ORDER BY를 사용하더라도 옵티마이저에서 최적화(무시)하여 성능 저하를 방지
 
 ###### 참고자료
 
