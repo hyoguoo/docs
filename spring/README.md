@@ -16,6 +16,7 @@
 - [검증](./document/validator.md)
 - [필터와 인터셉터](./document/filter_interceptor.md)
 - [에외 처리](./document/exception_handling.md)
+- [프록시](./document/proxy.md)
 - DB Connection
     - [JDBC](document/database_connection/jdbc.md)
     - [Transactional](./document/transactional.md)
