@@ -24,6 +24,6 @@
 
 패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit)라고 불리며, 일반적으로 1500byte이다.
 
-###### 출처
+###### 참고자료
 
 - [외워서 끝내는 네트워크 핵심이론 - 기초](https://www.inflearn.com/course/네트워크-핵심이론-기초)

@@ -23,7 +23,7 @@
 6. 상태 복구: 인터럽트 발생 시 저장해둔 3번의 정보를 복구
 7. 중단된 프로그램 실행 재개: PC(Program Counter)의 값을 이용하여 수행 중이던 프로그램 재개
 
-###### 출처
+###### 참고자료
 
 - [곰책으로 쉽게 배우는 최소한의 운영체제론](https://www.inflearn.com/course/곰책-쉽게-배우는-운영체제)
 - [쉽게 배우는 운영체제](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=쉽게+배우는+운영체제&ebookYn=N&isbn=9791156648888&cipId=228149278%2C)

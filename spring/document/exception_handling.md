@@ -133,7 +133,7 @@ public class ExampleAdvice3 {
     - 스프링 내부에서 발생한 예외인지 검사 후 예외 처리
 4. 위의 과정에서 에러가 처리되지 않은 경우 SpringBoot의 설정에 맞게 BasicErrorController로 요청을 다시 전달
 
-###### 출처
+###### 참고자료
 
 - [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/스프링-mvc-2)
 - [망나니개발자 티스토리](https://mangkyu.tistory.com/204)

@@ -165,6 +165,6 @@ Initiating transaction rollback
 Rolling back JDBC transaction on Connection [...]
 ```
 
-###### 출처
+###### 참고자료
 
 - [스프링 DB 2편 - 데이터 접근 활용 기술](https://www.inflearn.com/course/스프링-db-2)
