@@ -1,12 +1,65 @@
 # 의존성 주입(DI)
 
-객체간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 결정해주는 디자인 패턴으로.  
-올바른 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있으며 아래와 같은 장점이 있다.
+> 객체간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 결정해주는 디자인 패턴
+
+올바른 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있다.
 
 - Test 용이
 - 코드 재사용성 증가
 - 객체 간 의존성 감소
 - 객체 간 결합도를 낮춰 유연한 코드 작성
+
+## 의존성 주입이 필요한 이유
+
+- 기존 코드
+
+```java
+public class MessageSender {
+    private EmailService emailService; // 구체적인 구현체에 의존
+
+    public MessageSender() {
+        this.emailService = new EmailService(); // 구체적인 구현체 생성
+    }
+
+    public void sendMessage(String message) {
+        emailService.sendMessage(message); // 구체적인 구현체의 메서드 호출
+    }
+}
+```
+
+위 예시에서는 `MessageSender` 클래스가 `EmailService` 클래스에 의존하기 때문에 EmailService 클래스의 구현체가 변경되면 MessageSender 클래스도 변경되어야 한다.  
+결국 객체들 간의 관계가 아닌 클래스 간의 관계가 형성되어 유연한 코드 작성이 어렵게 된다.
+
+- 의존성 주입을 이용한 코드
+
+```java
+public interface MessageService {
+    void sendMessage(String message);
+}
+
+public class EmailService implements MessageService {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("Sending email: " + message);
+        // 이메일을 전송하는 코드
+    }
+}
+
+public class MessageSender {
+    private MessageService messageService; // 인터페이스에 의존
+
+    public MessageSender(MessageService messageService) {
+        this.messageService = messageService; // 의존성 주입
+    }
+
+    public void sendMessage(String message) {
+        messageService.sendMessage(message); // 인터페이스의 메서드 호출
+    }
+}
+```
+
+위 예시에서는 `MessageSender` 클래스가 `MessageService` 인터페이스(역할)에 의존하게 된다.  
+이렇게 되면 `MessageService` 인터페이스를 구현한 클래스가 변경되어도 `MessageSender` 클래스는 변경하지 않아도 된다.
 
 ## DI 3가지 방법(Spring)
 
