@@ -1,14 +1,20 @@
 # 스프링 빈
 
-> 스프링 빈(Bean) : 스프링 컨테이너가 관리하는 자바 객체
+> 스프링 빈(Bean) : 스프링 컨테이너에 의해 생성 및 관리하는 자바 객체
 
-`new`를 통해 생성하는 것이 아닌 컨테이너에서 스스로 생성하고 관리하는 객체
+Bean은 스프링을 구성하는 핵심요소로, 아래의 구성 요소를 가지고 있다.
+
+- class: Bean으로 등록할 클래스
+- id: Bean 고유 식별자
+- scope: Bean을 생성하기 위한 방법(싱글톤, 프로토타입 등)
+- constructor arguments: Bean 생성 시 생성자에 전달할 인자
+- property: Bean 생성 시 setter를 통해 전달할 인자
 
 ## 스프링 빈 등록
 
-### 1. [컴포넌트 스캔](container.md)과 자동 의존 관계를 통한 등록
+### 1. 컴포넌트 스캔을 통한 등록
 
-@Component Annotation이 있을 경우 스프링 빈으로 자동 등록
+@Component Annotation이 있을 경우 스프링 빈으로 자동 등록하는 방법으로 주로 사용되는 방법이다.
 
 ```java
 
@@ -21,14 +27,6 @@ public class MemberController {
         this.memberService = memberService;
     }
 }
-```
-
-위와 같이 Controller Package에 클래스 생성 후 `@Controller` Annotation을 넣고,  
-서비스 객체를 연결하기 위해 `@Autowired` Annotation을 넣어 스프링이 연관된 객체를 스프링 컨테이너에서 찾아 넣게 해준다(의존성 주입).
-
-그 후 서비스 객체와 레포지토리를 연결하기 위해(컨테이너에 등록하기 위해) `@Service` / `@Repository` Annotation을 통해 스프링 빈으로 등록해준다.
-
-```java
 
 @Service
 public class MemberService {
@@ -39,14 +37,15 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 }
-```
 
-```java
 
 @Repository
 public class MemoryMemberRepository implements MemberRepository {
 }
 ```
+
+위와 같이 클래스 생성 후 @Component(=@Controller) Annotation을 넣고,  
+서비스 객체를 연결하기 위해 `@Autowired` Annotation을 넣어 스프링이 연관된 객체를 스프링 컨테이너에서 찾아 넣게 해준다(의존성 주입).
 
 모두 등록하게 되면 스프링 컨테이너는 아래의 형태를 띄게 된다.
 
@@ -54,10 +53,9 @@ public class MemoryMemberRepository implements MemberRepository {
 MemberController -> MemberService -> MemeberRepository
 ```
 
-** 생성자에 `@Autowired`를 사용하면 객체 생성 시점에 스프링 컨테이너에서 해당 스프링 빈을 찾아서 주입하며, 생성자가 1개만 있을 경우엔 `@Autowired`를 생략할 수 있다.  
-** 스프링 컨테이너에 스프링 빈을 등록할 때 기존적으로 싱글톤으로 등록하며, 다른 설정을 통해 다른 패턴으로 생성할 수 있지만 대부분 싱글톤을 사용
+** 생성자에 `@Autowired`를 사용하면 객체 생성 시점에 스프링 컨테이너에서 해당 스프링 빈을 찾아서 주입하며, 생성자가 1개만 있을 경우엔 `@Autowired`를 생략할 수 있다.
 
-### 2. 자바 코드를 통한 직접 등록
+### 2. @Bean / @Configuration을 통한 등록
 
 정형화 되지 않은 코드거나, 상황에 따라 구현 클래스를 변경해야하는 경우 사용  
 Config Class를 생성해 `@Configuration` Annotation을 붙여 등록할 객체들을 `@Bean` Annotation을 통해 직접 등록
@@ -81,7 +79,7 @@ public class SpringConfig {
 
 ## 빈 생명주기
 
-데이터베이스 커넥션 풀이나 네트워크 소켓처럼 애플리케이션 시작 시점에 필요한 연결을 미리 해두고, 종료 시점에 연결을 모두 종료하는 작업을 진행하기 위해서는 객체의 초기화와 종료 작업이 필요하다.   
+데이터베이스 커넥션 풀이나 네트워크 소켓처럼 애플리케이션 시작 시점에 필요한 연결을 미리 해두고, 종료 시점에 연결을 모두 종료하는 작업을 진행하기 위해서는 객체의 초기화와 종료 작업이 필요하다.  
 스프링 빈도 위와 비슷하게 생성과 의존관계 주입이라는 라이프 사이클을 가지게 되며 그 이후에 필요한 데이터를 사용할 수 있는 준비가 완료된 상태가 된다.
 
 ### 스프링 빈의 이벤트 라이프 사이클
@@ -211,7 +209,7 @@ public class Example {
 
 |             싱글톤 빈              |             프로토타입 빈             |
 |:------------------------------:|:-------------------------------:|
-|    싱글톤 스코프의 빈을 스프링 컨테이너에 요청    |    프로토타입 스코프 빈을 스프링 컨테이너에 요청    |
+|    싱글톤 스코프 빈을 스프링 컨테이너에 요청     |    프로토타입 스코프 빈을 스프링 컨테이너에 요청    |
 |    (요청 한 빈이 이미 생성되어 있는 상태)     | 요청 온 시점에 프로토타입 빈을 생성하고 의존 관계 주입 |
 |     스프링 컨테이너가 관리하고 있는 빈 반환     |            생성한 빈을 반환            |
 | 같은 요청이 와도 계속 같은 인스턴스의 스프링 빈 반환 | 같은 요청이 오면 계속 새로운 인스턴스의 스프링 빈 반환 |
@@ -219,95 +217,9 @@ public class Example {
 - 프로토타입 빈 특징
     - 스프링 컨테이너에 요청할 때 마다 새로운 인스턴스를 생성
     - 스프링 컨테이너는 프로토타입 스코프 빈을 `생성/의존관계 주입/초기화`까지만 처리
-    - `@PreDestroy` 같은 종료 메서드도 호출하지 않음
+    - 생성 및 초기화까지만 처리하기 때문에 `@PreDestroy` 같은 종료 메서드도 호출하지 않음
     - 프로토타입 빈은 프로토타입 빈을 조회한 클라이언트가 관리
     - 여러 빈에서 같은 프로토타입 빈을 주입 받으면, 주입 받은 모든 빈은 각자 다른 인스턴스를 사용(하나의 빈에선 계속 같은 프로토타입 빈을 가짐)
-
-### 싱글톤 빈과 함께 사용시 항상 새로운 프로토 타입 빈을 받는 방법
-
-싱글톤 빈에서 프로토 타입 빈을 주입 받게 되면 싱글톤 빈은 항상 같은 프로토 타입 빈을 사용하게 된다.  
-만약 프로토 타입 빈을 항상 다른 빈을 사용하고 싶다면 이를 해결 하는 방법이 몇 가지 존재한다.(이 목적이라면 싱글톤 빈으로 해결하면 된다.)  
-사실 실제로 프로토타입 빈을 사용하는 일은 매우 드물고, 순환참조 에러와 같은 특정 상황에서만 사용한다.
-
-#### 항상 같은 프로토 타입 빈을 사용 중인 테스트 코드
-
-```java
-public class SingletonWithPrototypeTest {
-
-    @Test
-    void singletonClientUsePrototype() {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SingletonBean.class, PrototypeBean.class);
-        SingletonBean singletonBean1 = applicationContext.getBean(SingletonBean.class);
-        int count1 = singletonBean1.logic();
-        assertThat(count1).isEqualTo(1);
-
-        SingletonBean singletonBean2 = applicationContext.getBean(SingletonBean.class);
-        int count2 = singletonBean2.logic();
-        assertThat(count2).isEqualTo(2);
-    }
-
-    @Scope("singleton")
-    @RequiredArgsConstructor
-    static class SingletonBean {
-        private final PrototypeBean prototypeBean;
-
-        public int logic() {
-            prototypeBean.addCount();
-            return prototypeBean.getCount();
-        }
-    }
-
-    @Scope("prototype")
-    static class PrototypeBean {
-        private int count = 0;
-
-        public void addCount() {
-            count++;
-        }
-
-        public int getCount() {
-            return count;
-        }
-    }
-}
-```
-
-#### `ObjectProvider` / `JSR-330 Provider` 사용
-
-```java
-
-// ObjectProvider
-public class SingletonBean {
-
-    @Autowired
-    private ObjectProvider<PrototypeBean> prototypeBeanProvider;
-
-    public int logic() {
-        PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
-        prototypeBean.addCount();
-        return prototypeBean.getCount();
-    }
-}
-
-// JSR-330 Provider
-public class SingletonBean {
-
-    @Autowired
-    private Provider<PrototypeBean> provider;
-
-    public int logic() {
-        PrototypeBean prototypeBean = provider.get();
-        prototypeBean.addCount();
-        return prototypeBean.getCount();
-    }
-}
-```
-
-- 위 방법은 `ac.getBean()`을 통해서 빈을 가져오는 방법과 동일(`Dependency Lookup` 의존관계 탐색 방식)
-- 기능이 단순하여 단위테스트를 만들거나 mock 코드를 만들기 쉬움
-- 차이점
-    - `ObjectProvider`: 스프링이 제공하는 기능으로, 외부라이브러리 필요 없이 스프링에 의존
-    - `JSR-330 Provider`: 자바 표준 기능으로, `javax.inject:javax.inject:1` 라이브러리 추가 필요
 
 ### 웹 스코프
 
@@ -324,14 +236,14 @@ public class ExampleBean {
 }
 ```
 
-웹 스코프는 위 코드처럼 생성할 수 있으며, 만약 이 `Bean`을 주입 받아 스프링 애플리케이션을 실행하게 되면 오류가 발생하게 된다.
+웹 스코프는 위 코드처럼 생성할 수 있으며, 만약 이 `Bean`을 다른 곳에 주입 하여 스프링 애플리케이션을 실행하게 되면 오류가 발생하게 된다.
 
 ```shell
 Error creating bean with name 'exampleBean': Scope 'request' is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton;
 ```
 
-스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 가능하지만, `request` 스코프는 요청이 들어오기 전의 상태기 때문에(존재하지 않음) 오류가 발생하게 된다.  
-이를 위해 `Provider`을 사용해서 해결하는 방법도 있으나 `Proxy`를 사용하는 방법이 더 좋다.
+스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 가능하지만, `request` 스코프는 실제 요청이 들어오기 전의 상태기 때문에(존재하지 않음) 오류가 발생하게 된다.  
+이를 위해 `Provider`을 사용해서 해결하는 방법도 있으나 `Proxy`를 사용하는 방법이 더 간단하다.
 
 #### Proxy
 
@@ -345,28 +257,10 @@ public class ExampleBean {
 }
 ```
 
-- `proxyMode`를 `TARGET_CLASS`로 설정하면 `CGLIB`를 사용해서 `Proxy`를 생성한다.
-- 이렇게 하면 `ExampleBean`의 `Proxy` 객체가 생성되고, HTTP request와 상관 없이 `Proxy` 객체를 다른 빈에 미리 주입해 둘 수 있다.
-- 해당 클래스를 로그로 확인해보면 `CGLIB`라는 라이브러리가 바이트코드를 조작해 `Proxy` 객체를 생성한 것을 확인할 수 있다.
-- 다른 빈에서 `Example Bean`를 호출하면 실제로는 `Proxy` 객체를 호출하게 되고, 이 `Proxy` 객체가 진짜 `Example Bean`을 호출한다
-
-```shell
-Client --> Proxy Class --> Example Bean
-```
-
-- `Proxy Class`는 원본 클래스인 `Example Bean`을 상속받아서 생성되기 때문에 클라이언트는 `Example Bean`의 모든 기능을 사용할 수 있다.(다형성)
-
-##### `Proxy Class`의 동작 방식
-
-1. `CGLIB`가 클래스를 상속 받은 `Proxy Class`를 생성해서 주입
-2. `Proxy Class`는 실제 요청이 왔을 때 원본 클래스에 요청하는 위임 로직 작동
-3. `Proxy Class`는 실제 `request scope`와 관계 없으며 단순 위임 로직만 존재고 싱글톤처럼 동작
-
-##### 특징
-
-- `Proxy` 객체를 이용해 클라이언트는 싱글톤 빈을 사용하듯이 `request scope`을 사용할 수 있게 된다.
-- 실제로 객체 조회가 꼭 필요한 시점까지 지연처리 할 수 있는 큰 특징이 있다.
-- `Annotation` 설정 변경만으로 원본 객체를 `Proxy` 객체로 대체할 수 있다.
+- `proxyMode`를 `TARGET_CLASS`로 설정하면 `CGLIB`에서 사용해서 프록시 객체를 생성한다.
+- 생성된 프록시 객체는 싱글톤처럼 동작하여 HTTP request와 상관 없이 다른 빈에 미리 주입해 둘 수 있다.
+- 다른 빈에서 `ExampleBean`를 호출하면 실제로는 프록시 객체를 호출하게 되고, 이 프록시 객체가 진짜 `ExampleBean`을 호출한다
+- 프록시 클래스는 원본 클래스인 `ExampleBean`을 상속받아서 생성되기 때문에 클라이언트는 `ExampleBean`의 모든 기능을 사용할 수 있다.(다형성)
 
 ###### 참고자료
 
