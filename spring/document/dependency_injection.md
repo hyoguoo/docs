@@ -228,7 +228,7 @@ public class MemberTest {
 ## Lombok
 
 생성자 주입은 많은 장점을 가져다주지만 필드 주입에 비해 편의성 면에선 조금 떨어지는데 Lombok을 사용하면 이를 극복할 수 있다.  
-생성자를 딱 한 개만 두고 `@Autowired`를 생략하는 방법을 사용 중이라면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되면 생성자 관련 코드를 생략할 수 있게 된다.
+생성자를 한 개만 두고 `@Autowired`를 할 수 있다면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되어 생성자 관련 코드를 간략하게 사용할 수 있다.
 
 ```java
 // before
