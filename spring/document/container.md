@@ -27,7 +27,7 @@
 
 ## 스프링 컨테이너 생성과정
 
-1. 스프링 컨테이너 생성
+### 1. 스프링 컨테이너 생성
 
 - 스프링 컨테이너
 
@@ -50,7 +50,7 @@ public class Main {
 - `new AnnotationConfigApplicationContext(AppConfig.class)`로 config 정보를 넘겨주면서 구성 정보를 지정해준다.
 - `AppConfig.class` 가 구성 정보에 해당
 
-2. 스프링 빈 등록(`AppConfig`를 통한 예시)
+### 2. 스프링 빈 등록(`AppConfig`를 통한 예시)
 
 - AppConfig
 
@@ -94,7 +94,7 @@ public class AppConfig {
 - 빈 이름은 메서드 이름을 사용하며, `@Bean(name="memberServiceName")` 과 같이 다른 이름을 부여할 수 있다.
 - 항상 다른 이름을 부여해야 하며, 중복 될 경우 버전에 따라 덮어 쓰거나 오류가 발생
 
-3. 스프링 빈 의존관계 설정
+### 3. 스프링 빈 의존관계 설정
 
 ```
 memberService -> memberRepository <- orderService -> discountPolicy
