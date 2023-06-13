@@ -10,5 +10,5 @@
 - [MySQL](./mysql/README.md)
 - [객체지향프로그래밍](./oop/README.md)
 - [보안](./secure/README.md)
-- [Spring](./spring/README.md)
+- [스프링](./spring/README.md)
 - [설정](./setting/README.md)
