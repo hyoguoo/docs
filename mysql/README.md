@@ -15,7 +15,7 @@
     - [통계 정보](statistics.md)
     - [실행 계획 확인](check_execution_plan.md)
     - [실행 계획 분석](analyze_execution_plan.md)
-- [쿼리(Query)]
+- 쿼리(Query)
     - [쿼리 작성과 연관된 시스템 변수](query_system_variable.md)
     - [리터럴 표기법](literal_notation.md)
     - [연산자](operator.md)
