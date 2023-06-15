@@ -1,3 +1,3 @@
 # 자료구조
 
-- [링크드 리스트](./document/linked_list.md)
+- [링크드 리스트](linked_list.md)

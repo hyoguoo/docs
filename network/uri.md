@@ -2,7 +2,7 @@
 
 URI는 로케이터(locator), 이름(name) 또는 둘 다 추가로 분류될 수 있다.
 
-![img.png](../image/uri_diagram.png)
+![img.png](image/uri_diagram.png)
 
 ```
 　　　　　　　　　　　　　　　　　　　　ｈｉｅｒａｒｃｈｉｃａｌ　ｐａｒｔ

@@ -1,6 +1,6 @@
 # 필터와 인터셉터
 
-![img.png](../image/spring_filter_interceptor.png)
+![img.png](image/spring_filter_interceptor.png)
 
 ## 필터(Filter)
 

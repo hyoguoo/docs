@@ -15,7 +15,7 @@ Java Application은 위와 같이 Computer -> OS -> JVM -> Java Application 레�
 
 ## Java 실행 과정
 
-![img.png](../image/java_excution_process.png)
+![img.png](image/java_excution_process.png)
 
 - Class Loader: 바이트 코드 로딩 / 검증 / 링킹 등 수행
 - Runtime Data Area: 앱 실행을 위해 사용되는 JVM 메모리 영역
@@ -28,7 +28,7 @@ Java Application은 위와 같이 Computer -> OS -> JVM -> Java Application 레�
 
 ## JDK & JRE & JVM
 
-![img.png](../image/java_jdk_diagram.png)
+![img.png](image/java_jdk_diagram.png)
 
 ### JVM(Java Virtual Machine)
 

@@ -23,7 +23,7 @@
 
 ## Spring MVC Flow
 
-![img.png](../image/spring_mvc_flow.png)
+![img.png](image/spring_mvc_flow.png)
 
 | 순서  |         내용         |                              설명                              |
 |:---:|:------------------:|:------------------------------------------------------------:|

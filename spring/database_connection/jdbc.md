@@ -13,7 +13,7 @@
 
 JDBC는 여러 문제를 해결해주었지만 오래된 기술이고 사용하는 방법이 복잡하기 때문에, 최근에는 직접 사용하는 것보다는 `SQL Mapper`나 `ORM`을 결합하여 사용하고 있다.
 
-![img.png](../../image/jdbc.png)
+![img.png](../image/jdbc.png)
 
 - SQL Mapper
     - 장점

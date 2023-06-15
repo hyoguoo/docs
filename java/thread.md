@@ -187,7 +187,7 @@ OS마다 다른 방식으로 스케쥴링하기 때문에 실행 결과는 정�
 
 ### 쓰레드 생성 - 소멸 과정
 
-![img.png](../image/thread_lifecycle.png)
+![img.png](image/thread_lifecycle.png)
 
 1. 쓰레드 생성하고 `start()` 호출하여 실행 대기열에 저장되어 실행 대기 상태로 만듬
     - 실행대기열은 큐(queue)와 같은 구조로 먼저 실행대기열에 들어온 쓰레드가 먼저 실행됨
