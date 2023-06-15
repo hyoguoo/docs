@@ -1,4 +1,4 @@
-# 스프링
+# Spring
 
 - [소개](./document/introduce.md)
 - [프로젝트 세팅](./document/project_setting.md)

@@ -1,3 +1,3 @@
-# 리눅스
+# Linux
 
 - [Cron](cron.md)

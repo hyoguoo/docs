@@ -1,4 +1,4 @@
-# 네트워크
+# Network
 
 - [TCP/IP 4계층](./document/tcp_ip_4_layer.md)
     - [Physical Layer - OSI L2](./document/physical_layer.md)

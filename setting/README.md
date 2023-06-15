@@ -1,4 +1,4 @@
-# 설정
+# Setting
 
 - Git
     - [GitHub Multiple Accounts](github_multiple_accounts.md)

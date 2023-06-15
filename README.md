@@ -1,13 +1,30 @@
 # MY DOCS
 
-- [알고리즘/자료구조](./algorithm_datastructure/README.md)
-- [운영체제](./operating_system/README.md)
-- [컴퓨터 구조](./computer_architecture/README.md)
-- [Java](./java/README.md)
-- [리눅스](./linux/README.md)
-- [네트워크](./network/README.md)
+### Computer Science
+
+- [Algorithm / Data Structure](./algorithm_datastructure/README.md)
+- [Operating System](./operating_system/README.md)
+- [Computer Architecture](./computer_architecture/README.md)
+- [Network](./network/README.md)
+- [Secure](./secure/README.md)
+
+### Database
+
 - [MySQL](./mysql/README.md)
-- [객체지향프로그래밍](./oop/README.md)
-- [보안](./secure/README.md)
-- [스프링](./spring/README.md)
-- [설정](./setting/README.md)
+
+### Language
+
+- [Java](./java/README.md)
+
+### Framework
+
+- [Spring](./spring/README.md)
+
+### Design Pattern
+
+- [Object-Oriented Programming](./oop/README.md)
+
+### ETC
+
+- [Linux](./linux/README.md)
+- [Setting](./setting/README.md)
