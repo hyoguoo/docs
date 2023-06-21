@@ -16,6 +16,8 @@ cross-origin의 종류는 아래로 정의된다.
 - 다른 포트 (example.com:80 - example.com:90)
 - 다른 프로토콜 (https://example.com - http://example.com)
 
+여기서 `https://example.com`과 `https://www.example.com`은 다른 도메인으로 간주되기 때문에 주의해야한다.
+
 ### 예시(기준 `http://store.ogufamily.com`)
 
 |                   URL                   |    Result    |   Reason    |
