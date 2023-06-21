@@ -25,3 +25,4 @@
         - [기본](database_connection/jpa/basic.md)
         - [엔티티 디자인](database_connection/jpa/entity_design.md)
         - [변경 감지](database_connection/jpa/dirty_checking.md)
+- [스프링 부트](spring_boot.md)
