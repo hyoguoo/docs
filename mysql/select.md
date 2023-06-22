@@ -261,6 +261,104 @@ LIMIT 0, 10;
     - 갯수 조회를 하는 데에 정렬이 필요하지 않기 때문에 불필요한 성능 저하를 유발할 수 있음(MySQL 8.0 미만)
     - MySQL 8.0 이상부터는 ORDER BY를 사용하더라도 옵티마이저에서 최적화(무시)하여 성능 저하를 방지
 
+## JOIN()
+
+조인 작업에서 드라이빙 테이블을 읽을 때는 인덱스 탐색 작업을 한 번만 수행하고, 드리븐 테이블을 읽을 때는 인덱스 탐색 작업을 레코드 건수만큼 수행하게 된다.  
+때문에 JOIN 순서와 인덱스 유무에 따라 성능에 크게 영향을 주게 되는데, 이를 옵티마이저가 최적화하여 성능 저하를 방지하는 쪽으로 동작한다.
+
+```mysql
+SELECT *
+FROM employees e,
+     dept_emp de
+WHERE e.emp_no = de.emp_no;
+```
+
+위의 쿼리가 존재할 때 옵티마이저는 아래와 같이 동작한다.(무조건 아래와 같이 동작하는 것은 아니지만 대부분의 경우 아래와 같이 동작한다.)
+
+| emp_no 인덱스 | dept_no 인덱스 |                                               조인 순서와 옵티마이저 동작                                               |
+|:----------:|:-----------:|:-----------------------------------------------------------------------------------------------------------:|
+|     O      |      O      |                   어느 테이블을 드라이빙으로 선택하든 인덱스를 이용해 드리븐 테이블 조회를 빠르게 처리하기 때문에 통계 정보를 이용해 적절히 선택                   |
+|     O      |      X      | dept_emp 테이블을 드라이빙 테이블로 선택하여 테이블 풀 스캔을 한 번만 수행할 수 있도록 하고, employees 테이블을 드리븐 테이블로 선택하여 인덱스를 이용해 조회할 수 있도록 함 |
+|     X      |      O      |                                                  위와 반대로 동작                                                  |
+|     X      |      X      |                     어떤 경우에서든 드리븐 테이블의 풀 스캔이 발생하기 때문에 레코드 건수가 적은 테이블을 드라이빙 테이블로 선택하게 된다.                     |
+
+또한 WHERE 조건과 마찬가지로 JOIN 조건에서의 비교 대상 컬럼이 서로 동일해야 인덱스를 효율적으로 사용할 수 있다.(아닌 경우 테이블 풀 스캔이 발생할 수 있다.)
+
+### 지연 조인(Delayed Join)
+
+조인을 사용하여 GROUP BY, ORDER BY 등의 작업을 수행할 때, 인덱스를 사용하고 있다면 옵티마이저가 최적으로 처리하고 있을 확률이 높다.  
+하지만 그렇지 않은 경우엔 먼저 조인을 수행하고 GROUP BY, ORDER BY 등의 작업을 수행하게 된다.  
+이런 경우 조인을 할 수록 레코드 건수와 레코드 자체의 크기가 늘어나 성능 저하가 발생할 수 있기 때문에, 먼저 GROUP BY, ORDER BY 등의 작업을 수행하고 조인을 수행하는 것이 좋다.  
+지연 조인을 적용하기 전과 후의 쿼리와 실행계획을 비교하면 아래와 같다.
+
+- 지연 조인 적용 전
+
+```mysql
+SELECT e.*
+FROM salaries s,
+     employees e
+WHERE e.emp_no = s.emp_no
+  AND s.emp_no BETWEEN 10001 AND 13000
+GROUP BY s.emp_no
+ORDER BY SUM(s.salary) DESC
+LIMIT 10;
+```
+
+1. employees 테이블을 드라이빙 테이블로 선택
+2. 10001 ~ 13000 사이의 레코드를 조회
+3. salaries 테이블과 조인(조인 후 레코드 건수가 증가)
+4. 위 결과를 임시테이블에 저장
+5. GROUP BY 작업 수행하여 최대 3000개의 레코드로 줄어듦
+6. ORDER BY 작업 수행
+7. LIMIT 10으로 최종 결과 반환
+
+- 지연 조인 적용 후
+
+```mysql
+SELECT e.*
+FROM (SELECT s.emp_no
+      FROM salaries s
+      WHERE s.emp_no BETWEEN 10001 AND 13000
+      GROUP BY s.emp_no
+      ORDER BY SUM(s.salary) DESC
+      LIMIT 10) x,
+     employees e
+WHERE e.emp_no = x.emp_no;
+```
+
+1. salaries 테이블에서 10001 ~ 13000 사이의 레코드를 조회
+2. GROUP BY / ORDER BY / LIMIT 작업을 수행하여 최대 10개의 레코드로 줄어듦
+3. employees 테이블과 조인
+
+위의 예시는 지연 조인을 적용했을 때 성능이 향상되는 예시이지만, 지연 조인을 적용했을 때 성능이 저하되는 경우도 존재한다.  
+지연 조인을 적용하여 성능 향상을 기대하려면 아래의 조건을 만족해야 한다.
+
+- LEFT(OUTER) JOIN인 경우
+    - 드라이빙 테이블과 드리븐 테이블은 1:1 또는 M:1 관계여야 한다.
+- INNER JOIN인 경우
+    - 드라이빙 테이블과 드리븐 테이블이 1:1 또는 M:1 관계여야 한다.
+    - 드라이빙 테이블에 있는 레코드는 드리븐 테이블에 모두 존재해야 한다.
+
+### 래터럴 조인(Lateral Join)
+
+MySQL 8.0부터 지원하는 기능으로 특정 그룹별로 서브쿼리를 실행해서 결과를 반환하는 기능이다.
+
+```mysql
+# employees 테이블에서 first_name이 Matt인 레코드를 조회하고, 
+# salaries 테이블에서 가장 최근에 받은 급여 2건을 조회하는 쿼리
+SELECT *
+FROM employees e
+         LEFT JOIN LATERAL ( SELECT *
+                             FROM salaries s
+                             WHERE s.emp_no = e.emp_no
+                             ORDER BY s.from_date DESC
+                             LIMIT 2) s2 ON s2.emp_no = e.emp_no
+WHERE e.first_name = 'Matt';
+```
+
+여기서 특징은 LATERAL 키워드를 사용하여 서브쿼리를 사용하고 있는데, 그 내부에서 외부 쿼리의 FROM 절에 정의된 테이블의 컬럼을 참조할 수 있다는 것이다.  
+LATERAL 키워드를 가진 서브쿼리는 조인 순서상 후순위로 밀리고, 외부 쿼리의 결과 레코드 단위로 임시 테이블이 생성되어 처리된다.
+
 ###### 참고자료
 
 - [Real MySQL 8.0 2 - 개발자와 DBA를 위한 MySQL 실전 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Real+MySql+8.0&isbn=9791158392727&cipId=228440238%2C)
