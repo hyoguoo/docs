@@ -112,11 +112,11 @@ class Example {
 
 기본적으로 트랜잭션 커밋을 호출하면 자동 호출되고, 아래의 상황에서 플러시가 호출된다.
 
-1. 트랜잭션 커밋
-2. JPQL 쿼리 실행
-3. `entityManager.flush()` 메서드 직접 호출(거의 사용하지 않으나 테스트에서 사용할 수 있다.)
+#### 1. 트랜잭션 커밋
 
-위에서 JPQL 쿼리 실행이 플러시를 호출하는 이유는, 아래와 같은 상황에서 엔티티가 조회되지 않는 문제를 방지하기 위해서이다.
+#### 2. JPQL 쿼리 실행
+
+- 해당 트랜잭션 내에서 반영 된 변경 내용을 JPQL 쿼리를 통해 조회하려고 할 때, 플러시가 호출된다.
 
 ```java
 class Example {
@@ -134,6 +134,26 @@ class Example {
     }
 }
 ```
+
+#### 3. 기본 키 생성을 데이터베이스에 위임하는 `IDENTITY` 전략 사용 시 `persist()` 호출 시점
+
+- 1차 캐시에 저장하고 영속성으로 관리하기 위해선 PK가 필요하기 때문에 데이터베이스에 저장하고 PK를 가져올 수 있도록 플러시를 호출한다.
+
+```java
+class Example {
+    public static void main(String[] args) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Member member = new Member("A"); // IDENTITY 전략 사용 시, PK id를 따로 지정하지 않는다.
+        entityManager.persist(member); // 여기서 플러시가 호출
+
+        System.out.println("member = " + member);
+    }
+}
+```
+
+#### 4. `entityManager.flush()` 메서드 직접 호출(거의 사용하지 않으나 테스트에서 사용)
 
 플러시를 직접 호출한다고 해서 영속성 컨텍스트를 비우는 것은 아니며, 영속성 컨텍스트의 변경 내용을 데이터베이스에 동기화하는 것이다.
 
