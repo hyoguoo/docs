@@ -25,10 +25,11 @@ InnoDB 기준 격리 수준은 아래 표와 같이 4가지로 나뉜다.
 |   `BEGIN`    |              |
 | `INSERT OGU` |              |
 |              | `SELECT OGU` |
-|              | 정상적으로 결과 반환  |
+|              |    정상 조회     |
 |   `COMMIT`   |              |
 
-만약 트랜잭션 1에서 `ROLLBACK`을 수행했다면, 트랜잭션 2에서는 정상적으로 조회를 하게 되어 데이터가 불일치하게 된다.(`DIRTY READ` 발생)
+만약 트랜잭션 1에서 `COMMIT`이 아닌 `ROLLBACK`을 수행했다면, 데이터가 존재하지 않게 된다.  
+하지만 트랜잭션 2에서는 정상적으로 조회를 하게 되어 데이터가 불일치하게 된다.(`DIRTY READ` 발생)
 
 ## READ COMMITTED
 
@@ -38,31 +39,32 @@ InnoDB 기준 격리 수준은 아래 표와 같이 4가지로 나뉜다.
 
 |                 트랜잭션 1                  |      DATABASE       |             트랜잭션 2              |
 |:---------------------------------------:|:-------------------:|:-------------------------------:|
-|                 `BEGIN`                 |                     |                                 |
-| `UPDATE SET name = 'OGU' WHERE no = 59` |  no: 59 name: GUO   |                                 |
+|                 `BEGIN`                 |  no: 59 name: GUO   |                                 |
+| `UPDATE SET name = 'OGU' WHERE no = 59` |                     |                                 |
 |                                         |                     |     `SELECT WHERE no = 59`      |
 |                                         | 변경 전 데이터를 언두 로그로 복사 | GUO로 조회(언두 로그에 백업 된 이전 데이터를 조회) |
-|                `COMMIT`                 |      데이터 정상 반영      |                                 |
+|                `COMMIT`                 |  no: 59 name: OGU   |                                 |
 
 이 격리 수준에서도 한 트랜잭션에서 동일한 데이터를 여러 번 조회하면, 각각의 조회는 동일한 결과를 반환하지 않을 수 있다.(`NON-REPEATABLE READ` 발생)
 
-|                 트랜잭션 1                  |     DATABASE     |                트랜잭션 2                 |
-|:---------------------------------------:|:----------------:|:-------------------------------------:|
-|                                         |                  |                `BEGIN`                |
-|                                         | no: 59 name: OGU |      `SELECT WHERE name = 'GUO'`      |
-|                                         |                  |               데이터 조회 실패               |
-|                 `BEGIN`                 |                  |                                       |
-| `UPDATE SET name = 'GUO' WHERE no = 59` |                  |                                       |
-|                `COMMIT`                 | no: 59 name: GUO |                                       |
-|                                         |                  | `SELECT WHERE name = 'GUO'`(같은 쿼리 실행) |
-|                                         |                  |               데이터 조회 성공               |
+|                 트랜잭션 1                  |     DATABASE     |              트랜잭션 2              |
+|:---------------------------------------:|:----------------:|:--------------------------------:|
+|                                         |                  |             `BEGIN`              |
+|                                         | no: 59 name: OGU |      `SELECT WHERE no = 59`      |
+|                                         |                  |             OGU로 조회              |
+|                 `BEGIN`                 |                  |                                  |
+| `UPDATE SET name = 'GUO' WHERE no = 59` |                  |                                  |
+|                `COMMIT`                 | no: 59 name: GUO |                                  |
+|                                         |                  | `SELECT WHERE no = 59`(같은 쿼리 실행) |
+|                                         |                  |             GUO로 조회              |
 
 일반적인 웹 프로그램에서는 문제가 없을 수 있으나, 하나의 트랜잭션에서 동일한 데이터를 여러 번 조회하고 변경하는 금전적인 거래와 같은 경우에는 문제가 발생할 수 있다.
 
 ## REPEATABLE READ
 
 MySQL InnoDB 스토리지 엔진에서 기본으로 사용되는 격리 수준으로, 바이너리 로그를 가진 MySQL에서는 최소 `REPEATABLE READ` 격리 수준을 사용해야 한다.  
-이 레벨에서는 위의 `NON-REPEATABLE READ` 문제가 발생하지 않으며, 트랜잭션 내에서 실행된 `SELECT` 쿼리는 `COMMIT`이 완료되기 전까지는 계속 같은 데이터를 조회하게 된다.
+MVCC(Multi Version Concurrency Control)를 사용해 `READ COMMITTED` 격리 수준에서 발생하는 `NON-REPEATABLE READ` 문제를 해결한다.  
+때문에 트랜잭션 내에서 실행된 `SELECT` 쿼리는 `COMMIT`이 완료되기 전까지는 계속 같은 데이터를 조회할 수 있다.
 
 ### MVCC(Multi Version Concurrency Control)
 
