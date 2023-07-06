@@ -89,15 +89,21 @@ MVCC란 InnoDB 스토리지 엔진이 트랜잭션이 `ROLLBACK`될 가능성에
 
 트랜잭션 번호를 이용해 트랜잭션 12에서 데이터를 변경했지만, 트랜잭션 10은 자신의 번호보다 작은 트랜잭션의 번호만 조회할 수 있어 언두 로그에 있는 GUO를 조회하게 된다.
 
-### SELECT & TRANSACTION
-
-트랜잭션 내에서 실행되는 `SELECT` 쿼리와 없이 실행되는 `SELECT` 쿼리는 `READ COMMITTED` 격리 수준에서는 동일한 결과를 반환한다.  
-하지만 `REPEATABLE READ` 격리 수준에서는 위의 예제와 같은 상황에서는 트랜잭션 내에서 실행된 `SELECT` 쿼리는 `COMMIT`이 완료되기 전까지는 계속 같은 데이터를 조회하게 된다.
-
 ### PHANTOM READ
 
-`REPEATABLE READ` 격리 수준에서도 `INSERT`를 실행하게 되면 첫 번째 `SELECT` 쿼리와 두 번째 `SELECT` 쿼리의 결과가 다르게 나타난다.  
-이렇게 다른 트랜잭션에 의해 레코드 결과가 변경되는 것을 `PHANTOM READ`라고 한다.
+|               트랜잭션 12               |                          DATABASE                          |         트랜잭션 10         |
+|:-----------------------------------:|:----------------------------------------------------------:|:-----------------------:|
+|                                     |                 TRX-ID: 6 no: 59 name: GUO                 |     `BEGIN(TRX-10)`     |
+|                                     |                                                            | `SELECT WHERE no >= 59` |
+|                                     |                                                            |         GUO 조회          |
+|         `BEGIN(TRX-ID: 12)`         |                                                            |                         |
+| `INSERT INTO t1 VALUES (60, 'OGU')` |                                                            |                         |
+|        `COMMIT(TRX-ID: 12)`         | TRX-ID: 6 no: 59 name: GUO<br>TRX-ID: 12 no: 60: name: OGU |                         |
+|                                     |                                                            | `SELECT WHERE no >= 59` |
+|                                     |                                                            |         GUO 조회          |
+
+트랜잭션 12에서 `INSERT`를 실행하면 트랜잭션 10에서 `SELECT` 쿼리를 실행했을 때, 트랜잭션 12의 데이터는 무시되기 때문에 GUO만 조회하여 동일한 결과를 얻게 된다.  
+하지만 `SELECT ... FOR UPDATE` 구문을 사용하여 베타적 잠금을 걸게 되면 결과가 달라지게 된다.(MySQL이 아닌 일반적인 DBMS 기준)
 
 |               트랜잭션 12               |                          DATABASE                          |              트랜잭션 10               |
 |:-----------------------------------:|:----------------------------------------------------------:|:----------------------------------:|
@@ -106,9 +112,29 @@ MVCC란 InnoDB 스토리지 엔진이 트랜잭션이 `ROLLBACK`될 가능성에
 |                                     |                                                            |               GUO 조회               |
 |         `BEGIN(TRX-ID: 12)`         |                                                            |                                    |
 | `INSERT INTO t1 VALUES (60, 'OGU')` |                                                            |                                    |
-|        `COMMIT(TRX-ID: 12)`         | TRX-ID: 6 no: 59 name: GUO<br>TRX-ID: 10 no: 60: name: OGU |                                    |
+|        `COMMIT(TRX-ID: 12)`         | TRX-ID: 6 no: 59 name: GUO<br>TRX-ID: 12 no: 60: name: OGU |                                    |
 |                                     |                                                            | `SELECT WHERE no >= 59 FOR UPDATE` |
 |                                     |                                                            |            GUO, OGU 조회             |
+
+일반적인 DBMS에서는 갭락이 존재하지 않기 때문에 id = 59인 레코드에 잠금이 걸리고, 트랜잭션 12의 요청은 잠금 없이 즉시 실행이 된다.  
+위에서는 MVCC를 통해 트랜잭션 10이 GUO만 조회했지만, 베타적 잠금을 통해 트랜잭션 10이 언두 영억의 데이터가 아니라 테이블의 데이터를 직접 읽어오기 때문에 GUO와 OGU를 모두 조회하게 된다.  
+하지만 MySQL에서는 갭 락이 존재하기 때문에 트랜잭션 12의 요청이 잠금을 획득하기 위해 대기하게 되고, 결국에는 트랜잭션 10은 GUO만 조회하게 된다.
+
+|               트랜잭션 12               |                          DATABASE                          |              트랜잭션 10               |
+|:-----------------------------------:|:----------------------------------------------------------:|:----------------------------------:|
+|                                     |                 TRX-ID: 6 no: 59 name: GUO                 |          `BEGIN(TRX-10)`           |
+|                                     |                                                            | `SELECT WHERE no >= 59 FOR UPDATE` |
+|                                     |                                                            |               GUO 조회               |
+|         `BEGIN(TRX-ID: 12)`         |                                                            |                                    |
+| `INSERT INTO t1 VALUES (60, 'OGU')` |                                                            |                                    |
+|              갭 락 잠금 대기              |                                                            |                                    |
+|                 ...                 |                                                            | `SELECT WHERE no >= 59 FOR UPDATE` |
+|                 ...                 |                                                            |               GUO 조회               |
+|                 ...                 |                                                            |          `COMMIT(TRX-10)`          |
+|        `COMMIT(TRX-ID: 12)`         | TRX-ID: 6 no: 59 name: GUO<br>TRX-ID: 12 no: 60: name: OGU |                                    |
+
+갭락 존재로 일반적으로 MySQL에서는 `Phantom Read`가 발생하지 않지만, 발생 하는 유일한 경우는 위에서 첫 번째 조회는 잠금 없이 조회하고, 두 번째 조회에서 베타적 잠금을 걸었을 때이다.  
+하지만 이러한 경우는 발생할 확률이 매우 적기 때문에 MySQL에서는 `Phantom Read`가 발생하지 않는다고 볼 수 있다.
 
 ## SERIALIZABLE
 
