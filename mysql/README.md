@@ -21,3 +21,4 @@
     - [연산자](operator.md)
     - [내장 함수](built_in_function.md)
     - [SELECT](select.md)
+    - [Sub Query](sub_query.md)
