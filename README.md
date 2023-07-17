@@ -3,7 +3,7 @@
 ### Computer Science
 
 - [Algorithm / Data Structure](./algorithm_datastructure/README.md)
-- [Computer Architecture / Operation System](computer_architecture_and_operation_system/README.md)
+- [Computer Architecture](computer_architecture/README.md)
 - [Network](./network/README.md)
 - [Secure](./secure/README.md)
 
