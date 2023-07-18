@@ -24,3 +24,4 @@
     - [SELECT LOCK](select_lock.md)
     - [Sub Query](sub_query.md)
     - [INSERT](insert.md)
+    - [UPDATE / DELETE](update_delete.md)
