@@ -4,6 +4,7 @@
 
 - [Algorithm / Data Structure](./algorithm_datastructure/README.md)
 - [Computer Architecture](computer_architecture/README.md)
+- [Operating System](./operating_system/README.md)
 - [Network](./network/README.md)
 - [Secure](./secure/README.md)
 
