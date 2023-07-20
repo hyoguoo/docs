@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Basic(기초)
 
 ## 컴퓨터가 이해하는 정보

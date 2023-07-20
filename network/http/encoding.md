@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 인코딩(Encoding)
 
 ## 컨텐츠 인코딩

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # IP - Internet Protocol
 
 > 네트워크 상에서 컴퓨터들이 서로 통신하기 위해 사용하는 프로토콜

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 트랜잭션(Transaction)
 
 > 작업의 완전성을 보장해주는 기능

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # DispatcherServlet
 
 `org.springframework.web.servlet.DispatcherServlet`

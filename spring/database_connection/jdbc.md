@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # JDBC(Java Database Connectivity)
 
 자바에서 데이터베이스에 접속할 수 있도록 하는 자바 API로, Java로 데이터베이스에 연결 및 쿼리를 실행하기 위한 인터페이스를 제공한다.

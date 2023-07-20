@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Isolation Level(격리 수준)
 
 > 동시에 실행되는 트랜잭션들이 서로 영향을 미치는 정도

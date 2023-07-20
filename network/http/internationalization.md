@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 국제화(internationalization)
 
 여러 언어와 문자로 된 국제 문서들의 처리 및 전송을 지원하는 기능

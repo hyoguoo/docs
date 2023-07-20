@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 커넥션(Connection)
 
 커넥션 관리가 제대로 이루어지지 않으면 TCP 성능이 매우 안 좋아질 수 있다.  

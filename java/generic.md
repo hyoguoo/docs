@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Generics
 
 > 컴파일 시에 타입을 체크하는 기능

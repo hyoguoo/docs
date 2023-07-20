@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 네트워크 계층 (Network Layer) - OSI 3 Layer
 
 ## IpV4

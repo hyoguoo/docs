@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Java Virtual Machine
 
 자바의 큰 특징 중 하나는 가상 환경인 JVM 존재로 어느 플랫폼이든 컴파일 된 코드가 실행될 수 있다는 것이다.  

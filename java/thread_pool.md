@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Thread Pool
 
 > 스레드를 재사용하여 스레드 생성 비용을 줄이는 기법

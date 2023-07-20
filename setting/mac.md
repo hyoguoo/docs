@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Mac
 
 ## 메뉴 단축키 지정

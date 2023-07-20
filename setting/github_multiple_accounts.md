@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # GitHub Multiple Accounts
 
 ## Environment

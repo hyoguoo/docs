@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Spring MVC(Model View Controller)
 
 > Spring에서 제공하는 웹 모듈로, Model / View / Controller 세 가지 구성요소를 사용해 HTTP 요청을 처리를 지원해주는 프레임워크

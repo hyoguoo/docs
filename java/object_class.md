@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Object 클래스
 
 `java.lang` 패키지는 자바프로그래밍에 가장 기본이 되는 클래스로. `import` 없이 사용할 수 있다.  

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 필터와 인터셉터
 
 ![img.png](image/spring_filter_interceptor.png)

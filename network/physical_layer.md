@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 물리 계층 (Physical Layer) - OSI 2 Layer
 
 > LAN 카드와 같은 하드웨어적인 면을 다루는 계층으로 NIC(Network Interface Card)라고도 한다.

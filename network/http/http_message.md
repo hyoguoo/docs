@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # HTTP Message
 
 > HTTP 애플레키에션 간에 주고받는 데이터 단위

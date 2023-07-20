@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 람다식(Lambda Expression)
 
 자바는 객체지향언어이지만, 자바 8에 도입된 람다식을 통해 함수형 언어의 특징을 사용할 수 있다.  

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 버전 관리
 
 ## Java 버전 전환 설정

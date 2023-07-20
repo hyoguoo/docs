@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # HTTP(HyperText Transfer Protocol)
 
 HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 전송 가능하다.  

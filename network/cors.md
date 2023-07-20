@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # CORS(Cross-Origin Resource Sharing)
 
 웹 애플리케이션에서 same-origin policy(동일 출처 정책)에 따라 제한되는 도메인 간 자원 공유를 허용하기 위한 매커니즘

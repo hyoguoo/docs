@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Servlet
 
 > 자바를 이용한 웹 프로그래밍을 위한 기술

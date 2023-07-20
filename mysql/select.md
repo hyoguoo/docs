@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # SELECT
 
 일반적으로 INSERT / UPDATE / DELETE 는 거의 레코드 단위로 발생하기 떄문에 성능상 문제가 없다.  

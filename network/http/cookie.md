@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 쿠키(Cookie)
 
 > `Client`의 상태를 식별하기 위한 가장 널리 사용 되는 방식

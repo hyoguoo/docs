@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # TCP/IP 4 Layer
 
 > 네트워크의 기본으로 인터넷을 포함하여 일반적으로 사용하고 있는 네트워크는 TCP/IP라는 프로토콜에서 움직이며 HTTP도 그 중 하나

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 잠금을 사용하는 SELECT
 
 보통 InnoDB 테이블에 대해서 레코드를 읽을 때 레코드에 아무런 잠금을 걸지 않는다.(=Non Locking Consistent Read)  

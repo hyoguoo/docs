@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # UPDATE / DELETE
 
 보통 애플리케이션에서는 UPDATE / DELETE 쿼리는 주로 하나의 테이블에 대해 한 건(혹은 소량) 레코드 처리를 위해 사용한다.  

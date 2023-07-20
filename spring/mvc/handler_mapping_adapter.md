@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 핸들러 매핑과 핸들러 어댑터
 
 HandlerMapping 및 HandlerAdapter는 들어오는 HTTP 요청을 처리하고 적절한 Controller 메서드에 매핑하는 데 도움이 되는 Spring MVC 프레임워크의 중요한 구성 요소  

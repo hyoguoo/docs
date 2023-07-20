@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Lazy Loading / Eager Loading(지연 로딩 / 즉시 로딩)
 
 ## 지연 로딩(`FetchType.LAZY`)

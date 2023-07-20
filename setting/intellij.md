@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Intellij Setting
 
 ## 설정 백업

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Persistence Context(영속성 컨텍스트)
 
 > 엔티티를 영구 저장하는 환경

@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Github Verified Commit
 
 ![img.png](image/verified_commit.png)

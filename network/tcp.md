@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # TCP - 전송 제어 프로토콜(Transmission Control Protocol)
 
 > 트랜스포츠(Transport) 계층에 해당되며, 신뢰성 있는 바이트 스트림 서비스를 제공

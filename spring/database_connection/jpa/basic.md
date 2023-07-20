@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # JPA
 
 > Java Persistence API의 약자로, 자바 진영의 ORM 기술 표준

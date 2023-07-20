@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Enums
 
 > 관련된 상수를 편리하게 선언하기 위한 것

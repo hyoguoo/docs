@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 아키텍처
 
 MySQL 서버는 다음과 같은 구조로 되어 있다.

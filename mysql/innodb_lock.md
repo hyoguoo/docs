@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # InnoDB 스토리지 엔진 락
 
 - InnoDB 스토리지 엔진은 레코드 기반의 잠금 기능을 제공

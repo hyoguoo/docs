@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Bean Validation
 
 > Bean Validation은 특정한 구현체가 아니라 Bean Validation 2.0(JSR-380) 기술 표준

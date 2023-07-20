@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # 엔티티(Entity)
 
 ## 메시지와 엔티티
