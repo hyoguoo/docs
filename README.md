@@ -1,30 +1,49 @@
+---
+cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
+coverY: -143.96666666666667
+layout:
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: false
+  outline:
+    visible: false
+  pagination:
+    visible: true
+---
+
 # MY DOCS
 
 ### Computer Science
 
-- [Algorithm / Data Structure](./algorithm_datastructure/README.md)
-- [Computer Architecture](computer_architecture/README.md)
-- [Operating System](./operating_system/README.md)
-- [Network](./network/README.md)
-- [Secure](./secure/README.md)
+* [Algorithm / Data Structure](algorithm\_datastructure/)
+* [Computer Architecture](computer\_architecture/)
+* [Operating System](operating\_system/)
+* [Network](network/)
+* [Secure](secure/)
 
 ### Database
 
-- [MySQL](./mysql/README.md)
+* [MySQL](mysql/)
 
 ### Language
 
-- [Java](./java/README.md)
+* [Java](java/)
 
 ### Framework
 
-- [Spring](./spring/README.md)
+* [Spring](spring/)
 
 ### Design Pattern
 
-- [Object-Oriented Programming](./oop/README.md)
+* [Object-Oriented Programming](oop/)
 
 ### ETC
 
-- [Linux](./linux/README.md)
-- [Setting](./setting/README.md)
+* [Linux](linux/)
+* [Setting](setting/)
