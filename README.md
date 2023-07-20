@@ -1,20 +1,7 @@
 ---
 cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -143.96666666666667
-layout:
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: false
-  outline:
-    visible: false
-  pagination:
-    visible: true
+coverY: -208.1042383185687
+layout: editorial
 ---
 
 # MY DOCS
