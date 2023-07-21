@@ -29,3 +29,4 @@ layout: editorial
   * [Sub Query](sub\_query.md)
   * [INSERT](insert.md)
   * [UPDATE / DELETE](update\_delete.md)
+  * [성능 테스트](performance\_test.md)
