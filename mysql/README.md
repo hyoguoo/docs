@@ -30,3 +30,5 @@ layout: editorial
   * [INSERT](insert.md)
   * [UPDATE / DELETE](update\_delete.md)
   * [성능 테스트](performance\_test.md)
+* 데이터 타입
+  * [문자열(CHAR / VARCHAR)](char\_varchar.md)
