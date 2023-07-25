@@ -34,3 +34,4 @@ layout: editorial
   * [문자열(CHAR / VARCHAR)](char\_varchar.md)
   * [숫자](number.md)
   * [날짜 / 시간](date\_time.md)
+  * [enum](enum.md)
