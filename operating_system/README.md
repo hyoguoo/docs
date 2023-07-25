@@ -9,3 +9,4 @@ layout: editorial
 * [스레드](thread.md)
 * [CPU 스케줄링](cpu_scheduling.md)
 * [동기화](synchronization.md)
+* [교착 상태](deadlock.md)
