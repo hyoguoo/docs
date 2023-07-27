@@ -12,3 +12,4 @@ layout: editorial
 * [교착 상태](deadlock.md)
 * [연속 메모리 할당](continuous_memory_allocation.md)
 * [가상 메모리](virtual_memory.md)
+* [파일 시스템](file_system.md)
