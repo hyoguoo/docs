@@ -35,3 +35,4 @@ layout: editorial
   * [숫자](number.md)
   * [날짜 / 시간](date\_time.md)
   * [enum](enum.md)
+* [Replication](replication.md)
