@@ -8,7 +8,6 @@ layout: editorial
 
 ### Computer Science
 
-* [Algorithm / Data Structure](algorithm\_datastructure/)
 * [Computer Architecture](computer\_architecture/)
 * [Operating System](operating\_system/)
 * [Network](network/)
