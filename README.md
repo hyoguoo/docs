@@ -33,5 +33,4 @@ layout: editorial
 
 ### ETC
 
-* [Linux](linux/)
 * [Setting](setting/)
