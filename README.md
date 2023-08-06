@@ -4,7 +4,9 @@ coverY: -208.1042383185687
 layout: editorial
 ---
 
-# MY DOCS
+# Documentation
+
+단순 지식이나 개념을 정리하여 기록하는 공간입니다.
 
 ### Computer Science
 
