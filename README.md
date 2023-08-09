@@ -1,30 +1,16 @@
 ---
+description: 단순 지식이나 개념을 정리하여 기록하는 공간입니다.
 cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -171.7012327773749
-layout:
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: false
-  outline:
-    visible: true
-  pagination:
-    visible: true
+coverY: -183
+layout: editorial
 ---
 
 # 📖 Documentation
 
-단순 지식이나 개념을 정리하여 기록하는 공간입니다.
-
 ### Computer Science
 
-* [Computer Architecture](computer_architecture/)
-* [Operating System](operating_system/)
+* [Computer Architecture](computer\_architecture/)
+* [Operating System](operating\_system/)
 * [Network](network/)
 * [Secure](secure/)
 
