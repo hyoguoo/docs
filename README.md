@@ -1,10 +1,23 @@
 ---
 cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -208.1042383185687
-layout: editorial
+coverY: -171.7012327773749
+layout:
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: false
+  outline:
+    visible: true
+  pagination:
+    visible: true
 ---
 
-# Documentation
+# 📖 Documentation
 
 단순 지식이나 개념을 정리하여 기록하는 공간입니다.
 
