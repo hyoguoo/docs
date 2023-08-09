@@ -54,7 +54,7 @@ layout: editorial
 
 ### 플로우 차트
 
-![img.png](../image/cache_flow_chart.png)
+![img.png](image/cache_flow_chart.png)
 
 ## 캐시 신선도 유지
 

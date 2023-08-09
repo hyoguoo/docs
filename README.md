@@ -23,8 +23,8 @@ layout:
 
 ### Computer Science
 
-* [Computer Architecture](computer\_architecture/)
-* [Operating System](operating\_system/)
+* [Computer Architecture](computer_architecture/)
+* [Operating System](operating_system/)
 * [Network](network/)
 * [Secure](secure/)
 
