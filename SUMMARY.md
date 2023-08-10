@@ -1,6 +1,6 @@
 # Table of contents
 
-* [📖 Documentation](README.md)
+* [📖 Docs](README.md)
 * [Computer Architecture](computer\_architecture/README.md)
   * [Basic(기초)](computer\_architecture/basic.md)
   * [cpu 동작 방식](computer\_architecture/cpu\_work.md)
