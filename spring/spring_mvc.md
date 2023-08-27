@@ -8,9 +8,9 @@ layout: editorial
 
 ## MVC 패턴 구조
 
-- Model : 애플리케이션 데이터
-- View : 모델을 사용자에게 표시
-- Controller : 모델 데이터를 조작
+- Model: 애플리케이션 데이터
+- View: 모델을 사용자에게 표시
+- Controller: 모델 데이터를 조작
 
 ## 구성 요소
 
@@ -23,7 +23,7 @@ layout: editorial
 |   ViewResolver    |                           처리 결과를 보여줄 View를 결정                            |
 |       View        |                                보여줄 응답을 생성                                |
 
-이 중 `DispatcherServlet`이 가장 중요한 역할을 한다.
+이 중 [DispatcherServlet](dispatcher_servlet.md)이 가장 중요한 역할을 한다.
 
 ## Spring MVC Flow
 
