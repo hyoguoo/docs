@@ -10,7 +10,7 @@ JVM을 거치기 때문에 속도가 느릴 수 있다는 단점을 가지고 �
 
 |    Java Application    |
 |:----------------------:|
-| (Windows/Mac/Linux)JVM |
+| JVM(Windows/Mac/Linux) |
 | OS(Windows/Mac/Linux)  |
 |   Computer(Hardware)   |
 
@@ -19,20 +19,20 @@ Java Application은 위와 같이 Computer -> OS -> JVM -> Java Application 레�
 
 ## Java 실행 과정
 
-![img.png](image/java_excution_process.png)
+![java excution process](image/java_excution_process.png)
 
 - Class Loader: 바이트 코드 로딩 / 검증 / 링킹 등 수행
 - Runtime Data Area: 앱 실행을 위해 사용되는 JVM 메모리 영역
 - Execution Engine: 메모리 영역에 있는 데이터를 가져와 해당하는 작업 수행
 
-1. 작성된 Java Source를 Java Compiler를 통해 Java Byte Code로 컴파일
+1. 작성된 Java Source를 Java Compiler를 통해 Java Byte Code로 변환
 2. 컴파일 된 Byte Code를 JVM의 Class Loader에 전달
 3. Class Loader는 Dynamic Loading을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area(JVM Memory)로 전달
 4. Execution Engine이 올라온 Byte Code들을 명령어 단위로 하나씩 가져와서 실행
 
 ## JDK & JRE & JVM
 
-![img.png](image/java_jdk_diagram.png)
+![java jdk diagram](image/java_jdk_diagram.png)
 
 ### JVM(Java Virtual Machine)
 
