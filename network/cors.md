@@ -42,7 +42,7 @@ cross-origin의 종류는 아래로 정의된다.
 
 위의 과정에서 일치한다면 성공적으로 리소스를 받아올 수 있고, 일치하지 않는다면 브라우저는 에러가 발생하여 아래의 에러를 확인할 수 있다.
 
-```shell
+```
 *** has sbeen blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 ```
 
@@ -54,6 +54,8 @@ cross-origin의 종류는 아래로 정의된다.
 
 - `Access-Control-Allow-Origin` : 허용 `origin`
 - `Access-Control-Allow-Methods` : 허용 `method`
+- `Access-Control-Allow-Headers` : 허용 `header`
+- `Access-Control-Max-Age` : preflight 요청 결과를 캐싱할 시간
 
 결과를 성공적으로 확인 후 `cross-origin` 요청을 보내서 그 이후 과정을 진행하게 된다. 때문에 `cross-origin` 요청을 보낼 때 마다 preflight 요청을 보낸다고 생각할 수 있는데,  
 캐싱을 통해 그 결과를 일정 기간 저장시켜 바로 요청을 가능하도록 한다. 캐싱 시간은 서버 쪽 `cross-origin` 설정 중 `maxAge`에 값을 주어 설정할 수 있다.
