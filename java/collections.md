@@ -25,7 +25,7 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 |     Class     |       Base Class       | Base Interface | Duplicate | Order | Sort |         Description         |
 |:-------------:|:----------------------:|:--------------:|:---------:|:-----:|:----:|:---------------------------:|
 |   ArrayList   |      AbstractList      |      List      |     O     |   O   |  X   |         배열 기반의 리스트          |
-|    Vector     |      AbstractList      |      List      |     O     |   O   |  X   |          동기화된 리스트           |
+|    Vector     |      AbstractList      |      List      |     O     |   O   |  X   |    동기화를 지원하는 배열 기반의 리스트     |
 |     Stack     |         Vector         |      List      |     O     |   O   |  X   | Vector의 하위 클래스로 LIFO 구조의 스택 |
 |  LinkedList   | AbstractSequentialList |  List, Deque   |     O     |   O   |  X   |       연결 리스트 기반의 리스트        |
 |  ArrayDeque   |   AbstractCollection   |     Deque      |     O     |   O   |  X   |          배열 기반의 덱           |
@@ -46,11 +46,11 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ### 시간 복잡도
 
-|     Class     | add  |  get   | remove | contains |  size  |
-|:-------------:|:----:|:------:|:------:|:--------:|:------:|
-|   ArrayList   | O(1) |  O(1)  |  O(n)  |   O(n)   |  O(1)  |
-|  LinkedList   | O(1) |  O(n)  |  O(1)  |   O(n)   |  O(1)  |
-|     Stack     | O(1) |  O(1)  |  O(n)  |   O(n)   |  O(1)  |
+|   Class    | add  | get  | remove | contains | size |
+|:----------:|:----:|:----:|:------:|:--------:|:----:|
+| ArrayList  | O(1) | O(1) |  O(n)  |   O(n)   | O(1) |
+| LinkedList | O(1) | O(n) |  O(1)  |   O(n)   | O(1) |
+|   Stack    | O(1) | O(1) |  O(n)  |   O(n)   | O(1) |
 
 ## Queue
 
@@ -62,9 +62,9 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ### 시간 복잡도
 
-|     Class     | add  | remove | contains |  size  |
-|:-------------:|:----:|:------:|:--------:|:------:|
-| PriorityQueue | O(1) |  O(n)  |   O(n)   |  O(1)  |
+|     Class     | add  | remove | contains | size |
+|:-------------:|:----:|:------:|:--------:|:----:|
+| PriorityQueue | O(1) |  O(n)  |   O(n)   | O(1) |
 
 ## Deque
 
@@ -76,9 +76,9 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ### 시간 복잡도
 
-|    Class    | add  | remove | contains |  size  |
-|:-----------:|:----:|:------:|:--------:|:------:|
-| ArrayDeque  | O(1) |  O(1)  |   O(n)   |  O(1)  |
+|   Class    | add  | remove | contains | size |
+|:----------:|:----:|:------:|:--------:|:----:|
+| ArrayDeque | O(1) |  O(1)  |   O(n)   | O(1) |
 
 ## Set
 
@@ -91,10 +91,10 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ### 시간 복잡도
 
-|     Class     | add  | remove | contains |  size  |
-|:-------------:|:----:|:------:|:--------:|:------:|
-|    HashSet    | O(1) |  O(1)  |   O(1)   |  O(1)  |
-| LinkedHashSet | O(1) |  O(1)  |   O(1)   |  O(1)  |
+|     Class     | add  | remove | contains | size |
+|:-------------:|:----:|:------:|:--------:|:----:|
+|    HashSet    | O(1) |  O(1)  |   O(1)   | O(1) |
+| LinkedHashSet | O(1) |  O(1)  |   O(1)   | O(1) |
 
 ## SortedSet
 
@@ -106,9 +106,9 @@ Collection 인터페이스와 달리 Collections static 클래스는 Collection 
 
 ### 시간 복잡도
 
-|    Class    | add  | remove | contains |  size  |
-|:-----------:|:----:|:------:|:--------:|:------:|
-|   TreeSet   | O(1) |  O(1)  |   O(1)   |  O(1)  |
+|  Class  | add  | remove | contains | size |
+|:-------:|:----:|:------:|:--------:|:----:|
+| TreeSet | O(1) |  O(1)  |   O(1)   | O(1) |
 
 ###### 참고자료
 
