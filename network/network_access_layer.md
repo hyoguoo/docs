@@ -87,3 +87,4 @@ TCP/IP 1계층에서 사용되는 네트워크 장비로는 허브(Hub)와 스�
 ###### 참고자료
 
 - [외워서 끝내는 네트워크 핵심이론 - 기초](https://www.inflearn.com/course/네트워크-핵심이론-기초)
+- [현실 세상의 컴퓨터 공학 지식 - 네트워크](https://fastcampus.co.kr/dev_online_newcomputer)
