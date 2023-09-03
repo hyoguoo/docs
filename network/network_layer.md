@@ -33,7 +33,8 @@ layout: editorial
 - Header: 패킷을 전송하기 위한 정보(Source / Destination), 20bytes
 - Payload: 실제 전송할 데이터
 
-L3 IP 패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit)라고 불리며, 일반적으로 1500byte(=약 1.4kb)이고, 최대 64kb까지 가능하다.
+L3 IP 패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit)라고 불리며, 일반적으로 1500byte(=약 1.4kb)이고, 최대 64kb까지 가능하다.  
+더 큰 데이터를 전송하기 위해서는 L3 패킷을 분할하여 전송하는 단편화(Fragmentation)를 수행한다.
 
 ## 127.0.0.1(Localhost)
 
@@ -41,6 +42,13 @@ L3 IP 패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit
 해당 IP에 요청하기 되면 외부 네트워크로부터 격리되며 물리적인 네트워크 인터페이스를 통하지 않고, 컴퓨터 내부에서만 통신이 이루어진다.
 
 ![Loopback Network](image/loopback_network_ipc.png)
+
+## TTL(Time To Live)
+
+> 패킷이 네트워크 상에서 얼마나 오래 살아있을 수 있는지를 나타내는 값으로, L3 패킷의 Header에 존재한다.
+
+TTL은 패킷이 네트워크 장치(라우터)를 통과할 때마다 1씩 감소하는 카운터로, 0이 되면 해당 패킷은 폐기된다.  
+TTL은 패킷이 무한정 네트워크 상에서 돌아다니는 것을 방지하기 위해 존재하며, 0에 도달하면 일반적으로 해당 패킷을 처리하는 네트워크 장치에서 패킷을 폐기하고 ICMP 메시지를 전송한다.
 
 ###### 참고자료
 
