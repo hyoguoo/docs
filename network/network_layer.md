@@ -25,14 +25,15 @@ layout: editorial
 
 ## L3 Packet
 
-> 패킷은 쉽게 생각해서 단위 데이터라고 생각하면 되며, 일반적으로 패킷이라고 하면 L3 Packet을 의미한다.
+> 네트워크 패킷과는 다른 개념으로, 네트워크 패킷은 네트워크를 통해 전송되는 데이터의 단위를 표현하는 용어를 의미하고,  
+> L3 Packet은 네트워크 계층에서 사용하는 데이터 단위를 의미한다.
 
-일반적으로 네트워크에서의 패킷은 L3 Packet이라고 불리며, 개념적으로 봤을 때 단위 데이터를 의미하며, 논리적 구조로 Header와 Payload로 구성되어 있다.
+개념적으로 봤을 때 단위 데이터를 의미하며, 논리적 구조로 Header와 Payload로 구성되어 있다.
 
 - Header: 패킷을 전송하기 위한 정보(Source / Destination), 20bytes
 - Payload: 실제 전송할 데이터
 
-패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit)라고 불리며, 일반적으로 1500byte(=약 1.4kb)이고, 최대 64kb까지 가능하다.
+L3 IP 패킷의 최대 크기(Header + Payload)는 MTU(Maximum Transmission Unit)라고 불리며, 일반적으로 1500byte(=약 1.4kb)이고, 최대 64kb까지 가능하다.
 
 ## 127.0.0.1(Localhost)
 
