@@ -1,7 +1,7 @@
 ---
 description: 단순 지식이나 개념을 정리하여 기록하는 공간입니다.
 cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -183
+coverY: -126.13357194936039
 layout: editorial
 ---
 
@@ -9,27 +9,27 @@ layout: editorial
 
 ### Computer Science
 
-* [Computer Architecture](computer_architecture/README.md)
-* [Operating System](operating_system/README.md)
-* [Network](network/README.md)
-* [Secure](secure/README.md)
+* [Computer Architecture](computer\_architecture/)
+* [Operating System](operating\_system/)
+* [Network](network/)
+* [Secure](secure/)
 
 ### Database
 
-* [MySQL](mysql/README.md)
+* [MySQL](mysql/)
 
 ### Language
 
-* [Java](java/README.md)
+* [Java](java/)
 
 ### Framework
 
-* [Spring](spring/README.md)
+* [Spring](spring/)
 
 ### Design Pattern
 
-* [Object-Oriented Programming](oop/README.md)
+* [Object-Oriented Programming](oop/)
 
 ### ETC
 
-* [Setting](setting/README.md)
+* [Setting](setting/)
