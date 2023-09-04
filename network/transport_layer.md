@@ -26,7 +26,23 @@ IANA(Internet Assigned Numbers Authority)에서 관리하고 아래 링크에서
 ## TCP(Transmission Control Protocol)
 
 TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터 전송을 보장한다.  
-TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.
+TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.  
+컴퓨터는 항상 여러 개의 TCP 커넥션을 유지하고 있는데, 송신지 Port / 수신지 Port / 송신지 IP 주소 / 수신지 IP 주소로 구분하고 유지한다.
+
+### TCP 소켓 프로그래밍
+
+운영체제는 TCP 커넥션 생성과 관련된 여러 기능을 제공하고 있다.
+
+- 연결 되지 않은 익명의 소켓 생성
+- 소켓에 로컬 포트 번호와 인터페이스 할당
+- 로컬의 소켓과 원격의 호스트 및 포트 사이에 TCP 커넥션 생성
+- 커넥션을 받아들이기 위해 로컬 소켓에 허용함을 표시
+- ...
+- TCP 커넥션을 완전히 끊음
+- TCP 커넥션의 입출력만 닫음
+- ...
+
+위 기능을 사용할 수 있는 소켓 API의 다양한 구현체들이 존재하여 현재 대부분 운영체제나 프로그래밍 언어에서 사용할 수 있다.
 
 ### TCP Segment 헤더 구조
 
@@ -49,7 +65,7 @@ TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤�
 ### UDP(User Datagram Protocol)
 
 UDP는 TCP와 비교했을 때 기능이 없는 프로토콜로, 단지 IP 패킷을 캡슐화하는 역할만 수행한다.  
-때문에 포트 정보와 길이, 체크섬(신뢰성과 관련 없는 필드) 정도의 정보만 가지고 있다.
+때문에 포트 정보와 길이, 체크섬(신뢰성과 관련 없는 필드) 정도의 정보만 가지고 있으며, 기능이 필요할 경우 UDP 위에 기능을 추가하여 사용한다.
 
 |            TCP             |          UDP           |
 |:--------------------------:|:----------------------:|
@@ -140,7 +156,22 @@ TCP는 중복된 ACK 세그먼트를 수신했을 때나 타임아웃이 발생�
     - 송신 호스트에서 혼잡 없이 전송할 수 있을 양을 계산하게 되는데, 이를 Congestion Window Size라고 한다.
     - Congestion Window Size는 계속해서 증가하고 감소하는 가변적인 크기이다.(RTT, 패킷 유실 등을 고려)
     - Congestion Window Size와 TCP Segment Header의 Window Size 중 작은 값이 전송할 수 있는 데이터의 크기가 된다.
+    - 느린 시작(Slow Start) / 혼잡 회피(Congestion Avoidance) / 빠른 회복(Fast Recovery) 알고리즘을 통해 혼잡 제어를 수행하게 된다.
+
+### TCP와 HTTP
+
+HTTP는 TCP 바로 위에 있는 계층이기 떄문에 HTTP 트랜잭션의 성능은 그 아래 계층인 TCP 성능에 영향을 받게 된다.  
+대부분 HTTP 지연의 대부분은 TCP의 아래와 같은 특징 때문에 발생하게 된다.
+
+- TCP 커넥션의 핸드셰이크 설정
+- TCP 재전송 기반의 오류 제어
+- 인터넷 혼잡을 제어하기 위한 TCP의 혼잡 제어
+- 네트워크 효율을 위해 TCP 세그먼트보다 작은 여러 개의 데이터를 하나의 TCP 세그먼트로 전송하기 위한 Nagle 알고리즘
+- TIME_WAIT 지연과 포트 고갈
+
+결국 대부분이 신뢰성과 연결성을 보장하는 기능이지만, HTTP에서는 성능 저하를 일으키게 된다.
 
 ###### 참고자료
 
 - [현실 세상의 컴퓨터 공학 지식 - 네트워크](https://fastcampus.co.kr/dev_online_newcomputer)
+- [HTTP 완벽 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=HTTP+완벽+가이드&isbn=9788966261208&cipId=200309770%2C4096969)
