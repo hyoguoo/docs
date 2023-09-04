@@ -77,7 +77,7 @@
   * [국제화(internationalization)](network/internationalization.md)
   * [메서드(Method)](network/method.md)
   * [네트워크 계층 (Network Layer) - OSI 3 Layer](network/network\_layer.md)
-  * [물리 계층 (Physical Layer) - OSI 2 Layer](network/physical\_layer.md)
+  * [물리 계층 (Physical Layer) - OSI 2 Layer](network/physical-layer-osi-2-layer.md)
   * [프락시(Proxy)](network/proxy.md)
   * [TCP - 전송 제어 프로토콜(Transmission Control Protocol)](network/tcp.md)
   * [TCP/IP 4 Layer](network/tcp\_ip\_4\_layer.md)
