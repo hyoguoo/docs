@@ -20,7 +20,7 @@ layout: editorial
 |       Registered port        | 1024 ~ 49151  | 위의 포트보다는 덜 범용적이지만 흔히 사용되는 포트(특정 기업의 애플리케이션) |
 |         Dynamic port         | 49152 ~ 65535 |       사용자가 자유롭게 할당 가능한 포트(크롬 같은 브라우저)       |
 
-IANA(Internet Assigned Numbers Authority)에서 관리하고 아래 링크에서 확인할 수 있다.  
+IANA(Internet Assigned Numbers Authority)에서 관리하고 있으며, 포트 번호에 따라 특정 프로토콜이 할당되어 있다.  
 [IANA](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml)
 
 ## TCP(Transmission Control Protocol)
@@ -101,8 +101,7 @@ TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지�
     - 호스트 B는 ACK를 받은 뒤에 바로 연결 해제
     - 호스트 A는 ACK를 보낸 뒤 일정 시간을 기다린 뒤 연결 해제
 
-연결 수립과 데이터 송수신, 연결 해제 과정에 따라 TCP는 다양한 상태를 가지게 된다.(Stateful)  
-이러한 상태를 표현하기 위해 TCP는 상태(state)를 가지고 있다.
+연결 수립과 데이터 송수신, 연결 해제 과정에 따라 TCP는 다양한 상태를 가지게 된다.(Stateful)
 
 - TCP 상태
 
