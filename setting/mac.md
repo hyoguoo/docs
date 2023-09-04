@@ -9,7 +9,7 @@ layout: editorial
 - System Settings > Keyboard > Keyboard Shortcuts > App Shortcuts -> + -> `Application` - `Menu Title`
 - 메뉴에 명시된 글씨와 동일하게 입력
 
-![img.png](image/menu-shortcut.png)
+![img.png](image/menu_shortcut.png)
 
 ## `Karabiner-Elements` 활용한 키 할당 변경
 

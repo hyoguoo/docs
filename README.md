@@ -9,27 +9,27 @@ layout: editorial
 
 ### Computer Science
 
-* [Computer Architecture](computer\_architecture/)
-* [Operating System](operating\_system/)
-* [Network](network/)
-* [Secure](secure/)
+* [Computer Architecture](computer_architecture/README.md)
+* [Operating System](operating_system/README.md)
+* [Network](network/README.md)
+* [Secure](secure/README.md)
 
 ### Database
 
-* [MySQL](mysql/)
+* [MySQL](mysql/README.md)
 
 ### Language
 
-* [Java](java/)
+* [Java](java/README.md)
 
 ### Framework
 
-* [Spring](spring/)
+* [Spring](spring/README.md)
 
 ### Design Pattern
 
-* [Object-Oriented Programming](oop/)
+* [Object-Oriented Programming](oop/README.md)
 
 ### ETC
 
-* [Setting](setting/)
+* [Setting](setting/README.md)

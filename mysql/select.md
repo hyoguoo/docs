@@ -115,7 +115,7 @@ GROUP BY 절과 ORDER BY 절에 명시된 컬럼의 순서와 내용이 모두 �
 
 위의 규칙이 모두 적용되며, 그 흐름은 아래와 같다.
 
-![index-flow-chart.png](image/index-flow-chart.png)
+![index-flow-chart.png](image/index_flow_chart.png)
 
 ## WHERE 절 비교 조건 사용 시 주의사항
 
