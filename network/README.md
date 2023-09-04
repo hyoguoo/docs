@@ -7,8 +7,6 @@ layout: editorial
 * [TCP/IP 4계층](tcp_ip_4_layer.md)
   * [Network Access Layer - TCP/IP L1](network_access_layer.md)
   * [Network Layer - TCP/IP L2](network_layer.md)
-* [IP](ip.md)
-* [PORT](port.md)
 * [TCP](tcp.md)
 * [URI](uri.md)
 * HTTP
