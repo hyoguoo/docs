@@ -48,7 +48,7 @@ TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터
 
 ### TCP Segment 헤더 구조
 
-![TCP Segment Header([출처](https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94))](image/tcp_segment_header.png)
+![TCP Segment Header(https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94)](image/tcp_segment_header.png)
 
 - Source Port: 송신지 포트 번호
 - Destination Port: 수신지 포트 번호
@@ -125,7 +125,7 @@ TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지�
 
 상태에 따른 세그먼트 흐름은 아래와 같다.
 
-![TCP State Diagram([출처](https://en.wikipedia.org/wiki/Transmission_Control_Protocol))](image/tcp_state_diagram.png)
+![TCP State Diagram(https://en.wikipedia.org/wiki/Transmission_Control_Protocol)](image/tcp_state_diagram.png)
 
 ### TCP가 신뢰성을 보장하는 방법
 
