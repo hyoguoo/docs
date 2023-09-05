@@ -26,8 +26,10 @@ IANA(Internet Assigned Numbers Authority)에서 관리하고 있으며, 포트 �
 ## TCP(Transmission Control Protocol)
 
 TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터 전송을 보장한다.  
-TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.  
-컴퓨터는 항상 여러 개의 TCP 커넥션을 유지하고 있는데, 송신지 Port / 수신지 Port / 송신지 IP 주소 / 수신지 IP 주소로 구분하고 유지한다.
+
+- TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.
+- 세그먼트는 최대 크기가 MSS(Maximum Segment Size)로 제한되는데, 더 큰 데이터를 전송하고자 할 경우 여러 개의 세그먼트로 나누어 전송하게 된다.
+- 보통 여러 개의 TCP 커넥션을 유지하고 있는데, 송신지 Port / 수신지 Port / 송신지 IP 주소 / 수신지 IP 주소로 구분하고 유지한다.
 
 ### TCP 소켓 프로그래밍
 
@@ -55,10 +57,11 @@ TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤�
     - SYN: 연결 수립을 위한 비트
     - FIN: 연결을 끝내기 위한 비트
     - 그 외: URG / PSH / RST ...
-- Window Size: 수신지 윈도우 크기(한 번에 수신 받고자 하는 크기)
+- Window Size: 수신지 윈도우 크기(한 번에 수신 받고자 하는 크기)로 연결 과정에서 설정되며, 가변적으로 변경될 수 있다.(MSS와는 다른 개념)
 
-세그먼트는 최대 크기가 MSS(Maximum Segment Size)로 제한되는데, 더 큰 데이터를 전송하고자 할 경우 여러 개의 세그먼트로 나누어 전송하게 된다.  
-나뉘어진 세그먼트의 순서를 보장하기 위해 Sequence Number를 통해 순서를 붙이고, Acknowledgement Number를 통해 수신지에서 다음 세그먼트를 수신받길 기대하는 바이트 번호를 전송한다.
+### TCP Segment Sequence
+
+TCP는 전송 순서를 보장하기 위해 Sequence Number를 통해 순서를 붙이고, Acknowledgement Number를 통해 수신지에서 다음 세그먼트를 수신받길 기대하는 바이트 번호를 전송한다.
 
 ![Segment Sequence](image/segment_sequence.png)
 
