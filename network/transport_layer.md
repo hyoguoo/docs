@@ -25,7 +25,7 @@ IANA(Internet Assigned Numbers Authority)에서 관리하고 있으며, 포트 �
 
 ## TCP(Transmission Control Protocol)
 
-TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터 전송을 보장한다.  
+TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터 전송을 보장한다.
 
 - TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.
 - 세그먼트는 최대 크기가 MSS(Maximum Segment Size)로 제한되는데, 더 큰 데이터를 전송하고자 할 경우 여러 개의 세그먼트로 나누어 전송하게 된다.
@@ -47,6 +47,8 @@ TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터
 위 기능을 사용할 수 있는 소켓 API의 다양한 구현체들이 존재하여 현재 대부분 운영체제나 프로그래밍 언어에서 사용할 수 있다.
 
 ### TCP Segment 헤더 구조
+
+![TCP Segment Header([출처](https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94))](image/tcp_segment_header.png)
 
 - Source Port: 송신지 포트 번호
 - Destination Port: 수신지 포트 번호
