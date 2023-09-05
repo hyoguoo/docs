@@ -121,6 +121,10 @@ TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지�
 
 ![TCP Connection Flow](image/tcp_connection_flow.png)
 
+상태에 따른 세그먼트 흐름은 아래와 같다.
+
+![TCP State Diagram([출처](https://en.wikipedia.org/wiki/Transmission_Control_Protocol))](image/tcp_state_diagram.png)
+
 ### TCP가 신뢰성을 보장하는 방법
 
 신뢰성 있는 데이터 전송을 보장하기 위해 재전송 기반의 오류 제어, 흐름 제어 / 혼잡 제어를 사용한다.  
