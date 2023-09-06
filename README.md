@@ -1,7 +1,7 @@
 ---
 description: 단순 지식이나 개념을 정리하여 기록하는 공간입니다.
 cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -126
+coverY: -191.6304347826087
 layout: editorial
 ---
 
