@@ -51,6 +51,73 @@ DNS 서버는 계층 구조로 구성되어 있으며, 사용자가 접속한 �
 위의 예시는 반복적 질의(Iterative Query) 방식으로 진행되었는데,  
 질의를 받은 DNS 서버가 다시 하위 DNS 서버에게 질의를 하는 재귀적 질의(Recursive Query) 방식도 존재한다.
 
+## URI(Uniform Resource Identifier)
+
+URI(Uniform Resource Identifier)는 웹 애플리케이션과 네트워크에서 리소스를 식별하는 데 사용되는 문자열이다.  
+웹 브라우징, API 호출, 데이터 전송 등 다양한 웹 애플리케이션과 관련된 작업에서 중요한 역할을 한다.
+
+### URI 구성 요소
+
+```
+          userinfo       host      port
+          ┌──┴───┐ ┌──────┴──────┐ ┌┴┐
+  https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
+  └─┬─┘   └─────────────┬────────────┘└───────┬───────┘ └────────────┬────────────┘ └┬┘
+  scheme          authority                  path                  query           fragment
+
+  urn:oasis:names:specification:docbook:dtd:xml:4.1.2
+  └┬┘ └──────────────────────┬──────────────────────┘
+  scheme                    path
+```
+
+|    문법    |             내용              |                       설명                       |
+|:--------:|:---------------------------:|:----------------------------------------------:|
+|  scheme  | http, https, ftp, file, ... |             리소스에 접근하기 위한 프로토콜을 가리킴             |
+| userinfo |        user:password        |     서버에 접근할 때 사용자 정보(FTP 같은 몇몇 프로토콜에서 사용)      |
+|   host   |       www.google.com        |                  호스트명 또는 IP주소                  |
+|   port   |        80, 443, 8080        |              접근 포트(일부 port 생략 가능)              |
+|   path   |           /search           |                 리소스 경로, 계층적 구조                 |
+|  query   |       ?q=hello&hl=ko        | key=value 형태, `?`로 시작 `&`로 구분, query parameter |
+| fragment |          #bookmark          | html 내부 북마크, id(서버에 전송하지 않음)로 리소스의 특정 부분을 가리킴  |
+
+### URI/URL/URN 단어 뜻
+
+- `https://www.example.com:443/index.html`: HTTPS 프로토콜을 사용하는 리소스의 URI
+- `ftp://ftp.example.net/files/documents/report.pdf`: FTP 프로토콜을 사용하는 리소스의 URI
+- `urn:isbn:0451450523`: URN(Uniform Resource Name)을 사용하는 리소스의 URI
+
+![URI Diagram](image/uri_diagram.png)
+
+- Uniform: 리소스 식별하는 통일된 방식
+- Resource: 자원, URI로 식별할 수 있는 모든 것(제한 없음)
+- Identifier: 다른 항목과 구분하는데 필요한 정보
+- Locator: 리소스가 있는 위치를 지정
+- Name: 리소스에 이름을 부여
+
+결국 URL과 URN을 아래와 같이 정의할 수 있다.
+
+- URL: 위치 기반 자원 식별
+- URN: 이름 기반 자원 식별
+
+### URI 인코딩
+
+> 모든 인터넷 프로토콜로 URL을 전송할 수 있어야 했으며, 안전하게 전송할 수 있는 문자는 이진 데이터와 알파벳을 한정적이었으나 이를 해결하기 위해 안전하지 않은 문자를 인코딩하는 방법이 생겨났다.
+
+역사적으로 컴퓨터 애플리케이션이 US-ASCII 문자 집합을 사용해왔고, 이는 7비트로 표현되는 128개의 문자를 표현할 수 있었다.  
+128개의 문자로는 영어와 숫자, 일부 특수문자만 표현할 수 있었고,한글과 같은 다른 언어나 특수문자를 사용하기 위해 인코딩을 해야 했다.
+
+- 인코딩 체계: 인코딩된 문자는 %로 시작하고, 그 뒤에 16진수로 표현된 문자의 아스키 코드 값이 나온다.(예시: `~` -> `126(0x7E)` -> `%7E`)
+- 문자 제한: 몇몇 문자는 URL 내에서 이미 특별한 의미로 예약어로 사용되고 있기 때문에 이 문자들은 인코딩을 해야 한다.
+    - 그 외에도 특정 포로토콜에서 사용하는 문자나 출력 가능한 문자가 아닌 문자들은 모두 인코딩을 해야 한다.  
+      (예시: `?`, `#`, `&`, `=`, `+`, `/`, `:`, `;`, `@`, `!`, `$`, `'`, `(`, `)`, `*`, `,`, `[`, `]`, ` ` 등)
+
+### URL의 한계
+
+URL은 인터넷에 있는 리소스를 나타내는 유일한 방법이지만, URL만 가지고는 리소스를 식별하는데 한계가 있다.  
+예를들어 리소스가 옮겨지게 된다면 예전 시점에 기존 리소스를 가리키는 URL은 더 이상 유효하지 않게 되어 원래의 리소스를 찾을 수 없게 된다.  
+이를 해결하기 위해 URN을 도입하는 등의 시도가 있었지만, 이미 널리 사용되고 있는 URL을 대체하기 위해서는 많은 시간이 필요하고 많은 비용이 들어가기 때문에 사용하지 않게 되었다.
+
 ###### 참고자료
 
 - [현실 세상의 컴퓨터 공학 지식 - 네트워크](https://fastcampus.co.kr/dev_online_newcomputer)
+- [HTTP 완벽 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=HTTP+완벽+가이드&isbn=9788966261208&cipId=200309770%2C4096969)

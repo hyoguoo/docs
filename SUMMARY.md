@@ -82,7 +82,6 @@
   * [TCP/IP 4 Layer](network/tcp\_ip\_4\_layer.md)
   * [전송 계층 (Transport Layer) - TCP/IP Layer 3](network/transport\_layer.md)
   * [터널(Tunnel)](network/tunnel.md)
-  * [URI(Uniform Resource Identifier)](network/uri.md)
 * [Object-Oriented Programming](oop/README.md)
   * [추상화](oop/abstract.md)
   * [기능과 구조](oop/function\_and\_structure.md)
