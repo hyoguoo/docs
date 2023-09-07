@@ -75,7 +75,6 @@
   * [HTTP/2.0](network/http2.md)
   * [HTTP Message](network/http\_message.md)
   * [HTTPS](network/https.md)
-  * [국제화(internationalization)](network/internationalization.md)
   * [메서드(Method)](network/method.md)
   * [네트워크 엑세스 계층(Network Access Layer) - TCP/IP Layer 1](network/network\_access\_layer.md)
   * [네트워크 계층 (Network Layer) - TCP/IP Layer 2](network/network\_layer.md)

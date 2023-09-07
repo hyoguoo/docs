@@ -19,7 +19,6 @@ layout: editorial
       * [HTTP/2.0](http2.md)
       * [쿠키](cookie.md)
       * [인코딩](encoding.md)
-      * [국제화](internationalization.md)
 * 통신 중개
   * [프록시](proxy.md)
   * [게이트웨이](gateway.md)
