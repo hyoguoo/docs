@@ -15,7 +15,7 @@ HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 �
 - HTTP/2: HTTP/1.1의 성능 문제를 보완하기 위해 설계된 버전으로, 헤더 압축, 스트림 다중화 등으로 성능을 개선
 - HTTP/3: TCP 대신 UDP 프로토콜 위에서 작동하며, 기존 TCP 기반의 문제점을 개선하여 더 빠른 성능 제공
 
-## 기반 프로토콜
+## 전송 계층과 HTTP
 
 - TCP: HTTP/1.1, HTTP/2
 - UDP: HTTP/3
@@ -25,11 +25,12 @@ HTTP/3는 UDP 프로토콜 위에 애플리케이션 레벨에서 성능을 최�
 
 ## HTTP 특징
 
-- `Client` <---> `Server` 존재
-- `request`를 보내면 `response`로 되돌아옴
-- `request` 없이는 `response` 없음
-- 상태를 유지하지 않는 프로토콜(`stateless`)
+- 요청-응답 기반의 `Client`-`Server` 구조를 가짐
+- `request`를 보내면 `response`로 돌아오며, `request` 없이는 `response`가 존재하지 않음
+- 상태를 유지하지 않음(`stateless`)
+- HTMP / 이미지 / 영상 / 파일 / JSON / XML 등 다양한 데이터를 전송 가능(미디어 독립적)
 - 비연결성(`connectionless`)
+- 지속 연결(`Keep-Alive`)을 통해 하나의 TCP 커넥션 여러 개의 요청과 응답을 처리(Three-way Handshake를 한 번만 하면 되기 때문에 성능 향상)
 - `GET` / `POST` / `PUT` / `HEAD` / `DELETE` / `OPTIONS` 메서드 존재
 
 ## 전송 방식
