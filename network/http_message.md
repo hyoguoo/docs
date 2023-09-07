@@ -93,6 +93,18 @@ CRLF
     - Entity Header: 엔티티 바디에 대한 정보
     - Extension Header: 명세에 정의되지 않은 새로운 헤더
 
+대표적인 헤더 필드는 아래와 같다.
+
+- Host: 요청한 호스트의 이름 + 포트 번호
+- Date: 메시지가 생성된 날짜와 시간
+- Referer: 현재 요청한 페이지의 이전 페이지
+- User-Agent: 클라이언트의 애플리케이션 정보
+- Server: 서버의 소프트웨어 정보
+- Location: 리다이렉트시 이동할 주소
+- Content-Type: 엔티티 바디의 데이터 타입
+- Content-Length: 엔티티 바디의 크기
+- Connection: 클라이언트와 서버 간의 커넥션 관리 여부(keep-alive/close)
+
 ### Message Body(Entity Body)
 
 실제 전송할 데이터로, byte로 표현할 수 있는 모든 데이터를 전송할 수 있다.  
