@@ -24,6 +24,8 @@ layout: editorial
 <message-body>
 ```
 
+** CRLF: Carriage Return Line Feed, 즉 `\r\n`을 의미하며 쉽게 말해 줄바꿈을 의미
+
 - HTTP Request Message 구조 예시
 
 ```http request
