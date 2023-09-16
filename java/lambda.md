@@ -57,7 +57,7 @@ class Example {
 @FunctionalInterface
 public interface Comparator<T> {
     int compare(T o1, T o2);
-    
+
     // ...
 
     default Comparator<T> reversed() {
@@ -164,19 +164,26 @@ class Example {
 그 외에도 `BiFunction<T, U, R>`과 `BiPredicate<T, U>` 등과 같은 두 개 이상의 매개변수를 가지는 함수형 인터페이스도 있으며,  
 `UnaryOperator<T>`와 `BinaryOperator<T>`는 매개변수와 반환값의 타입이 같는 함수형 인터페이스도 존재한다.
 
-## 메서드 참조
+## 메서드 참조(Method Reference)
 
-메서드 참조는 람다식으로 표현할 수 있는 익명 클래스의 인스턴스를 생성하는 코드를 더 간결하게 표현할 수 있는 방법이다.
+메서드 참조는 람다식으로 표현할 수 있는 익명 클래스의 인스턴스를 생성하는 코드를 더 간결하게 표현할 수 있는 방법이다.  
+전달 받은 인자를 그대로 다른 메서드로 전달하는 경우에 사용할 수 있다.
 
 ```java
+
+@FunctionalInterface
+interface MyFunction {
+    void print(String str);
+}
+
 class Example {
     public static void main(String[] args) {
         // 람다식
-        MyFunction f1 = () -> System.out.println("Hello");
+        MyFunction f1 = (str) -> System.out.println(str);
         // 메서드 참조
         MyFunction f2 = System.out::println;
-        f1.run();
-        f2.run();
+        f1.print("Hello World!");
+        f2.print("Hello World!");
     }
 }
 ```
