@@ -68,44 +68,38 @@ public interface Comparator<T> {
 }
 ```
 
-### 매개변수와 반환 타입
+## 반환과 매개변수
 
-메서드의 매개변수가 `MyFunction` 타입인 경우 해당 메서드를 호출할 때 람다식을 참조하는 참조변수를 매개변수로 넘겨주면 된다.
+메서드의 매개변수가 함수형 인터페이스인 경우 람다식을 매개변수로 전달할 수 있다.
 
 ```java
-interface MyFunction {
-    void myMethod();
+interface MyConsumer {
+    void accept(String str);
 }
 
 class Example {
     public static void main(String[] args) {
-        MyFunction f = () -> System.out.println("Hello");
-        method(f);
-
-        method(() -> System.out.println("Hello")); // 직접 람다식을 매개변수로 지정하는 방법
+        MyConsumer c = str -> System.out.println(str);
+        doSomething(5, c);
     }
 
-    static void method(MyFunction f) {
-        f.myMethod();
+    static void doSomething(int n, MyConsumer c) {
+        for (int i = 0; i < n; i++) {
+            c.accept("Hello" + i);
+        }
     }
 }
 ```
 
-그리고 반환타입이 `MyFunction` 타입인 경우에도 마찬가지로 람다식을 반환하면 된다.
+그리고 반환타입이 함수형 인터페이스인 경우 람다식으로 반환할 수 있다.
 
 ```java
-
 @FunctionalInterface
 interface MyFunction {
     void run();
 }
 
 class Example {
-    // 매개변수 타입이 MyFunction인 메서드
-    public static void execute(MyFunction f) {
-        f.run();
-    }
-
     // 반환 타입이 MyFunction인 메서드
     static MyFunction getMyFunction() {
         MyFunction f = () -> System.out.println("Hello");
@@ -113,22 +107,9 @@ class Example {
     }
 
     public static void main(String[] args) {
-        // 람다식을 참조변수에 대입
-        MyFunction f1 = () -> System.out.println("f1.run");
-        // 익명 클래스를 참조변수에 대입
-        MyFunction f2 = new MyFunction() {
-            public void run() {
-                System.out.println("f2.run");
-            }
-        };
-        MyFunction f3 = getMyFunction();
+        MyFunction f = getMyFunction();
 
-        f1.run();
-        f2.run();
-        f3.run();
-
-        execute(f1);
-        execute(() -> System.out.println("run"));
+        f.run(); // Hello
     }
 }
 ```
