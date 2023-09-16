@@ -10,31 +10,19 @@ layout: editorial
 
 ## 함수형 인터페이스(Functional Interface)
 
-람다식은 메서드와 비슷한 형태로 작성되지만, 메서드가 아니며 익명 클래스의 객체와 동등하게 표현할 수 있다.  
-람다식으로 정의된 익명 객체의 메서드를 호출하기 위해서는 이미 알고 있는 것처럼 참조변수가 있어야 하니 익명 객체 주소를 저장할 참조변수가 필요하다.
-
-```java
-class Example {
-    public static void main(String[] args) {
-        MyFunction f = (int a, int b) -> a > b ? a : b;
-    }
-}
-```
-
-하지만 여기서 참조변수 f의 타입으로 람다식과 일치하는 메서드를 가지고 있는 클래스 또는 인터페이스여야 한다.
+함수형 인터페이스는 단 하나의 추상 메서드를 가지는 인터페이스를 말한다.  
+일반적으로 인터페이스를 구현한 익명 클래스의 객체는 다음과 같이 생성할 수 있다.
 
 ```java
 interface MyFunction {
     int max(int a, int b);
 }
-```
 
-이 인터페이스를 구현한 익명 클래스의 객체는 다음과 같이 생성할 수 있다.
 
-```java
 class Example {
     public static void main(String[] args) {
         MyFunction f = new MyFunction() {
+            @Override
             public int max(int a, int b) {
                 return a > b ? a : b;
             }
@@ -44,7 +32,7 @@ class Example {
 }
 ```
 
-위 코드의 메서드 `max()`는 람다식 `(a, b) -> a > b ? a : b`와 동일하기에 라담식으로 대체하면 아래와 같이 된다.
+위 코드의 메서드 `max()` 메서드를 람다식으로 아래와 같이 표현할 수 있다.
 
 ```java
 class Example {
@@ -55,27 +43,28 @@ class Example {
 }
 ```
 
-이처럼 `MyFunction` 인터페이스를 구현한 익명 클래스의 객체를 람다식으로 대체할 수 있는 이유는  
-람다식이 실제로 익명 객체로 구현되어 있고 `MyFunction` 인터페이스의 `max()`와 람다식의 매배변수의 타입/개수/반환타입이 일치하기 때문이다.  
-이처럼 하나의 메서드가 선언된 인터페이스를 정의해 람다식을 다루는 것은 기존 자바의 규칙을 어기지 않는 범위에서 구현이 가능해진다.  
-그래서 인터페이스를 통해 람다식을 다루기로 결정되었으며 이를 함수형 인터페이스(`Functional Interface`)라고 한다.
+이처럼 `MyFunction` 인터페이스를 구현한 익명 클래스의 객체를 람다식으로 대체할 수 있는 이유는 구현한 인터페이스가 함수형 인터페이스이기 때문이다.  
+함수형 인터페이스가 되기 위한 조건은 default 메서드나 static 메서드를 가질 수 있지만, 구현해야 할 추상 메서드는 하나만 존재해야 한다.  
+결국 구현해야 할 추상 메서드가 하니이기 때문에 람다식을 통해 익명 클래스의 객체를 생성할 수 있는 것이다.
+
+### @FunctionalInterface
+
+`@FunctionalInterface` 어노테이션은 추상 메서드가 하나만 존재하는지 컴파일러가 체크하도록 해주는 역할을 하여 함수형 인터페이스를 올바르게 정의했는지 확인할 수 있다.  
+아래는 실제 Comparator 인터페이스의 정의이다.
 
 ```java
 
-@FunctionalInterface // 함수형 인터페이스라는 것을 명시적으로 알려주는 어노테이션으로 컴파일러 함수형 인터페이스를 올바르게 정의했는지 검사해준다.
-interface MyFunction {
-    // 여기서 함수형 인터페이스에는 오직 하나의 추상 메서드만 정의되어 있어야 한다.
-    int max(int a, int b);
+@FunctionalInterface
+public interface Comparator<T> {
+    int compare(T o1, T o2);
+    
+    // ...
 
-    // default 메서드는 추상 메서드가 아니기 때문에 개수 제약이 없다.
-    default void printDefault() {
-        System.out.println("Hello");
+    default Comparator<T> reversed() {
+        // ... 구현 내용
     }
 
-    // static 메서드는 추상 메서드가 아니기 때문에 개수 제약이 없다.
-    static void printStatic() {
-        System.out.println("Hello2");
-    }
+    // 그 외 default / static 메서드
 }
 ```
 
