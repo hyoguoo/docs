@@ -116,9 +116,7 @@ class Example {
 
 ## java.util.function 패키지
 
-일반적으로 자주 쓰이는 형식의 메서드를 함수형 인터페이스로 미리 정의해놓은 패키지로 가능하면 미리 정의된 함수형 인터페이스를 사용하는 것이 좋다.
-
-- 자주 쓰이는 함수형 인터페이스
+일반적으로 자주 쓰이는 형식의 메서드를 함수형 인터페이스들을 미리 정의해놓은 패키지로 자주 쓰이는 함수형 인터페이스는 아래와 같다.
 
 |       인터페이스        |        메서드        | 매개변수 |   반환값   |
 |:------------------:|:-----------------:|:----:|:-------:|
@@ -128,16 +126,38 @@ class Example {
 |   Function<T, R>   |   R apply(T t)    |  T   |    R    |
 |    Predicate<T>    | boolean test(T t) |  T   | boolean |
 
-이중 `Predicate<T>`는 반환타입이 `boolean`으로 조건식을 람다식으로 표현하는데 사용된다.
+위 인터페이스 중 `Function<T, R>`과 `Predicate<T>`를 활용한 예시는 아래와 같다.
 
 ```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 class Example {
     public static void main(String[] args) {
-        Predicate<String> isEmptyStr = s -> s.length() == 0;
-        String s = "";
-        if (isEmptyStr.test(s)) {
-            System.out.println("s는 빈 문자열입니다.");
-        }
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
+
+        // Predicate: 문자열의 길이가 4보다 큰지 확인
+        Predicate<String> lengthGreaterThan4 = s -> s.length() > 4;
+
+        // Function: 문자열을 대문자로 변환
+        Function<String, String> toUpperCase = s -> s.toUpperCase();
+
+        // 문자열 길이가 4보다 큰 이름을 필터링하고 대문자로 변환
+        List<String> result = names.stream()
+                .filter(lengthGreaterThan4)
+                .map(toUpperCase)
+                .collect(Collectors.toList());
+
+        // 위 코드를 람다식으로 표현한 경우 아래와 같다.
+//        List<String> result = names.stream()
+//                .filter(s1 -> s1.length() > 4)
+//                .map(s -> s.toUpperCase())
+//                .collect(Collectors.toList());
+
+        System.out.println(result);
     }
 }
 ```
