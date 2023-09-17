@@ -20,6 +20,8 @@ class Box<T> {
 }
 ```
 
+위에 선언 된 클래스를 아래와 같이 설명할 수 있다.
+
 - Box<T> : 제네릭 클래스
 - T : 제네릭 타입 파라미터
     - T를 타입 변수(`type variable`)라고 하며, 다른 것을 사용해도 된다.(E, K, V, N, S, U, T, R 등)
@@ -40,7 +42,7 @@ class Box<T> {
 }
 ```
 
-그리고 제네릭 배열 타입의 참조변수를 선언하는 것은 가능하지만 제네릭 타입의 배열을 생성하는 것도 불가능하다.
+그리고 제네릭 배열 타입의 참조변수를 선언하는 것은 가능하지만 제네릭 타입의 배열을 생성하는 것은 불가능하다.
 
 ```java
 class Box<T> {
@@ -52,9 +54,18 @@ class Box<T> {
 }
 ```
 
-new 연산자는 컴파일 시점에 타입 T가 정확히 알아야하지만 제네릭 타입의 배열을 생성할 때는 타입 T가 정확히 알 수 없기 때문이다.  
-만약 제네릭 배열을 생성해야한다면 `Reflection API`의 `newInstance()`와 같은 동적으로 객체를 생성하는 메서드로 배열을 생성하거나  
-Object 배열을 생성해서 복사한 다음에 `T[]`로 형변환하면 된다.
+new 연산자는 컴파일 시점에 타입 T가 정확히 알아야 하는데, 생성 시점에는 타입 T가 무엇인지 알 수 없기 때문에 불가능하다.  
+만약 배열을 생성하고 싶다면 아래와 같이 복사를 한 뒤 형변환 하여 사용하는 방법이 있다.
+
+```java
+class Box<T> {
+    T[] itemArr;
+
+    T[] toArray() {
+        return (T[]) Arrays.copyOf(itemArr, itemArr.length);
+    }
+}
+```
 
 ## 제네릭 클래스 생성과 사용
 
@@ -74,7 +85,7 @@ class Box<T> {
 public class Main {
     public static void main(String[] args) {
         Box<Apple> appleBox = new Box<Apple>();
-        Box<Apple> Box = new Box<>();
+        Box<Apple> Box = new Box<>(); // 타입 추론에 의해 생략 가능
         Box<Apple> grapeBox = new Box<Grape>(); // 컴파일 에러
 
     }
@@ -82,7 +93,8 @@ public class Main {
 ```
 
 - 제네릭 클래스의 인스턴스를 생성할 때는 타입 변수에 대입할 실제 타입을 지정해야 한다.
-- 참조 변수와 생성자에 대입된 타입이 일치해야하며 생략 가능하다.
+- 참조 변수와 생성자에 대입된 타입이 일치해야하며, 일치하지 않으면 컴파일 에러가 발생한다.
+- 타입을 생략하면 컴파일러가 코드에서 타입 정보를 추론하고 자동으로 설정해준다.(= 타입 추론)
 
 ## 제한된 제네릭 클래스
 
@@ -162,7 +174,7 @@ class Juicer {
         return new Juice(tmp);
     }
 
-    // 컴파일 에러
+    // 제네릭 타입이 다르더라도 오버로딩이 성립하지 않아 컴파일 에러
     static Juice makeJuice(FruitBox<Apple> box) {
         String tmp = "";
         for (Fruit f : box.getList()) tmp += f + " ";
@@ -249,16 +261,20 @@ public class Main {
         System.out.println("b E Type : " + b.get().getClass().getName()); // b E Type : java.lang.Integer
 
         // 제네릭 메소드 Integer
-        System.out.println("<T> returnType : " + a.genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer
+        System.out.println("<T> returnType : " + a.<Integer>genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer
+        System.out.println("<T> returnType : " + a.genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer, 타입 추론에 의해 생략 가능
         // 제네릭 메소드 String
-        System.out.println("<T> returnType : " + a.genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String
+        System.out.println("<T> returnType : " + a.<String>genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String
+        System.out.println("<T> returnType : " + a.genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String, 타입 추론에 의해 생략 가능
         // 제네릭 메소드 ClassName b
-        System.out.println("<T> returnType : " + a.genericMethod(b).getClass().getName()); // <T> returnType : ClassName
+        System.out.println("<T> returnType : " + a.<ClassName>genericMethod(b).getClass().getName()); // <T> returnType : ClassName
+        System.out.println("<T> returnType : " + a.genericMethod(b).getClass().getName()); // <T> returnType : ClassName, 타입 추론에 의해 생략 가능
     }
 }
 ```
 
-위와 같이 구현을 하게되면 클래스에서 지정한 제네릭 타입과 별도로 메서드에서 지정한 제네릭 타입을 사용할 수 있다.
+위와 같이 구현을 하게되면 클래스에서 지정한 제네릭 타입과 별도로 메서드에서 지정한 제네릭 타입을 사용할 수 있다.  
+위 예시에선 넘겨받은 인자를 통해 타입을 추론할 수 있기 때문에 제네릭 타입을 생략할 수 있다.
 
 ### static
 
