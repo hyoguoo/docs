@@ -31,7 +31,7 @@ class Tv extends Product {
 
 class Example {
     public static void main(String[] args) {
-        Product product = new Product(); // Product 클래스의 인스턴스 생성
+        Product product = new Product(100); // Product 클래스의 인스턴스 생성
         Tv tv = new Tv(); // Tv 클래스의 인스턴스 생성
         Product product2 = new Tv(); // Tv 클래스의 인스턴스를 Product 클래스 타입의 참조변수에 저장, Tv 인스턴스의 모든 멤버 사용 불가능
         Tv tv2 = new Product(); // 컴파일 에러
@@ -69,7 +69,7 @@ class Tv extends Product {
 
 class Example {
     public static void main(String[] args) {
-        Product product = new Product(); // Product 클래스의 인스턴스 생성
+        Product product = new Product(100); // Product 클래스의 인스턴스 생성
         Tv tv = new Tv(); // Tv 클래스의 인스턴스 생성
         Product product2 = new Tv(); // Tv 클래스의 인스턴스를 Product 클래스 타입의 참조변수에 저장, Tv 인스턴스의 모든 멤버 사용 불가능
 
