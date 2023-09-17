@@ -92,7 +92,7 @@ public class Main {
 interface Eatable {
 }
 
-class Box<T extends Fruit & Eatable> {
+class Box<T> extends Fruit & Eatable> {
     private T t;
 
     public void set(T t) {
