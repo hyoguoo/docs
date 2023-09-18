@@ -129,12 +129,6 @@ class Example {
 위 인터페이스 중 `Function<T, R>`과 `Predicate<T>`를 활용한 예시는 아래와 같다.
 
 ```java
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 class Example {
     public static void main(String[] args) {
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
