@@ -25,7 +25,7 @@ layout: editorial
 * 데이터 처리
     * [컬렉션](collections.md)
     * [맵](map.md)
-    * [스트림](stream.md)
+    * [Iterator / Stream](iterator_stream.md)
 * 멀티쓰레드 프로그래밍
     * [쓰레드](thread.md)
     * [쓰레드 풀](thread_pool.md)

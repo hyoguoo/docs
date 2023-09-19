@@ -27,7 +27,7 @@
   * [출력](java/print.md)
   * [리플렉션(Reflection)](java/reflection.md)
   * [Servlet](java/servlet.md)
-  * [스트림(Stream)](java/stream.md)
+  * [Iterator / Stream](java/iterator_stream.md)
   * [String 클래스](java/string\_class.md)
   * [쓰레드](java/thread.md)
   * [Thread Pool](java/thread\_pool.md)

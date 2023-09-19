@@ -2,6 +2,39 @@
 layout: editorial
 ---
 
+# Iterator 인터페이스
+
+Iterator 인터페이스를 사용하여 Java 컬렉션 데이터를 순회하고 접근할 수 있다.  
+Iterator는 컬렉션 내의 요소를 반복적으로 순회하면서 데이터를 읽을 수 있는 메커니즘을 제공하고, 컬렉션의 내부 구조를 알 필요 없이 데이터에 접근할 수 있도록 해준다.
+
+## Iterator 인터페이스의 주요 메서드
+
+Iterator 인터페이스는 다음과 같은 메서드를 가지고 있다.
+
+- `boolean hasNext()`: 다음 요소가 존재하는지 확인하는 메서드로, 다음 요소가 있으면 `true`를 반환하고, 더 이상 순회할 요소가 없으면 `false`를 반환합니다.
+
+- `E next()`: 다음 요소를 반환하는 메서드로, `hasNext()` 메서드로 확인한 후에 호출해야 합니다. 호출할 다음 요소가 없을 경우 `NoSuchElementException`을 발생시킵니다.
+
+```java
+public class IteratorExample {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+        names.add("Alice");
+        names.add("Bob");
+        names.add("Charlie");
+
+        // Iterator 생성
+        Iterator<String> iterator = names.iterator();
+
+        // 순회하면서 출력
+        while (iterator.hasNext()) {
+            String name = iterator.next();
+            System.out.println(name);
+        }
+    }
+}
+```
+
 # 스트림(Stream)
 
 > 데이터 소스를 추상화하고, 다루는데 자주 사용되는 메서드를 정의한 인터페이스
