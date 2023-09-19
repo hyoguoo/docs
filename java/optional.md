@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Optional
 
 자바에서는 원시 타입을 제외한 모든 것이 `null`이 될 수 있다.  
