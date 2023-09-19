@@ -149,8 +149,8 @@ class StreamCreationExample {
         IntStream randomStream = new Random().ints(1, 10).limit(10);
 
         // 람다식을 사용하여 스트림 생성
-        Stream<Integer> iterateStream = Stream.iterate(1, n -> n + 2).limit(10);
-        Stream<Double> generateStream = Stream.generate(Math::random).limit(10);
+        Stream<Integer> iterateStream = Stream.iterate(1, n -> n + 2).limit(10); // 람다식을 사용하여 스트림 생성
+        Stream<Double> generateStream = Stream.generate(Math::random).limit(10); // Supplier 인터페이스를 사용하여 스트림 생성
 
         // 빈 스트림 생성
         Stream<Object> emptyStream = Stream.empty();
