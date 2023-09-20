@@ -88,7 +88,7 @@ enum Direction {
         return DIR_ARR[(value - 1 + num) % 4];
     }
 
-    @Override // toString() 오버라이딩을 하게 되면, print() 메서드를 사용할 때 자동으로 호출된다.
+    @Override // toString() 오버라이딩을 하게 되면, print() 통해 출력할 때 열거형 상수의 이름이 아닌 오버라이딩한 메서드의 반환값이 출력
     public String toString() {
         return name() + " " + getSymbol();
     }
