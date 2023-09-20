@@ -95,7 +95,7 @@ enum Direction {
 }
 ```
 
-## Enum 상수의 메서드 재정의
+## Enum과 클래스
 
 열거형 상수의 메서드를 재정의하려면, 각 상수에 해당 메서드를 구현하면서 선언하면 된다.
 
@@ -129,10 +129,15 @@ enum Operation {
 }
 ```
 
-또한, 열거형 상수에는 단순 원시 타입이나 문자열만 저장할 수 있는 것이 아니라 람다식을 저장할 수 있어 아래와 같이 변경할 수 있다.
+또한, 열거형 상수에는 단순 원시 타입이나 문자열만 저장할 수 있는 것이 아니라 람다식을 저장할 수 있어 아래와 같이 변경할 수 있다.  
+그리고 클래스의 일종이기 때문에 인터페이스를 상속받아 구현할 수도 있다.
 
 ```java
-enum Operation {
+interface Calculator {
+    int eval(int x, int y);
+}
+
+enum Operation implements Calculator {
     PLUS("+", (x, y) -> x + y),
     MINUS("-", (x, y) -> x - y);
 
@@ -144,6 +149,7 @@ enum Operation {
         this.op = op;
     }
 
+    @Override
     public int eval(int x, int y) {
         return op.applyAsInt(x, y);
     }
