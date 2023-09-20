@@ -4,9 +4,11 @@ layout: editorial
 
 # Enums
 
-> 관련된 상수를 편리하게 선언하기 위한 것
+데이터 타입을 정의해주고 다형성을 구현할 수 있는 기능을 제공한다.
 
 ## Enum 정의와 사용
+
+가장 기본적인 타입 정의와 사용 방법은 아래와 같다.
 
 ```java
 enum Direction {
@@ -18,12 +20,14 @@ class Unit {
     Direction direction;
 
     void moveIf(Direction direction) {
-        if (direction == Direction.EAST) { // '==' 연산자를 사용해 equals() 보다 빠른 성능을 기대할 수 있다.
+        if (direction.equals(Direction.EAST)) { // enum의 상수는 equals()로 비교 가능
             x++;
-        } else if (direction > Direction.WEST) { // '<', '>' 사용 불가
+        } else if (direction == Direction.SOUTH) { // '==' 연산자를 사용해 equals() 보다 빠른 성능을 기대할 수 있다.
             y--;
-        } else if (direction.compareTo(Direction.WEST)) { // compareTo() 사용 가능
+        } else if (direction > Direction.WEST) { // enum 에는 비교 연산자인 '<', '>' 사용 불가 
             x--;
+        } else if (direction.compareTo(Direction.NORTH)) { // compareTo() 사용 가능
+            y++;
         }
     }
 
@@ -46,28 +50,28 @@ class Unit {
 }
 ```
 
-## java.lang.Enum 메서드
+## 열거형과 멤버 변수, 메서드
 
-|             메서드              |              설명               |
-|:----------------------------:|:-----------------------------:|
-|         T[] values()         |       모든 열거형 상수를 배열로 반환       |
-|        int ordinal()         |        열거형 상수의 순서를 반환         |
-|        String name()         |      열거형 상수의 이름을 문자열로 반환      |
-| Class<E> getDeclaringClass() | 열거형 상수가 정의된 열거형의 Class 객체를 반환 |
-
-## 열거형에 멤버 추가
+단순히 상수를 나열하는 것 이상의 기능을 제공하기 위해 클래스와 비슷하게 열거형 상수의 값을 멤버 변수에 저장할 수 있고, 메서드를 정의할 수 있다.
 
 ```java
 enum Direction {
-    EAST(1, ">"), SOUTH(2, "V"), WEST(3, "<"), NORTH(4, "^"); // 열거형 상수를 모두 정의 후에 멤버 추가 가능
+    EAST(1, ">"), SOUTH(2, "V"), WEST(3, "<"), NORTH(4, "^"); // 열거형 상수를 선언과 동시에 생성자 호출
 
     private static final Direction[] DIR_ARR = Direction.values();
     private final int value;
     private final String symbol;
 
-    private Direction(int value, String symbol) { // 열거형의 생성자는 private으로 생략 가능 
+    private Direction(int value, String symbol) { // 열거형의 생성자는 private으로 생략 가능
         this.value = value;
         this.symbol = symbol;
+    }
+
+    public static Direction of(int dir) {
+        if (dir < 1 || dir > 4) {
+            throw new IllegalArgumentException("Invalid value : " + dir);
+        }
+        return DIR_ARR[dir - 1];
     }
 
     public int getValue() {
@@ -78,31 +82,114 @@ enum Direction {
         return symbol;
     }
 
-    public static Direction of(int dir) {
-        if (dir < 1 || dir > 4) {
-            throw new IllegalArgumentException("Invalid value : " + dir);
-        }
-        return DIR_ARR[dir - 1];
-    }
-
     public Direction rotate(int num) {
-        num = num % 4;
-
-        if (num < 0) {
-            num += 4;
-        }
-
+        num = (num % 4 + 4) % 4;
         return DIR_ARR[(value - 1 + num) % 4];
     }
 
-    @Override
+    @Override // toString() 오버라이딩을 하게 되면, print() 메서드를 사용할 때 자동으로 호출된다.
     public String toString() {
-        return name() + getSymbol();
+        return name() + " " + getSymbol();
     }
 }
 ```
 
-## 열거형의 이해
+## Enum 상수의 메서드 재정의
+
+열거형 상수의 메서드를 재정의하려면, 각 상수에 해당 메서드를 구현하면서 선언하면 된다.
+
+```java
+enum Operation {
+    PLUS("+") {
+        @Override
+        public int eval(int x, int y) {
+            return x + y;
+        }
+    },
+    MINUS("-") {
+        @Override
+        public int eval(int x, int y) {
+            return x - y;
+        }
+    };
+
+    private final String symbol;
+
+    Operation(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public abstract int eval(int x, int y);
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+}
+```
+
+또한, 열거형 상수에는 단순 원시 타입이나 문자열만 저장할 수 있는 것이 아니라 람다식을 저장할 수 있어 아래와 같이 변경할 수 있다.
+
+```java
+enum Operation {
+    PLUS("+", (x, y) -> x + y),
+    MINUS("-", (x, y) -> x - y);
+
+    private final String symbol;
+    private final IntBinaryOperator op;
+
+    Operation(String symbol, IntBinaryOperator op) {
+        this.symbol = symbol;
+        this.op = op;
+    }
+
+    public int eval(int x, int y) {
+        return op.applyAsInt(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+}
+```
+
+## java.lang.Enum 메서드
+
+|             메서드              |              설명               |
+|:----------------------------:|:-----------------------------:|
+|         T[] values()         |       모든 열거형 상수를 배열로 반환       |
+|        int ordinal()         |        열거형 상수의 순서를 반환         |
+|        String name()         |      열거형 상수의 이름을 문자열로 반환      |
+| Class<E> getDeclaringClass() | 열거형 상수가 정의된 열거형의 Class 객체를 반환 |
+
+```java
+enum Direction {
+    EAST(10), SOUTH(20), WEST(30), NORTH(40);
+
+    private final int value;
+
+    Direction(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}
+
+class Test {
+    public static void main(String[] args) {
+        System.out.println(Direction.EAST.getValue()); // 10
+        System.out.println(Arrays.toString(Direction.values())); // [EAST, SOUTH, WEST, NORTH]
+        System.out.println(Direction.EAST.ordinal()); // 0
+        System.out.println(Direction.EAST.name()); // EAST
+        System.out.println(Direction.EAST.getDeclaringClass()); // class Direction
+    }
+}
+```
+
+## 열거형의 내부 구현
 
 ```java
 enum Direction {
@@ -110,8 +197,8 @@ enum Direction {
 }
 ```
 
-열거형이 위와 같이 정의되어 있을 때 내부의 상수 하나하나가 `Direction` 객체이다.  
-클래스로 정의하게 된다면 아래와 같이 정의할 수 있다.
+열거형이 위와 같이 정의되어 있을 때 사실은 내부의 상수 하나하나가 `Direction` 클래스의 인스턴스라고 볼 수 있다.
+위의 enum을 클래스로 정의하면 아래와 같이 표현할 수 있다.(동일한 것은 아님)
 
 ```java
 class Direction {
@@ -125,10 +212,13 @@ class Direction {
     private Direction(String name) {
         this.name = name;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 ```
-
-Direction 클래스의 static final 필드인 EAST, SOUTH, WEST, NORTH 값은 객체의 주소이며, 바뀌지 않는 값이므로 `==`로 비교가 가능하다.
 
 ###### 참고자료
 
