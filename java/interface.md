@@ -70,11 +70,13 @@ interface Fightable extends Movable, Attackable {
 
 ## 인터페이스를 이용한 다형성 구현
 
-리턴타입이 인터페이스인 경우, 인터페이스를 구현한 클래스의 인스턴스를 리턴할 수 있다.
+인터페이스를 구현한 여러 클래스의 인스턴스를 하나의 인터페이스 참조변수로 참조할 수 있다.  
+이렇게 하면 인터페이스를 구현한 여러 클래스의 인스턴스를 하나의 인터페이스 타입으로 핸들링 할 수 있게 되며,  
+인터페이스를 구현한 여러 클래스의 공통된 부분을 인터페이스에 선언하고, 각 클래스에서는 해당 메서드를 구현하면 된다.
 
 ```java
 interface Parseable {
-    public abstract void parse(String fileName);
+    void parse(String fileName);
 }
 
 class ParserManager {
@@ -82,8 +84,7 @@ class ParserManager {
         if (type.equals("XML")) {
             return new XMLParser();
         } else {
-            Parseable p = new HTMLParser();
-            return p;
+            return new HTMLParser();
         }
     }
 }
@@ -115,7 +116,7 @@ class ParserTest {
 ## 인터페이스의 활용
 
 - 클래스를 사용하는 쪽(User)과 클래스를 제공하는 쪽(Provider)이 있다.
-- 클래스를 사용하는 쪽에서는 자신이 필요로 하는 메서드만 호출하면 되며, 내용은 신경 쓰지 않아도 된다.
+- 인터페이스를 잘 활용하면 클래스를 사용하는 쪽에서는 자신이 필요로 하는 메서드만 호출하면 되며, 내용은 신경 쓰지 않아도 된다.
 
 ```java
 class A {
@@ -138,9 +139,8 @@ class InterfaceTest {
 }
 ```
 
-위와 같이 클래스 A가 클래스 B의 메서드를 호출하는 경우, 클래스 B가 이미 작성되어 있어야 한다.  
-그리고 클래스 B의 메서드의 선언부가 변경되면 클래스 A도 변경되어야 한다.(높은 결합도)
-인터페이스를 사용하면 클래스 B의 내용을 신경 쓰지 않고, 클래스 A는 클래스 B의 메서드를 호출하는 것만 알면 된다.
+위와 같이 클래스 A가 클래스 B의 메서드를 호출하는 경우, 클래스 B가 이미 작성되어 있어야 하며, 클래스 B의 메서드의 선언부가 변경되면 클래스 A도 변경되어야 한다.(높은 결합도)  
+하지만 인터페이스를 사용하면 클래스 B의 내용을 신경 쓰지 않고, 클래스 A는 클래스 B의 메서드를 호출만 하면 된다.
 
 ```java
 
@@ -168,41 +168,7 @@ class InterfaceTest {
 }
 ```
 
-결국 클래스 A는 클래스 B의 메서드를 호출하지만 클래스 B와 직접적인 관계가 없고 인터페이스 I를 통해 호출하게 되며, 인터페이스 I의 영향만 받게 된다.
-
-```java
-class A {
-    void methodA() {
-        I i = InstanceManager.getInstance();
-        i.methodB();
-        System.out.println(i.toString());
-    }
-}
-
-interface I {
-    public abstract void methodB();
-}
-
-class B implements I {
-    public void methodB() {
-        System.out.println("methodB");
-    }
-
-    public String toString() {
-        return "class B";
-    }
-}
-
-class InterfaceTest {
-    public static void main(String[] args) {
-        A a = new A();
-        a.methodA();
-    }
-}
-```
-
-인스턴스를 직접 생성하지 않고, `InstanceManager`를 통해 인스턴스를 얻어서 제공받을 수 있는데,  
-이렇게 되면 클래스 A는 클래스 B의 내용을 신경 쓰지 않고, 클래스 B의 인스턴스를 얻어서 사용할 수 있으며 다른 클래스의 인스턴스로 변경해도 `InstanceManager`만 변경하면 된다.
+결국 클래스 A는 클래스 B의 메서드를 호출하지만 클래스 B와 직접적인 관계가 없고 인터페이스 I를 통해 호출하게 되며, 인터페이스 I에만 의존하게 된다.(낮은 결합도)
 
 ## static / default 메서드
 
