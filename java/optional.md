@@ -29,15 +29,25 @@ class Example {
 
 이러한 문제를 해결하기 위해 자바 8에서는 `Optional`을 도입하여 `null`을 더 안전하게 처리할 수 있도록 지원한다.
 
+## Optional 객체 생성
+
+`Optional`은 `null`이 될 수 있는 객체를 감싸는 래퍼 클래스로, `null`이 될 수 있는 객체를 담고 있는 `Optional` 객체를 생성할 수 있다.  
+생성하는 방법으론 아래 세 가지가 있다.
+
 ```java
 class Example {
     public static void main(String[] args) {
-        Optional<String> opt = Optional.of("abc");
+        Map<String, String> map = Map.of("existKey", "existValue");
+        Optional<String> opt1 = Optional.of(map.get("existKey"));
+        Optional<String> opt2 = Optional.ofNullable(map.get("notExistKey"));
+        Optional<String> opt3 = Optional.empty();
     }
 }
 ```
 
-`Optional`은 `null`이 될 수 있는 객체를 감싸는 래퍼 클래스로, `null`이 될 수 있는 객체를 담고 있는 `Optional` 객체를 생성할 수 있다.
+- `Optional.of(T value)`: `null`이 아닌 객체를 담고 있는 `Optional` 객체를 생성(만약 `null`이 넘어오면 `NullPointerException`을 발생)
+- `Optional.ofNullable(T value)`: `null`이 될 수 있는 객체를 담고 있는 `Optional` 객체를 생성(만약 `null`이 넘어오면 `Optional.empty()` 반환)
+- `Optional.empty()`: `null`을 담고 있는 `Optional` 객체 생성
 
 ## Optional을 사용한 값 가죠오기
 
