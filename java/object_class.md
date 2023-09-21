@@ -119,21 +119,10 @@ public class HashCodeTest {
 ### hashCode() & equals()
 
 동일한 객체는 동일한 메모리 주소를 갖는다는 것을 의미하므로, 동일한 객체는 동일한 해시코드를 가져야한다.  
-때문에 `hashCode()` 메서드를 오버라이딩하면 `equals()` 메서드도 오버라이딩해야 한다.
+특히 Hash를 이용한 자료구조를 이용할 때, 객체의 해시코드를 이용하여 저장하므로, `equals()`,`hashCode()` 두 메서드는 같이 오버라이딩해야 한다.  
+아래 예시처럼 `equals()`를 오버라이딩하여 의도대로 비교해 주었지만, `hashCode()`를 오버라이딩하지 않아서 의도하지 않은 문제가 발생할 수 있다.
 
 ```java
-class Example {
-
-    public static void main(String[] args) {
-        Animal animal1 = new Animal();
-        Animal animal2 = new Animal();
-        animal1.setName("animal");
-        animal2.setName("animal");
-
-        System.out.println(animal1.equals(animal2)); // true
-    }
-}
-
 class Animal {
     private String name;
 
@@ -154,15 +143,16 @@ class Animal {
         return this.name.equals(animal.getName());
     }
 }
-```
 
-위 예시처럼 `equals()`를 오버라이딩하여 `name`이 같은지 의도대로 비교해 주었지만, `hashCode()`를 오버라이딩하지 않아 문제가 생길 수 있다.
-
-```java
 class Example {
 
     public static void main(String[] args) {
-        // ...
+        Animal animal1 = new Animal();
+        Animal animal2 = new Animal();
+        animal1.setName("animal");
+        animal2.setName("animal");
+
+        System.out.println(animal1.equals(animal2)); // true
         System.out.println(animal1.hashCode()); // 321001045
         System.out.println(animal2.hashCode()); // 791452441
 
@@ -170,12 +160,12 @@ class Example {
         animals.add(animal1);
         animals.add(animal2);
         System.out.println(animals); // [Animal@2f2c9b19, Animal@13221655]
+        // hashCode()가 일치하지 않아서, 같은 객체로 인식하지 않아 중복 저장된다.
     }
 }
-// ...
 ```
 
-`hashCode()`를 오버라이딩하여 `name`을 이용하여 해시코드를 생성해주면, `equals()`와 `hashCode()`가 일치하므로 문제가 해결된다.
+`hashCode()`를 오버라이딩하여 `name`을 이용하여 해시코드를 생성해주면, 같은 객체로 인식하여 중복 저장되지 않는다.
 
 ```java
 class Example {
@@ -183,13 +173,6 @@ class Example {
     public static void main(String[] args) {
         Animal animal1 = new Animal();
         Animal animal2 = new Animal();
-        animal1.setName("ogu");
-        animal2.setName("ogu");
-
-        System.out.println(animal1.equals(animal2)); // true
-
-        System.out.println(animal1.hashCode()); // 109981
-        System.out.println(animal2.hashCode()); // 109981
 
         Set<Animal> animals = new HashSet<>();
         animals.add(animal1);
