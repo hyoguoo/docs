@@ -36,3 +36,5 @@ layout: editorial
     * [리플렉션](reflection.md)
 * 웹 프로그래밍
     * [서블릿](servlet.md)
+
+## [Effective Java](effective\_java/)

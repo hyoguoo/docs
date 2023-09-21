@@ -8,6 +8,8 @@
   * [내부 언어 체계](computer\_architecture/interal\_lagnuage\_system.md)
   * [인터럽트](computer\_architecture/interrupt.md)
   * [메모리](computer\_architecture/memory.md)
+* [Effective Java](java/effective\_java/README.md)
+  * [Item 1. 정적 팩터리 메서드](java/effective\_java/item1.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
