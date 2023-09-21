@@ -11,3 +11,4 @@ layout: editorial
 ## Chapter 2. 객체 생성과 파괴
 
 * [Item 1. Static Factory Method](item1.md)
+* [Item 2. Builder](item2.md)
