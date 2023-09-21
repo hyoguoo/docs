@@ -205,7 +205,8 @@ public class test {
 ### 5. 정적 팩터리 메서드를 작성하는 시점에는 반환할 객체의 클래스가 존재하지 않아도 됨
 
 public 생성자를 사용하여 객체를 생성할 때는 해당 클래스가 반드시 존재해야 하지만 정적 팩터리 메서드를 사용하면 해당 클래스가 존재하지 않아도 된다.  
-대표적으로 JDBC API의 `DriverManager` 클래스가 있는데, 실제 구현 코드 중 일부를 가져와 보면 아래와 같다.
+이런 특징은 서비스 제공자 프레임워크(Service Provider Framework)를 만드는 근간이 된다.  
+대표적인 서비스 제공자 프레임워크로는 JDBC가 있는데, 그 중 `DriverManager` 클래스의 실제 구현 코드를 일부 가져와 보면 아래와 같다.
 
 ```java
 // Connection.java
@@ -305,7 +306,7 @@ public class DriverManager {
 이를 간략화 하면 아래와 같이 정리 할 수 있다.
 
 ```java
-// Service 인터페이스
+// Service 인터페이스: 구현체의 동작을 정의
 interface Service {
     void execute();
 }
@@ -331,12 +332,12 @@ class ServiceProvider2 implements Service {
 class ServiceRegistry {
     private static Map<String, Service> services = new HashMap<>();
 
-    // 서비스 제공자 등록 API
+    // 서비스 제공자 등록 API: 제공자가 구현체를 등록할 때 사용
     public static void registerService(String name, Service service) {
         services.put(name, service);
     }
 
-    // 서비스 접근 API
+    // 서비스 접근 API: 클라이언트가 서비스의 인스턴스를 얻을 때 사용
     public static Service getService(String name) {
         return services.get(name);
     }
