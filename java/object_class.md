@@ -69,14 +69,11 @@ class Point {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Point) {
-            Point p = (Point) obj;
-            if (x == p.x && y == p.y) {
-                return true;
-            }
-        }
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return x == point.x && y == point.y;
     }
 }
 
