@@ -20,11 +20,12 @@ layout: editorial
 |      `public void notifyAll()`      |                객체 자신을 사용하려고 기다리는 쓰레드를 모두 깨움                 |
 |        `public void wait()`         | 다른 쓰레드가 `notify()` 혹은 `notifyAll()`을 호출할 때까지 지정된 시간동안 대기 지정 |
 
+이중 `equals()`, `hashCode()`, `toString()` 메서드는 자주 사용된다.
+
 ## equals(Object obj)
 
-- 객체의 같고 다름을 참조변수의 값으로 판단
-- 서로 다른 두 개의 객체가 같은 주소를 갖는 일이 없음
-- 두 개 이상의 참조변수가 같은 주소값을 갖는 것은 가능
+Object 클래스의 `equals()` 메서드는 두 객체의 주소값(=동일성 비교)을 비교한다.  
+컴퓨터 메모리 특성 상 두 개의 객체가 같은 주소값을 갖는 일은 없지만, 두 개 이상의 참조변수가 같은 주소값을 갖는 것은 가능하다.
 
 ```java
 class Point {
@@ -41,18 +42,21 @@ public class EqualsTest {
     public static void main(String[] args) {
         Point a = new Point(2, 3);
         Point b = new Point(2, 3);
-        Point c = a;
+        Point c = a; // a와 c는 같은 객체를 참조
 
+        // 동일성 비교(비교 대상이 같은 인스턴스인지)
         System.out.println(a == b); // false
         System.out.println(a == c); // true
+
+        // 동등성 비교(비교 대상이 같은 값을 갖는지), 하지만 Point 클래스는 equals() 메서드를 오버라이딩하지 않았기 때문에 동일성 비교와 같다.
         System.out.println(a.equals(b)); // false
         System.out.println(a.equals(c)); // true
     }
 }
 ```
 
-`Object` 클래스의 `equals()` 메서드가 호출되는데, 이 메서드는 두 객체의 주소값을 비교한다.  
-만약 두 객체의 멤버 변수 값을 비교하고 싶다면 `equals()` 메서드를 오버라이딩 하여 사용할 수 있다.
+위의 Point 클래스는 `equals()` 메서드를 오버라이딩하지 않았기 때문에, `Object` 클래스의 `equals()` 메서드가 호출되는데, 이 메서드는 두 객체의 주소값(=동일성 비교)을 비교한다.  
+만약 두 객체의 멤버 변수 값을 비교(=동등성 비교)하고 싶다면, `equals()` 메서드를 오버라이딩하여 사용할 수 있다.
 
 ```java
 class Point {
@@ -82,8 +86,11 @@ public class EqualsTest {
         Point b = new Point(2, 3);
         Point c = a;
 
+        // 동일성 비교(비교 대상이 같은 인스턴스인지)
         System.out.println(a == b); // false
         System.out.println(a == c); // true
+
+        // 동등성 비교(비교 대상이 같은 값을 갖는지)
         System.out.println(a.equals(b)); // true
         System.out.println(a.equals(c)); // true
     }
