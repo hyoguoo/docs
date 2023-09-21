@@ -8,7 +8,7 @@ layout: editorial
 모든 클래스의 최고 조상으로, 때문에 모든 클래스는 Object 클래스의 멤버를 모두 사용할 수 있다.  
 아래 11개의 메서드를 가지고 있으며 멤버 변수는 없다.
 
-|        `Object class method         |                         description                         |
+|         Object class method         |                         description                         |
 |:-----------------------------------:|:-----------------------------------------------------------:|
 |     `protected Object clone()`      |                            객체 복제                            |
 | `public boolean equals(Object obj)` |                       객체의 내용이 같은지 비교                        |

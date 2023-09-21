@@ -5,7 +5,7 @@ layout: editorial
 # Optional
 
 자바에서는 원시 타입을 제외한 모든 것이 `null`이 될 수 있다.  
-때문에 프로그래밍을 할 때 `NullPointerException`을 흔하게 마주치게 되는데, 이는 제대로 처리하지 못하면 프로그램의 안정성이 떨어지고, 복잡한 코드가 생겨날 수 있다.
+때문에 프로그래밍을 할 때 `NullPointerException`을 흔하게 마주치게 되는데, 제대로 처리하지 않으면 프로그램의 안정성이 떨어지고, 복잡한 코드가 생겨날 수 있다.
 
 ```java
 class Example {
