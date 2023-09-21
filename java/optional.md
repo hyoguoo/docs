@@ -49,7 +49,7 @@ class Example {
 - `Optional.ofNullable(T value)`: `null`이 될 수 있는 객체를 담고 있는 `Optional` 객체를 생성(만약 `null`이 넘어오면 `Optional.empty()` 반환)
 - `Optional.empty()`: `null`을 담고 있는 `Optional` 객체 생성
 
-## Optional을 사용한 값 가죠오기
+## Optional 객체 조회
 
 `Optional` 객체에 담긴 값을 가져오기 위해서는 기본적으로 `get()` 메서드를 사용해서 가져올 수 있다.
 
@@ -63,36 +63,53 @@ class Example {
 }
 ```
 
-`null` 체크를 하지 않고 바로 값을 가져오게 되면 해당 객체가 `null`일 수도 있기 때문에 체크를 해주는 것이 좋다.
+`null` 체크를 하지 않고 바로 값을 가져오게 되면 해당 객체가 `null`일 수도 있기 때문에 체크를 해주는 것이 좋다.  
+때문에 조회 후 `null` 체크를 하기 위해 아래와 같은 메서드들을 사용할 수 있다.
+
+- `ifPresent()`: 값이 있는지 확인
+- `ifPresent(Consumer<? super T> action)`: 값이 있으면 `Consumer`를 실행
+- `ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction)`: 값이 있으면 `Consumer`를 실행, 없으면 `Runnable`을 실행
+- `orElse(T other)`: 값이 없으면 기본값을 반환
+- `orElseThrow(Supplier<? extends X> exceptionSupplier)`: 값이 없으면 예외를 발생
 
 ```java
 class Example {
     public static void main(String[] args) {
-        // ifPresent: 값이 있는지 확인
         Optional<String> opt = Optional.of("abc");
+
+        // ifPresent: 값이 있는지 확인 -> 안티 패턴
         if (opt.isPresent()) {
             System.out.println(opt.get()); // abc
         }
 
         // ifPresent + 람다식
-        Optional<String> opt2 = Optional.of("abc");
-        opt2.ifPresent(s -> System.out.println(s.toUpperCase())); // ABC
-        opt2 = Optional.empty();
-        opt2.ifPresent(s -> System.out.println(s.toUpperCase())); // null
+        Optional<String> opt1 = Optional.of("abc");
+        opt1.ifPresent(s -> System.out.println(s.toUpperCase())); // ABC
+        opt1 = Optional.empty();
+        opt1.ifPresent(s -> System.out.println(s.toUpperCase())); // null
 
+        // ifPresentOrElse + 람다식
+        Optional<String> opt2 = Optional.of("abc");
+        opt2.ifPresentOrElse(s -> System.out.println(s.toUpperCase()), () -> System.out.println("null")); // ABC
+        opt2 = Optional.empty();
+        opt2.ifPresentOrElse(s -> System.out.println(s.toUpperCase()), () -> System.out.println("null")); // null
 
         // orElse: 값이 없을 때 기본값 설정
-        Optional<String> opt1 = Optional.of("abc");
-        System.out.println(opt1.map(String::toUpperCase).orElse("null")); // ABC
-        opt1 = Optional.empty();
-        System.out.println(opt1.map(String::toUpperCase).orElse("null")); // null
+        Optional<String> opt3 = Optional.of("abc");
+        System.out.println(opt3.map(String::toUpperCase).orElse("null")); // ABC
+        opt3 = Optional.empty();
+        System.out.println(opt3.map(String::toUpperCase).orElse("null")); // null
 
 
         // orElseThrow: 값이 없을 때 예외 발생
-        Optional<String> opt3 = Optional.of("abc");
-        System.out.println(opt3.orElseThrow(IllegalArgumentException::new)); // ABC
-        opt3 = Optional.empty();
-        System.out.println(opt3.orElseThrow(IllegalArgumentException::new)); // IllegalArgumentException
+        Optional<String> opt4 = Optional.of("abc");
+        System.out.println(opt4.orElseThrow(IllegalArgumentException::new)); // abc
+        opt4 = Optional.empty();
+        System.out.println(opt4.orElseThrow(IllegalArgumentException::new)); // IllegalArgumentException
     }
 }
 ```
+
+###### 참고 자료
+
+- [실무 자바 개발을 위한 OOP와 핵심 디자인 패턴](https://school.programmers.co.kr/learn/courses/17778/17778-실무-자바-개발을-위한-oop와-핵심-디자인-패턴)
