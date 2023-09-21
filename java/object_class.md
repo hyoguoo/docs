@@ -210,7 +210,8 @@ class Animal {
 
 ## toString()
 
-`toString()` 메서드는 객체의 정보를 문자열로 반환하며, 일반적으로 인스턴스나 클래스에 대한 정보 또는 인스턴스 변수의 값을 문자열로 반환한다.
+`toString()` 메서드는 객체의 정보를 문자열로 반환하며, 일반적으로 인스턴스나 클래스에 대한 정보 또는 인스턴스 변수의 값을 문자열로 반환한다.  
+보통 로그를 남길 때, `toString()` 메서드를 오버라이딩하여 사용한다.
 
 ```java
 class Example {
@@ -218,7 +219,7 @@ class Example {
     public static void main(String[] args) {
         Animal animal = new Animal();
         animal.setName("ogu");
-        System.out.println(animal.toString()); // Animal{name='ogu'}
+        System.out.println(animal.toString()); // Animal{name='ogu'}, print 메서드를 호출하면 자동으로 toString() 메서드가 호출된다.
     }
 }
 
