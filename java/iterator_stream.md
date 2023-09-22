@@ -267,7 +267,7 @@ class TerminalOperationsExample {
         Stream.of(1, 2, 3, 4, 5).anyMatch(i -> i > 2); // true
         Stream.of(1, 2, 3, 4, 5).noneMatch(i -> i > 0); // false
 
-        // findFirst()와 findAny(): 스트림의 요소 중에서 첫 번째 요소를 반환하는 연산으로 `Optional` 객체를 반환
+        // findFirst()와 findAny(): 스트림의 요소 중에서 찾은 첫 번째 요소를 `Optional` 객체로 반환(찾지 못하면 empty 상태의 `Optional` 객체 반환)
         Stream.of(1, 2, 3, 4, 5).findFirst(); // Optional[1]
         Stream.of(1, 2, 3, 4, 5).findAny(); // Optional[1]
 
@@ -283,6 +283,28 @@ class TerminalOperationsExample {
         // collect(): 스트림의 요소를 수집하는 연산으로, `Collector`를 매개변수로 받아 받은 타입으로 변환하여 반환
         List<Integer> list = Stream.of(1, 2, 3, 4, 5).collect(Collectors.toList());
         Set<Integer> set = Stream.of(1, 2, 3, 4, 5).collect(Collectors.toSet());
+    }
+}
+```
+
+### findFirst() vs findAny()
+
+`findFirst()`와 `findAny()` 두 메서드 모두 찾은 첫 번째 요소를 `Optional` 객체로 반환한다.  
+하지만 Parallel Stream을 사용하여 병렬로 처리를 할 때는 두 메서드에 아래와 같은 차이가 있다.
+
+- `findFirst()`: 여러 요소가 조건에 부합해도 Stream의 순서를 고려하여 첫 번째 요소를 반환
+- `findAny()`: Multiple Thread에서 여러 요소를 처리하다가 가장 먼저 찾은 요소를 반환
+
+```java
+class FindFirstAndFindAnyExample {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        Optional<Integer> findFirst = list.stream().parallel().filter(i -> i % 2 == 0).findFirst();
+        Optional<Integer> findAny = list.stream().parallel().filter(i -> i % 2 == 0).findAny();
+
+        System.out.println(findFirst.get()); // 2
+        System.out.println(findAny.get()); // 2, 4, 6, 8, 10 중 하나
     }
 }
 ```
