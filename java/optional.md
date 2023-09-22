@@ -69,7 +69,8 @@ class Example {
 - `ifPresent()`: 값이 있는지 확인
 - `ifPresent(Consumer<? super T> action)`: 값이 있으면 `Consumer`를 실행
 - `ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction)`: 값이 있으면 `Consumer`를 실행, 없으면 `Runnable`을 실행
-- `orElse(T other)`: 값이 없으면 기본값을 반환
+- `orElse(T other)`: 값이 없으면 전달 받은 인자를 반환
+- `orElseGet(Supplier<? extends T> other)`: 값이 없으면 `Supplier` 인터페이스를 받아 실행한 결과를 반환
 - `orElseThrow(Supplier<? extends X> exceptionSupplier)`: 값이 없으면 예외를 발생
 
 ```java
@@ -94,18 +95,23 @@ class Example {
         opt2 = Optional.empty();
         opt2.ifPresentOrElse(s -> System.out.println(s.toUpperCase()), () -> System.out.println("null")); // null
 
-        // orElse: 값이 없을 때 기본값 설정
+        // orElse: 값이 없으면 기본값 설정
         Optional<String> opt3 = Optional.of("abc");
         System.out.println(opt3.map(String::toUpperCase).orElse("null")); // ABC
         opt3 = Optional.empty();
         System.out.println(opt3.map(String::toUpperCase).orElse("null")); // null
 
+        // orElseGet: 값이 없을때 Supplier 인터페이스를 받아 실행하여 기본값 설정
+        Optional<String> opt4 = Optional.of("abc");
+        System.out.println(opt4.map(String::toUpperCase).orElseGet(() -> "null")); // ABC
+        opt4 = Optional.empty();
+        System.out.println(opt4.map(String::toUpperCase).orElseGet(() -> "null")); // null
 
         // orElseThrow: 값이 없을 때 예외 발생
-        Optional<String> opt4 = Optional.of("abc");
-        System.out.println(opt4.orElseThrow(IllegalArgumentException::new)); // abc
-        opt4 = Optional.empty();
-        System.out.println(opt4.orElseThrow(IllegalArgumentException::new)); // IllegalArgumentException
+        Optional<String> opt5 = Optional.of("abc");
+        System.out.println(opt5.orElseThrow(IllegalArgumentException::new)); // abc
+        opt5 = Optional.empty();
+        System.out.println(opt5.orElseThrow(IllegalArgumentException::new)); // IllegalArgumentException
     }
 }
 ```
