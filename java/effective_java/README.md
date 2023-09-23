@@ -12,3 +12,4 @@ layout: editorial
 
 * [Item 1. Static Factory Method](item1.md)
 * [Item 2. Builder](item2.md)
+* [Item 3. Singleton](item3.md)
