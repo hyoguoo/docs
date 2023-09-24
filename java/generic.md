@@ -184,33 +184,65 @@ class Juicer {
 ```
 
 이를 해결하기 위해 오버로딩을 사용하면 제네릭 타입이 다른 것만으로는 오버로딩이 성립하지 않아 메서드 중복 정의가 되어 컴파일 에러가 발생한다.  
-대신 와일드 카드를 사용해 해결할 수 있다.
+대신 아래와 같이 와일드 카드를 사용해 해결할 수 있다.
 
 ```java
-class FruitBox<T extends Fruit> extends Box<T> {
+class Fruit {
+  // Fruit 클래스의 내용은 생략
+}
+
+class Apple extends Fruit {
+  // Apple 클래스의 내용은 생략
+}
+
+class FruitBox<T extends Fruit> {
+  private final List<T> list = new ArrayList<>();
+
+  public void add(T fruit) {
+    list.add(fruit);
+  }
+
+  public List<T> getList() {
+    return list;
+  }
+}
+
+class Juice {
+  private final String content;
+
+  public Juice(String content) {
+    this.content = content;
+  }
+
+  @Override
+  public String toString() {
+    return "Juice(" + content + ")";
+  }
 }
 
 class Juicer {
-    static Juice makeJuice(FruitBox<? extends Fruit> box) {
-        String tmp = "";
-        for (Fruit f : box.getList()) tmp += f + " ";
-        return new Juice(tmp);
+  static Juice makeJuice(FruitBox<? extends Fruit> box) {
+    StringBuilder tmp = new StringBuilder();
+    for (Fruit f : box.getList()) {
+      tmp.append(f).append(" ");
     }
+    return new Juice(tmp.toString());
+  }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
-        FruitBox<Apple> appleBox = new FruitBox<Apple>();
+class Main {
+  public static void main(String[] args) {
+    FruitBox<Fruit> fruitBox = new FruitBox<>();
+    FruitBox<Apple> appleBox = new FruitBox<>();
 
-        fruitBox.add(new Fruit());
-        fruitBox.add(new Apple());
-        appleBox.add(new Apple());
-        appleBox.add(new Apple());
+    fruitBox.add(new Fruit());
+    fruitBox.add(new Apple());
+    appleBox.add(new Apple());
+    appleBox.add(new Apple());
 
-        System.out.println(Juicer.makeJuice(fruitBox));
-        System.out.println(Juicer.makeJuice(appleBox));
-    }
+    System.out.println(Juicer.makeJuice(fruitBox));
+    System.out.println(Juicer.makeJuice(appleBox));
+  }
 }
 ```
 
