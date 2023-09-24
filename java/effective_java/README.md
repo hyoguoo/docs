@@ -14,3 +14,4 @@ layout: editorial
 * [Item 2. Builder](item2.md)
 * [Item 3. Singleton](item3.md)
 * [Item 4. Noninstantiability](item4.md)
+* [Item 5. Dependency Injection](item5.md)
