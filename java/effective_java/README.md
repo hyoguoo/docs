@@ -15,3 +15,4 @@ layout: editorial
 * [Item 3. Singleton](item3.md)
 * [Item 4. Noninstantiability](item4.md)
 * [Item 5. Dependency Injection](item5.md)
+* [Item 6. Unnecessary Objects](item6.md)

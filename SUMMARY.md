@@ -14,6 +14,7 @@
   * [Item 3. Singleton](java/effective\_java/item3.md)
   * [Item 4. Noninstantiability](java/effective\_java/item4.md)
   * [Item 5. Dependency Injection](java/effective\_java/item5.md)
+  * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
