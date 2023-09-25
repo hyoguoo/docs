@@ -86,7 +86,7 @@ public class ExampleAspect {
 
 스프링은 최종적으로 다른 것을 통해 등록 된 Advisor와 @Aspect를 등록 된 Advisor를 모두 조회하여 프록시를 적용하게 된다.
 
-## 프록시 내부 호출
+## 프록시 내부 호출(Self Invocation)
 
 대상 객체의 내부에서 메서드 호출이 발생하면 프록시를 거치지 않고 대상 객체를 직접 호출하게 되어 프록시 기능이 적용되지 않는다.
 
