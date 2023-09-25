@@ -12,3 +12,4 @@ layout: editorial
 * [SOILD](solid.md)
 * 디자인 패턴들
   * [Adapter](adapter.md)
+  * [Facade](facade.md)
