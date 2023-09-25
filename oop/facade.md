@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Facade Pattern(퍼사드 패턴)
 
 > 복잡성을 감추기 위해 단순화된 인터페이스를 제공하는 구조적 디자인 패턴
