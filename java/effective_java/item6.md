@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Unnecessary Objects(불필요한 객체)
 
 > 불필요한 객체 생성을 피하라
