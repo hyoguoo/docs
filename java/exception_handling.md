@@ -17,9 +17,7 @@ layout: editorial
     - `Error` 클래스 : 프로그램 코드에 의해서 수습될 수 없는 심각한 오류
     - `Exception` 클래스 : 프로그램에서 코드에 의해서 수습될 수 있는 미약한 오류
 
-![img.png](image/throwable_class.png)
-
-[출처](https://rollbar.com/blog/java-exceptions-hierarchy-explained/)
+![출처(https://rollbar.com/blog/java-exceptions-hierarchy-explained/)](image/throwable_class.png)
 
 ## try-catch-finally
 
@@ -102,17 +100,8 @@ class Example {
 }
 ```
 
-메서드 선언부에 예외를 선언함으로써 메서드를 사용하려는 사람에게 이에 대한 처리를 강요할 수 있으며 그와 동시에 어떤 예외가 발생할 수 있는지 알려줄 수 있다.
-
-`public final void wait() throws InterruptedException`
-
-예를 들어 `Object` 클래스의 `wait()` 메서드를 사용하려는 사람에게 이 메서드를 호출하고자 하는 메서드 내에 `InterruptedException` 처리를 해주어야 함을 알려줄 수 있다.  
-추가적으로 `wait()` 에는 `InterruptedException` 이외에도 `IllegalMonitorStateException` 이 발생할 수 있는데, `IllegalMonitorStateException`
-은 `RuntimeException`(`unchecked exception`) 을 상속받은 예외는 메서드 선언부에 예외를 선언하지(처리하지) 않아도 된다.  
-예외 처리를 할 때 `Throwable`을 상속받게 되면 잡으면 안되는 `Error`도 잡게 되므로 사용하지 않는 것이 좋다. 
-
-메서드의 throws 절에 선언된 예외는 예외를 처리하는 것이 아닌 호출한 메서드에 예외를 전달하는 것이다.  
-예외를 계속 호출 스택에 있는 메서드로 전달하다가 main 메서드까지 처리되지 않으면 프로그램은 종료된다.
+메서드 선언부에 예외를 선언함으로써 메서드를 사용하려는 사람에게 이에 대한 처리를 강요할 수 있으며 그와 동시에 어떤 예외가 발생할 수 있는지 알려줄 수 있다.  
+메서드의 throws 절에 선언된 예외는 예외를 처리하는 것이 아닌 호출한 메서드에 예외를 전달하여 계속 호출 스택에 있는 메서드로 전달하다가 main 메서드까지 처리되지 않으면 프로그램은 종료된다.
 
 ```java
 class Exception {
@@ -136,7 +125,26 @@ class Exception {
 }
 ```
 
-위 코드 처럼 `createFile`에서 예외가 발생했지만 직접 처리 하지 않고 호출한 `main` 메서드에서 예외를 처리할 수 있다.
+## Unchecked Exception
+
+> 컴파일러가 예외 처리를 강제하지 않는 예외
+
+`RuntimeException` 클래스를 상속받은 예외들은 `unchecked exception`인데, 이 예외는 별도로 예외 처리를 강제하지 않는다.
+
+```java
+class Example {
+    public static void main(String[] args) {
+        try {
+            int[] arr = new int[3];
+            arr[3] = 10;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("배열의 인덱스가 범위를 벗어났습니다.");
+        }
+    }
+}
+```
+
+`ArrayIndexOutOfBoundsException` 예외는 `unchecked exception`이므로 `try-catch`문이나 `throws`절을 사용하지 않아도 컴파일 에러가 발생하지 않는다.
 
 ## 사용자정의 예외
 
