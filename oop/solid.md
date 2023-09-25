@@ -60,6 +60,36 @@ class Rectangle implements Shape {
         return width * height;
     }
 }
+
+// 좋은 예, 기존 코드를 변경하지 않고 확장 가능
+class Test1 {
+    private Shape shape;
+
+    public Test1(Shape shape) {
+        this.shape = shape;
+    }
+
+    public void doSomething() {
+        shape.calculateArea();
+        // ...
+    }
+}
+
+
+// 나쁜 예, 기능을 추가하기 위해선 필드와 조건문을 추가해야하는 변경이 필요
+class Test2 {
+    private Circle circle = new Circle();
+    private Rectangle rectangle = new Rectangle();
+
+    public void doSomething(String shape) {
+        if (shape.equals("circle")) {
+            circle.calculateArea();
+        } else if (shape.equals("rectangle")) {
+            rectangle.calculateArea();
+        }
+        // ...
+    }
+}
 ```
 
 위 코드에서 기능을 추가하기 위해서는 Shape 인터페이스를 구현하는 클래스만 추가하면 된다.
