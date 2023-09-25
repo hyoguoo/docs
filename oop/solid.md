@@ -100,48 +100,26 @@ class Test2 {
 - 부모 클래스의 규악을 자식 클래스가 다 지켜야 한다는 것을 의미한다.
 
 ```java
-class Rectangle {
-    private int width;
-    private int height;
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getArea() {
-        return width * height;
+class Parent {
+    public int calculate(int a, int b) {
+        return a + b;
     }
 }
 
-class Square extends Rectangle {
+class Child extends Parent {
     @Override
-    public void setWidth(int width) {
-        super.setWidth(width);
-        super.setHeight(width);
-    }
-
-    @Override
-    public void setHeight(int height) {
-        super.setWidth(height);
-        super.setHeight(height);
+    public int calculate(int a, int b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("b cannot be zero");
+        }
+        return a / b;
     }
 }
 
-class Example {
+public class test {
     public static void main(String[] args) {
-        Rectangle rectangle = new Rectangle();
-        rectangle.setWidth(10);
-        rectangle.setHeight(20);
-        System.out.println(rectangle.getArea()); // 200
-
-        Rectangle square = new Square();
-        square.setWidth(10);
-        square.setHeight(20);
-        System.out.println(square.getArea()); // 400
+        Parent p = new Child();
+        System.out.println(p.calculate(10, 0)); // IllegalArgumentException
     }
 }
 ```
@@ -173,7 +151,8 @@ class AllInOnePrinter implements Printer, Scanner {
 }
 ```
 
-인터페이스를 여러 개로 분리하여 클래스에 필요한 인터페이스만 구현하도록 하면, 필요한 기능만 사용할 수 있고, 대체 가능성도 높아진다.
+인터페이스를 여러 개로 분리하여 클래스에 필요한 인터페이스만 구현하도록 하면, 필요한 기능만 사용할 수 있고, 대체 가능성도 높아진다.  
+또한 불필요한 메서드를 구현하지 않아도 되고, 사용하는 클라이언트에겐 불필요한 메서드를 노출시키지 않는 장점이 있다.
 
 ## DIP: 의존 역전 원칙 (Dependency inversion principle)
 
@@ -213,4 +192,5 @@ class OrderServiceTest {
 }
 ```
 
-OrderService 클래스는 PaymentProvider 인터페이스에 의존하고 있기 때문에, KakaoPaymentProvider 클래스를 구현하여 인터페이스의 구현체를 주입받아 사용할 수 있다.
+위 코드는 인터페이스의 존재로 `OrderService -> PaymentProvider <- KakaoPaymentProvider`로 의존 방향이 역전되었기 때문에, 변경이 용이해진 코드가 된다.  
+하지만 인터페이스가 없었다면 `OrderService -> KakaoPaymentProvider`로 의존하게 되어 변경이 어려워지고, 테스트도 어렵게 된다.
