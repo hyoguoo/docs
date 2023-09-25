@@ -95,6 +95,7 @@
   * [소개](oop/introduce.md)
   * [역할 / 책임 / 협력](oop/role\_responsibility\_cooperation.md)
   * [타입](oop/type.md)
+  * [SOILD](oop/solid.md)
 * [Operating System](operating\_system/README.md)
   * [연속 메모리 할당](operating\_system/continuous\_memory\_allocation.md)
   * [CPU 스케줄링(CPU scheduling)](operating\_system/cpu\_scheduling.md)
