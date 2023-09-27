@@ -17,3 +17,4 @@ layout: editorial
 * [Item 5. Dependency Injection](item5.md)
 * [Item 6. Unnecessary Objects](item6.md)
 * [Item 7. Obsolete Object](item7.md)
+* [Item 8. Finalizer & Cleaner](item8.md)
