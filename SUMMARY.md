@@ -17,6 +17,7 @@
   * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
   * [Item 7. Obsolete Object](java/effective\_java/item7.md)
   * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
+  * [Item 9. try-with-resources](java/effective\_java/item9.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
