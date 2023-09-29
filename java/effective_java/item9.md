@@ -4,6 +4,8 @@ layout: editorial
 
 # try-with-resources
 
+> try-finally보다는 `try-with-resources`를 사용하라
+
 자바 라이브러리에는 `InputStream`, `OutputStream`, `java.sql.Connection`과 같이 `close()` 메서드를 호출하여 직접 자원을 회수해야 하는 자원이 많다.
 자원을 회수하는 것은 클라이언트가 놓치기 쉬운 부분이기 때문에 성능 문제로 이어지는 경우가 많다.  
 대체로 자원을 회수하기 위해선 `try-finally` 구문을 사용하게 된다.
