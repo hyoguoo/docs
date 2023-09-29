@@ -19,3 +19,7 @@ layout: editorial
 * [Item 7. Obsolete Object](item7.md)
 * [Item 8. Finalizer & Cleaner](item8.md)
 * [Item 9. try-with-resources](item9.md)
+
+## Chapter 3. 모든 객체의 공통 메서드
+
+* [Item 10. equals](item10.md)
