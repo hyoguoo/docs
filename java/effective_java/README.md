@@ -23,3 +23,4 @@ layout: editorial
 ## Chapter 3. 모든 객체의 공통 메서드
 
 * [Item 10. equals](item10.md)
+* [Item 11. hashCode](item11.md)

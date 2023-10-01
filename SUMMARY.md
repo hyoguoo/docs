@@ -19,6 +19,7 @@
   * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
   * [Item 9. try-with-resources](java/effective\_java/item9.md)
   * [Item 10. equals](java/effective\_java/item10.md)
+  * [Item 11. hashCode](java/effective\_java/item11.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
