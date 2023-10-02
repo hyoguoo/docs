@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # toString
 
 > toString을 항상 재정의하라
