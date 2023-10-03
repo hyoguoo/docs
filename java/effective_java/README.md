@@ -25,3 +25,4 @@ layout: editorial
 * [Item 10. equals](item10.md)
 * [Item 11. hashCode](item11.md)
 * [Item 12. toString](item12.md)
+* [Item 13. clone](item13.md)
