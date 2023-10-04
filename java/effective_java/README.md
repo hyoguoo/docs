@@ -26,3 +26,4 @@ layout: editorial
 * [Item 11. hashCode](item11.md)
 * [Item 12. toString](item12.md)
 * [Item 13. clone](item13.md)
+* [Item 14. Comparable](item14.md)
