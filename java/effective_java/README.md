@@ -32,3 +32,4 @@ layout: editorial
 
 * [Item 15. Access Modifier](item15.md)
 * [Item 16. Accessor Method](item16.md)
+* [Item 17. Minimize Mutability](item17.md)
