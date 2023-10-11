@@ -34,3 +34,4 @@ layout: editorial
 * [Item 16. Accessor Method](item16.md)
 * [Item 17. Minimize Mutability](item17.md)
 * [Item 18. Composition](item18.md)
+* [Item 19. Inheritance](item19.md)
