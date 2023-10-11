@@ -100,15 +100,42 @@ public class SpringConfig {
     - 빈이 생성되고, 빈의 의존관계 주입이 완료된 후 호출
 5. 사용
     - 실제 애플리케이션(빈) 동작 단계
-6. 소멸전 콜백
+6. 소멸 전 콜백
     - 빈이 소멸되기 직전에 호출
 7. 스프링 종료
 
 ### 빈 생명주기(초기화/소멸) 콜백
 
-스프링에서는 크게 3가지 방법으로 빈 생명주기 콜백을 지원하며 현재는 마지막 방법을 권장한다.
+스프링에서는 크게 3가지 방법으로 빈 생명주기 콜백을 지원하며 현재는 `@PostConstruct`, `@PreDestroy`를 가장 권장하고 있다.  
+실행 되는 순서는 아래 상세 설명된 번호대로 실행된다.
 
-#### 1. 인터페이스(InitializingBean, DisposableBean)
+#### 1. @PostConstruct, @PreDestroy 애노테이션
+
+- @PostConstruct: 의존관계 주입이 끝나면 호출
+- @PreDestroy: 빈이 종료될 때 호출
+
+```java
+public class Example {
+    // ...
+
+    @PostConstruct
+    public void init() {
+        action();
+    }
+
+    @PreDestroy
+    public void close() {
+        exit();
+    }
+}
+```
+
+- 최신 스프링에서 가장 권장하는 방법
+- `javax.annotation.PostConstruct`인 자바 표준 기술
+- 컴포넌트 스캔과 궁합이 좋음
+- 외부 라이브러리에는 적용 불가능 -> 이 경우 `@Bean`의 `initMethod`, `destroyMethod`를 사용
+
+#### 2. 인터페이스(InitializingBean, DisposableBean)
 
 - `InitializingBean` In `afterPropertiesSet()`: 의존관계 주입이 끝나면 호출
 - `DisposableBean` In `destroy()`: 빈이 종료될 때 호출
@@ -133,7 +160,7 @@ public class Example implements InitializingBean, DisposableBean {
 - 초기화, 소멸 메서드의 이름 변경 불가
 - 코드를 고칠 수 없는 외부 라이브러리에 적용 불가
 
-#### 2. 설정 정보에 초기화 메서드, 종료 메서드 지정
+#### 3. 설정 정보에 초기화 메서드, 종료 메서드 지정
 
 - `@Bean(initMethod = "init", destroyMethod = "close")` 초기화/소멸 메서드 지정
 
@@ -167,32 +194,6 @@ public class AppConfig {
     - `@Bean`의 `destroyMethod` 속성에는 아무것도 지정하지 않으면 추론 기능이 동작(`destroyMethod = "(inferred)"`)
     - `close`, `shutdown` 메서드를 자동으로 호출
     - 추론 기능을 사용하지 않으려면 `destroyMethod=""`로 지정
-
-#### 3. @PostConstruct, @PreDestroy 애노테이션 지원
-
-- @PostConstruct: 의존관계 주입이 끝나면 호출
-- @PreDestroy: 빈이 종료될 때 호출
-
-```java
-public class Example {
-    // ...
-
-    @PostConstruct
-    public void init() {
-        action();
-    }
-
-    @PreDestroy
-    public void close() {
-        exit();
-    }
-}
-```
-
-- 최신 스프링에서 가장 권장하는 방법
-- `javax.annotation.PostConstruct`인 자바 표준 기술
-- 컴포넌트 스캔과 궁합이 좋음
-- 외부 라이브러리에는 적용 불가능 -> 이 경우 `@Bean`의 `initMethod`, `destroyMethod`를 사용
 
 ## 스코프
 
