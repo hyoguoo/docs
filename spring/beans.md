@@ -231,46 +231,73 @@ public class AppConfig {
     - 프로토타입 빈은 프로토타입 빈을 조회한 클라이언트가 관리
     - 여러 빈에서 같은 프로토타입 빈을 주입 받으면, 주입 받은 모든 빈은 각자 다른 인스턴스를 사용(하나의 빈에선 계속 같은 프로토타입 빈을 가짐)
 
-### 웹 스코프
+[//]: # (### 웹 스코프)
 
-웹 스코프는 웹 환경에서만 동작하는 스코프로, 프로토타입과 다르게 스프링이 해당 스코프 종료시점까지 관리하여 종료 메서드도 호출한다.  
-웹 스코프의 종류는 `request`, `session`, `application`, `websocket` 이 있다.
+[//]: # ()
+[//]: # (웹 스코프는 웹 환경에서만 동작하는 스코프로, 프로토타입과 다르게 스프링이 해당 스코프 종료시점까지 관리하여 종료 메서드도 호출한다.  )
 
-```java
+[//]: # (웹 스코프의 종류는 `request`, `session`, `application`, `websocket` 이 있다.)
 
-@Component
-@Scope(value = "request")
-public class ExampleBean {
+[//]: # ()
+[//]: # (```java)
 
-    // ...
-}
-```
+[//]: # ()
+[//]: # (@Component)
 
-웹 스코프는 위 코드처럼 생성할 수 있으며, 만약 이 `Bean`을 다른 곳에 주입 하여 스프링 애플리케이션을 실행하게 되면 오류가 발생하게 된다.
+[//]: # (@Scope&#40;value = "request"&#41;)
 
-```shell
-Error creating bean with name 'exampleBean': Scope 'request' is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton;
-```
+[//]: # (public class ExampleBean {)
 
-스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 가능하지만, `request` 스코프는 실제 요청이 들어오기 전의 상태기 때문에(존재하지 않음) 오류가 발생하게 된다.  
-이를 위해 `Provider`을 사용해서 해결하는 방법도 있으나 `Proxy`를 사용하는 방법이 더 간단하다.
+[//]: # ()
+[//]: # (    // ...)
 
-#### Proxy
+[//]: # (})
 
-```java
+[//]: # (```)
 
-@Component
-@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS) // proxyMode 추가
-public class ExampleBean {
+[//]: # ()
+[//]: # (웹 스코프는 위 코드처럼 생성할 수 있으며, 만약 이 `Bean`을 다른 곳에 주입 하여 스프링 애플리케이션을 실행하게 되면 오류가 발생하게 된다.)
 
-    // ...
-}
-```
+[//]: # ()
+[//]: # (```shell)
 
-- `proxyMode`를 `TARGET_CLASS`로 설정하면 `CGLIB`에서 사용해서 프록시 객체를 생성한다.
-- 생성된 프록시 객체는 싱글톤처럼 동작하여 HTTP request와 상관 없이 다른 빈에 미리 주입해 둘 수 있다.
-- 다른 빈에서 `ExampleBean`를 호출하면 실제로는 프록시 객체를 호출하게 되고, 이 프록시 객체가 `ExampleBean`을 호출하게 된다.
-- 프록시 클래스는 원본 클래스인 `ExampleBean`을 상속받아서 생성되기 때문에 클라이언트는 `ExampleBean`의 모든 기능을 사용할 수 있다.(다형성)
+[//]: # (Error creating bean with name 'exampleBean': Scope 'request' is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 가능하지만, `request` 스코프는 실제 요청이 들어오기 전의 상태기 때문에&#40;존재하지 않음&#41; 오류가 발생하게 된다.  )
+
+[//]: # (이를 위해 `Provider`을 사용해서 해결하는 방법도 있으나 `proxyMode`를 사용하는 방법이 더 간단하다.)
+
+[//]: # ()
+[//]: # (#### proxyMode)
+
+[//]: # ()
+[//]: # (```java)
+
+[//]: # ()
+[//]: # (@Component)
+
+[//]: # (@Scope&#40;value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS&#41; // proxyMode 추가)
+
+[//]: # (public class ExampleBean {)
+
+[//]: # ()
+[//]: # (    // ...)
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (- `proxyMode`를 `TARGET_CLASS`로 설정하면 `CGLIB`에서 사용해서 프록시 객체를 생성한다.)
+
+[//]: # (- 생성된 프록시 객체는 싱글톤처럼 동작하여 HTTP request와 상관 없이 다른 빈에 미리 주입해 둘 수 있다.)
+
+[//]: # (- 다른 빈에서 `ExampleBean`를 호출하면 실제로는 프록시 객체를 호출하게 되고, 이 프록시 객체가 `ExampleBean`을 호출하게 된다.)
+
+[//]: # (- 프록시 클래스는 원본 클래스인 `ExampleBean`을 상속받아서 생성되기 때문에 클라이언트는 `ExampleBean`의 모든 기능을 사용할 수 있다.&#40;다형성&#41;)
 
 ###### 참고자료
 
