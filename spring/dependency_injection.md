@@ -2,11 +2,12 @@
 layout: editorial
 ---
 
-# 의존성 주입(DI)
+# 의존성 주입(Dependency Injection)
 
 > 객체 간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 결정해주는 디자인 패턴
 
-올바른 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있다.
+스프링에선 의존성 주입을 여러가지 방법으로 주입할 수 있는데, 각 방법마다 장/단점이 존재한다.  
+현재는 대부분 생성자 주입을 사용하며, 이 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있다.
 
 - Test 용이
 - 코드 재사용성 증가
@@ -71,7 +72,7 @@ public class MessageSender {
 
 ### 1. 생성자 주입
 
-생성자를 통해서 의존 관계를 주입 받는 방법
+생성자를 통해서 의존 관계를 주입 받는 방법으로, 대부분 이 방법을 사용한다.
 
 ```java
 
@@ -79,7 +80,7 @@ public class MessageSender {
 public class MemberController {
     private final MemberService memberService;
 
-    @Autowired // 생략가능
+    // @Autowired // 생략가능
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
@@ -151,7 +152,7 @@ public class MemberController {
 
 기본적으로 `Spring Framework`에서 권장하는 방법은 1번의 `생성자 주입`이며, 그 이유는 다음과 같다.
 
-- 대부분 의존관계 주입은 한 번 일어나면 애플리케이션 종료 시점까지 변경할 일이 없으며 변하면 안 된다(불변)
+- 대부분 의존관계 주입은 한 번 일어나면 애플리케이션 종료 시점까지 변경할 일이 없으며 변하면 안 된다.(불변성)
 - 3번의 `Setter`방식은 실행 중 의존성이 변경되는 위험한 가능성이 있다.
 
 ### 1. 순환 참조 방지
@@ -225,14 +226,13 @@ public class MemberTest {
 }
 ```
 
-위와 같이 필드를 통한 의존성 주입을 하게 되면 Spring 위에서 동작하지 않는 테스트 코드에선 의존 관계 주입이 되지 않는다.  
-테스트 코드의 `memberService는` `null`이 되어 정상적인 테스트가 불가능해진다.  
-만약 Setter 주입을 사용하면 테스트 코드에서 `setter`를 통해 의존성을 주입해줄 수 있지만, 불변성 측면에서 위배된다.
+위와 같이 필드를 통한 의존성 주입을 하게 되면 Spring 위에서 동작하지 않는 순수 자바 테스트 코드에선 의존 관계 주입이 되지 않는다.(`memberService` -> `null`)  
+때문에 정상적인 테스트가 불가능해지며, 만약 Setter 주입을 사용하면 테스트 코드에서 `setter`를 통해 의존성을 주입해줄 수 있지만, 불변성 측면에서 위배된다.
 
-## Lombok
+## Lombok 활용
 
 생성자 주입은 많은 장점을 가져다주지만 필드 주입에 비해 편의성 면에선 조금 떨어지는데 Lombok을 사용하면 이를 극복할 수 있다.  
-생성자를 한 개만 두고 `@Autowired`를 할 수 있다면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되어 생성자 관련 코드를 간략하게 사용할 수 있다.
+생성자를 한 개만 두고 `@Autowired`를 생략 할 수 있다면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되어 생성자 관련 코드를 간략하게 사용할 수 있다.
 
 ```java
 // before
@@ -281,7 +281,7 @@ public class OrderService {
 }
 ```
 
-하위 타입으로 변경 지정할 수 있지만 이는 DIP 위배하고, 유연성이 떨어지는 문제가 있어 다른 해결 방법을 사용하는 것이 좋다.
+하위 타입을 변경하여 지정할 수 있지만 이는 DIP 위배하고, 유연성이 떨어지는 문제가 있어 다른 해결 방법을 사용하는 것이 좋다.
 
 ### 1. @Autowired 필드명 매칭
 
@@ -293,7 +293,7 @@ public class OrderService {
     private final DiscountPolicy discountPolicy;
 
     @Autowired
-    public OrderServiceImpl(DiscountPolicy rateDiscountPolicy) { // 이름 변경
+    public OrderServiceImpl(DiscountPolicy rateDiscountPolicy) { // discountPolicy -> rateDiscountPolicy로 변경하여 필드명과 동일하게 매칭
         this.discountPolicy = rateDiscountPolicy;
     }
 }
@@ -346,7 +346,8 @@ public class RateDiscountPolicy implements DiscountPolicy {
 
 ### 정리
 
-메인으로 사용 할 스프링 빈은 `@Primary` 를 적용해서 편리하게 조회하고, 서브로 사용할 빈은 `@Qualifier` 를 지정해서 명시적으로 획득 하는 방식으로 사용하면 코드를 깔끔하게 유지할 수 있다.
+메인으로 사용 할 스프링 빈은 `@Primary` 를 적용해서 편리하게 조회하고, 서브로 사용할 빈은 `@Qualifier` 를 지정해서 명시적으로 획득 하는 방식으로 사용하면 코드를 깔끔하게 유지할 수 있다.  
+간략하게 정리하면 다음과 같다.
 
 - `@Autowired`
     1. 타입 매칭

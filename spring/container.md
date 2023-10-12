@@ -56,10 +56,8 @@ public class Main {
 
 ### 2. 스프링 빈 등록(`AppConfig`를 통한 예시)
 
-- AppConfig
-
 ```java
-
+// AppConfig.java
 @Configuration
 public class AppConfig {
 
@@ -96,7 +94,7 @@ public class AppConfig {
 
 - 스프링 컨테이너는 파라미터로 넘어온 클래스 정보를 사용해 스프링 빈 등록
 - 빈 이름은 메서드 이름을 사용하며, `@Bean(name="memberServiceName")` 과 같이 다른 이름을 부여할 수 있다.
-- 항상 다른 이름을 부여해야 하며, 중복 될 경우 버전에 따라 덮어 쓰거나 오류가 발생
+- 항상 다른 이름을 부여해야 하며, 중복 될 경우 버전에 따라 덮어 쓰거나 오류가 발생할 수 있다.
 
 ### 3. 스프링 빈 의존관계 설정
 
@@ -104,7 +102,7 @@ public class AppConfig {
 memberService -> memberRepository <- orderService -> discountPolicy
 ```
 
-- 스프링 컨테이너는 설정 정보를 참고해서 의존 관계를 주입(DI)
+스프링 컨테이너에서 설정 정보를 참고해서 의존 관계를 주입(DI)하게 된다.
 
 ###### 참고자료
 

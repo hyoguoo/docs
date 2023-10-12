@@ -8,12 +8,12 @@ layout: editorial
 
 ```java
 // AppConfig.java
-// @ComponentScan을 사용하면 @Component 어노테이션이 붙은 클래스를 스캔하여 빈으로 등록한다.  
+// @ComponentScan 사용하여 @Component 어노테이션이 붙은 클래스를 스캔하여 빈으로 등록  
 @Configuration
 @ComponentScan(
-        // 스캔할 패키지의 시작 위치를 지정한다. 이 패키지를 포함해서 하위 패키지를 모두 스캔한다.
+        // 스캔할 패키지의 시작 위치를 지정, 이 패키지를 포함해서 하위 패키지를 모두 탐색
         basePackages = {"hello.core", "hello.service"},
-        // 지정한 클래스의 패키지를 탐색 시작 위치로 지정한다. 지정하지 않으면 @ComponentScan이 붙은 설정 정보 클래스의 패키지가 시작 위치가 된다.
+        // 지정한 클래스의 패키지를 탐색 시작 위치로 지정, 지정하지 않으면 @ComponentScan이 붙은 설정 정보 클래스의 패키지가 시작 위치로 설정됨
         basePackageClasses = AutoAppConfig.class
 )
 public class AutoAppConfig {
@@ -35,8 +35,7 @@ public class OrderServiceImpl implements OrderService {
 }
 ```
 
-> 패키지 위치를 지정하지 않고, 설정 정보(`AppConfig`) 클래스의 위치를 프로젝트 최상단에 두는 것을 권장한다.
-
+위 처럼 패키지 위치를 지정할 수 있지만 일반적으로 설정 정보(`AppConfig`) 클래스의 위치를 프로젝트 최상단에 두는 것을 권장한다.
 아래는 컴포넌트 스캔의 대상 `Annotation`들로, 내부 구현 코드를 보면 모두 `@Component`을 포함하고있다.
 
 - `@Component` : 컴포넌트 스캔의 대상에 사용
@@ -127,7 +126,7 @@ public class RateDiscountPolicy implements DisCountPolicy {
 ### 2. `@Autowired`
 
 생성자에 `@Autowired`를 지정하면, 스프링 컨테이너가 스프링 빈(타입이 같은 빈)을 찾아서 해당 파라미터에 넣어준다.  
-생성자가 하나인 경우 생략할 수 있기 때문에 보통은 생략하는 경우가 많다.
+생성자가 하나인 경우 생략할 수 있기 때문에 그 경우엔 보통은 생략한다.
 
 ```java
 
