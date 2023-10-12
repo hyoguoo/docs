@@ -8,11 +8,17 @@ layout: editorial
 
 Bean은 스프링을 구성하는 핵심요소로, 아래의 구성 요소를 가지고 있다.
 
-- class: Bean으로 등록할 클래스
-- id: Bean 고유 식별자
-- scope: Bean을 생성하기 위한 방법(싱글톤, 프로토타입 등)
-- constructor arguments: Bean 생성 시 생성자에 전달할 인자
-- property: Bean 생성 시 setter를 통해 전달할 인자
+1. class(클래스): Bean으로 등록할 Java 클래스
+    - 스프링 컨테이너에 의해 객체로 생성 및 관리되어 클래스의 인스턴스를 Bean으로 사용
+    - 이후 필요한 곳에서 해당 Bean을 주입하여 사용
+2. id(고유 식별자): 각 Bean의 고유한 식별자
+    - 스프링 컨테이너에서 각 Bean을 식별 및 조회할 때 사용
+3. scope(범위): 해당 Bean이 유효 범위 정책 정의
+    - Singleton / Prototype / Request / Session / Global Session 존재(기본값: Singleton)
+4. constructor arguments(생성자 인자): Bean을 생성할 때 생성자에 전달할 인자들을 정의
+    - Bean을 초기화하는 데 사용
+    - 정의된 생성자에 대응하는 값을 넣어 Bean을 생성할 때 사용
+5. property(속성): Bean을 생성할 때 setter를 통해 전달할 인자들을 정의
 
 ## 스프링 빈 등록
 
