@@ -9,7 +9,7 @@ layout: editorial
 
 ## BeanFactory vs ApplicationContext
 
-[interface]BeanFactory <-- [interface]ApplicationContext <-- [구현체]AnnotationConfigApplicationContext
+![BeanFactory / ApplicationContext Diagram](./image/beanfactory_applicationcontext_diagram.png)
 
 ### BeanFactory
 
