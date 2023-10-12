@@ -195,10 +195,10 @@ public class AppConfig {
 - 메서드 이름 자유롭게 설정 가능
 - 스프링 빈이 스프링 코드에 의존하지 않음
 - 설정 정보를 사용하기 때문에 코드를 고칠 수 없는 외부 라이브러리에도 초기화, 종료 메서드 적용 가능
-- 종료 메서드 추론
-    - `@Bean`의 `destroyMethod` 속성에는 아무것도 지정하지 않으면 추론 기능이 동작(`destroyMethod = "(inferred)"`)
-    - `close`, `shutdown` 메서드를 자동으로 호출
-    - 추론 기능을 사용하지 않으려면 `destroyMethod=""`로 지정
+- 종료 메서드 추론 기능
+    - `@Bean`의 `destroyMethod` 속성에는 아무것도 지정하지 않으면 추론 기능이 동작
+    - `close`, `shutdown` 같은 일반적으로 많이 사용하는 종료 메서드를 자동으로 호출
+    - 추론 기능을 막기 위해서 `destroyMethod=""`로 지정 할 수 있음
 
 ## 스코프
 
