@@ -28,6 +28,7 @@
   * [Item 17. Minimize Mutability](java/effective\_java/item17.md)
   * [Item 18. Composition](java/effective\_java/item18.md)
   * [Item 19. Inheritance](java/effective\_java/item19.md)
+  * [Item 20. Abstract Class & Interface](java/effective\_java/item20.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
