@@ -228,6 +228,49 @@ class CalculatorTest {
 | default  |     가능      |   가능   |  클래스명.메서드명  |
 | abstract |     불가능     |   가능   |  클래스명.메서드명  |
 
+### default 메서드 중복 선언 시
+
+default 메서드를 구현체에서 재정의 하지 않으면, 인터페이스의 default 메서드를 사용하게 된다.  
+하지만 아래와 같이 같은 시그니처를 가진 default 메서드가 여러 인터페이스에 존재하는 경우 에러가 발생하기 때문에, 구현체에서 재정의를 하여 오류를 해결해야 한다.
+
+```java
+// 인터페이스 1
+interface Interface1 {
+    void interfaceMethod1();
+
+    default void defaultMethod() {
+        System.out.println("defaultMethod1");
+    }
+}
+
+// 인터페이스 2
+interface Interface2 {
+    void interfaceMethod2();
+
+    default void defaultMethod() {
+        System.out.println("defaultMethod2");
+    }
+}
+
+// 인터페이스를 구현한 클래스
+class ConcreteClass2 implements Interface1, Interface2 {
+    @Override
+    public void interfaceMethod1() {
+        System.out.println("interfaceMethod1");
+    }
+
+    @Override
+    public void interfaceMethod2() {
+        System.out.println("interfaceMethod2");
+    }
+
+    @Override
+    public void defaultMethod() {
+        Interface1.super.defaultMethod();
+    }
+}
+```
+
 ## 익명 구현 객체(Anonymous Implement Object)
 
 - 구현 클래스를 정의하지 않고, 인터페이스를 구현하는 객체를 생성하는 방법
