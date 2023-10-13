@@ -30,6 +30,7 @@
   * [Item 19. Inheritance](java/effective\_java/item19.md)
   * [Item 20. Abstract Class & Interface](java/effective\_java/item20.md)
   * [Item 21. Default Method](java/effective\_java/item21.md)
+  * [Item 22. Constant Interface](java/effective\_java/item22.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
