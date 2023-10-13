@@ -60,7 +60,7 @@ public @interface SpringBootApplication {
     - 해당 어노테이션 내 `@Import(AutoConfigurationImportSelector.class)` 코드가 `META-INF/.../...imports` 파일을 읽어 자동 설정을 수행
 - `@ComponentScan`
     - `@SpringBootApplication` 어노테이션이 선언된 클래스의 패키지와 하위 패키지에서 스프링 컴포넌트를 검색하고 등록하는 역할
-    - 때문에 `@SpringBootApplication` 어노테이션은 최상위 패키지에 위치하는 것이 좋음
+    - 때문에 `@SpringBootApplication` 어노테이션은 최상위 패키지에 위치하는 것이 좋음(최초 생성시 기본적으로 최상위 패키지에 위치)
 
 ## SpringBootApplication
 
