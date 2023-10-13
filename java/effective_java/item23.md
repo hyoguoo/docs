@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Item 24: Favor static member classes over nonstatic
+# Subtyping(하위 타입)
 
 > 태그 달린 클래스보다는 클래스 계층구조를 활용하라
 
