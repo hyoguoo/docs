@@ -38,3 +38,4 @@ layout: editorial
 * [Item 20. Abstract Class & Interface](item20.md)
 * [Item 21. Default Method](item21.md)
 * [Item 22. Constant Interface](item22.md)
+* [Item 23. Subtyping](item23.md)
