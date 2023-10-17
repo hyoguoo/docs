@@ -13,6 +13,28 @@ layout: editorial
 
 위의 세 개의 인터페이스와 JDBC 드라이버를 사용하여 DB에 접근할 수 있다.
 
+## JDBC Flow
+
+1. Get Connection
+    - 필요한 연결 정보를 가지고 데이터베이스 연결
+    - `DriverManager` 클래스 사용
+2. Create Statement
+    - `Connection`으로부터 Statement 객체 생성
+3. Configure Statement
+    - SQL 쿼리를 실행하기 위해 Statement 객체에 Query 설정
+4. Execute Statement
+    - 구성된 Query 실행
+        - `executeQuery()`: SELECT
+        - `executeUpdate()`: INSERT, UPDATE, DELETE
+5. Handle Warning
+    - SQL 쿼리 실행 중 발생한 경고 혹은 예외 처리
+6. Return Result
+    - SQL 쿼리 실행 결과를 ResultSet 객체로 반환
+7. Close Statement
+    - 사용 완료 후 `Statement.close()` 메서드를 통해 Statement 객체 닫기
+8. Close Connection
+    - 작업 완료 후 `Connection.close()` 메서드를 통해 Connection 객체 닫기
+
 ## JDBC의 사용
 
 JDBC는 여러 문제를 해결해주었지만 오래된 기술이고 사용하는 방법이 복잡하기 때문에, 최근에는 직접 사용하는 것보다는 `SQL Mapper`나 `ORM`을 결합하여 사용하고 있다.
