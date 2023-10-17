@@ -59,8 +59,6 @@
   * [Thread Pool](java/thread\_pool.md)
   * [변수](java/variable.md)
   * [Wrapper 클래스](java/wrapper\_class.md)
-* [JUnit](junit/README.md)
-  * [JUnit 5](junit/junit5.md)
 * [MySQL](mysql/README.md)
   * [실행 계획 분석](mysql/analyze\_execution\_plan.md)
   * [아키텍처](mysql/architecture.md)
