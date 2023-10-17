@@ -32,6 +32,7 @@
   * [Item 21. Default Method](java/effective\_java/item21.md)
   * [Item 22. Constant Interface](java/effective\_java/item22.md)
   * [Item 23. Subtyping](java/effective\_java/item23.md)
+  * [Item 24. Nested Class](java/effective\_java/item24.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)

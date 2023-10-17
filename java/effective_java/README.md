@@ -39,3 +39,4 @@ layout: editorial
 * [Item 21. Default Method](item21.md)
 * [Item 22. Constant Interface](item22.md)
 * [Item 23. Subtyping](item23.md)
+* [Item 24. Nested Class](item24.md)
