@@ -159,6 +159,7 @@
   * [싱글톤](spring/singleton.md)
   * [스프링 부트](spring/spring\_boot.md)
   * [Spring MVC(Model View Controller)](spring/spring\_mvc.md)
+  * [Testing Basic](spring/testing\_basic.md)
   * [Transactional](spring/transactional.md)
   * [Bean Validation](spring/validator.md)
   * [View Resolver](spring/view\_resolver.md)

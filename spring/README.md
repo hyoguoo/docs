@@ -32,3 +32,5 @@ layout: editorial
         * [영속성 컨텍스트](persistence_context.md)
         * [지연 로딩](lazy_loading.md)
 * [스프링 부트](spring_boot.md)
+* JUnit
+    * [테스트 기초](testing_basic.md)
