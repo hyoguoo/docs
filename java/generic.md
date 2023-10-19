@@ -7,6 +7,7 @@ layout: editorial
 > 컴파일 시에 타입을 체크하는 기능
 
 ```java
+// 제네릭 클래스(= 제네릭 타입)
 class Box<T> {
     private T t;
 
@@ -18,14 +19,24 @@ class Box<T> {
         return t;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Box<String> box = new Box<String>();
+        box.set("Hello");
+        String str = box.get();
+    }
+}
 ```
 
+위처럼 선언된 클래스를 제네릭 클래스(인터페이스)라고 하며, 둘을 통틀어 제네릭 타입(Generic Type)이라고 한다.  
 위에 선언 된 클래스를 아래와 같이 설명할 수 있다.
 
 - Box<T> : 제네릭 클래스
-- T : 제네릭 타입 파라미터
-    - T를 타입 변수(`type variable`)라고 하며, 다른 것을 사용해도 된다.(E, K, V, N, S, U, T, R 등)
-- Box : 원시 타입(raw type)
+- T : 형식 타입 매개변수(Formal Type Parameter)
+    - T를 타입 변수(Type Variable)라고 하며, 다른 것을 사용해도 된다.(E, K, V, N, S, U, T, R 등)
+    - 위 내용에서의 String: 실제 타입 매개변수(Actual Type Parameter)
+- Box : 원시 타입(raw type), 타입 매개변수가 없는 타입
 
 ## 제네릭의 제한
 
@@ -104,7 +115,7 @@ public class Main {
 interface Eatable {
 }
 
-class Box<T> extends Fruit & Eatable> {
+class Box<T extends Fruit & Eatable> {
     private T t;
 
     public void set(T t) {
@@ -188,61 +199,61 @@ class Juicer {
 
 ```java
 class Fruit {
-  // Fruit 클래스의 내용은 생략
+    // Fruit 클래스의 내용은 생략
 }
 
 class Apple extends Fruit {
-  // Apple 클래스의 내용은 생략
+    // Apple 클래스의 내용은 생략
 }
 
 class FruitBox<T extends Fruit> {
-  private final List<T> list = new ArrayList<>();
+    private final List<T> list = new ArrayList<>();
 
-  public void add(T fruit) {
-    list.add(fruit);
-  }
+    public void add(T fruit) {
+        list.add(fruit);
+    }
 
-  public List<T> getList() {
-    return list;
-  }
+    public List<T> getList() {
+        return list;
+    }
 }
 
 class Juice {
-  private final String content;
+    private final String content;
 
-  public Juice(String content) {
-    this.content = content;
-  }
+    public Juice(String content) {
+        this.content = content;
+    }
 
-  @Override
-  public String toString() {
-    return "Juice(" + content + ")";
-  }
+    @Override
+    public String toString() {
+        return "Juice(" + content + ")";
+    }
 }
 
 class Juicer {
-  static Juice makeJuice(FruitBox<? extends Fruit> box) {
-    StringBuilder tmp = new StringBuilder();
-    for (Fruit f : box.getList()) {
-      tmp.append(f).append(" ");
+    static Juice makeJuice(FruitBox<? extends Fruit> box) {
+        StringBuilder tmp = new StringBuilder();
+        for (Fruit f : box.getList()) {
+            tmp.append(f).append(" ");
+        }
+        return new Juice(tmp.toString());
     }
-    return new Juice(tmp.toString());
-  }
 }
 
 class Main {
-  public static void main(String[] args) {
-    FruitBox<Fruit> fruitBox = new FruitBox<>();
-    FruitBox<Apple> appleBox = new FruitBox<>();
+    public static void main(String[] args) {
+        FruitBox<Fruit> fruitBox = new FruitBox<>();
+        FruitBox<Apple> appleBox = new FruitBox<>();
 
-    fruitBox.add(new Fruit());
-    fruitBox.add(new Apple());
-    appleBox.add(new Apple());
-    appleBox.add(new Apple());
+        fruitBox.add(new Fruit());
+        fruitBox.add(new Apple());
+        appleBox.add(new Apple());
+        appleBox.add(new Apple());
 
-    System.out.println(Juicer.makeJuice(fruitBox));
-    System.out.println(Juicer.makeJuice(appleBox));
-  }
+        System.out.println(Juicer.makeJuice(fruitBox));
+        System.out.println(Juicer.makeJuice(appleBox));
+    }
 }
 ```
 
@@ -251,8 +262,6 @@ class Main {
 - `<?>` : 모든 타입이 가능(=<? extends Object>)
 
 ## 제네릭 메서드
-
-> 메서드의 선언부에 제네릭 타입이 선언된 메서드, 반환 타입 이전에 제네릭 타입을 선언
 
 인스턴스 생성할 때의 타입과 상관없이 독립적으로 제네릭 유형을 선언하여 쓸 수 있다.
 
@@ -310,33 +319,34 @@ public class Main {
 
 ### static
 
-위와 같이 제네릭 메서드 선언은 정적 메서드로 선언할 때 사용할 수 있다.  
-제네릭 타입은 해당 클래스 객체가 인스턴스화 했을 때 외부에서 지정된 타입으로 결정되는데, `static`은 프로그램 실행 시 메모리에 이미 올라가 있기 때문에 클래스와 별도로 독립적인 제네릭을 사용해야 한다.
+제네릭 메서드 선언은 정적 메서드로 선언할 때 사용할 수 있는데, 클래스에 선언된 제네릭 타입과는 별도로 독립적인 제네릭 타입을 사용해야 한다.
 
 ```java
 class ClassName<E> {
-    // 에러 발생, static 메서드는 객체가 생성되기 이전 시점에 메모리에 올라가기 때문에 E 유형을 가져올 수 없다.
+
+    // 클래스의 제네릭 타입 E를 사용
+    E genericMethod0(E o) {
+        return o;
+    }
+
+    // 에러 발생, static 메서드는 객체가 생성되기 이전 시점에 메모리에 올라가기 때문에 클래스에 선언 된 E 유형을 사용할 수 없음
     static E genericStaticMethod1(E o) {
         return o;
     }
 
-    // 제네릭 클래스의 E 타입과 다른 독립적인 타입 
+    // 같은 타입 변수 E를 사용하지만 독립적인 타입 E 사용
     static <E> E genericStaticMethod2(E o) {
         return o;
     }
 
+    // 제네릭 클래스의 E 타입과 다른 독립적인 타입 T 사용 가능
     static <T> T genericStaticMethod3(T o) {
         return o;
     }
-}
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println(ClassName.<String>genericStaticMethod2("ABCD")); // ABCD
-        System.out.println(ClassName.<Integer>genericStaticMethod2(10)); // 10
-
-        System.out.println(ClassName.<String>genericStaticMethod3("ABCD")); // ABCD
-        System.out.println(ClassName.<Integer>genericStaticMethod3(10)); // 10
+    // 에러 발생, 반환 타입에 클래스 제네릭 타입 E를 사용할 수 없음
+    static <T> E genericStaticMethod4(T o) {
+        return o;
     }
 }
 ```
