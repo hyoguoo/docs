@@ -38,6 +38,16 @@ class Main {
     - 위 내용에서의 String: 실제 타입 매개변수(Actual Type Parameter)
 - Box : 원시 타입(raw type), 타입 매개변수가 없는 타입
 
+보통 제네릭에 사용되는 타입 변수는 다음과 같이 사용된다.(강제 사항은 아님)
+
+| Type | Description |
+|:----:|:-----------:|
+| <T>  |    Type     |
+| <E>  |   Element   |
+| <K>  |     Key     |
+| <V>  |    Value    |
+| <N>  |   Number    |
+
 ## 제네릭의 제한
 
 모든 객체에 대해 동일하게 동작해야하는 `static` 메서드나 `static` 필드에서는 타입 변수를 사용할 수 없다.  
