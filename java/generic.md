@@ -29,16 +29,27 @@ class Main {
 }
 ```
 
-위처럼 선언된 클래스를 제네릭 클래스(인터페이스)라고 하며, 둘을 통틀어 제네릭 타입(Generic Type)이라고 한다.  
-위에 선언 된 클래스를 아래와 같이 설명할 수 있다.
+위처럼 선언된 클래스를 제네릭 클래스(인터페이스)라고 하며, 둘을 통틀어 제네릭 타입(Generic Type)이라고 한다.
 
-- Box<T> : 제네릭 클래스
-- T : 형식 타입 매개변수(Formal Type Parameter)
-    - T를 타입 변수(Type Variable)라고 하며, 다른 것을 사용해도 된다.(E, K, V, N, S, U, T, R 등)
-    - 위 내용에서의 String: 실제 타입 매개변수(Actual Type Parameter)
-- Box : 원시 타입(raw type), 타입 매개변수가 없는 타입
+## 제네릭에 사용되는 용어
 
-보통 제네릭에 사용되는 타입 변수는 다음과 같이 사용된다.(강제 사항은 아님)
+- 제네릭 타입에 사용되는 용어
+
+|                Terminology                |              Example               |
+|:-----------------------------------------:|:----------------------------------:|
+|       Parameterized type(매개변수화 타입)        |           `List<String>`           |
+|     Actual type parameter(실제 타입 매개변수)     |              `String`              |
+|           Generic type(제네릭 타입)            |             `List<E>`              |
+|     Formal type parameter(정규 타입 매개변수)     |                `E`                 |
+|  Unbounded wildcard type(비한정적 와일드카드 타입)   |             `List<?>`              |
+|              Raw type(로 타입)               |               `List`               |
+|    Bounded type parameter(한정적 타입 매개변수)    |        `<E extends Number>`        |
+|      Recursive type bound(재귀적 타입 한정)      |    `<T extends Comparable<T>>`     |
+|    Bounded wildcard type(한정적 와일드카드 타입)    |      `List<? extends Number>`      |
+|          Generic method(제네릭 메서드)          | `static <E> List<E> asList(E[] a)` |
+| type token(타입 토큰) or type literal(타입 리터럴) |           `String.class`           |
+
+- 제네릭에 사용되는 형식 타입 변수(강제 사항 X)
 
 | Type  | Description |
 |:-----:|:-----------:|
