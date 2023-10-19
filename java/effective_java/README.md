@@ -41,3 +41,4 @@ layout: editorial
 * [Item 23. Subtyping](item23.md)
 * [Item 24. Nested Class](item24.md)
 * [Item 25. Limit File Top-level Class](item25.md)
+* [Item 26. Raw Type](item26.md)

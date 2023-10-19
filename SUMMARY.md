@@ -34,6 +34,7 @@
   * [Item 23. Subtyping](java/effective\_java/item23.md)
   * [Item 24. Nested Class](java/effective\_java/item24.md)
   * [Item 25. Limit File Top-level Class](java/effective\_java/item25.md)
+  * [Item 26. Raw Type](java/effective\_java/item26.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
