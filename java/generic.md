@@ -40,13 +40,13 @@ class Main {
 
 보통 제네릭에 사용되는 타입 변수는 다음과 같이 사용된다.(강제 사항은 아님)
 
-| Type | Description |
-|:----:|:-----------:|
-| <T>  |    Type     |
-| <E>  |   Element   |
-| <K>  |     Key     |
-| <V>  |    Value    |
-| <N>  |   Number    |
+| Type  | Description |
+|:-----:|:-----------:|
+| `<T>` |    Type     |
+| `<E>` |   Element   |
+| `<K>` |     Key     |
+| `<V>` |    Value    |
+| `<N>` |   Number    |
 
 ## 제네릭의 제한
 
@@ -357,6 +357,67 @@ class ClassName<E> {
     // 에러 발생, 반환 타입에 클래스 제네릭 타입 E를 사용할 수 없음
     static <T> E genericStaticMethod4(T o) {
         return o;
+    }
+}
+```
+
+## Generic Type Erasure
+
+제네릭 타입은 컴파일 시에만 유효하고, 컴파일 후에는 런타임 중에는 타입 정보가 사라지게 된다.  
+`extends`를 통한 제한이 없는 경우에는 `Object`로 대체되고, `extends`를 통해 제한이 있는 경우에는 제한된 타입으로 대체된다.
+
+```java
+// 컴파일 전
+class Test<T> {
+    private T t;
+
+    public void set(T t) {
+        this.t = t;
+    }
+
+    public T get() {
+        return t;
+    }
+}
+
+// 컴파일 후
+class Test {
+    private Object t;
+
+    public void set(Object t) {
+        this.t = t;
+    }
+
+    public Object get() {
+        return t;
+    }
+}
+```
+
+```java
+// 컴파일 전
+class Test<T extends Number> {
+    private T t;
+
+    public void set(T t) {
+        this.t = t;
+    }
+
+    public T get() {
+        return t;
+    }
+}
+
+// 컴파일 후
+class Test {
+    private Number t;
+
+    public void set(Number t) {
+        this.t = t;
+    }
+
+    public Number get() {
+        return t;
     }
 }
 ```
