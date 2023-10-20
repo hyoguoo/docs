@@ -45,3 +45,4 @@ layout: editorial
 ## Chapter 5. 제네릭
 
 * [Item 26. Raw Type](item26.md)
+* [Item 27. Unchecked Warning](item27.md)
