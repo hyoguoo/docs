@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 예외 처리(Exception Handling)
+# Exception Handling(예외 처리)
 
 ## 스프링의 기본적인 예외 처리 방법
 

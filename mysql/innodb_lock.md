@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# InnoDB 스토리지 엔진 락
+# InnoDB Storage Engine Lock
 
 - InnoDB 스토리지 엔진은 레코드 기반의 잠금 기능을 제공
 - 잠금 정보가 상당히 작은 크기의 메모리로 관리

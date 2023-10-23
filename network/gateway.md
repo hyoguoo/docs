@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 게이트웨이(Gateway)
+# Gateway(게이트웨이)
 
 > 다른 서버(비 HTTP)들의 중개자로 동작하는 서버
 

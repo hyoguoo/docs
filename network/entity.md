@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 엔티티(Entity)
+# Entity(엔티티)
 
 ## 메시지와 엔티티
 

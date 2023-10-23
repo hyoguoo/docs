@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# B-Tree 인덱스
+# B-Tree Index
 
 > B-Tree 인덱스는 데이터베이스의 인덱스를 구성하는 가장 기본적인 방법, Binary의 B가 아니라 Balanced의 B
 

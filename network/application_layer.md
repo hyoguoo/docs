@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 응용 계층 (Application Layer) - TCP/IP Layer 4
+# Application Layer(응용 계층) - TCP/IP Layer 4
 
 응용 계층은 사용자가 직접 사용하는 애플리케이션과 네트워크를 연결해주는 최상위 계층 역할을 한다.  
 사용자가 네트워크 서비스와 원활하게 상호작용 할 수 있도록 중요한 역할을 한다.

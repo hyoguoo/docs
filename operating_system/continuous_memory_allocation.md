@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 연속 메모리 할당
+# Continuous Memory Allocation(연속 메모리 할당)
 
 > 프로세스에 연속적인 메모리 공간을 할당하는 방식
 

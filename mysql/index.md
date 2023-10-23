@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 인덱스(Index)
+# Index(인덱스)
 
 > 데이터베이스 쿼리의 성능에서 뺴놓을 수 없는 요소 중 하나
 

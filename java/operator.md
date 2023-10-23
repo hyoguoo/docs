@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 연산자
+# Operator(연산자)
 
 > 연산을 수행하는 기호
 

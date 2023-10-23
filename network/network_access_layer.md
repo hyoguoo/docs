@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 네트워크 엑세스 계층(Network Access Layer) - TCP/IP Layer 1
+# Network Access Layer(네트워크 엑세스 계층) - TCP/IP Layer 1
 
 > LAN 카드와 같은 네트워크에 접속하는 하드웨어적인 면을 다루는 계층, OSI 7계층에서 물리 계층과 데이터 링크 계층과 대응된다.
 

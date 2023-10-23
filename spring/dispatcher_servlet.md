@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# DispatcherServlet
+# DispatcherServlet(디스패처 서블릿)
 
 `org.springframework.web.servlet.DispatcherServlet`
 

@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 맵
+# Map
 
 > Key-Value 쌍으로 이루어진 데이터 구조
 

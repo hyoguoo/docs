@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Iterator 인터페이스
+# Iterator
 
 Iterator 인터페이스를 사용하여 Java 컬렉션 데이터를 순회하고 접근할 수 있다.  
 Iterator는 컬렉션 내의 요소를 반복적으로 순회하면서 데이터를 읽을 수 있는 메커니즘을 제공하고, 컬렉션의 내부 구조를 알 필요 없이 데이터에 접근할 수 있도록 해준다.
@@ -34,7 +34,7 @@ public class IteratorExample {
 }
 ```
 
-# 스트림(Stream)
+# 스트림
 
 > 데이터 소스를 추상화하고, 다루는데 자주 사용되는 메서드를 정의한 인터페이스
 

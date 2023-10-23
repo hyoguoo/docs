@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# CPU 스케줄링(CPU scheduling)
+# CPU scheduling(CPU 스케줄링)
 
 모든 프로세스는 CPU를 필요로 하기 때문에, 운영체제는 공정하고 합리적으로 CPU를 할당하기 위해 CPU 스케줄링(CPU scheduling)을 수행한다.
 

@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 버전 관리
+# JVM Version Control
 
 ## Java 버전 전환 설정
 

@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 잠금을 사용하는 SELECT
+# SELECT Lock
 
 보통 InnoDB 테이블에 대해서 레코드를 읽을 때 레코드에 아무런 잠금을 걸지 않는다.(=Non Locking Consistent Read)  
 단순 조회하는 상황에서는 잠금을 걸지 않는 것이 좋지만, 읽은 레코드의 컬럼 값을 애플리케이션에서 가공해서 업데이트 할 떄엔 다른 트랜잭션의 영향을 받지 않도록 잠금을 걸어야 한다.  

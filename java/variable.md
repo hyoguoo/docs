@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 변수
+# Variable(변수)
 
 > 단 하나의 값을 저장할 수 있는 메모리 공간
 

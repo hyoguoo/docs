@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# cpu 동작 방식
+# CPU Work(cpu 동작 방식)
 
 ## 함수 / 프로시저 / 서브루틴
 

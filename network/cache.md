@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 캐시(Cache)
+# Cache(캐시)
 
 > 웹 서버에서 클라이언트로 전송된 리소스를 임시로 저장하는 장소
 

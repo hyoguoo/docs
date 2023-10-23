@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 실행 계획 확인
+# Check Execution Plan(실행 계획 확인)
 
 MySQL 서버의 실행 계획은 `EXPLAIN` 명령으로 확인할 수 있으며 단순 테이블 형태나 JSON, TREE 형태로 출력할 수 있다.
 

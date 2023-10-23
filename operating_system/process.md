@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 프로세스
+# Process(프로세스)
 
 > 메모리에 적재하고 실행 된 프로그램
 

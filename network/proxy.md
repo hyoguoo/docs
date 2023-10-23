@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 프락시(Proxy)
+# Proxy(프락시)
 
 > 클라이언트와 서버 사이에 위치하여 중개해주는 역할
 

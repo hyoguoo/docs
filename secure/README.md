@@ -4,5 +4,5 @@ layout: editorial
 
 # Secure
 
-* [디지털 암호학 기초](digital_cryptography_basic.md)
-* [시큐어 코딩](secure_coding.md)
+* [Digital Cryptography Basic](digital_cryptography_basic.md)
+* [Secure Coding](secure_coding.md)

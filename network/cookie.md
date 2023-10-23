@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 쿠키(Cookie)
+# Cookie(쿠키)
 
 > `Client`의 상태를 유지하고 식별하기 위한 가장 널리 사용 되는 방식
 

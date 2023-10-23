@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 네트워크 계층 (Network Layer) - TCP/IP Layer 2
+# Network Layer(네트워크 계층) - TCP/IP Layer 2
 
 > 물리 계층과 데이터 계층에 해당하는 Network Access Layer는 LAN에 국한된 통신을 담당하는 계층이다.  
 > 네트워크 계층은 LAN을 넘어서기 위한 계층으로, 라우팅을 하여 네트워크 간 통신이 가능하도록 한다.

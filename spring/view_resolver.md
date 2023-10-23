@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# View Resolver
+# View Resolver(뷰 리졸버)
 
 Spring MVC 프레임워크에서 ViewResolver는 컨트롤러 메서드에 의해 반환된 논리적 뷰 이름을 클라이언트에 대한 응답을 렌더링하는 데 사용할 수 있는 실제 뷰 구현으로 해석하는 역할
 

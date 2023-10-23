@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 옵티마이저
+# Optimizer(옵티마이저)
 
 > 최적의 실행 계획을 수립
 

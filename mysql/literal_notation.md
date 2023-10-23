@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 리터럴 표기법
+# Literal Notation(리터럴 표기)
 
 ## 문자열
 

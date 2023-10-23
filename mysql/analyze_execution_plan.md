@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 실행 계획 분석
+# Analyze Execution Plan(실행 계획 분석)
 
 ```mysql
 EXPLAIN

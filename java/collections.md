@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 자바 컬렉션
+# Collections(컬렉션)
 
 > 객체 그룹을 저장하고 조작하는 아키텍처를 제공하는 프레임워크
 

@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 명령어 병렬 처리 기법
+# Instruction Level Parallelism(명령어 병렬 처리 기법)
 
 > 컴퓨터는 명령어를 빠르고 효율적으로 처리하기 위해 CPU 쉬지 않고 작동 시키기 위해 명령어 병렬 처리 기법을 사용한다.
 

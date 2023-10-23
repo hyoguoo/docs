@@ -2,6 +2,8 @@
 layout: editorial
 ---
 
+# Project Setting(프로젝트 설정)
+
 ### Environment
 
 - macOS

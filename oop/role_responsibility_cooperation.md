@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 역할 / 책임 / 협력
+# Role & Responsibility & Cooperation(역할 & 책임 & 협력)
 
 ## 협력
 

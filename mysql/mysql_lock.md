@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# MySQL 엔진 락
+# MySQL Engine Lock
 
 MySQL 엔진 레벨의 락은 모든 스토리지 엔진에 영향을 주게 되는 락으로, 아래와 같은 종류가 있다.
 

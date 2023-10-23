@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 내부 언어 체계
+# Internal Language System(내부 언어 체계)
 
 ## 컴퓨터 언어
 

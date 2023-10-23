@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 터널(Tunnel)
+# Tunnel(터널)
 
 > 두 커넥션 사이에서 날(raw) 데이터를 열어보지 않고 그대로 전달해주는 HTTP 애플리케이션
 

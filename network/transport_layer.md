@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 전송 계층 (Transport Layer) - TCP/IP Layer 3
+# Transport Layer(전송 계층) - TCP/IP Layer 3
 
 전송 계층은 응용 계층(TCP/IP L4)의 애플리케이션 프로세스 식별과, 네트워크 계층(TCP/IP L2)의 신뢰성/연결성 확립(네트워크 계층의 한계 극복)을 담당한다.
 

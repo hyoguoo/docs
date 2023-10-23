@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Object 클래스
+# Object class
 
 `java.lang` 패키지는 자바프로그래밍에 가장 기본이 되는 클래스로. `import` 없이 사용할 수 있다.  
 모든 클래스의 최고 조상으로, 때문에 모든 클래스는 Object 클래스의 멤버를 모두 사용할 수 있다.  

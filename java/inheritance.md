@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 상속
+# Inheritance(상속)
 
 > 기존 클래스를 재사용하여 새로운 클래스를 작성하는 것
 

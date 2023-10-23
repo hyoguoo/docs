@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 의존성 주입(Dependency Injection)
+# Dependency Injection(의존성 주입)
 
 > 객체 간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 결정해주는 디자인 패턴
 
