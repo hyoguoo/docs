@@ -66,7 +66,7 @@
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze\_execution\_plan.md)
-  * [아키텍처(Architecture)](mysql/architecture.md)
+  * [Architecture(아키텍처)](mysql/architecture.md)
   * [B-Tree Index](mysql/btree\_index.md)
   * [Built-in Function(내장 함수)](mysql/built\_in\_function.md)
   * [CHAR / VARCHAR](mysql/char\_varchar.md)

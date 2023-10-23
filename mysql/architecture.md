@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# 아키텍처(Architecture)
+# Architecture(아키텍처)
 
 MySQL 서버는 크게 MySQL 엔진과 스토리지 엔진으로 구성된다.
 
