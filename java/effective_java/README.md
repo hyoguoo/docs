@@ -47,3 +47,4 @@ layout: editorial
 * [Item 26. Raw Type](item26.md)
 * [Item 27. Unchecked Warning](item27.md)
 * [Item 28. List vs Array](item28.md)
+* [Item 29. Generic Type](item29.md)

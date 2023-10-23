@@ -37,6 +37,7 @@
   * [Item 26. Raw Type](java/effective\_java/item26.md)
   * [Item 27. Unchecked Warning](java/effective\_java/item27.md)
   * [Item 28. List vs Array](java/effective\_java/item28.md)
+  * [Item 29. Generic Type](java/effective\_java/item29.md)
 * [Java](java/README.md)
   * [배열](java/array.md)
   * [클래스](java/class.md)
