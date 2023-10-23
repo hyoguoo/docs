@@ -16,7 +16,7 @@ layout: editorial
     * [B-Tree Index](btree_index.md)
     * [ETC Index](etc_index.md)
 * [Optimizer](optimizer.md)
-* [데이터 처리](data_processing.md)
+* [Data Processing](data_processing.md)
 * Execution Plan
     * [Statistics](statistics.md)
     * [Check Execution Plan](check_execution_plan.md)
