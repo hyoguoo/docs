@@ -15,9 +15,13 @@ layout: editorial
 
 1. 서블릿이 호출되면 `HttpServlet`의 `service()` 메서드가 호출
 2. 스프링 MVC의 `DispatcherServlet`은 `FrameworkServlet`의 `service()` 메서드를 오버라이딩이 되어있음
-3. `FrameworkServlet`의 `service()` 메서드는 여러 메서드를 호출하는데, `doDispatch()` 메서드가 가장 중요한 메서드
+3. `FrameworkServlet`의 `service()` 메서드는 여러 메서드를 호출하는데, 그 중 `doDispatch()` 메서드가 가장 중요한 역할을 함
 
 ### `doDispatch()` 코드 분석
+
+![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring_mvc_flow.png)
+
+내부 코드를 살펴보면 앞 문서에서 확인했던 Spring MVC Flow의 동작을 모두 확인할 수 있다.
 
 ```java
 public class DispatcherServlet extends FrameworkServlet { // FrameworkServlet -> HttpServletBean -> HttpServlet
@@ -80,6 +84,8 @@ public class DispatcherServlet extends FrameworkServlet { // FrameworkServlet ->
     }
 }
 ```
+
+위의 역할 외에도 디스패처 서블릿은 스프링에서 모든 요청을 먼저 받는 곳이 디스패처 서블릿이기 때문에, 발생한 에러가 처리되는 시작되는 곳이기도 하다.
 
 ###### 참고자료
 
