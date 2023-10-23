@@ -27,7 +27,7 @@ layout: editorial
 
 ## Spring MVC Flow
 
-![img.png](image/spring_mvc_flow.png)
+![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring_mvc_flow.png)
 
 | 순서  |         내용         |                              설명                              |
 |:---:|:------------------:|:------------------------------------------------------------:|
@@ -67,7 +67,7 @@ public class SpringExmapleController {
 - `@RequestMapping`(=`@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`)
     - 요청 정보를 매핑하여 해당 URL이 호출되면 애노테이션이 있는 메서드가 호출됨
     - 애노테이션 기반으로 동작하기 때문에 임의의 이름으로 지어도 상관 없음
-- `String`
+- 반환 `String`
     - 뷰의 논리 이름
     - `ViewResolver`가 논리 이름을 실제 뷰 이름으로 변환하여 뷰를 찾음
 - `Model`
