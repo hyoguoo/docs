@@ -151,7 +151,7 @@
   * [DispatcherServlet](spring/dispatcher\_servlet.md)
   * [예외 처리(Exception Handling)](spring/exception\_handling.md)
   * [필터와 인터셉터](spring/filter\_interceptor.md)
-  * [핸들러 매핑과 핸들러 어댑터](spring/handler\_mapping\_adapter.md)
+  * [HandlerMapping & HandlerAdapter](spring/handler\_mapping\_adapter.md)
   * [스프링 소개](spring/introduce.md)
   * [JDBC(Java Database Connectivity)](spring/jdbc.md)
   * [JPA](spring/jpa\_basic.md)

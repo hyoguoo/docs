@@ -15,7 +15,7 @@ layout: editorial
 * [싱글톤](singleton.md)
 * [Spring MVC](spring_mvc.md)
     * [DispatcherServlet](dispatcher_servlet.md)
-    * [핸들러 매핑 & 핸들러 어댑터](handler_mapping_adapter.md)
+    * [HandlerMapping & HandlerAdapter](handler_mapping_adapter.md)
     * [뷰 리졸버](view_resolver.md)
     * [메시지 컨버터](message_converter.md)
 * [검증](validator.md)
