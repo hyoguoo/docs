@@ -48,3 +48,4 @@ layout: editorial
 * [Item 27. Unchecked Warning](item27.md)
 * [Item 28. List vs Array](item28.md)
 * [Item 29. Generic Type](item29.md)
+* [Item 30. Generic Method](item30.md)
