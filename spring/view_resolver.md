@@ -4,7 +4,7 @@ layout: editorial
 
 # View Resolver(뷰 리졸버)
 
-Spring MVC 프레임워크에서 ViewResolver는 컨트롤러 메서드에 의해 반환된 논리적 뷰 이름을 클라이언트에 대한 응답을 렌더링하는 데 사용할 수 있는 실제 뷰 구현으로 해석하는 역할
+Spring MVC 프레임워크에서 ViewResolver는 컨트롤러 메서드에 의해 반환된 논리적 뷰 이름을 클라이언트에 대한 응답을 렌더링하는 데 사용할 수 있는 실제 뷰 구현으로 해석하는 역할을 한다.
 
 ## ViewResolver 종류
 
@@ -13,11 +13,11 @@ Spring MVC 프레임워크에서 ViewResolver는 컨트롤러 메서드에 의�
 | InternalResourceViewResolver | view 이름을 웹 애플리케이션의 JSP 페이지에 매핑 |
 |    ThymeleafViewResolver     |   view 이름을 Thymeleaf 템플릿에 매핑   |
 
-이외에도 UrlBasedViewResolver, FreeMarkerViewResolver 등이 있음
+이외에도 UrlBasedViewResolver, FreeMarkerViewResolver 등 다양한 ViewResolver 구현체가 존재한다.
 
 ## prefix / suffix
 
-ViewResolver는 논리적 뷰 이름에 prefix와 suffix를 추가하여 뷰를 찾음
+ViewResolver는 논리적 뷰 이름에 prefix와 suffix를 추가하여 뷰를 찾을 수 있도록 처리할 수 있다.
 
 ```text
 spring.mvc.view.prefix=/WEB-INF/views/

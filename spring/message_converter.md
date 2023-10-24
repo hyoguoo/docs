@@ -39,11 +39,11 @@ public interface HttpMessageConverter<T> {
 ## 스프링 부트 기본 메시지 컨버터
 
 스프링 부트에서는 다양한 메시지 컨버터를 제공하는데, 클래스 타입과 미디어 타입을 체크하여 사용여부를 체크하게 된다.  
-우선 순위는 아래와 같으며 만족하지 않으면 다음 컨버터를 사용하게 된다.
+우선 순위는 아래와 같으며 만족하지 않으면 다음 우선 순위의 메시지 컨버터를 사용한다.
 
-- `ByteArrayHttpMessageConverter`: `byte[]` 데이터 처리
-- `StringHttpMessageConverter`: `String` 문자로 데이터 처리
-- `MappingJackson2HttpMessageConverter`: `application/json` 처리
+1. `ByteArrayHttpMessageConverter`: `byte[]` 데이터 처리
+2. `StringHttpMessageConverter`: `String` 문자로 데이터 처리
+3. `MappingJackson2HttpMessageConverter`: `application/json` 처리
 
 ## HTTP 요청 데이터 읽기 및 응답 데이터 생성 과정
 
