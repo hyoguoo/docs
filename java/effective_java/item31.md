@@ -170,16 +170,17 @@ class Swap1 {
     public static void swap(List<?> list, int i, int j) {
         list.set(i, list.set(j, list.get(i))); // 컴파일 에러, List<?>에는 null 외에는 어떤 값도 넣을 수 없음
     }
+}
 
-    // helper method 추가
-    class Swap2 {
+// helper method 추가
+class Swap2 {
 
-        public static void swap(List<?> list, int i, int j) {
-            swapHelper(list, i, j);
-        }
-
-        private static <E> void swapHelper(List<E> list, int i, int j) {
-            list.set(i, list.set(j, list.get(i)));
-        }
+    public static void swap(List<?> list, int i, int j) {
+        swapHelper(list, i, j);
     }
+
+    private static <E> void swapHelper(List<E> list, int i, int j) {
+        list.set(i, list.set(j, list.get(i)));
+    }
+}
 ```
