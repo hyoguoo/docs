@@ -146,12 +146,13 @@ public class Collections {
 
 ## 타입 매개변수 vs 와일드카드
 
-타입 매개변수와 와일드카드는 타입 다형성에 있어 공통되는 부분이 있어 둘 중 하나를 선택해 사용할 수 있는 경우가 있다.  
+타입 매개변수와 와일드카드는 타입 다형성에 있어 공통되는 부분이 있어 둘 중 하나를 선택해 사용할 수 있는 경우가 있다.
 
 ```java
 interface Swap {
     // 1. 타입 매개변수를 사용한 메서드 선언
     public static <E> void swap(List<E> list, int i, int j);
+
     // 2. 와일드카드를 사용한 메서드 선언
     public static void swap(List<?> list, int i, int j);
 }
@@ -168,17 +169,17 @@ class Swap1 {
 
     public static void swap(List<?> list, int i, int j) {
         list.set(i, list.set(j, list.get(i))); // 컴파일 에러, List<?>에는 null 외에는 어떤 값도 넣을 수 없음
-}
-
-// helper method 추가
-class Swap2 {
-
-    public static void swap(List<?> list, int i, int j) {
-        swapHelper(list, i, j);
     }
 
-    private static <E> void swapHelper(List<E> list, int i, int j) {
-        list.set(i, list.set(j, list.get(i)));
+    // helper method 추가
+    class Swap2 {
+
+        public static void swap(List<?> list, int i, int j) {
+            swapHelper(list, i, j);
+        }
+
+        private static <E> void swapHelper(List<E> list, int i, int j) {
+            list.set(i, list.set(j, list.get(i)));
+        }
     }
-}
 ```
