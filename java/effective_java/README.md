@@ -49,4 +49,3 @@ layout: editorial
 * [Item 28. List vs Array](item28.md)
 * [Item 29. Generic Type](item29.md)
 * [Item 30. Generic Method](item30.md)
-* [Item 31. Wildcard Type](item31.md)
