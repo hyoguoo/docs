@@ -50,15 +50,17 @@ cross-origin의 종류는 아래로 정의된다.
 
 ## Preflight
 
-기본적으로 브라우저는 `cross-origin` 요청을 전송하기 전에 `OPTIONS` METHOD로 preflight를 전송하면 Response로 아래의 정보가 넘어오게 된다.
+일종의 예비 요청으로, 단순 요청이 아닐 경우에 브라우저가 자동으로 전송하는 요청이다.  
+클라이언트의 요청과 서버의 응답을 확인하여 실제 요청을 전송할지 결정하게 된다.
 
-- `Access-Control-Allow-Origin` : 허용 `origin`
-- `Access-Control-Allow-Methods` : 허용 `method`
-- `Access-Control-Allow-Headers` : 허용 `header`
-- `Access-Control-Max-Age` : preflight 요청 결과를 캐싱할 시간
-
-결과를 성공적으로 확인 후 `cross-origin` 요청을 보내서 그 이후 과정을 진행하게 된다. 때문에 `cross-origin` 요청을 보낼 때 마다 preflight 요청을 보낸다고 생각할 수 있는데,  
-캐싱을 통해 그 결과를 일정 기간 저장시켜 바로 요청을 가능하도록 한다. 캐싱 시간은 서버 쪽 `cross-origin` 설정 중 `maxAge`에 값을 주어 설정할 수 있다.
+1. 클라이언트에서 `OPTIONS /resource` 요청을 `Origin` 헤더와 함께 전송
+2. 서버에서 `Access-Control-*` 헤더와 함께 응답(성공하는 경우 200 OK)
+    - `Access-Control-Allow-Origin` : 허용 `origin`
+    - `Access-Control-Allow-Methods` : 허용 `method`
+    - `Access-Control-Allow-Headers` : 허용 `header`
+    - `Access-Control-Max-Age` : preflight 요청 결과를 캐싱할 시간
+3. 클라이언트에서 `Access-Control-Allow-Origin` 헤더를 확인하여 실제 본 요청을 전송할지 결정
+4. preflight 유효 시간 동안 캐싱하여 다음 요청부터는 preflight 요청을 생략하고 바로 본 요청을 전송
 
 ###### 참고자료
 
