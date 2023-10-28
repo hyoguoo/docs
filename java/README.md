@@ -31,6 +31,7 @@ layout: editorial
     * [Thread](thread.md)
     * [Thread Pool](thread_pool.md)
 * Advanced
+    * [Varargs](varargs.md)
     * [Generic](generic.md)
     * [Lambda](lambda.md)
     * [Reflection](reflection.md)
