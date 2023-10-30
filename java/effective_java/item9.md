@@ -40,9 +40,27 @@ class Test {
 
 위 문제는 Java 7에 나온 `try-with-resources` 구문을 사용하면 해결할 수 있다.  
 이 구조를 사용하기 위해선 사용하는 자원(클래스)이 `AutoCloseable` 인터페이스를 구현해야 한다.  
-`BufferedReader`는 `AutoCloseable` 인터페이스를 구현해놓은 클래스이며, 많은 자바 라이브러리들이 `AutoCloseable` 인터페이스를 구현해놓았다.
+`BufferedReader`는 `AutoCloseable` 인터페이스를 구현해놓은 클래스이며, 많은 자바 라이브러리들이 `AutoCloseable` 인터페이스를 구현해놓았다.  
+AutoCloseable 인터페이스의 내용을 확인해보면 `close()` 메서드를 확인할 수 있으며, 이 메서드를 통해 자원을 회수한다.
 
-우선 코드 구조와 실행되는 순서는 다음과 같다.
+![BufferedReader Diagram](../image/bufferreader_diagram.png)
+
+```java
+public interface AutoCloseable {
+    /**
+     * Closes this resource, relinquishing any underlying resources.
+     * -> 이 자원을 회수하고, 관련된 하위 자원들도 회수한다.
+     * This method is invoked automatically on objects managed by the
+     * {@code try}-with-resources statement.
+     * -> 이 메서드는 try-with-resources 문으로 관리되는 객체에서 자동으로 호출됩니다.
+     *
+     * ...
+     */
+    void close() throws Exception;
+}
+```
+
+아래 코드에서 실행되는 순서는 다음과 같다.
 
 ```java
 class Test {
