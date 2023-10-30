@@ -51,3 +51,4 @@ layout: editorial
 * [Item 30. Generic Method](item30.md)
 * [Item 31. Wildcard Type](item31.md)
 * [Item 32. Varargs](item32.md)
+* [Item 33. Type Safe Heterogeneous Container](item33.md)

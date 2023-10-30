@@ -62,6 +62,7 @@
     * [Item 30. Generic Method](java/effective\_java/item30.md)
     * [Item 31. Wildcard Type](java/effective\_java/item31.md)
     * [Item 32. Varargs](java/effective\_java/item32.md)
+    * [Item 33. Type Safe Heterogeneous Container](java/effective\_java/item33.md)
     * [Item 4. Noninstantiability](java/effective\_java/item4.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
