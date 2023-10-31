@@ -52,3 +52,7 @@ layout: editorial
 * [Item 31. Wildcard Type](item31.md)
 * [Item 32. Varargs](item32.md)
 * [Item 33. Type Safe Heterogeneous Container](item33.md)
+
+## Chapter 6. 열거 타입과 애너테이션
+
+* [Item 34. Enum](item34.md)
