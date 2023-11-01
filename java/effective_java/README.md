@@ -57,3 +57,4 @@ layout: editorial
 
 * [Item 34. Enum](item34.md)
 * [Item 35. Ordinal](item35.md)
+* [Item 36. EnumSet](item36.md)
