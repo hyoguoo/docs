@@ -56,3 +56,4 @@ layout: editorial
 ## Chapter 6. 열거 타입과 애너테이션
 
 * [Item 34. Enum](item34.md)
+* [Item 35. Ordinal](item35.md)
