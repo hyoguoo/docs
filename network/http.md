@@ -4,8 +4,8 @@ layout: editorial
 
 # HTTP(HyperText Transfer Protocol)
 
-HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 전송 가능하다.  
-서버 간 통신을 할 때도 대부분 HTTP를 통해 통신한다.
+HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 전송 가능한 프로토콜로, 현재 네트워크 통신에서 많이 사용되는 프로토콜이다.  
+주로 서버와 클라이언트 사이에서 요청/응답을 주고받는데 사용되고 있다.
 
 ## 역사
 
@@ -69,7 +69,8 @@ HTTP는 다양한 방식으로 데이터를 전송하는데, 이 방식은 메�
 
 ## MIME(Multipurpose Internet Mail Extensions)
 
-텍스트/영상/이미지 등 다양한 데이터를 다루기 위한 기능으로 `Content-Type` 헤더 필드를 사용하여 데이터의 종류를 나타낸다.
+텍스트/영상/이미지 등 다양한 데이터를 다루기 위한 기능으로 `Content-Type` 헤더 필드를 사용하여 데이터의 종류를 나타낸다.  
+웹 서버에서 MIME 타입을 지정하면 웹 브라우저는 다룰 수 있는 객체인지 확인하고, 해당 타입에 맞는 애플리케이션을 실행하여 데이터를 처리한다.
 
 - 이미지 등의 바이너리 데이터를 아스키(ASCII) 문자열에 인코딩하는 방법과 데이터 종류를 나타내는 방법 등을 규정
 - 확장 사양에 있는 멀티파트(Multipart)라고 하는 여러 다른 종류의 데이터를 수용하는 방법 사용
@@ -80,7 +81,8 @@ HTTP는 다양한 방식으로 데이터를 전송하는데, 이 방식은 메�
 
 ## 보안상 문제가 발생하는 HTTP
 
-HTTP에는 많은 장점들이 있지만 아래와 같은 보안상 문제가 발생할 수 있다.
+HTTP에는 많은 장점들이 있지만 아래와 같은 보안상 문제가 발생할 수 있다.  
+현재 이러한 문제를 [HTTPS](https.md)를 통해 해결하고 있다.
 
 ### 평문 통신(메시지 탈취 가능)
 
@@ -108,5 +110,6 @@ HTTP는 메시지가 중간에 변조되지 않았는지 확인할 수 없기 �
 
 ###### 참고자료
 
+- [HTTP 완벽 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=HTTP+완벽+가이드&isbn=9788966261208&cipId=200309770%2C4096969)
 - [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-웹-네트워크)
 - [(그림으로 배우는) http & network basic](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=9788931447897&isbn=9788931447897&cipId=200443691%2C)
