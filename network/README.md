@@ -8,7 +8,9 @@ layout: editorial
     * [Network Access Layer - TCP/IP L1](network_access_layer.md)
     * [Network Layer - TCP/IP L2](network_layer.md)
     * [Transport Layer - TCP/IP L3](transport_layer.md)
-    * [Application Layer - TCP/IP L4](application_layer.md)
+    * Application Layer - TCP/IP L4
+        * [DNS](dns.md)
+        * [URI](uri.md)
         * [HTTP](http.md)
             * [HTTP Message](http_message.md)
             * [Entity](entity.md)
