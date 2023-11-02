@@ -66,6 +66,7 @@
     * [Item 34. Enum](java/effective\_java/item34.md)
     * [Item 35. Ordinal](java/effective\_java/item35.md)
     * [Item 36. EnumSet](java/effective\_java/item36.md)
+    * [Item 37. EnumMap](java/effective\_java/item37.md)
     * [Item 4. Noninstantiability](java/effective\_java/item4.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
