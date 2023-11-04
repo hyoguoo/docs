@@ -60,3 +60,4 @@ layout: editorial
 * [Item 36. EnumSet](item36.md)
 * [Item 37. EnumMap](item37.md)
 * [Item 38. Extended Enum](item38.md)
+* [Item 39. Annotation](item39.md)
