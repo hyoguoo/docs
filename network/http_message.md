@@ -25,7 +25,7 @@ HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
 - Message Body: 실제 전송할 데이터로, 필요에 따라 생기는 데이터이다.
 
 각 줄은 CRLF(Carriage Return, Line Feed)로 끝나며, 각 부분은 CRLF로 구분된다.  
-하지만 모든 HTTP 애플리케이션이 CRLF를 제대로 사용하고 있지 않아 그냥 개행 문자도 받아들일 수 있는 HTTP 애플리케이션으로 개발하는 것이 좋다.
+하지만 모든 HTTP 애플리케이션이 CRLF를 제대로 사용하고 있지 않기 때문에, 그냥 개행 문자도 받아들일 수 있는 HTTP 애플리케이션으로 개발하는 것이 좋다.
 
 ```http request
 <start-line>
@@ -41,7 +41,7 @@ HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
 ```http request
 <method> <request-URI> <HTTP-version>
 <header>
-
+<CRLF>
 <entity-body>
 ```
 
@@ -59,12 +59,14 @@ Upgrade-Insecure-Requests: 1
 Cache-Control: max-age=0
 ```
 
+entity body는 생략될 수 있으며, 생략된 경우에는 CRLF로 끝나는 메시지가 된다.
+
 ### HTTP Response Message
 
 ```http request
 <HTTP-version> <status-code> <reason-phrase>
 <header>
-
+<CRLF>
 <entity-body>
 ```
 
@@ -106,7 +108,7 @@ HTTP 메시지의 첫 줄로, 요청과 응답에 따라 구성에 약간 차이
 
 ### Headers
 
-HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 바디의 내용/바디의 크기/압축/인증 등을 포함한다.
+HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 내용/크기/압축/인증 등을 포함한다.
 
 ```http request
 status line
