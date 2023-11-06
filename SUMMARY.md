@@ -70,6 +70,7 @@
     * [Item 38. Extended Enum](java/effective\_java/item38.md)
     * [Item 39. Annotation](java/effective\_java/item39.md)
     * [Item 4. Noninstantiability](java/effective\_java/item4.md)
+    * [Item 40. @Override](java/effective\_java/item40.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
