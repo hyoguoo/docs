@@ -62,3 +62,4 @@ layout: editorial
 * [Item 38. Extended Enum](item38.md)
 * [Item 39. Annotation](item39.md)
 * [Item 40. @Override](item40.md)
+* [Item 41. Marker Interface](item41.md)
