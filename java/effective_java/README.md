@@ -63,3 +63,7 @@ layout: editorial
 * [Item 39. Annotation](item39.md)
 * [Item 40. @Override](item40.md)
 * [Item 41. Marker Interface](item41.md)
+
+## Chapter 7. 람다와 스트림
+
+* [Item 42. Lambda](item42.md)
