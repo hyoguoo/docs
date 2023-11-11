@@ -67,3 +67,4 @@ layout: editorial
 ## Chapter 7. 람다와 스트림
 
 * [Item 42. Lambda](item42.md)
+* [Item 43. Method Reference](item43.md)

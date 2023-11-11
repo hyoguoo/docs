@@ -73,6 +73,7 @@
     * [Item 40. @Override](java/effective\_java/item40.md)
     * [Item 41. Marker Interface](java/effective\_java/item41.md)
     * [Item 42. Lambda](java/effective\_java/item42.md)
+    * [Item 43. Method Reference](java/effective\_java/item43.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
