@@ -28,9 +28,11 @@ layout: editorial
 | 7. Close Statement     | 작업이 완료되면 사용한 `Statement` 객체를 `Statement.close()` 메서드를 사용하여 명시적으로 닫아 자원 해제                            | `java.sql.Statement` 인터페이스의 `close()` 메서드                                                                                                    |
 | 8. Close Connection    | 모든 데이터베이스 작업 완료 후 `Connection` 객체를 `Connection.close()` 메서드를 사용하여 명시적으로 닫아 데이터베이스 연결 자원을 해제 후 연결을 종료 | `java.sql.Connection` 인터페이스의 `close()` 메서드                                                                                                   |
 
+굉장히 많은 과정을 필요로 하지만 `JdbcTemplate`를 사용하면 이러한 과정을 대신 처리해주어 편리하게 사용할 수 있다.
+
 ## JDBC의 사용
 
-JDBC는 여러 문제를 해결해주었지만 오래된 기술이고 사용하는 방법이 복잡하기 때문에, 최근에는 직접 사용하는 것보다는 `SQL Mapper`나 `ORM`을 결합하여 사용하고 있다.
+JDBC와 `JdbcTemplate`는 이미 여러 문제를 해결해주고 편리함을 제공해주었지만, 최근에는 직접 사용하는 것보다는 `SQL Mapper`나 `ORM`을 결합하여 사용하고 있다.
 
 ![JDBC에 접근하는 여러 방법](image/jdbc_access.png)
 
