@@ -68,3 +68,4 @@ layout: editorial
 
 * [Item 42. Lambda](item42.md)
 * [Item 43. Method Reference](item43.md)
+* [Item 44. Functional Interface](item44.md)
