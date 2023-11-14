@@ -6,47 +6,44 @@ layout: editorial
 
 > 엔티티를 영구 저장하는 환경
 
-## 엔티티의 생명 주기
+## 생명 주기
 
-1. 비영속(new/transient)
-    - 영속성 컨텍스트와 전혀 관계가 없는 새로운 상태
-2. 영속(managed)
-    - 영속성 컨텍스트에 관리되는 상태
-3. 준영속(detached)
-    - 영속성 컨텍스트에 저장되어있다가 분리된 상태
-4. 삭제(removed)
-    - 삭제된 상태
+![영속성 생명 주기](image/persistence_life_cycle.png)
+
+1. 비영속(new/transient): 영속성 컨텍스트와 전혀 관계가 없는 새로운 상태
+2. 영속(managed): 영속성 컨텍스트에 관리되는 상태
+3. 준영속(detached): 영속성 컨텍스트에 저장되어있다가 분리된 상태
+4. 삭제(removed): 삭제된 상태
 
 ```java
 class Example {
     public static void main(String[] args) {
-        Member member = new Member(); // 비영속
+        Member member = new Member(); // 1. 비영속
         member.setId("member1");
         member.setUsername("회원1");
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(member); // 영속
+        entityManager.persist(member); // 2. 영속
 
-        entityManager.detach(member); // 준영속
-        entityManager.remove(member); // 삭제
+        entityManager.detach(member); // 3. 준영속
+        entityManager.remove(member); // 4. 삭제
     }
 }
 ```
 
-## 영속성 컨텍스트의 이점
+## 영속성 컨텍스트 특징
 
 ### 1차 캐시
 
-`entityManager.persist(member)` 처럼 엔티티를 영속성 컨텍스트에 저장하면, 영속성 컨텍스트는 엔티티를 1차 캐시에 저장하고, 키를 통해 엔티티를 관리한다.
+`entityManager.persist(member)` 처럼 엔티티를 영속성 컨텍스트에 저장하면, 영속성 컨텍스트는 엔티티를 1차 캐시에 저장하고, 식별자 키를 통해 엔티티를 관리한다.
 
 | @Id |            Entity            |
 |:---:|:----------------------------:|
 |  1  | Member(id=1, username="회원1") |
 
 위 상태에서 `entityManager.find(Member.class, 1)` 을 호출하면, 데이터베이스에서 조회하기 전에 1차 캐시에서 조회하고, 없으면 데이터베이스에서 조회한다.  
-마찬가지로 데이터베이스에 없어서 조회한 경우에도 그 결과를 1차 캐시에 저장한다.  
-떄문에 캐시를 통해 조회하게 되는 경우 DB 조회 쿼리를 실행하지 않는다.
+마찬가지로 데이터베이스에 없어서 조회한 경우에도 그 결과를 1차 캐시에 저장한다.(캐시를 통해 조회하게 되는 경우 DB 조회 쿼리를 실행하지 않음)
 
 ### 동일성(identity) 보장
 
@@ -103,7 +100,7 @@ class Example {
 }
 ```
 
-트랜잭션을 커밋하면, 1차 캐시에 있는 엔티티와 스냅샷을 비교해서 변경된 엔티티를 찾고, UPDATE SQL을 생성해서 데이터베이스에 보낸다.  
+트랜잭션을 커밋(flush)하면, 1차 캐시에 있는 엔티티와 스냅샷을 비교해서 변경된 엔티티를 찾고, UPDATE SQL을 생성해서 데이터베이스에 보낸다.  
 비슷하게 엔티티 삭제하는 경우에도, 1차 캐시에 있는 엔티티와 스냅샷을 비교해서 삭제 쿼리를 생성해서 데이터베이스에 보낸다.
 
 ## 플러시(Flush)
@@ -114,7 +111,7 @@ class Example {
 2. 수정된 엔티티 쓰기 지연 SQL 저장소에 등록
 3. 쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송(등록, 수정, 삭제 쿼리)
 
-기본적으로 트랜잭션 커밋을 호출하면 자동 호출되고, 아래의 상황에서 플러시가 호출된다.
+플러시는 기본적으로 트랜잭션 커밋을 호출하면 자동 호출되고, 아래의 상황에서 플러시가 호출된다.
 
 #### 1. 트랜잭션 커밋
 
