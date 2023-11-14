@@ -76,6 +76,7 @@
     * [Item 43. Method Reference](java/effective\_java/item43.md)
     * [Item 44. Functional Interface](java/effective\_java/item44.md)
     * [Item 45. Stream](java/effective\_java/item45.md)
+    * [Item 46. Side-Effect-Free Function](java/effective\_java/item46.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)

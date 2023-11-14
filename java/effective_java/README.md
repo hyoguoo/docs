@@ -70,3 +70,4 @@ layout: editorial
 * [Item 43. Method Reference](item43.md)
 * [Item 44. Functional Interface](item44.md)
 * [Item 45. Stream](item45.md)
+* [Item 46. Side-Effect-Free Function](item46.md)
