@@ -161,14 +161,14 @@ TCP는 중복된 ACK 세그먼트를 수신했을 때나 타임아웃이 발생�
 
 - 흐름 제어: 수신 호스트의 처리 속도를 고려하여 송수신 속도를 균일하게 조절
     - 수신 호스트는 TCP Segment Header의 Window Size를 통해 자신의 버퍼 크기를 전송하여 송신자에게 알려준다.
-    - Window Size는 확인 응답 받지 않고 전송할 수 있는 한 번에 전송할 수 있는 데이터의 크기가 된다.
-    - 슬라이딩 윈도우(Sliding Window)를 통해 흐름 제어를 수행하게 된다.
+    - Window Size는 확인 응답 받지 않고 전송할 수 있는 한 번에 전송할 수 있는 데이터의 크기를 의미한다.
 - 혼잡 제어: 많은 트래픽으로 인해 패킷 처리 속도가 느려지거나 유실될 수 있는 것을 방지
     - 혼잡 제어가 이루어지지 않으면 계속 유실되어 재전송을 하게 되면서 네트워크 혼잡이 더욱 심해지게 된다.
     - 송신 호스트에서 혼잡 없이 전송할 수 있을 양을 계산하게 되는데, 이를 Congestion Window Size라고 한다.
     - Congestion Window Size는 계속해서 증가하고 감소하는 가변적인 크기이다.(RTT, 패킷 유실 등을 고려)
     - Congestion Window Size와 TCP Segment Header의 Window Size 중 작은 값이 전송할 수 있는 데이터의 크기가 된다.
     - 느린 시작(Slow Start) / 혼잡 회피(Congestion Avoidance) / 빠른 회복(Fast Recovery) 알고리즘을 통해 혼잡 제어를 수행하게 된다.
+        - 느린 시작(Slow Start): TCP 연결이 초기화 될 때 Congestion Window Size를 초기화 시킨 후, ACK를 받을 때마다 Size를 지수적으로 증가시키는 방식
 
 ### TCP와 HTTP
 
