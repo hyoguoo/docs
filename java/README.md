@@ -35,7 +35,5 @@ layout: editorial
     * [Generic](generic.md)
     * [Lambda](lambda.md)
     * [Reflection](reflection.md)
-* Web Programming
-    * [Servlet](servlet.md)
 
 ## [Effective Java](effective\_java/)

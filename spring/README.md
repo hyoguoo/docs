@@ -13,6 +13,7 @@ layout: editorial
     * [Component Scan](component_scan.md)
     * [Dependency Injection](dependency_injection.md)
 * [Singleton](singleton.md)
+* [Servlet](servlet.md)
 * [Spring MVC](spring_mvc.md)
     * [DispatcherServlet](dispatcher_servlet.md)
     * [HandlerMapping & HandlerAdapter](handler_mapping_adapter.md)
