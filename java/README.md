@@ -29,7 +29,6 @@ layout: editorial
     * [Optional](optional.md)
 * Multi-Thread
     * [Thread](thread.md)
-    * [Thread Pool](thread_pool.md)
 * Advanced
     * [Varargs](varargs.md)
     * [Generic](generic.md)

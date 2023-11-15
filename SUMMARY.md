@@ -30,7 +30,6 @@
   * [Reflection(리플렉션)](java/reflection.md)
   * [String class](java/string\_class.md)
   * [Thread(쓰레드)](java/thread.md)
-  * [Thread Pool(쓰레드 풀)](java/thread\_pool.md)
   * [Varargs](java/varargs.md)
   * [Variable(변수)](java/variable.md)
   * [Wrapper class](java/wrapper\_class.md)
