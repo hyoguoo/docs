@@ -71,3 +71,4 @@ layout: editorial
 * [Item 44. Functional Interface](item44.md)
 * [Item 45. Stream](item45.md)
 * [Item 46. Side-Effect-Free Function](item46.md)
+* [Item 47. Return Collection or Stream](item47.md)
