@@ -72,3 +72,4 @@ layout: editorial
 * [Item 45. Stream](item45.md)
 * [Item 46. Side-Effect-Free Function](item46.md)
 * [Item 47. Return Collection or Stream](item47.md)
+* [Item 48. Parallel Stream](item48.md)

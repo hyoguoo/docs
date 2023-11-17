@@ -76,6 +76,7 @@
     * [Item 45. Stream](java/effective\_java/item45.md)
     * [Item 46. Side-Effect-Free Function](java/effective\_java/item46.md)
     * [Item 47. Return Collection or Stream](java/effective\_java/item47.md)
+    * [Item 48. Parallel Stream](java/effective\_java/item48.md)
     * [Item 5. Dependency Injection](java/effective\_java/item5.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
