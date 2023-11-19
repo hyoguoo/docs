@@ -73,3 +73,7 @@ layout: editorial
 * [Item 46. Side-Effect-Free Function](item46.md)
 * [Item 47. Return Collection or Stream](item47.md)
 * [Item 48. Parallel Stream](item48.md)
+
+## Chapter 8. 메서드
+
+* [Item 49. Parameter Validation](item49.md)
