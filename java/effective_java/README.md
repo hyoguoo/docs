@@ -77,3 +77,4 @@ layout: editorial
 ## Chapter 8. 메서드
 
 * [Item 49. Parameter Validation](item49.md)
+* [Item 50. Defensive Copy](item50.md)
