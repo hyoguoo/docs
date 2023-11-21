@@ -78,3 +78,4 @@ layout: editorial
 
 * [Item 49. Parameter Validation](item49.md)
 * [Item 50. Defensive Copy](item50.md)
+* [Item 51. Method Signature](item51.md)
