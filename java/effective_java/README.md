@@ -80,3 +80,4 @@ layout: editorial
 * [Item 50. Defensive Copy](item50.md)
 * [Item 51. Method Signature](item51.md)
 * [Item 52. Overloading](item52.md)
+* [Item 53. Varargs](item53.md)

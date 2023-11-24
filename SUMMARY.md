@@ -82,6 +82,7 @@
     * [Item 50. Defensive Copy](java/effective\_java/item50.md)
     * [Item 51. Method Signature](java/effective\_java/item51.md)
     * [Item 52. Overloading](java/effective\_java/item52.md)
+    * [Item 53. Varargs](java/effective\_java/item53.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
