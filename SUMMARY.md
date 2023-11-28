@@ -85,6 +85,7 @@
     * [Item 53. Varargs](java/effective\_java/item53.md)
     * [Item 54. Empty Collection](java/effective\_java/item54.md)
     * [Item 55. Optional](java/effective\_java/item55.md)
+    * [Item 56. Doc Comment](java/effective\_java/item56.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
