@@ -84,3 +84,7 @@ layout: editorial
 * [Item 54. Empty Collection](item54.md)
 * [Item 55. Optional](item55.md)
 * [Item 56. Doc Comment](item56.md)
+
+## Chapter 9. 일반적인 프로그래밍 원칙
+
+* [Item 57. Local Variable Scope](item57.md)
