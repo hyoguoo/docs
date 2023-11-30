@@ -53,6 +53,19 @@ HTTP 애플리케이션은 컨텐츠를 보내기 전에 인코딩을 하는데,
 [데이터]CRLF
 ```
 
+## 델타 인코딩
+
+델타 인코딩은 전체 문서를 보내는 대신에 변경된 부분만 보내는 방식으로, 변경된 부분만 보내기 때문에 전체 문서를 보내는 것보다 훨씬 적은 양의 데이터를 전송할 수 있다.  
+두 객체의 차이점을 계산하는 특정 알고리즘을 사용해서 변경된 부분(델타)을 계산하고, 변경된 부분을 전송하는 방식으로, 서버와 클라이언트가 사용하는 헤더는 아래와 같다.
+
+- 서버
+    - Etag: 문서의 각 인스턴스에 대한 고유한 식별자
+    - IM(Instance-Manipulation): 요청에 적용된 인스턴스 조작의 종류를 명시하는 값
+    - Delta-Base: 델타를 생성하기 위해 사용되는 기준 문서의 Etag 값
+- 클라이언트
+    - If-None-Match: 클라이언트가 가지고 있는 문서의 Etag 값
+    - A-IM(Accept-Instance-Manipulation: 클라이언트가 받아들일 수 있는 인스턴스 조작의 종류를 가리키는 값
+
 ###### 참고자료
 
 - [HTTP 완벽 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=HTTP+완벽+가이드&isbn=9788966261208&cipId=200309770%2C4096969)
