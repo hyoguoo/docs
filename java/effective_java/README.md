@@ -88,3 +88,4 @@ layout: editorial
 ## Chapter 9. 일반적인 프로그래밍 원칙
 
 * [Item 57. Local Variable Scope](item57.md)
+* [Item 58. For-each Loop](item58.md)
