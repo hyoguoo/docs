@@ -101,9 +101,10 @@ layout: editorial
 
 ## Chapter 9. 일반적인 프로그래밍 원칙
 
-|                    Item                    |              Title              |
-|:------------------------------------------:|:-------------------------------:|
-| [Item 57. Local Variable Scope](item57.md) |         지역변수의 범위를 최소화하라         |
-|    [Item 58. For-each Loop](item58.md)     | 전통적인 for 문보다는 for-each 문을 사용하라  |
-|       [Item 59. Library](item59.md)        |         라이브러리를 익히고 사용하라         |
-| [Item 60. Decimal Calculation](item60.md)  | 정확한 답이 필요하다면 float와 double은 피하라 |
+|                            Item                             |              Title              |
+|:-----------------------------------------------------------:|:-------------------------------:|
+|         [Item 57. Local Variable Scope](item57.md)          |         지역변수의 범위를 최소화하라         |
+|             [Item 58. For-each Loop](item58.md)             | 전통적인 for 문보다는 for-each 문을 사용하라  |
+|                [Item 59. Library](item59.md)                |         라이브러리를 익히고 사용하라         |
+|          [Item 60. Decimal Calculation](item60.md)          | 정확한 답이 필요하다면 float와 double은 피하라 |
+| [Item 61. Primitive Type & Boxed Primitive Type](item61.md) |    박싱된 기본 타입보다는 기본 타입을 사용하라     | 
