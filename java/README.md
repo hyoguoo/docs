@@ -4,6 +4,8 @@ layout: editorial
 
 # Java
 
+## [Effective Java](effective\_java/)
+
 * [JVM](jvm.md)
 * Basic
     * [Variable](variable.md)
@@ -34,5 +36,3 @@ layout: editorial
     * [Generic](generic.md)
     * [Lambda](lambda.md)
     * [Reflection](reflection.md)
-
-## [Effective Java](effective\_java/)
