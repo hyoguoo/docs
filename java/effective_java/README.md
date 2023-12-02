@@ -90,3 +90,4 @@ layout: editorial
 * [Item 57. Local Variable Scope](item57.md)
 * [Item 58. For-each Loop](item58.md)
 * [Item 59. Library](item59.md)
+* [Item 60. Decimal Calculation](item60.md)

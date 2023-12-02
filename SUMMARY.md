@@ -90,6 +90,7 @@
     * [Item 58. For-each Loop](java/effective\_java/item58.md)
     * [Item 59. Library](java/effective\_java/item59.md)
     * [Item 6. Unnecessary Objects](java/effective\_java/item6.md)
+    * [Item 60. Decimal Calculation](java/effective\_java/item60.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
