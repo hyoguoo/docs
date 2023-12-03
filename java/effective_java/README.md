@@ -109,3 +109,4 @@ layout: editorial
 |          [Item 60. Decimal Calculation](item60.md)          | 정확한 답이 필요하다면 float와 double은 피하라 |
 | [Item 61. Primitive Type & Boxed Primitive Type](item61.md) |    박싱된 기본 타입보다는 기본 타입을 사용하라     |
 |           [Item 62. Avoid String Type](item62.md)           |    다른 타입이 적절하다면 문자열 사용을 피하라     |
+|             [Item 63. String Concat](item63.md)             |      문자열 연결은 느리니 주의해서 사용하라      |
