@@ -94,6 +94,7 @@
     * [Item 61. Primitive Type & Boxed Primitive Type](java/effective\_java/item61.md)
     * [Item 62. Avoid String Type](java/effective\_java/item62.md)
     * [Item 63. String Concat](java/effective\_java/item63.md)
+    * [Item 64. Interface Reference](java/effective\_java/item64.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
