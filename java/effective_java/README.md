@@ -107,4 +107,5 @@ layout: editorial
 |             [Item 58. For-each Loop](item58.md)             | 전통적인 for 문보다는 for-each 문을 사용하라  |
 |                [Item 59. Library](item59.md)                |         라이브러리를 익히고 사용하라         |
 |          [Item 60. Decimal Calculation](item60.md)          | 정확한 답이 필요하다면 float와 double은 피하라 |
-| [Item 61. Primitive Type & Boxed Primitive Type](item61.md) |    박싱된 기본 타입보다는 기본 타입을 사용하라     | 
+| [Item 61. Primitive Type & Boxed Primitive Type](item61.md) |    박싱된 기본 타입보다는 기본 타입을 사용하라     |
+|           [Item 62. Avoid String Type](item62.md)           |    다른 타입이 적절하다면 문자열 사용을 피하라     |
