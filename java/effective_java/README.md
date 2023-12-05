@@ -112,3 +112,4 @@ layout: editorial
 |             [Item 63. String Concat](item63.md)             |      문자열 연결은 느리니 주의해서 사용하라      |
 |          [Item 64. Interface Reference](item64.md)          |       객체는 인터페이스를 사용해 참조하라       |
 |        [Item 65. Reflection & Interface](item65.md)         |       리플렉션보다는 인터페이스를 사용하라       |
+|             [Item 66. Native Method](item66.md)             |       네이티브 메서드는 신중히 사용하라        |
