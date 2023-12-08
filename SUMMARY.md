@@ -97,6 +97,7 @@
     * [Item 64. Interface Reference](java/effective\_java/item64.md)
     * [Item 65. Reflection & Interface](java/effective\_java/item65.md)
     * [Item 66. Native Methods](java/effective\_java/item66.md)
+    * [Item 67. Optimization](java/effective\_java/item67.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
