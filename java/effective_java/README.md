@@ -115,3 +115,9 @@ layout: editorial
 |             [Item 66. Native Method](item66.md)             |       네이티브 메서드는 신중히 사용하라        |\
 |             [Item 67. Optimization](item67.md)              |           최적화는 신중히 하라           |
 |           [Item 68. Naming Convention](item68.md)           |      일반적으로 통용되는 명명 규칙을 따르라      |
+
+## Chapter 10. 예외
+
+|                     Item                     |        Title        |
+|:--------------------------------------------:|:-------------------:|
+| [Item 69. Exceptional Conditions](item69.md) | 예외는 진짜 예외 상황에만 사용하라 |
