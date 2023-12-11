@@ -118,6 +118,7 @@ layout: editorial
 
 ## Chapter 10. 예외
 
-|                     Item                     |        Title        |
-|:--------------------------------------------:|:-------------------:|
-| [Item 69. Exceptional Conditions](item69.md) | 예외는 진짜 예외 상황에만 사용하라 |
+|                            Item                            |                     Title                     |
+|:----------------------------------------------------------:|:---------------------------------------------:|
+|        [Item 69. Exceptional Conditions](item69.md)        |              예외는 진짜 예외 상황에만 사용하라              |
+| [Item 70. Checked Exception & RuntimeException](item70.md) | 복구할 수 있는 상황에는 검사 예외를, 프로그래밍 오류에는 런타임 예외를 사용하라 |

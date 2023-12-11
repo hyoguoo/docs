@@ -101,6 +101,7 @@
     * [Item 68. Naming Convention](java/effective\_java/item68.md)
     * [Item 69. Exceptional Conditions](java/effective\_java/item69.md)
     * [Item 7. Obsolete Object](java/effective\_java/item7.md)
+    * [Item 70. Checked Exception & RuntimeException](java/effective\_java/item70.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
 * [MySQL](mysql/README.md)
