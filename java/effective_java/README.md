@@ -123,3 +123,4 @@ layout: editorial
 |        [Item 69. Exceptional Conditions](item69.md)        |              예외는 진짜 예외 상황에만 사용하라              |
 | [Item 70. Checked Exception & RuntimeException](item70.md) | 복구할 수 있는 상황에는 검사 예외를, 프로그래밍 오류에는 런타임 예외를 사용하라 |
 |     [Item 71. Necessary Checked Exception](item71.md)      |              필요 없는 검사 예외 사용을 피하라              |
+|          [Item 72. Standard Exception](item72.md)          |                  표준 예외를 사용하라                  |
