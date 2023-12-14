@@ -104,6 +104,7 @@
     * [Item 70. Checked Exception & RuntimeException](java/effective\_java/item70.md)
     * [Item 71. Necessary Checked Exception](java/effective\_java/item71.md)
     * [Item 72. Standard Exceptions](java/effective\_java/item72.md)
+    * [Item 73. Abstraction Level Exceptions](java/effective\_java/item73.md)
     * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
     * [Item 9. try-with-resources](java/effective\_java/item9.md)
 * [MySQL](mysql/README.md)
