@@ -125,3 +125,4 @@ layout: editorial
 |     [Item 71. Necessary Checked Exception](item71.md)      |              필요 없는 검사 예외 사용을 피하라              |
 |          [Item 72. Standard Exception](item72.md)          |                  표준 예외를 사용하라                  |
 |     [Item 73. Abstraction Level Exception](item73.md)      |              추상화 수준에 맞는 예외를 던지라               |
+|       [Item 74. Exception Documentation](item74.md)        |             메서드가 던지는 모든 예외를 문서화하라             |
