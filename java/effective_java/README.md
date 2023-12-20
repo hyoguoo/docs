@@ -126,3 +126,4 @@ layout: editorial
 |          [Item 72. Standard Exception](item72.md)          |                  표준 예외를 사용하라                  |
 |     [Item 73. Abstraction Level Exception](item73.md)      |              추상화 수준에 맞는 예외를 던지라               |
 |       [Item 74. Exception Documentation](item74.md)        |             메서드가 던지는 모든 예외를 문서화하라             |
+|         [Item 75. Failure Information](item75.md)          |           예외의 상세 메시지에 실패 관련 정보를 담으라           |
