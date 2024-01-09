@@ -127,3 +127,4 @@ layout: editorial
 |     [Item 73. Abstraction Level Exception](item73.md)      |              추상화 수준에 맞는 예외를 던지라               |
 |       [Item 74. Exception Documentation](item74.md)        |             메서드가 던지는 모든 예외를 문서화하라             |
 |         [Item 75. Failure Information](item75.md)          |           예외의 상세 메시지에 실패 관련 정보를 담으라           |
+|            [Item 76. Failure Atomic](item76.md)            |              가능한 한 실패 원자적으로 만들라               |
