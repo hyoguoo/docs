@@ -108,6 +108,7 @@
         * [Item 74. Exception Documentation](java/effective\_java/item74.md)
         * [Item 75. Failure Information](java/effective\_java/item75.md)
         * [Item 76. Failure Atomic](java/effective\_java/item76.md)
+        * [Item 77. Exception Ignore](java/effective\_java/item77.md)
         * [Item 8. Finalizer & Cleaner](java/effective\_java/item8.md)
         * [Item 9. try-with-resources](java/effective\_java/item9.md)
 * [MySQL](mysql/README.md)
