@@ -209,7 +209,6 @@
     * [Spring & OOP](spring/oop.md)
     * [Persistence Context(영속성 컨텍스트)](spring/persistence\_context.md)
     * [Project Setting(프로젝트 설정)](spring/project\_setting.md)
-    * [Proxy(프록시)](spring/proxy.md)
     * [Singleton(싱글톤)](spring/singleton.md)
     * [Spring Boot(스프링 부트)](spring/spring\_boot.md)
     * [Spring MVC(Model View Controller)](spring/spring\_mvc.md)

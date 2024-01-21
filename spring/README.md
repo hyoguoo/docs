@@ -24,7 +24,6 @@ layout: editorial
 * [Exception Handling](exception_handling.md)
 * AOP(Aspect Oriented Programming)
     * [AOP](aop.md)
-    * [Proxy](proxy.md)
 * DB Connection
     * [JDBC](jdbc.md)
     * [Transactional](transactional.md)
