@@ -129,3 +129,9 @@ layout: editorial
 |         [Item 75. Failure Information](item75.md)          |           예외의 상세 메시지에 실패 관련 정보를 담으라           |
 |            [Item 76. Failure Atomic](item76.md)            |              가능한 한 실패 원자적으로 만들라               |
 |           [Item 77. Exception Ignore](item77.md)           |                  예외를 무시하지 말라                  |
+
+## Chapter 11. 동시성
+
+|                    Item                    |          Title          |
+|:------------------------------------------:|:-----------------------:|
+| [Item 78. Mutable Data Sharing](item78.md) | 공유 중인 가변 데이터는 동기화해 사용하라 |
