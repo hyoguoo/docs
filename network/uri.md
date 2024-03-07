@@ -38,7 +38,7 @@ URI(Uniform Resource Identifier)는 웹 애플리케이션과 네트워크에서
 
 ## URI/URL/URN
 
-![URI Diagram](image/uri_diagram.png)
+![URI Diagram](image/uri-diagram.png)
 
 각 단어의 의미는 다음과 같다.
 

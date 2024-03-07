@@ -19,7 +19,7 @@ layout: editorial
 
 CPU가 주기억장치에 접근하는 것을 관리하는 장치로, 일반적으로는 CPU의 일부분으로 구성되며 별도의 칩으로 사용되는 경우도 있음
 
-![img.png](image/mmu_work_schematic.png)
+![img.png](image/mmu-work-schematic.png)
 
 ### MMU의 주요 역할
 

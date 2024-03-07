@@ -52,7 +52,7 @@ TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터
 
 ### TCP Segment 헤더 구조
 
-![TCP Segment Header(https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94)](image/tcp_segment_header.png)
+![TCP Segment Header(https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94)](image/tcp-segment-header.png)
 
 - Source Port: 송신지 포트 번호
 - Destination Port: 수신지 포트 번호
@@ -69,7 +69,7 @@ TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터
 
 TCP는 전송 순서를 보장하기 위해 Sequence Number를 통해 순서를 붙이고, Acknowledgement Number를 통해 수신지에서 다음 세그먼트를 수신받길 기대하는 바이트 번호를 전송한다.
 
-![Segment Sequence](image/segment_sequence.png)
+![Segment Sequence](image/segment-sequence.png)
 
 ### UDP(User Datagram Protocol)
 
@@ -125,11 +125,11 @@ TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지�
 그 외에 FIN-WAIT-1 / FIN-WAIT-2 / CLOSE-WAIT / LAST-ACK / TIME-WAIT 는 연결 해제 과정에서 사용되는 상태이며, 연결이 종료되면 CLOSED 상태가 된다.  
 연결 수립 및 해제 과정과 상태 변경에 대한 흐름은 아래 그림과 같다.
 
-![TCP Connection Flow](image/tcp_connection_flow.png)
+![TCP Connection Flow](image/tcp-connection-flow.png)
 
 상태에 따른 세그먼트 흐름은 아래와 같다.
 
-![TCP State Diagram(https://en.wikipedia.org/wiki/Transmission_Control_Protocol)](image/tcp_state_diagram.png)
+![TCP State Diagram(https://en.wikipedia.org/wiki/Transmission_Control_Protocol)](image/tcp-state-diagram.png)
 
 ### TCP가 신뢰성을 보장하는 방법
 

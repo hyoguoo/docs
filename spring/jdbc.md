@@ -34,7 +34,7 @@ layout: editorial
 
 JDBC와 `JdbcTemplate`는 이미 여러 문제를 해결해주고 편리함을 제공해주었지만, 최근에는 직접 사용하는 것보다는 `SQL Mapper`나 `ORM`을 결합하여 사용하고 있다.
 
-![JDBC에 접근하는 여러 방법](image/jdbc_access.png)
+![JDBC에 접근하는 여러 방법](image/jdbc-access.png)
 
 - SQL Mapper
     - 장점

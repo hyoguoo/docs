@@ -6,7 +6,7 @@ layout: editorial
 
 ## 테스트 종류
 
-![테스트 전략의 종류(https://martinfowler.com/tags/testing.html)](image/testing_strategy.png)
+![테스트 전략의 종류(https://martinfowler.com/tags/testing.html)](image/testing-strategy.png)
 
 ### Unit Test(단위 테스트)
 

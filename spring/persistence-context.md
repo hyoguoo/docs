@@ -8,7 +8,7 @@ layout: editorial
 
 ## 생명 주기
 
-![영속성 생명 주기](image/persistence_life_cycle.png)
+![영속성 생명 주기](image/persistence-life-cycle.png)
 
 1. 비영속(new/transient): 영속성 컨텍스트와 전혀 관계가 없는 새로운 상태
 2. 영속(managed): 영속성 컨텍스트에 관리되는 상태

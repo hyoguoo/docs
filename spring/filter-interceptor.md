@@ -4,7 +4,7 @@ layout: editorial
 
 # Filter & Interceptor(필터 & 인터셉터)
 
-![img.png](image/spring_filter_interceptor.png)
+![img.png](image/spring-filter-interceptor.png)
 
 ## 필터(Filter)
 

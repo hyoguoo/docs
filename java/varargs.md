@@ -67,4 +67,4 @@ class Main {
 }
 ```
 
-### 3. [Generic 사용 시](./effective_java/item32.md)
+### 3. [Generic 사용 시](effective-java/item32.md)

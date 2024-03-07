@@ -29,7 +29,7 @@ layout: editorial
 
 - 참조 타입(reference type): 값이 저장되어 있는 주소값 저장
 
-기본형을 객체로 다루어야 할 때가 있는데, 이 때 사용하는 [Wrapper 클래스](./wrapper_class.md)가 존재한다.
+기본형을 객체로 다루어야 할 때가 있는데, 이 때 사용하는 [Wrapper 클래스](./wrapper-class)가 존재한다.
 
 ** 논리형이 1bit가 아닌 1byte인
 이유는 [CPU가 byte 단위로 연산하기 때문](https://stackoverflow.com/questions/4626815)이라고 한다.

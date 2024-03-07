@@ -4,7 +4,7 @@ layout: editorial
 
 # Java
 
-## [Effective Java](effective\_java/)
+## [Effective Java](effective-java)
 
 * [JVM](jvm.md)
 * Basic
@@ -14,20 +14,20 @@ layout: editorial
     * [Array](array.md)
     * [Modifier](modifier.md)
     * [Enums](enums.md)
-    * [Exception Handling](exception_handling.md)
+    * [Exception Handling](exception-handling)
 * Object-Oriented Programming
     * [Class](class.md)
     * [Inheritance](inheritance.md)
     * [Polymorphism](polymorphism.md)
     * [Interface](interface.md)
 * java.lang package
-    * [Object class](object_class.md)
-    * [String class](string_class.md)
-    * [Wrapper class](wrapper_class.md)
+    * [Object class](object-class)
+    * [String class](string-class)
+    * [Wrapper class](wrapper-class)
 * Data Processing
     * [Collections](collections.md)
     * [Map](map.md)
-    * [Iterator & Stream](iterator_stream.md)
+    * [Iterator & Stream](iterator-stream)
     * [Optional](optional.md)
 * Multi-Thread
     * [Thread](thread.md)

@@ -19,7 +19,7 @@ layout: editorial
 
 ### `doDispatch()` 코드 분석
 
-![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring_mvc_flow.png)
+![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring-mvc-flow.png)
 
 내부 코드를 살펴보면 앞 문서에서 확인했던 Spring MVC Flow의 동작을 모두 확인할 수 있다.
 

@@ -7,8 +7,8 @@ layout: editorial
 * [Introduce](introduce.md)
 * [Abstract](abstract.md)
 * [Type](type.md)
-* [Role & Responsibility & Cooperation](role_responsibility_cooperation.md)
-* [Function & Structure](function_structure.md)
+* [Role & Responsibility & Cooperation](role-responsibility-cooperation)
+* [Function & Structure](function-structure)
 * [SOLID](solid.md)
 * Design Pattern
     * [Adapter](adapter.md)

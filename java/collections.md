@@ -8,7 +8,7 @@ layout: editorial
 
 - 컬렉션 프레임워크 계층 구조
 
-![img.png](image/collections_tree.png)
+![img.png](image/collections-tree.png)
 
 ## Collection Interface
 

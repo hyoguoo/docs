@@ -94,7 +94,7 @@ public class EqualsTest {
 }
 ```
 
-### [String 클래스의 equals](string_class.md#String-클래스의-equals)
+### [String 클래스의 equals](string-class#String-클래스의-equals)
 
 ## hashCode()
 

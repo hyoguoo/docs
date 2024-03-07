@@ -46,7 +46,7 @@ class Test {
 `BufferedReader`는 `AutoCloseable` 인터페이스를 구현해놓은 클래스이며, 많은 자바 라이브러리들이 `AutoCloseable` 인터페이스를 구현해놓았다.  
 `AutoCloseable` 인터페이스에서 `close()` 메서드를 확인할 수 있으며, 이 메서드를 통해 자원을 회수한다.
 
-![BufferedReader Diagram](../image/bufferreader_diagram.png)
+![BufferedReader Diagram](../image/bufferreader-diagram.png)
 
 ```java
 public interface AutoCloseable {

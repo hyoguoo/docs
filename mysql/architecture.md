@@ -94,7 +94,7 @@ InnoDB의 주요 특징들과 장점은 아래와 같다.
 - 반면에, MyISAM은 리프노드가 데이터를 바로 가리키고 있음
     - 이 방식은 PK가 변경될 때 레코드의 주소가 변경되는데 그 때마다 모든 인덱스에 저장된 레코드 주소를 변경해야 하기 때문에 성능 저하가 발생
 
-![InnoDB Leaf Page와 PK](image/innodb_btree.png)
+![InnoDB Leaf Page와 PK](image/innodb-btree.png)
 
 ### 외래키 지원
 

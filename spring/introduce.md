@@ -58,15 +58,15 @@ layout: editorial
 
 ### 1. 정적 컨텐츠
 
-![img.png](image/spring_static_contents_operating.png)
+![img.png](image/spring-static-contents-operating.png)
 
 ### 2. MVC & 템플릿 엔진
 
-![img.png](image/spring_view_page_operating.png)
+![img.png](image/spring-view-page-operating.png)
 
 ### 3. API
 
-![img.png](image/spring_response_body_operating.png)
+![img.png](image/spring-response-body-operating.png)
 
 - http body에 문자 내용 반환
 - `HttpMessageConverter` 동작
@@ -76,7 +76,7 @@ layout: editorial
 
 ## 스프링에서 사용되는 용어와 핵심
 
-- [DI(Dependency Injection)](dependency_injection.md): 객체 간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 설정하는 것 
+- [DI(Dependency Injection)](dependency-injection): 객체 간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 설정하는 것 
 - IoC(Inversion of Control): 제어의 역전, 프로그램의 제어 흐름을 개발자가 아닌 프레임워크가 담당하는 것
 - [AOP(Aspect Oriented Programming)](aop.md): 공통의 관심 사항을 추출하여 원하는 곳에 적용하는 기술
 

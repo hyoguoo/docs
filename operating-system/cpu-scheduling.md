@@ -32,7 +32,7 @@ layout: editorial
 
 기존의 프로레스 상태 다이어그램에서 준비 / 대기 큐에 대해 추가된 부분을 그림으로 표현하면 아래와 같다.
 
-![프로세스 상태 다이어그램](image/process_state_diagram_with_queue.png)
+![프로세스 상태 다이어그램](image/process-state-diagram-with-queue.png)
 
 ## 선점형 / 비선점형 스케줄링
 

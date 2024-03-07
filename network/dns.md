@@ -35,12 +35,12 @@ DNS 서버는 계층 구조로 구성되어 있으며, 사용자가 접속한 �
 
 - DNS 서버 계층 구조
 
-![한국의 DNS 서버 계층 구조(한국인터넷정보센터)](image/domain_server_tree.png)
+![한국의 DNS 서버 계층 구조(한국인터넷정보센터)](image/domain-server-tree.png)
 
 사용자가 도메인을 입력하면, 웹 브라우저에서 캐시를 확인하고 도메인 이름을 가지고 있다면, IP 주소를 반환하여 사용자가 접속하게 된다.  
 만약 없다면 Local DNS 서버에 요청하고, Local DNS에도 없다면 아래 그림과 같이 DNS 서버 계층 구조를 따라서 IP 주소를 찾아오게 된다.
 
-![DNS_Resolution_Mechanism(https://en.wikipedia.org/wiki/Domain_Name_System)](image/dns_resolution_mechanism.png)
+![DNS_Resolution_Mechanism(https://en.wikipedia.org/wiki/Domain_Name_System)](image/dns-resolution-mechanism.png)
 
 위의 예시는 반복적 질의(Iterative Query) 방식으로 진행되었는데,  
 질의를 받은 DNS 서버가 다시 하위 DNS 서버에게 질의를 하는 재귀적 질의(Recursive Query) 방식도 존재한다.

@@ -104,7 +104,7 @@ class TestMethodInterceptor implements MethodInterceptor {
 Proxy Factory는 스프링에서 프록시 객체를 생성하고 요청을 처리하는 방법을 통일하여 사용할 수 있도록 추상화한 것이다.  
 인터페이스 유무 혹은 옵션에 따라 JDK 동적 프록시와 CGLIB를 사용하여 프록시 패턴을 구현해주는 기능을 제공한다.
 
-![Proxy Factory & Advice Call Flow](image/proxyfactory_advicecall_flow.png)
+![Proxy Factory & Advice Call Flow](image/proxyfactory-advicecall-flow.png)
 
 프록시 생성(Proxy Factory)과 생성된 프록시에 요청(Advice Call)을 하게 되면 위와 같은 흐름으로 동작하게 된다.
 
@@ -257,7 +257,7 @@ class AopConfig {
 
 - 프록시 객체 적용
 
-![@Aspect 사용 시 프록시 객체 등록 과정](image/aspect_flow.png)
+![@Aspect 사용 시 프록시 객체 등록 과정](image/aspect-flow.png)
 
 1. 스프링 빈 대상이 되는 객체 생성
 2. 생성된 객체들을 스프링 빈 컨테이너 등록하기 전 빈 후처리기에 전달

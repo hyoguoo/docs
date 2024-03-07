@@ -4,5 +4,5 @@ layout: editorial
 
 # Secure
 
-* [Digital Cryptography Basic](digital_cryptography_basic.md)
-* [Secure Coding](secure_coding.md)
+* [Digital Cryptography Basic](digital-cryptography-basic)
+* [Secure Coding](secure-coding)

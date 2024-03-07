@@ -23,11 +23,11 @@ layout: editorial
 |   ViewResolver    |                           처리 결과를 보여줄 View를 결정                            |
 |       View        |                                보여줄 응답을 생성                                |
 
-이 중 [DispatcherServlet](dispatcher_servlet.md)이 가장 중요한 역할을 한다.
+이 중 [DispatcherServlet](dispatcher-servlet)이 가장 중요한 역할을 한다.
 
 ## Spring MVC Flow
 
-![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring_mvc_flow.png)
+![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring-mvc-flow.png)
 
 | 순서  |         내용         |                              설명                              |
 |:---:|:------------------:|:------------------------------------------------------------:|
@@ -63,7 +63,7 @@ public class SpringExmapleController {
     - 스프링이 자동으로 스프링 빈으로 등록할 수 있도록 함
     - 내부에 `@Component` 애노테이션이 있어 컴포넌트 스캔의 대상
     - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
-    - [RequestMappingHandlerMapping](handler_mapping_adapter.md)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
+    - [RequestMappingHandlerMapping](handler-mapping-adapter)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
 - `@RequestMapping`(=`@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`)
     - 요청 정보를 매핑하여 해당 URL이 호출되면 애노테이션이 있는 메서드가 호출됨
     - 애노테이션 기반으로 동작하기 때문에 임의의 이름으로 지어도 상관 없음

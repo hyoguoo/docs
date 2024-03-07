@@ -19,7 +19,7 @@ layout: editorial
 MyISAM에서는 리프 노드가 데이터 레코드를 가리키는 주소를 가지고 있지만, InnoDB에서는 리프 노드에서 PK 값을 가지고 있다.  
 때문에 InnoDB에서는 PK 값을 이용해 데이터 레코드를 찾아야 하기 때문에, PK 값을 이용해 데이터 레코드를 찾는 과정이 추가적으로 필요하다.
 
-![InnoDB B-Tree](image/innodb_btree.png)
+![InnoDB B-Tree](image/innodb-btree.png)
 
 결국 위와 같이 여러 뎁스를 거쳐 실제 데이터 레코드를 찾아야 하기 때문에, 바로 데이터 레코드를 찾을 때 보다 약 4-5배 정도 더 많은 비용이 발생한다.
 

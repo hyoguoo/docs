@@ -69,7 +69,7 @@ class Example {
 }
 ```
 
-## [문자열](string_class.md)
+## [문자열](string-class)
 
 > 문자들이 연속적으로 나열되어 있는 것  
 > char 배열에 여러 가지 기능을 추가한 `String` 클래스를 이용해서 처리하게 된다.

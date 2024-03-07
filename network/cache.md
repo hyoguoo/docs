@@ -53,7 +53,7 @@ layout: editorial
 6. 발송: 네트워크를 통해 응답을 클라이언트에 반환
 7. 로깅: (선택 사항)트랜잭션에 대한 로그를 남김
 
-![Cache Flow Chart](image/cache_flow_chart.png)
+![Cache Flow Chart](image/cache-flow-chart.png)
 
 ## 캐시 신선도 유지
 

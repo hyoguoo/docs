@@ -9,7 +9,7 @@ layout: editorial
 
 ## BeanFactory vs ApplicationContext
 
-![BeanFactory / ApplicationContext Diagram](./image/beanfactory_applicationcontext_diagram.png)
+![BeanFactory / ApplicationContext Diagram](./image/beanfactory-applicationcontext-diagram.png)
 
 ### BeanFactory
 

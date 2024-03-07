@@ -21,7 +21,7 @@ layout: editorial
 
 ## Java 실행 과정
 
-![java execution process](image/java_execution_process.png)
+![java execution process](image/java-execution-process.png)
 
 - Class Loader: 바이트 코드 로딩 / 검증 / 링킹 등 수행
 - Runtime Data Area: 앱 실행을 위해 사용되는 JVM 메모리 영역
@@ -34,7 +34,7 @@ layout: editorial
 
 ## JDK & JRE & JVM
 
-![java jdk diagram](image/java_jdk_diagram.png)
+![java jdk diagram](image/java-jdk-diagram.png)
 
 - JVM(Java Virtual Machine): 자바 바이트 코드를 실행시키기 위한 가상 머신
 - JRE(Java Runtime Environment): 자바 애플리케이션을 실행하기 위한 도구(필요한 라이브러리 및 필수 파일)가 포함된 실행 환경
