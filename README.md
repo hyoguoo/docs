@@ -9,27 +9,27 @@ layout: editorial
 
 ### Computer Science
 
-* [Computer Architecture](computer\_architecture/)
-* [Operating System](operating\_system/)
-* [Network](network/)
-* [Secure](secure/)
+* [Computer Architecture](computer-architecture)
+* [Operating System](operating-system)
+* [Network](network)
+* [Secure](secure)
 
 ### Database
 
-* [MySQL](mysql/)
+* [MySQL](mysql)
 
 ### Language
 
-* [Java](java/)
+* [Java](java)
 
 ### Framework
 
-* [Spring](spring/)
+* [Spring](spring)
 
 ### Design Pattern
 
-* [Object-Oriented Programming](oop/)
+* [Object-Oriented Programming](oop)
 
 ### ETC
 
-* [Setting](setting/)
+* [Setting](setting)
