@@ -5,7 +5,7 @@ coverY: -191.6304347826087
 layout: editorial
 ---
 
-# 📖 Documentation
+# 📖 Docs
 
 ### Computer Science
 
