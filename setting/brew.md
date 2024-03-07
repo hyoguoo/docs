@@ -32,12 +32,6 @@ mas search "Magnet"
 
 ## Brewfile
 
-위의 설치할 수 있는 것들을 `Brewfile`에 명시 해두면 `brew bundle` 명령어로 한번에 설치할 수 있다.
-
-```shell
-brew bundle
-```
-
 ```shell
 # Brewfile
 brew "git"
@@ -70,5 +64,11 @@ mas "PrettyJSON for Safari", id: 1445328303
 mas "Slack", id: 803453959
 mas "Unicorn Blocker", id: 1231935892
 ``` 
+
+위의 설치할 수 있는 것들을 `Brewfile`에 명시 해두면 아래의 명령어로 한번에 설치할 수 있다.
+
+```shell
+brew bundle
+```
 
 반대로 현재 설치된 것들을 `brew bundle dump` 명령어를 입력하여 `Brewfile`로 추출할 수도 있다.
