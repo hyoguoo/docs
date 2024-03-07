@@ -8,7 +8,7 @@ layout: editorial
 
 - Java Map 계층 구조
 
-![img.png](image/map-tree.png)
+![Map 인터페이스 다이어그램](image/map-tree.png)
 
 `Map`은 중복된 키(key)를 허용하지 않지만 중복된 값(value)를 허용한다.
 

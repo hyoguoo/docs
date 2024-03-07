@@ -58,15 +58,15 @@ layout: editorial
 
 ### 1. 정적 컨텐츠
 
-![img.png](image/spring-static-contents-operating.png)
+![Spring Static Contents](image/spring-static-contents-operating.png)
 
 ### 2. MVC & 템플릿 엔진
 
-![img.png](image/spring-view-page-operating.png)
+![Spring MVC Template Engine](image/spring-view-page-operating.png)
 
 ### 3. API
 
-![img.png](image/spring-response-body-operating.png)
+![Spring API](image/spring-response-body-operating.png)
 
 - http body에 문자 내용 반환
 - `HttpMessageConverter` 동작

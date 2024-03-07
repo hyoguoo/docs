@@ -4,7 +4,7 @@ layout: editorial
 
 # Github Verified Commit
 
-![img.png](image/verified-commit.png)
+![Verified Commit](image/verified-commit.png)
 
 로컬 커밋에서 GPG를 사용해 Verified Commit을 하기 위한 설정 방법
 

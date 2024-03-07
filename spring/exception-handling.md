@@ -8,7 +8,7 @@ layout: editorial
 
 스프링에서 컨트롤러에서 예외가 발생하게 되면, 아래의 사진에서처럼 역순으로 전파되어 WAS(톰캣)까지 전달된다.
 
-![img.png](image/spring-filter-interceptor.png)
+![Spring Filter Interceptor](image/spring-filter-interceptor.png)
 
 WAS에서는 등록한 에러에 맞게 요청을 전달하게 되는데, 에러 컨트롤러(`BasicErrorController`)를 한 번 더 호출하여 에러를 처리하게 된다.  
 여기서 요청할 때 인터셉터나 필터가 작동하지 않기 위해 dispatcherType을 `ERROR`로 하여 요청을 보낸다.(일반적인 요청은 `REQUEST`)  
