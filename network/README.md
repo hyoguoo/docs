@@ -4,15 +4,15 @@ layout: editorial
 
 # Network
 
-* [TCP/IP 4 Layer](tcp-ip-4-layer)
-    * [Network Access Layer - TCP/IP L1](network-access-layer)
-    * [Network Layer - TCP/IP L2](network-layer)
-    * [Transport Layer - TCP/IP L3](transport-layer)
+* [TCP/IP 4 Layer](tcp-ip-4-layer.md)
+    * [Network Access Layer - TCP/IP L1](network-access-layer.md)
+    * [Network Layer - TCP/IP L2](network-layer.md)
+    * [Transport Layer - TCP/IP L3](transport-layer.md)
     * Application Layer - TCP/IP L4
         * [DNS](dns.md)
         * [URI](uri.md)
         * [HTTP](http.md)
-            * [HTTP Message](http-message)
+            * [HTTP Message](http-message.md)
             * [Entity](entity.md)
             * [Method](method.md)
             * [Connection](connection.md)

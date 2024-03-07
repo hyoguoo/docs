@@ -21,13 +21,13 @@ layout: editorial
     * [Polymorphism](polymorphism.md)
     * [Interface](interface.md)
 * java.lang package
-    * [Object class](object-class)
-    * [String class](string-class)
-    * [Wrapper class](wrapper-class)
+    * [Object class](object-class.md)
+    * [String class](string-class.md)
+    * [Wrapper class](wrapper-class.md)
 * Data Processing
     * [Collections](collections.md)
     * [Map](map.md)
-    * [Iterator & Stream](iterator-stream)
+    * [Iterator & Stream](iterator-stream.md)
     * [Optional](optional.md)
 * Multi-Thread
     * [Thread](thread.md)
