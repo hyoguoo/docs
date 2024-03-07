@@ -2,20 +2,13 @@
 layout: editorial
 ---
 
-# Mac
-
-## 메뉴 단축키 지정
-
-- System Settings > Keyboard > Keyboard Shortcuts > App Shortcuts -> + -> `Application` - `Menu Title`
-- 메뉴에 명시된 글씨와 동일하게 입력
-
-![img.png](image/menu_shortcut.png)
+# Karabiner-Elements
 
 ## `Karabiner-Elements` 활용한 키 할당 변경
 
-- path: /.config/karabiner/assets/complex_modifications
+- path: `/.config/karabiner/assets/complex_modifications`
 
-![img.png](image/karabiner.png)
+![Karabiner-Elements Rule](image/karabiner.png)
 
 ### 한글 자판 시 원화 `₩` 출력 방지
 

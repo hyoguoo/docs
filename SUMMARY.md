@@ -190,7 +190,7 @@
     * [Github Verified Commit](setting/github\_verified\_commit.md)
     * [Intellij Setting](setting/intellij.md)
     * [JVM Version Control](setting/jvm\_version\_control.md)
-    * [Mac](setting/mac.md)
+    * [Karabiner-Elements](setting/karabiner_elements)
 * [Spring](spring/README.md)
     * [AOP(Aspect-Oriented Programming)](spring/aop.md)
     * [Beans(빈)](spring/beans.md)
