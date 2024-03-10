@@ -110,6 +110,7 @@
     * [Item 76. Failure Atomic](java/effective-java/item76.md)
     * [Item 77. Exception Ignore](java/effective-java/item77.md)
     * [Item 78. Mutable Data Sharing](java/effective-java/item78.md)
+    * [Item 79. Excessive Synchronization](java/effective-java/item79.md)
     * [Item 8. Finalizer & Cleaner](java/effective-java/item8.md)
     * [try-with-resources](java/effective-java/item9.md)
 * [MySQL](mysql/README.md)

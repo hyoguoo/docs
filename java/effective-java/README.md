@@ -132,6 +132,7 @@ layout: editorial
 
 ## Chapter 11. 동시성
 
-|                    Item                    |          Title          |
-|:------------------------------------------:|:-----------------------:|
-| [Item 78. Mutable Data Sharing](item78.md) | 공유 중인 가변 데이터는 동기화해 사용하라 |
+|                      Item                       |          Title          |
+|:-----------------------------------------------:|:-----------------------:|
+|   [Item 78. Mutable Data Sharing](item78.md)    | 공유 중인 가변 데이터는 동기화해 사용하라 |
+| [Item 79. Excessive Synchronization](item79.md) |      과도한 동기화는 피하라       |
