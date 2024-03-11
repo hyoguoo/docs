@@ -112,6 +112,7 @@
     * [Item 78. Mutable Data Sharing](java/effective-java/item78.md)
     * [Item 79. Excessive Synchronization](java/effective-java/item79.md)
     * [Item 8. Finalizer & Cleaner](java/effective-java/item8.md)
+    * [Item 80. ExecutorService](java/effective-java/item80.md)
     * [try-with-resources](java/effective-java/item9.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
