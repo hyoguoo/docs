@@ -116,6 +116,7 @@
     * [Item 81. Concurrent Utilities](java/effective-java/item81.md)
     * [Item 82. Thread Safety Level](java/effective-java/item82.md)
     * [Item 83. Lazy Initialization](java/effective-java/item83.md)
+    * [Item 84. Thread Scheduler](java/effective-java/item84.md)
     * [try-with-resources](java/effective-java/item9.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)

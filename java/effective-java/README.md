@@ -140,3 +140,4 @@ layout: editorial
 |   [Item 81. Concurrent Utilities](item81.md)    | wait, notify보다는 동시성 유틸리티를 사용하라 |
 |    [Item 82. Thread Safety Level](item82.md)    |       스레드 안전성 수준을 문서화하라        |
 |    [Item 83. Lazy Initialization](item83.md)    |        지연 초기화는 신중히 사용하라        |
+|     [Item 84. Thread Scheduler](item84.md)      |   프로그램 동작을 스레드 스케줄러에 기대지 말라    |
