@@ -138,3 +138,4 @@ layout: editorial
 | [Item 79. Excessive Synchronization](item79.md) |          과도한 동기화는 피하라          |
 |      [Item 80. ExecutorService](item80.md)      |   스레드보다는 실행자, 테스크, 스트림을 애용하라   |
 |   [Item 81. Concurrent Utilities](item81.md)    | wait, notify보다는 동시성 유틸리티를 사용하라 |
+|    [Item 82. Thread Safety Level](item82.md)    |       스레드 안전성 수준을 문서화하라        |

@@ -114,6 +114,7 @@
     * [Item 8. Finalizer & Cleaner](java/effective-java/item8.md)
     * [Item 80. ExecutorService](java/effective-java/item80.md)
     * [Item 81. Concurrent Utilities](java/effective-java/item81.md)
+    * [Item 82. Thread Safety Level](java/effective-java/item82.md)
     * [try-with-resources](java/effective-java/item9.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
