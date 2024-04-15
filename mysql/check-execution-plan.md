@@ -8,7 +8,7 @@ MySQL 서버의 실행 계획은 `EXPLAIN` 명령으로 확인할 수 있으며 
 
 ## EXPLAIN ANALYZE
 
-해당 명령은 결과를 항상 TREE 포맷으로 보여주기 때문에 EXPLAIN 명령에 FORMAT을 사용할 수 없다.
+MySQL 8.0 버전부터 쿼리의 실행 계획과 단계별 소요된 시간 정보를 `EXPLAIN ANALYZE` 명령으로 확인할 수 있다.
 
 ```mysql
 EXPLAIN ANALYZE
@@ -21,6 +21,8 @@ FROM employees e
 WHERE e.first_name = 'Matt'
 GROUP BY e.hire_date;
 ```
+
+결과는 아래와 같이 항상 TREE 포맷으로 출력되며, 다른 포맷으론 출력할 수 없다.
 
 ```
 -> Table scan on <temporary> (actual time=0.001..0.004 rows=48 loops=1) # A
@@ -38,8 +40,8 @@ GROUP BY e.hire_date;
 
 위에서 들여 쓰기는 호출 순서를 의미하며 실제 실행 순서는 아래의 규칙을 따른다.
 
-- 들여쓰기가 같은 레벨에서는 상단에 위치한 라인이 먼저 실행
-- 들여쓰기가 다른 레벨에서는 가장 안쪽에 위치한 라인이 먼저 실행
+- 들여쓰기가 같은 레벨: 상단에 위치한 라인이 먼저 실행
+- 들여쓰기가 다른 레벨: 가장 안쪽에 위치한 라인이 먼저 실행
 
 따라서 위 쿼리 실행계획은 다음의 실행 순서와 내용은 아래와 같다.
 
@@ -59,7 +61,8 @@ F열의 `(actual time=0.007..0.009 rows=10 loops=233)`는 아래와 같음을 �
 - actual time: 테이블에서 읽은 emp_no 기준으로 salaries 테이블에서 일치하는 레코드를 검색하는 데 걸린 시간  
   (첫 번째 값은 첫 번째 레코드를 읽어오는 데 걸린 평균 시간, 두 번째 값은 마지막 레코드를 가져오는 데 걸린 시간)
 - rows: employees 테이블에서 읽은 emp_no과 일치하는 salaries 테이블의 평균 레코드 건수를 의미
-- loops: employees 테이블에서 읽은 emp_no를 이용해 salaries 테이블의 레코드를 찾는 작업이 반복된 횟수를 의미(= employees 테아블에서 읽은 emp_no 개수가 233개를 의미)
+- loops: employees 테이블에서 읽은 emp_no를 이용해 salaries 테이블의 레코드를 찾는 작업이 반복된 횟수를 의미  
+  (= employees 테이블에서 읽은 emp_no 개수가 233개를 의미)
 
 ###### 참고자료
 
