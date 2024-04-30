@@ -32,6 +32,18 @@ layout: editorial
 3. Class Loader는 Dynamic Loading을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area(JVM Memory)로 전달
 4. Execution Engine이 올라온 Byte Code들을 명령어 단위로 하나씩 가져와서 실행
 
+### Class Loader에서 Class Loading 과정
+
+클래스 로더는 컴파일된 자바 클래스 파일(*.class)을 메모리로 로드하고, Runtime Data Area에 배치하는 역할을 수행하는데,  
+class 파일을 로딩하는 순서는 다음과 같다.
+
+1. Loading: 클래스 로더가 클래스 파일을 읽어들여 JVM 메모리에 로드
+2. Linking: 클래스 파일을 사용하기 위해 검증
+3. Initialization: 클래스 변수 초기화
+
+여기서 클래스를 메모리에 올리는 Loading 단계에서는 모든 클래스를 한 번에 로드하는 것이 아니라 필요한 클래스만 동적으로 메모리에 로드하게 된다.  
+static 멤버들 또한 전부 메모리에 올라가는 것이 아니라, 클래스 내의 static 멤버를 호출하게 되면 클래스가 동적으로 메모리에 로드된다.
+
 ## JDK & JRE & JVM
 
 ![java jdk diagram](image/java-jdk-diagram.png)
