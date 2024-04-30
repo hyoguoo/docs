@@ -10,6 +10,7 @@ layout: editorial
 
 ```java
 class Ogu {
+
     // 속성(property)
     int height;
     int weight;
@@ -26,13 +27,13 @@ class Ogu {
 }
 ```
 
-- 속성(property): 클래스 내부에 선언된 변수로, 클래스 객체마다 각가의 값이 가질 수 있는 특징이나 상태를 나타냄
+- 속성(property): 클래스 내부에 선언된 변수로, 클래스 객체마다 각각의 값이 가질 수 있는 특징이나 상태를 나타냄
 - 메서드(method): 클래스 내부에 선언된 함수로, 객체의 상태를 조작하거나 객체 간의 상호작용을 처리하는데 사용
 
 ## 인스턴스 생성과 사용
 
 클래스를 선언하는 것은 객체의 설계도만 작성한 것에 불과하므로 해당 클래스를 사용하기 위해서는 인스턴스를 생성해야 한다.  
-클래스로부터 객체를 만드는 과정을 클래스의 인스턴스(`instantiate`)라고 하며, 그 객체를 그 클래스의 인스턴스(`instance`)라고 한다.
+클래스로부터 객체를 만드는 과정을 클래스의 인스턴스화(`instantiate`)라고 하며, 그 객체를 그 클래스의 인스턴스(`instance`)라고 한다.
 
 ```java
 class Example {
@@ -71,17 +72,11 @@ class Example {
 
 ## 메서드
 
-> 특정 작업을 수행하는 일련의 문장들을 하나로 묶은 것
-
-### 메서드의 선언과 구현
-
 ```java
 class Example {
 
-    // 반환값의 자료형 반환값의 이름(매개변수) { // 메서드 선언 부
-    //     // 구현부
-    // }
-    int add(int a, int b) {
+    int add(int a, int b) { // 메서드 선언 부
+        // 메서드 구현 부
         int result = a + b;
         return result;
     }
@@ -95,7 +90,6 @@ class Example {
 
 ```java
 class Example {
-
 
     // error
     int add1(int a, int b) {
@@ -117,11 +111,13 @@ class Example {
 
 ### static
 
-메서드 중에서 인스턴스와 관계없는(인스턴스 변수나 인스턴스 메서드를 사용하지 않는) 메서드는 클래스 메서드로 선언할 수 있다.
+메서드 중에서 인스턴스와 관계없는(인스턴스 변수나 인스턴스 메서드를 사용하지 않는) 메서드는 클래스 메서드로 선언할 수 있다.  
+인스턴스 메서드나 멤버는 사용할 수 없는데, 그 이유는 아래와 같다.
 
-인스턴스가 멤버가 존재하는 시점에는 클래스 멤버가 항상 존재하지만, 클래스 멤버가 존재하는 시점에 인스턴스 멤버가 존재하지 않을 수 있다.  
-때문에 같은 클래스 내에 있는 클래스 멤버는 인스턴스 멤버를 사용할 수 없다.  
-만약 클래스 멤버 내에서 인스턴스 멤버를 사용해야 할 경우 내부에서 인스턴스를 생성하여 사용할 수 있다.(이 경우 애초에 인스턴스 메서드로 작성해야하는 것은 아닌지 점검 필요)
+- 클래스 멤버가 존재하는 시점에는 인스턴스 멤버가 존재하지 않을 수 있음
+- 각 인스턴스마다 독립적인 저장공간을 가지므로 클래스 멤버가 인스턴스 멤버를 참조할 수 없음
+
+만약 클래스 멤버 내에서 인스턴스가 필요한 경우엔 내부에서 인스턴스를 생성하여 사용할 수 있다.(이 경우 애초에 인스턴스 메서드로 작성해야하는 것은 아닌지 점검 필요)
 
 ```java
 class Example {
@@ -161,12 +157,7 @@ class Example {
 
 ## 오버로딩(Overloading)
 
-> 같은 이름의 메서드를 여러 개 정의하는 것
-
-### 오버로딩의 조건
-
-1. 메서드의 이름이 같아야 한다.
-2. 매개변수의 개수 또는 타입이 달라야 한다.
+같은 이름의 메서드를 여러 개 정의하는 것으로, 매개변수의 개수나 타입을 다르게 하여 같은 이름으로 메서드를 여러 개 정의할 수 있다.
 
 ```java
 class PrintStream {
@@ -179,21 +170,6 @@ class PrintStream {
 
     void println(String x);
 
-    // ...
-}
-```
-
-### 가변인자(varargs)와 오버로딩
-
-가변인자는 메서드의 매개변수의 개수가 일정하지 않을 때 사용한다.
-
-```java
-class Example {
-
-    void println(int x) {
-        System.out.println(x);
-    }
-
     void println(int x, int y) {
         System.out.println(x + ", " + y);
     }
@@ -202,23 +178,17 @@ class Example {
         System.out.println(x + ", " + y + ", " + z);
     }
 
-    // 가변 인자를 통해 위의 메서드를 대체할 수 있다.
+    // 가변 인자를 통해 매개변수의 개수가 일정하지 않을 때 사용할 수 있다.
     void println(int... x) {
         for (int i : x) {
             System.out.println(i);
         }
     }
-}
 ```
 
 ## 생성자(Constructor)
 
-> 인스턴스가 생성될 때 호출되는 인스턴스 초기화 메서드
-
-### 생성자의 조건
-
-1. 생성자의 이름은 클래스의 이름과 동일해야 한다.
-2. 생성자는 리턴 타입이 없다.(`void`도 생략)
+인스턴스가 생성될 때 호출되는 인스턴스 초기화 메서드로, 클래스의 이름과 동일하며 리턴 타입이 없다.
 
 ### 생성자 실행 과정
 
@@ -262,6 +232,7 @@ class Main {
 
 ```java
 class InitBlock {
+
     static int classVar = 10; // 클래스 변수의 명시적 초기화
     int instanceVar = 10; // 인스턴스 변수의 명시적 초기화
 
@@ -291,6 +262,7 @@ class InitBlock {
 
 ```java
 class InitTest {
+
     static int cv = 1;
     int iv = 1;
 
@@ -325,64 +297,6 @@ class InitTest {
 5. 명시적 초기화(`int iv = 1`)가 수행되어 1로 저장
 6. 인스턴스 초기화 블럭이 수행되어 2로 저장
 7. 생성자가 수행되어 3으로 저장
-
-## 내부 클래스
-
-> 클래스 안에 또 다른 클래스를 선언하는 것으로 내부 클래스에서 외부 클래스의 멤버를 직접 사용할 수 있다.
-
-### 내부 클래스의 종류
-
-1. 인스턴스 클래스 : 외부 클래스의 인스턴스 멤버처럼 사용
-    - `static` 멤버를 가질 수 없음(상수인 `static final`은 가능)
-2. 스태틱 클래스 : 외부 클래스의 static 멤버처럼 사용
-    - `static` 멤버를 가질 수 있음
-3. 지역 클래스 : 외부 클래스의 메서드나 초기화 블럭 안에 선언되며 외부 클래스의 지역변수처럼 사용
-    - `static` 멤버를 가질 수 없음(상수인 `static final`은 가능)
-4. 익명 클래스 : 이름이 없는 지역 클래스
-
-```java
-class Outer {
-    void myMethod() {
-        class LocalInner {
-            static final int CV = 500;
-            //       static int CV2 = 600; // 에러! static 변수 선언 불가
-            int iv = 400;
-        }
-    }
-
-    static class StaticInner {
-        static int cv = 300; // static class에서만 static 변수 선언 가능
-        int iv = 200;
-    }
-
-    class InstanceInner {
-        static final int CONST = 100; // 상수(static final)만 선언 가능
-        //        static int cv = 100; // 에러! static 변수 선언 불가
-        int iv = 100;
-    }
-}
-```
-
-내부 클래스도 클래스이기 때문에 `abstract`, `final`, `private`, `protected` 같은 제어자를 사용할 수 있다.
-
-### 익명 클래스(Anonymous Class)
-
-> 이름이 없는 지역 클래스로, 이름이 없기 때문에 생성자를 가질 수 없다.
-
-Comparator [인터페이스로 구현하는 익명 클래스](interface.md#익명-구현-객체anonymous-implement-object)의 예시
-
-```java
-class Example {
-    public static void main(String[] args) {
-        Arrays.sort(arr, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length() - o2.length();
-            }
-        });
-    }
-}
-```
 
 ###### 참고자료
 
