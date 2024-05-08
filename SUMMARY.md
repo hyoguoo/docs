@@ -120,6 +120,7 @@
     * [try-with-resources](java/effective-java/item9.md)
 * [Large Scale System](large-scale-system/README.md)
   * [Basic](large-scale-system/basic.md)
+  * [Rate Limiter](large-scale-system/rate-limiter.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
