@@ -123,6 +123,7 @@
   * [Rate Limiter](large-scale-system/rate-limiter.md)
   * [Consistent Hashing](large-scale-system/consistent-hashing.md)
   * [CAP](large-scale-system/cap.md)
+  * [Key-Value Store](large-scale-system/key-value-store.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
