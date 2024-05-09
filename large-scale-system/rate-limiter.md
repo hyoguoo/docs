@@ -153,6 +153,6 @@ descriptors:
     - 처리율 제한의 임계치를 고려해, 단기간 많은 요청을 보내지 않도록 클라이언트 측에서 제한
     - 재시도 로직에서 충분한 백오프 시간을 둠
 
-###### 출처
+###### 참고자료
 
 - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=%EA%B0%80%EC%83%81+%EB%A9%B4%EC%A0%91+%EC%82%AC%EB%A1%80%EB%A1%9C+%EB%B0%B0%EC%9A%B0%EB%8A%94+%EB%8C%80%EA%B7%9C%EB%AA%A8&isbn=9788966263240&cipId=228421467%2C)

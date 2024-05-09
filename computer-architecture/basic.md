@@ -36,6 +36,6 @@ layout: editorial
     - 주소 버스: 데이터가 저장된 주소를 전송하는 버스
     - 제어 버스: 제어 신호를 전송하는 버스
 
-###### 참고 자료
+###### 참고자료
 
 - [혼자 공부하는 컴퓨터 구조 + 운영체제 - 1:1 과외하듯 배우는 컴퓨터 공학 전공 지식 자습서](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=혼자+컴퓨터+구조&isbn=9791162243091&cipId=228751835%2C)

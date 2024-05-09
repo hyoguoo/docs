@@ -116,6 +116,6 @@ class Example {
 }
 ```
 
-###### 참고 자료
+###### 참고자료
 
 - [실무 자바 개발을 위한 OOP와 핵심 디자인 패턴](https://school.programmers.co.kr/learn/courses/17778/17778-실무-자바-개발을-위한-oop와-핵심-디자인-패턴)
