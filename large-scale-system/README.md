@@ -5,10 +5,10 @@ layout: editorial
 # Large Scale System
 
 * [Basic](basic.md)
-* [Rate Limiter](rate-limiter.md)
-* [Consistent Hashing](consistent-hashing.md)
 * [CAP](cap.md)
-* [Key-Value Store](key-value-store.md)
-* [Unique ID Generation For Distributed System](unique-id-generation-for-distributed-system.md)
-* [URL Shortening Service](url-shortening-service.md)
-* [Web Crawler](web-crawler.md)
+* [Design Rate Limiter](design-rate-limiter)
+* [Design Consistent Hashing](design-consistent-hashing)
+* [Design Key-Value Store](design-key-value-store)
+* [Design Unique ID Generation For Distributed System](design-unique-id-generation-for-distributed-system)
+* [Design URL Shortening Service](design-url-shortening-service)
+* [Design Web Crawler](design-web-crawler)

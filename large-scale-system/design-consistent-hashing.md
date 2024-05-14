@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Consistent Hashing
+# Design Consistent Hashing
 
 수평적 규모 확장을 위해서는 요청 또는 데이터가 각 서버에 균등하게 분배되는 것이 중요하다.  
 안정 해시는 이러한 목적을 달성하기 위해 보편적으로 사용되는 해시 방식이다.

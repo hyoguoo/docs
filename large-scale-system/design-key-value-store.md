@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Key-Value Store
+# Design Key-Value Store
 
 키-값 저장소는 키-값 데이터베이스라고도 불리는 비 관계형 데이터베이스다.
 

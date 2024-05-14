@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Unique ID Generation For Distributed System
+# Design Unique ID Generation For Distributed System
 
 유일 ID를 위해 관계형 데이터베이스의 `auto_increment` 베이스를 기본 키를 사용하는 방법도 존재한다.  
 하지만 이 방법은 트래픽이 매우 높으면 값 생성 부하가 생길 수 있고, 분산 시스템 환경에서 사용하기 적절하지 않다.
