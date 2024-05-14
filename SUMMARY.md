@@ -126,6 +126,7 @@
   * [Key-Value Store](large-scale-system/key-value-store.md)
   * [Unique ID Generation For Distributed System](large-scale-system/unique-id-generation-for-distributed-system.md)
   * [URL Shortening Service](large-scale-system/url-shortening-service.md)
+  * [Web Crawler](large-scale-system/web-crawler.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
