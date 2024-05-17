@@ -13,3 +13,4 @@ layout: editorial
 * [Design URL Shortening Service](design-url-shortening-service.md)
 * [Design Web Crawler](design-web-crawler.md)
 * [Design Notification System](design-notification-system.md)
+* [Design News Feed System](design-news-feed-system.md)
