@@ -15,3 +15,4 @@ layout: editorial
 * [Design Notification System](design-notification-system.md)
 * [Design News Feed System](design-news-feed-system.md)
 * [Design Chatting System](design-chatting-system.md)
+* [Design Search Autocomplete System](design-search-autocomplete-system.md)
