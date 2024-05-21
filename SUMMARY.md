@@ -129,6 +129,7 @@
   * [Design Web Crawler](large-scale-system/design-web-crawler.md)
   * [Design Notification System](large-scale-system/design-notification-system.md)
   * [Design News Feed System](large-scale-system/design-news-feed-system.md)
+  * [Design Chatting System](large-scale-system/design-chatting-system.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
