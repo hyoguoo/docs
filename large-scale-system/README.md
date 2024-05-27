@@ -17,3 +17,4 @@ layout: editorial
 * [Design Chatting System](design-chatting-system.md)
 * [Design Search Autocomplete System](design-search-autocomplete-system.md)
 * [Design Video Streaming Service](design-video-streaming-service.md)
+* [Design Cloud Storage Service](design-cloud-storage-service.md)
