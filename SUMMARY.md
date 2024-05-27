@@ -131,6 +131,7 @@
   * [Design News Feed System](large-scale-system/design-news-feed-system.md)
   * [Design Chatting System](large-scale-system/design-chatting-system.md)
   * [Design Search Autocomplete System](large-scale-system/design-search-autocomplete-system.md)
+    * [Design Video Streaming Service](large-scale-system/design-video-streaming-service.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
