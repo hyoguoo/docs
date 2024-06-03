@@ -4,11 +4,17 @@ layout: editorial
 
 # Check Execution Plan(실행 계획 확인)
 
-MySQL 서버의 실행 계획은 `EXPLAIN` 명령으로 확인할 수 있으며 단순 테이블 형태나 JSON, TREE 형태로 출력할 수 있다.
+MySQL 서버의 실행 계획은 `EXPLAIN` 명령으로 확인할 수 있으며 단순 테이블 형태나 JSON, TREE 형태로 출력할 수 있다.  
+(MySQL 8.0.18 버전부터 TREE 형태는 `EXPLAIN ANALYZE`로 대체되었음)
 
 ## EXPLAIN ANALYZE
 
-MySQL 8.0 버전부터 쿼리의 실행 계획과 단계별 소요된 시간 정보를 `EXPLAIN ANALYZE` 명령으로 확인할 수 있다.
+8.0.18 이전의 TREE 형태의 실행계획은 쿼리 계획과 예상 비용만 보여주었으나, `EXPLAIN ANALYZE` 명령으로 새로운 측정값을 추가로 확인할 수 있게 되었다.
+
+- 첫 번째 레코드를 가져오는 데 걸린 실제 시간
+- 모든 레코드를 가져오는 데 걸린 실제 시간
+- 읽은 레코드의 실제 개수
+- 반복 횟수
 
 ```mysql
 EXPLAIN ANALYZE
@@ -59,7 +65,7 @@ GROUP BY e.hire_date;
 F열의 `(actual time=0.007..0.009 rows=10 loops=233)`는 아래와 같음을 의미한다
 
 - actual time: 테이블에서 읽은 emp_no 기준으로 salaries 테이블에서 일치하는 레코드를 검색하는 데 걸린 시간  
-  (첫 번째 값은 첫 번째 레코드를 읽어오는 데 걸린 평균 시간, 두 번째 값은 마지막 레코드를 가져오는 데 걸린 평균 시간)
+  (첫 번째 값은 첫 번째 레코드를 읽어오는 데 걸린 평균 시간, 두 번째 값은 모든 레코드를 가져오는 데 걸린 평균 시간)
 - rows: employees 테이블에서 읽은 emp_no과 일치하는 salaries 테이블의 평균 레코드 건수를 의미
 - loops: employees 테이블에서 읽은 emp_no를 이용해 salaries 테이블의 레코드를 찾는 작업이 반복된 횟수를 의미  
   (= employees 테이블에서 읽은 emp_no 개수가 233개를 의미)
@@ -67,3 +73,4 @@ F열의 `(actual time=0.007..0.009 rows=10 loops=233)`는 아래와 같음을 �
 ###### 참고자료
 
 - [Real MySQL 8.0 1 - 개발자와 DBA를 위한 MySQL 실전 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Real+MySQL&isbn=9791158392703&cipId=228440237%2C)
+- [MySQL Docs MySQL EXPLAIN ANALYZE](https://dev.mysql.com/blog-archive/mysql-explain-analyze)
