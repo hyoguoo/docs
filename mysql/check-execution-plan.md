@@ -59,7 +59,7 @@ GROUP BY e.hire_date;
 F열의 `(actual time=0.007..0.009 rows=10 loops=233)`는 아래와 같음을 의미한다
 
 - actual time: 테이블에서 읽은 emp_no 기준으로 salaries 테이블에서 일치하는 레코드를 검색하는 데 걸린 시간  
-  (첫 번째 값은 첫 번째 레코드를 읽어오는 데 걸린 평균 시간, 두 번째 값은 마지막 레코드를 가져오는 데 걸린 시간)
+  (첫 번째 값은 첫 번째 레코드를 읽어오는 데 걸린 평균 시간, 두 번째 값은 마지막 레코드를 가져오는 데 걸린 평균 시간)
 - rows: employees 테이블에서 읽은 emp_no과 일치하는 salaries 테이블의 평균 레코드 건수를 의미
 - loops: employees 테이블에서 읽은 emp_no를 이용해 salaries 테이블의 레코드를 찾는 작업이 반복된 횟수를 의미  
   (= employees 테이블에서 읽은 emp_no 개수가 233개를 의미)
