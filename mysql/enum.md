@@ -8,18 +8,18 @@ layout: editorial
 ENUM 타입의 장점으로 코드 값의 의미를 쉽게 파악할 수 있다는 점과, 문자열이 아닌 정수 값으로 저장하기 때문에 저장 공간을 절약할 수 있다는 점이 있다.  
 (최대 개수는 65,535개이며, 255개 미만은 저장 공간으로 1바이트, 255개 이상은 2바이트를 사용)
 
-```mysql
+```sql
 CREATE TABLE tb_enum
 (
     fd_enum ENUM ('PROCESSING', 'FAILURE', 'SUCCESS')
 );
 
-# 아래 두 쿼리는 동일한 결과를 반환한다.
-# 1
+-- 아래 두 쿼리는 동일한 결과를 반환한다.
+-- 1
 SELECT *
 FROM tb_enum
 WHERE fd_enum = 1;
-# 2
+-- 2
 SELECT *
 FROM tb_enum
 WHERE fd_enum = 'PROCESSING';
@@ -36,7 +36,7 @@ ENUM 컬럼에 저장되는 값에 새로운 값을 추가해야하는 경우 �
 ENUM 타입은 실제로는 정수 값으로 저장되기 때문에 정렬 시에도 정수 값으로 정렬된다.  
 때문에 ENUM 타입을 정렬할 때는 문자열로 정렬하고 싶은 경우 CAST 함수를 사용해야한다.
 
-```mysql
+```sql
 SELECT *
 FROM tb_enum
 ORDER BY CAST(fd_enum AS CHAR); 

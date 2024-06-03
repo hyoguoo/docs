@@ -11,16 +11,16 @@ DBMS 종류와 관계없이 기본적인 기능의 SQL 함수는 대부분 동�
 
 현재 시간을 조회하는 함수로는 `NOW()` / `SYSDATE()` 가 존재하는데, 같은 기능을 수행하지만 작동 방식에서 차이가 있다.
 
-```mysql
+```sql
 SELECT NOW()     AS now
      , SYSDATE() AS sysdate
      , SLEEP(2)
      , NOW()     AS now_after_sleep
      , SYSDATE() AS sysdate_after_sleep;
-# now                   : 2021-08-17 22:38:00
-# sysdate               : 2021-08-17 22:38:00
-# now_after_sleep       : 2021-08-17 22:38:00
-# sysdate_after_sleep   : 2021-08-17 22:38:02
+-- now                   : 2021-08-17 22:38:00
+-- sysdate               : 2021-08-17 22:38:00
+-- now_after_sleep       : 2021-08-17 22:38:00
+-- sysdate_after_sleep   : 2021-08-17 22:38:02
 ```
 
 NOW() 함수는 하나의 SQL에서 같은 값을 가지지만, SYSDATE() 함수는 SQL 내에서도 호출 시점에 따라 다른 값을 가지게 된다.    

@@ -13,13 +13,13 @@ layout: editorial
 
 기본적으로 컬럼의 값 자체를 변환하지 않고 그대로 사용하는 조건을 만족해야 인덱스를 정상적으로 사용할 수 있다.
 
-```mysql
-# 인덱스 사용 불가
+```sql
+-- 인덱스 사용 불가
 SELECT *
 FROM salaries
 WHERE salary * 10 > 1000000;
 
-# 인덱스 사용 가능
+-- 인덱스 사용 가능
 SELECT *
 FROM salaries
 WHERE salary > 1000000 / 10;
@@ -33,11 +33,11 @@ WHERE 조건에서 여러 개의 컬럼을 조합하여 사용하는 경우에�
 여기서 실제로 작성 된 순서로 인덱스가 구성되는 것이 아니라 인덱스의 컬럼 순서에 따라 최적화 수행을 하게 되기 때문에 인덱스의 컬럼 순서를 잘 고려해야 한다.
 여기서 위의 설명은 모두 AND 조건에 해당하는 경우이며, OR 조건의 경우에는 처리 방식이 바뀌게 된다.
 
-```mysql
+```sql
 SELECT *
 FROM employees
-WHERE first_name = 'Platypus' # 인덱스 사용 가능
-   OR last_name = 'Ogu'; # 인덱스 사용 불가능
+WHERE first_name = 'Platypus' -- 인덱스 사용 가능
+   OR last_name = 'Ogu'; -- 인덱스 사용 불가능
 ```
 
 만약 WHERE 조건에 OR 조건이 걸려있고, 위와 같이 인덱스가 설정 되어있는 경우 AND의 경우 `first_name` 인덱스를 사용할 수 있지만,  
@@ -72,14 +72,14 @@ WHERE 절과 ORDER BY 절을 동시에 사용하는 경우에는 아래의 방�
     - WHERE 절의 `동등` 비교 조건으로 사용하는 컬럼과 ORDER BY 절에 정렬 대상 컬럼이 중첩 상관 없이 인덱스 순서대로 포함돼 있을 때 사용 가능
     - 제일 빠른 성능을 보이기 때문에 가능하다면 이 방법을 사용하는 것이 좋다.
 
-```mysql
-# 1
+```sql
+-- 1
 SELECT *
 FROM tb_test
 WHERE COL_1 = 10
 ORDER BY COL_2, COL_3;
 
-# 2
+-- 2
 SELECT *
 FROM tb_test
 WHERE COL_1 = 10
@@ -89,14 +89,14 @@ ORDER BY COL_1, COL_2, COL_3;
 위 쿼리는 동등 비교이기 때문에 1번에서 COL_1 GROUP BY 절에 추가하더라도 정렬 순서에 변화가 없어(COL_1에 대한 데이터가 한 건이기 때문) 실행 결과가 같다.  
 때문에 옵티마이저에서 실행 계획을 최적화하여 WHERE + GROUP BY 절 인덱스 사용 방식으로 처리할 수 있게 된다.
 
-```mysql
-# 1
+```sql
+-- 1
 SELECT *
 FROM tb_test
 WHERE COL_1 > 10
 ORDER BY COL_2, COL_3;
 
-# 2
+-- 2
 SELECT *
 FROM tb_test
 WHERE COL_1 > 10
@@ -124,20 +124,20 @@ GROUP BY 절과 ORDER BY 절에 명시된 컬럼의 순서와 내용이 모두 �
 MySQL에서는 NULL 값도 하나의 값으로 인정하여 포함된 레코드도 인덱스로 관리한다.(SQL 표준에서는 NULL 값은 비교할 수 없는 값으로 정의되어 있음)  
 하지만 모든 쿼리 실행 계획에서 NULL 값을 레인지 스캔으로 처리하지는 않는다.
 
-```mysql
-# 1
+```sql
+-- 1
 SELECT *
 FROM titles
 WHERE to_date IS NULL;
-# 2
+-- 2
 SELECT *
 FROM titles
 WHERE ISNULL(to_date);
-# 3
+-- 3
 SELECT *
 FROM titles
 WHERE ISNULL(to_date) = 1;
-# 4
+-- 4
 SELECT *
 FROM titles
 WHERE ISNULL(to_date) = true; # 4
@@ -168,19 +168,19 @@ WHERE ISNULL(to_date) = true; # 4
 
 DATETIME - TIMESTAMP 별도 타입 변환 없이 비교 시 문제없이 작동하는 것처럼 보일 수 있지만 실제로는 그렇지 않을 수 있기 때문에 주의해야 한다.
 
-```mysql
+```sql
 SELECT COUNT(*)
 FROM employees
-WHERE hire_date < UNIX_TIMESTAMP('2023-05-09 12:05:09'); # hire_date: datetime 타입
+WHERE hire_date < UNIX_TIMESTAMP('2023-05-09 12:05:09'); -- hire_date: datetime 타입
 ```
 
 UNIX_TIMESTAMP 함수는 내부적으로 단순 숫자 값에 불과하기 때문에 정상적으로 DATETIME 타입으로 변환되지 않아 올바르지 않은 결과를 반환하게 된다.  
 이런 경우에는 `FROM_UNIXTIME` 함수를 사용하여 타입 변환을 명시해야 한다.
 
-```mysql
+```sql
 SELECT COUNT(*)
 FROM employees
-WHERE hire_date < FROM_UNIXTIME(UNIX_TIMESTAMP('2023-05-09 12:05:09')); # hire_date: datetime 타입
+WHERE hire_date < FROM_UNIXTIME(UNIX_TIMESTAMP('2023-05-09 12:05:09')); -- hire_date: datetime 타입
 ```
 
 ## Short Circuit Evaluation
@@ -193,12 +193,12 @@ WHERE hire_date < FROM_UNIXTIME(UNIX_TIMESTAMP('2023-05-09 12:05:09')); # hire_d
 쿼리 결과에서 지정된 순서에 위치한 레코드만 가져올 때 사용하는 문법이다.  
 MySQL의 LIMIT은 WHERE 조건이 아니기 때문에 항상 쿼리의 마지막에 실행된다.
 
-```mysql
+```sql
 SELECT *
 FROM employees
-WHERE emp_no BETWEEN 10001 AND 10010 # 1. employees 테이블에서 WHERE 조건에 일치하는 레코드를 전부 읽음
-ORDER BY first_name # 2. 1번에서 읽어온 레코드를 first_name 컬럼값에 따라 정렬
-LIMIT 0, 5; # 3. 정렬된 결과에서 상쉬 5개의 레코드만 반환
+WHERE emp_no BETWEEN 10001 AND 10010 -- 1. employees 테이블에서 WHERE 조건에 일치하는 레코드를 전부 읽음
+ORDER BY first_name -- 2. 1번에서 읽어온 레코드를 first_name 컬럼값에 따라 정렬
+LIMIT 0, 5; -- 3. 정렬된 결과에서 상쉬 5개의 레코드만 반환
 ```
 
 LIMIT은 필요한 레코드 건수가 조회되면 즉시 쿼리를 종료하게 되는데, 쿼리에 따라 성능 향상을 기대할 수 있다.
@@ -213,7 +213,7 @@ LIMIT은 필요한 레코드 건수가 조회되면 즉시 쿼리를 종료하�
 
 - 일반적인 LIMIT 사용
 
-```mysql
+```sql
 SELECT *
 FROM salaries
 ORDER BY salary
@@ -224,27 +224,27 @@ LIMIT 200000, 10;
 
 - 포인터(커서) 개념을 사용한 페이징
 
-```mysql
-# 첫 페이지 조회
+```sql
+-- 첫 페이지 조회
 SELECT *
 FROM salaries
 ORDER BY salary
 LIMIT 0, 10;
 
-# 그 다음 페이지 조회
+-- 그 다음 페이지 조회
 SELECT *
 FROM salaries
 WHERE salary >= 5959
-  AND NOT (salary = 5959 AND emp_no <= 10001) # 첫 페이지에서 가장 마지막 레코드의 salary 값
+  AND NOT (salary = 5959 AND emp_no <= 10001) -- 첫 페이지에서 가장 마지막 레코드의 salary 값
 ORDER BY salary
 LIMIT 0, 10;
 
-# ...
-# 계속해서 다음 페이지 조회
+-- ...
+-- 계속해서 다음 페이지 조회
 SELECT *
 FROM salaries
 WHERE salary >= 1295000
-  AND NOT (salary = 1295000 AND emp_no <= 20344) # 이전 페이지에서 가장 마지막 레코드의 salary 값
+  AND NOT (salary = 1295000 AND emp_no <= 20344) -- 이전 페이지에서 가장 마지막 레코드의 salary 값
 ORDER BY salary
 LIMIT 0, 10;
 ```
@@ -274,7 +274,7 @@ LIMIT 0, 10;
 조인 작업에서 드라이빙 테이블을 읽을 때는 인덱스 탐색 작업을 한 번만 수행하고, 드리븐 테이블을 읽을 때는 인덱스 탐색 작업을 레코드 건수만큼 수행하게 된다.  
 때문에 JOIN 순서와 인덱스 유무에 따라 성능에 크게 영향을 주게 되는데, 이를 옵티마이저가 최적화하여 성능 저하를 방지하는 쪽으로 동작한다.
 
-```mysql
+```sql
 SELECT *
 FROM employees e,
      dept_emp de
@@ -304,7 +304,7 @@ WHERE e.emp_no = de.emp_no;
 
 - 지연 조인 적용 전
 
-```mysql
+```sql
 SELECT e.*
 FROM salaries s,
      employees e
@@ -325,7 +325,7 @@ LIMIT 10;
 
 - 지연 조인 적용 후
 
-```mysql
+```sql
 SELECT e.*
 FROM (SELECT s.emp_no
       FROM salaries s
@@ -354,9 +354,9 @@ WHERE e.emp_no = x.emp_no;
 
 MySQL 8.0부터 지원하는 기능으로 특정 그룹별로 서브쿼리를 실행해서 결과를 반환하는 기능이다.
 
-```mysql
-# employees 테이블에서 first_name이 Matt인 레코드를 조회하고, 
-# salaries 테이블에서 가장 최근에 받은 급여 2건을 조회하는 쿼리
+```sql
+-- employees 테이블에서 first_name이 Matt인 레코드를 조회하고, 
+-- salaries 테이블에서 가장 최근에 받은 급여 2건을 조회하는 쿼리
 SELECT *
 FROM employees e
          LEFT JOIN LATERAL ( SELECT *

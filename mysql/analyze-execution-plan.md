@@ -6,7 +6,7 @@ layout: editorial
 
 MySQL 8.0 버전부터는 쿼리의 실행 계획을 `EXPLAIN` 명령으로 확인할 수 있으며, 단순 테이블 형태로 출력할 수 있다.
 
-```mysql
+```sql
 EXPLAIN
 SELECT *
 FROM employees e
@@ -31,7 +31,7 @@ WHERE e.first_name = 'ABC';
 하나의 SELECT 문장은 다시 한 개 이상의 Sub Select 문장을 포함할 수 있는데,  
 위의 처음 예시에서는 조인을 사용하였기 때문에 id 값이 증가하지 않고 1로 표시되지만, 여러 개의 Sub Select 문장이 포함된 쿼리의 경우 id 값이 증가하면서 표시된다.
 
-```mysql
+```sql
 EXPLAIN
 SELECT ((SELECT COUNT(*) FROM employees) + (SELECT COUNT(*) FROM departments)) AS total_count;
 ```
@@ -63,7 +63,7 @@ UNION으로 결합하는 단위 SELECT 쿼리 가운데 첫 번째를 제외한 
 UNION이나 UNION ALL로 집합을 결합하는 쿼리,  
 DEPENDENT는 UNION이나 UNION ALL로 결합된 단위 쿼리가 외부 쿼리에 의해 영향을 받는 것을 의미한다.
 
-```mysql
+```sql
 EXPLAIN
 SELECT *
 FROM employees e1
@@ -106,7 +106,7 @@ FROM 절에서 단위 SELECT 쿼리의 실행 결과로 메모리나 디스크�
 
 FROM 절에서 LATERAL JOIN을 사용하여 외부 컬럼을 참조하는 서브쿼리
 
-```mysql
+```sql
 SELECT *
 FROM employees e
          LEFT JOIN LATERAL

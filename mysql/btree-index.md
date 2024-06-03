@@ -151,7 +151,7 @@ WHERE first_name BETWEEN 'Ebbe' AND 'Gad';
 인덱스 스캔만으로 원하는 데이터를 추출할 수 있기 때문에 위에 3번에 해당하는 레코드를 읽어오는 작업이 필요 없기 때문에 랜덤 I/O가 발생하지 않아 훨씬 빠른 성능을 보여준다.
 
 ```sql
-# first_name 컬럼에 인덱스가 존재하는 경우
+-- first_name 컬럼에 인덱스가 존재하는 경우
 SELECT first_name
 FROM employee
 WHERE first_name BETWEEN 'Ebbe' AND 'Gad';
@@ -333,7 +333,7 @@ LIMIT 1;
 
 다중 컬럼 인덱스에서 각 컬럼의 순서와 비교 조건에 따라 인덱스의 가용성과 효율성이 달라진다.
 
-```mysql
+```sql
 SELECT *
 FROM dept_emp
 WHERE dept_no = 'd002'

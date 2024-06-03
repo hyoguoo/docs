@@ -16,7 +16,7 @@ InnoDB 스토리지 엔진에서 조금 다른 점은, 잠금 없는 읽기가 �
 
 ## 잠금 테이블 선택
 
-```mysql
+```sql
 SELECT *
 FROM employees e
          INNER JOIN dept_emp de ON de.emp_no = employees.emp_no
@@ -27,7 +27,7 @@ UPDATE;
 
 위 쿼리는 `employees`, `dept_emp`, `departments` 테이블에 대해 잠금을 걸지만, `employees` 테이블에만 잠금을 걸고 싶다면 `FOR UPDATE` 절을 추가하면 된다.
 
-```mysql
+```sql
 SELECT *
 FROM employees e
          INNER JOIN dept_emp de ON de.emp_no = employees.emp_no
@@ -41,7 +41,7 @@ UPDATE OF e;
 해당 레코드를 읽으려는데, `FOR UPDATE` 절에 의해 잠겨져 있다면, 해당 트랜잭션은 레코드가 잠긴 상태를 기다려야 한다.  
 이렇게 되면 해당 트랜잭션의 해제를 기다려야하거나, 심각한 경우 애플리케이션 오류 등으로 해제가 되지 않았을 경우 `innodo_lock_wait_timeout`에 설정 된 시간까지 대기해야 한다.
 
-```mysql
+```sql
 SELECT *
 FROM employees
 WHERE emp_no = 10001
@@ -61,7 +61,7 @@ UPDATE NOWAIT;
 - 쿠폰의 개수는 1000개 제한
 - 선착순으로 요청한 사용자에게 발급
 
-```mysql
+```sql
 CREATE TABLE coupon
 (
     coupon_id     BIGINT      NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE coupon
 
 테이블은 위와 같고 쿠폰 발급 과정을 간략화하면 다음과 같은 쿼리를 실행할 수 있다.
 
-```mysql
+```sql
 BEGIN;
 
 SELECT *
@@ -86,7 +86,7 @@ LIMIT 1
 FOR
 UPDATE;
 
-# 애플리케이션 로직 수행
+-- 애플리케이션 로직 수행
 
 UPDATE coupon
 SET owned_user_id = ?

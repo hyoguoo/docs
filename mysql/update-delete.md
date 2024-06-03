@@ -27,7 +27,7 @@ SELECT 쿼리와 마찬가지로 JOIN 순서에 따라 성능이 달라질 수 �
 일반적으로 여러 개의 레코드를 하나의 쿼리로 처리하는 경우 동일한 레코드 값으로만 업데이트할 수 있었지만, 8.0 버전부터는 서로 다른 값으로 업데이트할 수 있다.  
 아래와 같이 레코드 생성(Row Constructor)을 사용하면 여러 레코드를 하나의 쿼리로 처리할 수 있다.
 
-```mysql
+```sql
 UPDATE user_level ul
     INNER JOIN (VALUES ROW (1, 1), ROW (2, 4)) new_user_level (user_id, user_lv)
     ON new_user_level.user_id = ul.user_id
@@ -40,9 +40,9 @@ SET ul.user_lv = ul.user_lv + new_user_level.user_lv;
 
 기본적으로 `JOIN DELETE` 문장은 일반적인 단일 테이블 DELETE 문장과 다른 문법으로 쿼리를 작성해야 한다.
 
-```mysql
-# 3개의 테이블을 조인한 뒤 employees, dept_emp 테이블의 레코드만 삭제
-DELETE e, de # 삭제할 테이블을 지정
+```sql
+-- 3개의 테이블을 조인한 뒤 employees, dept_emp 테이블의 레코드만 삭제
+DELETE e, de -- 삭제할 테이블을 지정
 FROM employees e,
      dept_emp de,
      departments d

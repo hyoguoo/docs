@@ -60,7 +60,7 @@ InnoDB에서는 세컨더리 인덱스에서 실제 레코드가 아닌, PK를 �
 
 테이블과 레코드가 아래와 같이 생성되어 있을 때, 자식/부모 테이블의 변경 대기에 대해 알아보자.
 
-```mysql
+```sql
 CREATE TABLE tb_parent
 (
     id INT          NOT NULL,

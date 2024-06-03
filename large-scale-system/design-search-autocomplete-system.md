@@ -34,7 +34,7 @@ layout: editorial
 
 ### 데이터베이스 자료구조 - 트라이 자료구조
 
-```mysql
+```sql
 SELECT *
 FROM TB
 WHERE keyword LIKE 'prefix%'

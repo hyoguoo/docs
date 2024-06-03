@@ -16,7 +16,7 @@ MySQL 서버의 실행 계획은 `EXPLAIN` 명령으로 확인할 수 있으며 
 - 읽은 레코드의 실제 개수
 - 반복 횟수
 
-```mysql
+```sql
 EXPLAIN ANALYZE
 SELECT e.emp_no, avg(s.salary)
 FROM employees e

@@ -56,7 +56,7 @@ layout: editorial
 범위로 검색하는 것이 아니라 여러 번의 동등 비교로 실행하기 때문에 일반적으로 빠르게 실행된다.  
 인자로 상수를 사용하거나 서브쿼리를 사용할 수 있다.
 
-```mysql
+```sql
 SELECT *
 FROM dept_emp
 WHERE (dept_no, emp_no) IN (('d001', 10017), ('d002', 10018));

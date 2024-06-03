@@ -59,7 +59,7 @@ InnoDB 스토리지 엔진은 특정 테이블의 연속된 데이터 페이지�
 
 MySQL 8.0에서 병렬 처리 기능이 추가되었으나, WHERE 조건 없이 단순이 테이블 전체 건수를 가져오는 경우에만 병렬 처리가 가능하다.
 
-```mysql
+```sql
 SET SESSION innodb_parallel_read_threads = 4;
 
 SELECT COUNT(*)
@@ -160,7 +160,7 @@ ORDER BY가 사용되면 아래 세 가지 방법 중 하나를 선택해서 처
 
 - 조인에서 첫 번째로 읽히는 테이블(드라이빙 테이블)의 컬럼만으로 ORDER BY 절 작성
 
-```mysql
+```sql
 SELECT *
 FROM employees e,
      salaries s
@@ -179,7 +179,7 @@ ORDER BY e.last_name;
 
 위의 경우를 제외하고 2개 이상의 테이블이 조인되는 경우 임시 테이블에 저장하고 그 결과를 다시 정렬하는 방식을 사용해야 한다.
 
-```mysql
+```sql
 SELECT *
 FROM employees e,
      salaries s
@@ -208,7 +208,7 @@ GROUP BY 작업 역시 인덱스를 이용한 처리와 임시 테이블을 사�
 
 인덱스의 레코드를 건너뛰면서 필요한 부분만 읽어 가져오는 방법을 말한다.
 
-```mysql
+```sql
 CREATE INDEX idx_empNo_fromDate ON salaries (emp_no, from_date);
 
 EXPLAIN
@@ -252,7 +252,7 @@ GROUP BY가 필요한 경우 내부적으로 임시 테이블을 만들어 중�
 단순히 조회된 레코드 중에서 유니크한 레코드만 가져올 땐 `SELECT DISTINCT`를 사용할 수 있다.  
 이 경우 GROUP BY와 동일한 방식으로 처리되어 아래 두 쿼리는 내부적으로 같은 작업을 수행한다.
 
-```mysql
+```sql
 SELECT DISTINCT emp_no
 FROM salaries;
 
@@ -263,12 +263,12 @@ GROUP BY emp_no;
 
 DISTINCT에서 중요한 점은 특정 컬럼에 대해 유니크한 값을 조회하는 것이 아니라 조회된 레코드 전체에 대해 유니크한 값을 조회한다는 것이다.
 
-```mysql
-# fist_name, last_name 조합이 유니크한 레코드만 조회
+```sql
+-- fist_name, last_name 조합이 유니크한 레코드만 조회
 SELECT DISTINCT fist_name, last_name
 FROM employees;
 
-# first_name만 유니크한 레코드만 조회하는 것이 아닌, 위 쿼리와 동일하게 조회
+-- first_name만 유니크한 레코드만 조회하는 것이 아닌, 위 쿼리와 동일하게 조회
 SELECT DISTINCT(first_name), last_name
 FROM employees;
 ```
@@ -277,9 +277,9 @@ FROM employees;
 
 집합 함수 내에서 사용된 DISTINCT는 SELECT와는 다르게 집합 함수의 인자로 전달된 컬럼값에 유니크한 것들만 가져오게된다.
 
-```mysql
+```sql
 EXPLAIN
-SELECT COUNT(DISTINCT s.salary) # s.salary 컬럼의 유니크한 값만 조회
+SELECT COUNT(DISTINCT s.salary) -- s.salary 컬럼의 유니크한 값만 조회
 FROM employees e,
      salaries s
 WHERE e.emp_no = s.emp_no
@@ -293,7 +293,7 @@ WHERE e.emp_no = s.emp_no
 
 위 경우엔 인덱스를 이용할 수 없어 임시 테이블을 생성했지만, 인덱스 된 컬럼에 대해 DISTINCT를 사용하는 경우 인덱스를 이용할 수 있다.
 
-```mysql
+```sql
 SELECT COUNT(DISTINCT emp_no)
 FROM employees;
 

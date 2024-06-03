@@ -16,14 +16,14 @@ MYSQL 5.6까지는 서브쿼리를 최적으로 실행하지 못 했으나, 8.0�
 
 서브쿼리 말고 조인으로 처리되는 경우가 많은데, 이 경우엔 보통 조인으로 처리할 때 더 빠르기 때문에 가능하면 조인을 사용하는 것이 좋다.
 
-```mysql
-# 서브쿼리
+```sql
+-- 서브쿼리
 SELECT COUNT(CONCAT(e1.first_name,
                     (SELECT e2.first_name FROM employees e2 WHERE e2.emp_no = e1.emp_no))
            )
 FROM employees e1;
 
-# 조인
+-- 조인
 SELECT COUNT(CONCAT(e1.first_name, e2.first_name))
 FROM employees e1,
      employees e2
@@ -32,8 +32,8 @@ WHERE e1.emp_no = e2.emp_no;
 
 그리고 서브쿼리가 동일하게 여러 번 사용 되는 경우엔 LATERAL JOIN을 사용하면 빠른 성능을 기대할 수 있다.
 
-```mysql
-# 서브쿼리
+```sql
+-- 서브쿼리
 SELECT e.emp_no,
        e.first_name,
        (SELECT s.salary
@@ -54,7 +54,7 @@ SELECT e.emp_no,
 FROM employees e
 WHERE e.emp_no = 5959;
 
-# 조인
+-- 조인
 SELECT e.emp_no,
        e.first_name,
        s2.salary,

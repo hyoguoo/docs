@@ -45,7 +45,7 @@ MySQL 8.0 이전 버전에서는 단순히 인덱스된 컬럼의 유니크한 �
 실제 데이터는 항상 균등한 분포도를 가지지 않기 때문에 히스토그램 정보 없이 인덱스에 대한 통계 정보만으론 최적의 실행 계획을 수립하기 어렵다.  
 이러한 부분을 보완하기 위해 히스토그램 정보를 이용해 인덱스의 통계 정보를 보완한다.
 
-```mysql
+```sql
 EXPLAIN
 SELECT *
 FROM employees
@@ -60,7 +60,7 @@ WHERE first_name = 'Zita'
 위 결과에서 옵티마이저에서는 `ix_firstname` 인덱스를 사용해 `Zita` 조건에 일치하는 224건을 찾고,  
 그중에서 11.11%를 birth_date 조건에 해당할 것으로 예측한 것을 알 수 있다.
 
-```mysql
+```sql
 ANALYZE TABLE employees UPDATE HISTOGRAM ON first_name, birth_date;
 
 EXPLAIN
