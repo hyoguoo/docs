@@ -1,7 +1,7 @@
 ---
 description: 단순 지식이나 개념을 정리하여 기록하는 공간입니다.
-cover: .gitbook/assets/20211024%B5%B6%BC%AD.jpg
-coverY: -999.8355605694335
+cover: .gitbook/assets/ogu-read-3600-900.png
+coverY: 0
 layout:
   cover:
     visible: true
