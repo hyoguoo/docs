@@ -53,7 +53,7 @@ TLS와 SSL는 매우 비슷하기 때문에 SSL이라고 통칭하여 사용하�
 인코딩 및 디코딩 작업은 대부분 SSL 라이브러리 내부에서 처리되기 때문에, 웹 클라이언트나 서버가 별도로 크게 처리할 부분은 없다.  
 결국 HTTPS는 HTTP 프로토콜에 대칭/비대칭 인증서 기반 암호 기법의 강력한 집합을 결합한 것으로 네트워크 상에서 가장 널리 사용되는 보안 프로토콜이다.
 
-## [SSL(HTTPS)에 이용되는 디지털 암호학 기초](../secure/digital_cryptΩzography_basic.md)
+## [SSL(HTTPS)에 이용되는 디지털 암호학 기초](../secure/digital-cryptography-basic.md)
 
 ## HTTP / HTTPS 트랜잭션 비교
 
