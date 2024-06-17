@@ -14,6 +14,7 @@
   * [Collections(컬렉션)](java/collections.md)
   * [Enums](java/enums.md)
   * [Exception Handling(예외 처리)](java/exception-handling.md)
+  * [Garbage Collection(가비지 컬렉션)](java/garbage-collection.md)
   * [Generics](java/generic.md)
   * [Inheritance(상속)](java/inheritance.md)
   * [Interface(인터페이스)](java/interface.md)

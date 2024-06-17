@@ -7,6 +7,7 @@ layout: editorial
 ## [Effective Java](effective-java)
 
 * [JVM](jvm.md)
+* [Garbage Collection](garbage-collection.md)
 * Basic
     * [Variable](variable.md)
     * [Operator](operator.md)
