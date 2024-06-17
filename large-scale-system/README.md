@@ -18,3 +18,4 @@ layout: editorial
 * [Design Search Autocomplete System](design-search-autocomplete-system.md)
 * [Design Video Streaming Service](design-video-streaming-service.md)
 * [Design Cloud Storage Service](design-cloud-storage-service.md)
+* [Design Payment System](design-payment-system.md)
