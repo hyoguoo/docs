@@ -4,22 +4,26 @@ layout: editorial
 
 # Exception Handling(예외 처리)
 
-> 예외처리는 프로그램이 실행되는 동안 발생하는 예외를 처리하는 것을 말한다.
+> 프로그램이 실행되는 동안 발생하는 예외를 처리하는 것
 
-- 프로그램 에러
-    - 컴파일 에러: 컴파일 시 발생하는 에러
-    - 런타임 에러: 실행 시 발생하는 에러
-    - 논리적 에러: 실행은 되지만 의도와 다르게 동작하는 에러
+프로그램에서 발생하는 에러는 크게 세 가지로 나눌 수 있다.
 
-- 예외 클래스 계층 구조
-    - 모든 예외 클래스는 `java.lang.Throwable` 클래스를 상속받는다.
-    - `Error` 클래스와 `Exception` 클래스는 `Throwable` 클래스를 상속받는다.
-    - `Error` 클래스 : 프로그램 코드에 의해서 수습될 수 없는 심각한 오류
-    - `Exception` 클래스 : 프로그램에서 코드에 의해서 수습될 수 있는 미약한 오류
+- 컴파일 에러: 컴파일 시 발생하는 에러
+- 런타임 에러: 실행 시 발생하는 에러
+- 논리적 에러: 실행은 되지만 의도와 다르게 동작하는 에러
+
+Java의 예외 클래스는 계층 구조를 통해 다양한 종류의 예외를 체계적으로 관리할 수 있으며, 개발자는 필요한 예외를 선택하여 적절히 처리할 수 있다.
+
+- 모든 예외 클래스는 `java.lang.Throwable` 클래스를 상속받는다.
+- `Error` 클래스와 `Exception` 클래스는 `Throwable` 클래스를 상속받는다.
+- `Error` 클래스 : 프로그램 코드에 의해서 수습될 수 없는 심각한 오류
+- `Exception` 클래스 : 프로그램에서 코드에 의해서 수습될 수 있는 미약한 오류
 
 ![출처(https://rollbar.com/blog/java-exceptions-hierarchy-explained/)](image/throwable-class.png)
 
 ## try-catch-finally
+
+예외 처리를 위한 구문으로, 각 블록은 다음과 같은 역할을 한다.
 
 - `try`: 예외가 발생할 수 있는 코드
 - `catch`: 예외가 발생했을 때 수행할 코드
@@ -29,6 +33,7 @@ layout: editorial
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         try {
             // 예외가 발생할 수 있는 코드
@@ -55,6 +60,7 @@ class Example {
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         try {
             int result = 3 / 0;
@@ -67,44 +73,13 @@ class Example {
 }
 ```
 
-## 예외 발생시키기
-
-1. 발생시키려는 예외 클래스의 객체를 생성
-2. 예외 객체를 `throw` 키워드를 이용하여 예외 발생
-
-```java
-class Example {
-    public static void main(String[] args) {
-        try {
-            Exception e = new Exception("고의 발생");
-            throw e;
-        } catch (Exception e) {
-            System.out.println("에러 메시지 : " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
 ## 메서드에 예외 선언
 
-```java
-class Example {
-    void method() throws Exception1, Exception2, Exception3 {
-        // 예외가 발생할 수 있는 코드
-    }
-
-    void method2() throws Exception { // Exception 클래스를 상속받은 모든 예외를 선언 -> 모든 예외를 처리할 수 있음
-        // 예외가 발생할 수 있는 코드
-    }
-}
-```
-
-메서드 선언부에 예외를 선언함으로써 메서드를 사용하려는 사람에게 이에 대한 처리를 강요할 수 있으며 그와 동시에 어떤 예외가 발생할 수 있는지 알려줄 수 있다.  
-메서드의 throws 절에 선언된 예외는 예외를 처리하는 것이 아닌 호출한 메서드에 예외를 전달하여 계속 호출 스택에 있는 메서드로 전달하다가 main 메서드까지 처리되지 않으면 프로그램은 종료된다.
+메서드 선언부에 예외를 선언함으로써 메서드를 사용하려는 사람에게 이에 대한 처리를 강요할 수 있으며 그와 동시에 어떤 예외가 발생할 수 있는지 알려줄 수 있다.
 
 ```java
 class Exception {
+
     public static void main(String[] args) {
         try {
             File f = createFile(args[0]);
@@ -133,6 +108,7 @@ class Exception {
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         try {
             int[] arr = new int[3];
@@ -144,7 +120,8 @@ class Example {
 }
 ```
 
-`ArrayIndexOutOfBoundsException` 예외는 `unchecked exception`이므로 `try-catch`문이나 `throws`절을 사용하지 않아도 컴파일 에러가 발생하지 않는다.
+위 예외는 `unchecked exception`이기 때문에 `try-catch`나 메서드에 `throws`절을 사용하지 않아도 컴파일 에러가 발생하지 않는다.  
+코드가 복잡해지고 가독성이 떨어질 수 있는 것을 방지할 수 있고, 호출한 메서드에 불필요하게 에러 처리를 강요하지 않게 할 수 있다.
 
 ## 사용자정의 예외
 
@@ -152,6 +129,7 @@ class Example {
 
 ```java
 class MyException extends Exception {
+
     private final int ERR_CODE;
 
     MyException(String msg, int errCode) {
@@ -169,54 +147,15 @@ class MyException extends Exception {
 }
 ```
 
-기존에는 위 예시처럼 `Exception` 클래스를 상속받아 사용자 정의 예외를 만들었지만, `RuntimeException` 클래스를 상속받아 사용자 정의 예외를 만들면 예외 처리를 강제하지 않는다.  
-`checked exception`은 불필요한 경우에도 `try-catch`문을 넣어야 하기 때문에 코드가 복잡해지고 가독성이 떨어지는 단점이 있기 때문이다.
-
-```java
-class uncheckedException {
-    public static void main(String[] args) {
-        try {
-            generateException(true, true);
-        } catch (CheckedException e) {
-            System.out.println("Caught checked exception");
-        }
-//        catch (UncheckedException e) {
-//            System.out.println("Caught unchecked exception");
-//        }
-        // unchecked Exception 이므로 catch 블록 처리 하지 않아도 컴파일 에러가 발생하지 않는다.
-    }
-
-    static void generateException(boolean check, boolean uncheck) throws CheckedException /* , UncheckException */ { // unchecked exception 이므로 throws 절에 명시하지 않아도 컴파일 에러가 발생하지 않는다.
-        if (check) {
-            throw new CheckedException("CheckedException 발생");
-        }
-
-        if (uncheck) {
-            throw new UncheckedException("UncheckException 발생");
-        }
-    }
-}
-
-
-class CheckedException extends Exception {
-    CheckedException(String msg) {
-        super(msg);
-    }
-}
-
-class UncheckedException extends RuntimeException {
-    UncheckedException(String msg) {
-        super(msg);
-    }
-}
-```
+위 예시처럼 `Exception` 클래스를 상속받는 대신 `RuntimeException` 클래스를 상속 받으면 예외 처리를 강제하지 않을 수 있다.
 
 ## 예외 되던지기
 
-> 예외를 처리한 후에 인위적으로 다시 예외를 발생시키는 것
+예외를 처리한 후에 인위적으로 다시 예외를 발생시켜, 상위 호출 메서드로 예외를 전달하는 방법이다.
 
 ```java
 class ExceptionEx3 {
+
     public static void main(String[] args) {
         try {
             method1();

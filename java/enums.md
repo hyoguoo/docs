@@ -5,7 +5,7 @@ layout: editorial
 # Enums
 
 데이터 타입을 정의해주고 다형성을 구현할 수 있는 기능을 제공한다.  
-C언어나 JavaScript enum은 단순히 정수형 상수를 정의하는 기능만 제공하지만, Java의 enum은 클래스로 정의되어 있어서, 생성자를 사용할 수 있고, 메서드를 정의할 수 있다.
+Java의 enum은 클래스로 정의되어 있어, 단순히 정수형 상수를 정의하는 기능 이상의 기능을 구현할 수 있다.
 
 ## Enum 정의와 사용
 
@@ -17,6 +17,7 @@ enum Direction {
 }
 
 class Unit {
+
     int x, y;
     Direction direction;
 
@@ -25,11 +26,12 @@ class Unit {
             x++;
         } else if (direction == Direction.SOUTH) { // '==' 연산자를 사용해 equals() 보다 빠른 성능을 기대할 수 있다.
             y--;
-        } else if (direction > Direction.WEST) { // enum 에는 비교 연산자인 '<', '>' 사용 불가 
-            x--;
         } else if (direction.compareTo(Direction.NORTH)) { // compareTo() 사용 가능
             y++;
         }
+//        else if (direction > Direction.WEST) { // enum 에는 비교 연산자인 '<', '>' 사용 불가 
+//            x--;
+//        }
     }
 
     void moveSwitch(Direction direction) { // switch 조건식 가능
@@ -63,7 +65,7 @@ enum Direction {
     private final int value;
     private final String symbol;
 
-    private Direction(int value, String symbol) { // 열거형의 생성자는 private으로 생략 가능
+    private Direction(int value, String symbol) { // 열거형의 생성자는 private(생략 가능)
         this.value = value;
         this.symbol = symbol;
     }
@@ -88,7 +90,7 @@ enum Direction {
         return DIR_ARR[(value - 1 + num) % 4];
     }
 
-    @Override // toString() 오버라이딩을 하게 되면, print() 통해 출력할 때 열거형 상수의 이름이 아닌 오버라이딩한 메서드의 반환값이 출력
+    @Override
     public String toString() {
         return name() + " " + getSymbol();
     }
@@ -131,10 +133,11 @@ enum Operation {
 ```
 
 또한, 열거형 상수에는 단순 원시 타입이나 문자열만 저장할 수 있는 것이 아니라 람다식을 저장할 수 있어 아래와 같이 변경할 수 있다.  
-기존 메서드를 람다식으로 대체하고 인터페이스를 상속받아 구현한 위와 동일한 기능을 하는 예시이다.
+기존 메서드를 람다식으로 대체하고 인터페이스를 상속받아 구현한 위와 동일한 기능을 수행한다.
 
 ```java
 interface Calculator {
+
     int eval(int x, int y);
 }
 
@@ -164,6 +167,8 @@ enum Operation implements Calculator {
 
 ## java.lang.Enum 메서드
 
+Java의 모든 열거형은 java.lang.Enum 클래스를 상속받는다. 이 클래스는 열거형을 다루기 위한 여러 유용한 메서드를 제공한다.
+
 |             메서드              |              설명               |
 |:----------------------------:|:-----------------------------:|
 |         T[] values()         |       모든 열거형 상수를 배열로 반환       |
@@ -187,6 +192,7 @@ enum Direction {
 }
 
 class Test {
+
     public static void main(String[] args) {
         System.out.println(Direction.EAST.getValue()); // 10
         System.out.println(Arrays.toString(Direction.values())); // [EAST, SOUTH, WEST, NORTH]
@@ -205,11 +211,12 @@ enum Direction {
 }
 ```
 
-열거형이 위와 같이 정의되어 있을 때 사실은 내부의 상수 하나하나가 `Direction` 클래스의 인스턴스라고 볼 수 있다.
+열거형이 위와 같이 정의되어 있을 때 사실은 내부의 상수 하나하나가 `Direction` 클래스의 인스턴스라고 볼 수 있다.  
 위의 enum을 클래스로 정의하면 아래와 같이 표현할 수 있다.(동일한 것은 아님)
 
 ```java
 class Direction {
+
     public static final Direction EAST = new Direction("EAST");
     public static final Direction SOUTH = new Direction("SOUTH");
     public static final Direction WEST = new Direction("WEST");
@@ -220,7 +227,7 @@ class Direction {
     private Direction(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
         return name;

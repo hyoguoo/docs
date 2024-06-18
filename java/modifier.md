@@ -7,13 +7,13 @@ layout: editorial
 > 클래스, 변수 또는 메서드의 선언부에 함께 사용되어 부가적인 의미를 부여하는 키워드
 
 - 접근 제어자 : `public`, `protected`, `private`, `default`
-- 그 외 제어자 : `static`, `final`, `abstract`, `synchronized`, `native`, `transient`, `volatile`, `strictfp`
+- 그 외 : `static`, `final`, `abstract`, `synchronized`, `native`, `transient`, `volatile`, `strictfp`
 
 접근 제어자는 하나의 대상에 대해 하나만 사용할 수 있다.
 
 ## static - 클래스의, 공통적인
 
-인스턴스 변수는 각 인스턴스마다 별도의 저장 공간을 가지지만, 클래스 변수는 모든 인스턴스가 공통된 저장 공간을 공유한다.
+인스턴스 변수는 각 인스턴스마다 별도의 저장 공간을 가지지만, 클래스 변수는 모든 인스턴스가 공통된 저장 공간을 공유하게 된다.
 
 |  대상   | 의미                                                                             |
 |:-----:|:-------------------------------------------------------------------------------|
@@ -31,10 +31,10 @@ layout: editorial
 ### 생성자를 이용한 final 멤버 변수 초기화
 
 final 멤버 변수는 선언과 동시에 초기화 하거나, 생성자를 이용해 초기화 할 수 있다.  
-생성자를 이용하여 초기화할 경우 인스턴스마다 다른 값을 가질 수 있다.
 
 ```java
 class Card {
+
     final int NUMBER; // 상수
     final String KIND;
 
@@ -57,6 +57,7 @@ class Card {
 
 ```java
 abstract class Player {
+
     abstract void play(int pos); // 추상 메서드
 
     abstract void stop(); // 추상 메서드
@@ -67,6 +68,7 @@ abstract class Player {
 }
 
 class AudioPlayer extends Player {
+
     void play(int pos) { /* ... */ }
 
     void stop() { /* ... */ }
@@ -111,11 +113,12 @@ class AudioPlayer extends Player {
 
 - 불필요한 객체 생성 제한
 
-`JDK`의 `Arrays` 클래스의 모슨 메서드를 `static`으로 구성하여 객체를 생성하지 않고도 사용할 수 있도록 하였다.  
+`JDK`의 `Arrays` 클래스의 모든 메서드는 `static`으로 구성하여 객체를 생성하지 않고도 사용할 수 있도록 하였다.  
 때문에 불필요하게 객체를 생성할 필요가 없기 때문에 `private` 생성자를 사용하여 객체 생성을 제한하였다.
 
 ```java
 public class Arrays {
+
     // Suppresses default constructor, ensuring non-instantiability.
     private Arrays() {
     }
@@ -130,6 +133,7 @@ public class Arrays {
 
 ```java
 public class Singleton {
+
     private static Singleton s = new Singleton();
 
     private Singleton() {

@@ -14,11 +14,15 @@ layout: editorial
 4. 숫자로 시작 불가
 5. `_` `$`를 제외한 특수문자 불가능
 
-** 예약어란 프로그래밍 언어의 `int`, `finally`와 같은 구문에 사용되는 단어를 뜻한다.
+** 예약어: 프로그래밍 언어의 `int`, `finally`와 같은 구문에 사용되는 단어
 
 ## 변수의 타입
 
-- 원시 타입(primitive type): 실제 값 저장, null 불가능
+변수는 크게 원시 타입과 참조 타입으로 나뉜다.
+
+### 원시 타입(primitive type)
+
+실제 값을 저장하며, null 값을 가질 수 없다.
 
 | 타입  | 설명                     | 크기               | 예시                   |
 |-----|------------------------|------------------|----------------------|
@@ -27,14 +31,16 @@ layout: editorial
 | 정수형 | byte, short, int, long | 1, 2, 4, 8 bytes | 42, -1000, 987654321 |
 | 실수형 | float, double          | 4, 8 bytes       | 3.14, -0.001         |
 
-- 참조 타입(reference type): 값이 저장되어 있는 주소값 저장
+### 참조 타입(reference type)
 
-기본형을 객체로 다루어야 할 때가 있는데, 이 때 사용하는 [Wrapper 클래스](./wrapper-class)가 존재한다.
+값이 저장되어 있는 주소값 저장한다. 기본형을 객체로 다루어야 할 때가 있는데, 이 때 사용하는 [Wrapper 클래스](./wrapper-class)가 존재한다.
 
-** 논리형이 1bit가 아닌 1byte인
-이유는 [CPU가 byte 단위로 연산하기 때문](https://stackoverflow.com/questions/4626815)이라고 한다.
+** 논리형이 1bit가 아닌 1byte인 이유:
+[CPU can't address anything smaller than a byte.](https://stackoverflow.com/questions/4626815)
 
 ## 변수와 상수
+
+변수와 상수는 값을 저장하는 점에서 동일하지만, 아래 차이점이 존재한다.
 
 - 변수(variable): 하나의 값을 저장하기 위한 공간
 - 상수(constant): 값을 한 번만 저장할 수 있는 공간
@@ -42,9 +48,10 @@ layout: editorial
 
 ```java
 class Example {
+
     void example() {
         int age = 14; // 변수
-        final int OGU_NUMBER = 59; // 상수
+        final int OGU_NUMBER = 59; // OGU_NUMBER: 상수, 59: 리터럴
     }
 }
 ```
@@ -54,7 +61,7 @@ class Example {
 변수와 마찬가지로 값 자체를 의미하는 리터럴에도 타입이 존재한다.  
 논리형(true/false), 문자형, 문자열에는 존재하지 않으며 정수형과 실수형에 존재한다.
 
-- 정수타입 리터럴
+### 정수타입 리터럴
 
 |    Type     |  Expression  |
 |:-----------:|:------------:|
@@ -64,34 +71,35 @@ class Example {
 |    `int`    |   {number}   |
 |   `long`    | {number}l(L) |
 
-** 소문자 `l`의 경우 숫자 `1`과 혼동을 일으키므로 `L` 사용을 추천
+** 소문자 `l`의 경우 숫자 `1`과 혼동을 일으킬 수 있기 때문에 대문자 `L`을 사용하는 것이 좋다.
 
-- 실수타입 리터럴
+### 실수타입 리터럴
 
 |   Type   |  Expression  |
 |:--------:|:------------:|
 | `float`  | {number}f(F) |
 | `double` | {number}d(D) |
 
-**double 타입은 생략 가능
+** double 타입은 생략 가능
 
-- 문자타입 리터럴
+### 문자타입 리터럴
 
 |   Type   |      Expression      |
 |:--------:|:--------------------:|
 |  `char`  | '{single character}' |
 | `string` |      "{string}"      |
 
-- 논리타입 리터럴
+### 논리타입 리터럴
 
 |   Type    | Expression |
 |:---------:|:----------:|
 | `boolean` | true/false |
 
-### 리터럴 타입 할당
+### 리터럴 타입 할당 예시
 
 ```java
 class Example {
+
     void example() {
         float pi = 3.14;          // 변수와 리터럴 타입 불 일치 -> error
         double rate = 59.59;       // double 리터럴 타입 생략 가능 -> OK
