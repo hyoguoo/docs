@@ -134,6 +134,7 @@
   * [Design Search Autocomplete System](large-scale-system/design-search-autocomplete-system.md)
   * [Design Video Streaming Service](large-scale-system/design-video-streaming-service.md)
   * [Design Cloud Storage Service](large-scale-system/design-cloud-storage-service.md)
+  * [Design Proximity Service](large-scale-system/design-proximity-service.md)
   * [Design Payment System](large-scale-system/design-payment-system.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
