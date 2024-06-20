@@ -86,12 +86,12 @@ class Example {
 ### return
 
 메서드의 반환값이 있는 경우, 메서드의 마지막 문장으로 `return`문을 명시해야 한다.(`void`일 경우 컴파일러에서 자동 추가)  
-만약 조건문이 있는 경우에는 항상 반환할 수 있도록 `return`문을 작성해야 한다.
+모든 실행 경로에서 반환값이 보장되지 않으면 컴파일 오류가 발생한다.
 
 ```java
 class Example {
 
-    // error
+    // error, 모든 실행 경로에서 반환값이 보장되지 않음
     int add1(int a, int b) {
         if (a > b) {
             return a;

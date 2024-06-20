@@ -10,6 +10,7 @@ layout: editorial
 
 ```java
 class Product {
+
     int price;
     int bonusPoint;
 
@@ -20,6 +21,7 @@ class Product {
 }
 
 class Tv extends Product {
+
     Tv() {
         super(100);
     }
@@ -30,11 +32,12 @@ class Tv extends Product {
 }
 
 class Example {
+
     public static void main(String[] args) {
         Product product = new Product(100); // Product 클래스의 인스턴스 생성
         Tv tv = new Tv(); // Tv 클래스의 인스턴스 생성
-        Product product2 = new Tv(); // Tv 클래스의 인스턴스를 Product 클래스 타입의 참조변수에 저장, Tv 인스턴스의 모든 멤버 사용 불가능
-        Tv tv2 = new Product(); // 컴파일 에러
+//        Product product2 = new Tv(); // Tv 클래스의 인스턴스를 Product 클래스 타입의 참조변수에 저장, Tv 인스턴스의 모든 멤버 사용 불가능
+//        Tv tv2 = new Product(); // 컴파일 에러
     }
 }
 ```
@@ -48,6 +51,7 @@ class Example {
 
 ```java
 class Product {
+
     int price;
     int bonusPoint;
 
@@ -58,6 +62,7 @@ class Product {
 }
 
 class Tv extends Product {
+
     Tv() {
         super(100);
     }
@@ -68,6 +73,7 @@ class Tv extends Product {
 }
 
 class Example {
+
     public static void main(String[] args) {
         Product product = new Product(100); // Product 클래스의 인스턴스 생성
         Tv tv = new Tv(); // Tv 클래스의 인스턴스 생성
@@ -85,10 +91,12 @@ class Example {
 
 ## 참조변수와 인스턴스 연결
 
-조상 클래스에 선언된 멤버변수와 같은 이름의 인스턴스 변수를 자손 클래스에 중복으로 정의했을 때, 참조변수를 통해 인스턴스 변수에 접근하면 참조변수의 타입에 따라 다른 인스턴스 변수가 사용된다.
+조상 클래스에 선언된 멤버변수와 같은 이름의 인스턴스 변수를 자손 클래스에 중복으로 정의했을 때,  
+참조변수를 통해 인스턴스 변수에 접근하면 참조변수의 타입에 따라 다른 인스턴스 변수가 사용된다.
 
 ```java
 class BindingTest {
+
     public static void main(String[] args) {
         Parent p = new Child();
         Child c = new Child();
@@ -101,6 +109,7 @@ class BindingTest {
 }
 
 class Parent {
+
     int x = 100;
 
     void method() {
@@ -109,6 +118,7 @@ class Parent {
 }
 
 class Child extends Parent {
+
     int x = 200;
 
     void method() {
@@ -117,14 +127,15 @@ class Child extends Parent {
 }
 ```
 
-멤버 변수가 조상 클래스와 자손 클래스에 중복으로 정의된 경우
+멤버 변수가 조상 클래스와 자손 클래스에 중복으로 정의된 경우 참조변수의 타입에 따라 사용되는 인스턴스 변수가 달라진다.
 
-- 조상 타입의 참조변수를 사용 : 조상 클래스에 선언된 멤버 변수 사용
-- 자손 타입의 참조변수를 사용 : 자손 클래스에 선언된 멤버 변수 사용
-- 메서드 사용 : 참조변수의 타입과 관계없이 항상 인스턴스의 타입에 정의된 메서드가 호출
+- 조상 타입의 참조변수를 사용: 조상 클래스에 선언된 멤버 변수 사용
+- 자손 타입의 참조변수를 사용: 자손 클래스에 선언된 멤버 변수 사용
+- 메서드 사용: 참조변수의 타입과 관계없이 항상 인스턴스의 타입에 정의된 메서드가 호출
 
 ```java
 class BindingTest {
+
     public static void main(String[] args) {
         Parent p = new Child();
         Child c = new Child();
@@ -137,6 +148,7 @@ class BindingTest {
 }
 
 class Parent {
+
     int x = 100;
 
     void method() {
@@ -145,13 +157,15 @@ class Parent {
 }
 
 class Child extends Parent {
+
 }
 ```
 
-Child 클래스에 아무런 멤버 변수나 메서드가 없는 경우 참조변수의 타입에 관계없이 조상의 멤버들을 사용
+Child 클래스에 아무런 멤버 변수나 메서드가 없는 경우 참조변수의 타입에 관계없이 조상의 멤버들을 사용한다.
 
 ```java
 class BindingTest {
+
     public static void main(String[] args) {
         Parent p = new Child();
         Child c = new Child();
@@ -170,6 +184,7 @@ class BindingTest {
 }
 
 class Parent {
+
     int x = 100;
 
     void method() {
@@ -178,6 +193,7 @@ class Parent {
 }
 
 class Child extends Parent {
+
     int x = 200;
 
     void method() {
@@ -196,6 +212,7 @@ class Child extends Parent {
 
 ```java
 class Product {
+
     int price;
     int bonusPoint;
 
@@ -206,15 +223,19 @@ class Product {
 }
 
 class Tv extends Product {
+
 }
 
 class Computer extends Product {
+
 }
 
 class Audio extends Product {
+
 }
 
 class Buyer {
+
     int money = 1000;
     int bonusPoint = 0;
     Product[] item = new Product[10];
@@ -224,7 +245,7 @@ class Buyer {
         this.money -= c.price;
         this.bonusPoint += c.bonusPoint;
     }
-    
+
     void buy(Tv t) {
         this.money -= t.price;
         this.bonusPoint += t.bonusPoint;
@@ -237,6 +258,7 @@ class Buyer {
 
 ```java
 class Buyer {
+
     int money = 1000;
     int bonusPoint = 0;
     Product[] item = new Product[10];
@@ -255,6 +277,7 @@ class Buyer {
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         Product[] product = new Product[3];
         product[0] = new Tv();
@@ -263,3 +286,7 @@ class Example {
     }
 }
 ```
+
+###### 참고자료
+
+- [java의 정석](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Java의+정석&isbn=9788994492032&cipId=200741285%2C)

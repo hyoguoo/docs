@@ -15,6 +15,7 @@ layout: editorial
 
 ```java
 interface 인터페이스명 {
+
     public static final type name = value;
 
     public abstract type method();
@@ -28,6 +29,7 @@ interface 인터페이스명 {
 
 ```java
 class Fighter extends Unit implements Fightable {
+
     public void move() {
         System.out.println("move");
     }
@@ -42,6 +44,7 @@ class Fighter extends Unit implements Fightable {
 
 ```java
 abstract class Fighter extends Unit implements Fightable {
+
     public void move() {
         System.out.println("move");
     }
@@ -57,14 +60,17 @@ abstract class Fighter extends Unit implements Fightable {
 
 ```java
 interface Movable {
+
     void move();
 }
 
 interface Attackable {
+
     void attack();
 }
 
 interface Fightable extends Movable, Attackable {
+
 }
 ```
 
@@ -76,10 +82,12 @@ interface Fightable extends Movable, Attackable {
 
 ```java
 interface Parseable {
+
     void parse(String fileName);
 }
 
 class ParserManager {
+
     public static Parseable getParser(String type) {
         if (type.equals("XML")) {
             return new XMLParser();
@@ -90,18 +98,21 @@ class ParserManager {
 }
 
 class XMLParser implements Parseable {
+
     public void parse(String fileName) {
         System.out.println(fileName + "- XML parsing completed.");
     }
 }
 
 class HTMLParser implements Parseable {
+
     public void parse(String fileName) {
         System.out.println(fileName + "- HTML parsing completed.");
     }
 }
 
 class ParserTest {
+
     public static void main(String[] args) {
         Parseable parser = ParserManager.getParser("XML"); // == Parseable parser = new XMLParser();
         parser.parse("document.xml"); // document.xml- XML parsing completed.
@@ -120,18 +131,21 @@ class ParserTest {
 
 ```java
 class A {
+
     void methodA(B b) {
         b.methodB();
     }
 }
 
 class B {
+
     void methodB() {
         System.out.println("methodB");
     }
 }
 
 class InterfaceTest {
+
     public static void main(String[] args) {
         A a = new A();
         a.methodA(new B());
@@ -139,28 +153,32 @@ class InterfaceTest {
 }
 ```
 
-위와 같이 클래스 A가 클래스 B의 메서드를 호출하는 경우, 클래스 B가 이미 작성되어 있어야 하며, 클래스 B의 메서드의 선언부가 변경되면 클래스 A도 변경되어야 한다.(높은 결합도)  
+위와 같이 클래스 A가 B의 메서드를 호출하는 경우, 클래스 B가 이미 작성되어 있어야 하며, 클래스 B의 메서드의 선언부가 변경되면 클래스 A도 변경되어야 한다.  
 하지만 인터페이스를 사용하면 클래스 B의 내용을 신경 쓰지 않고, 클래스 A는 클래스 B의 메서드를 호출만 하면 된다.
 
 ```java
 
 class A {
+
     void methodA(I i) {
         i.methodB();
     }
 }
 
 interface I {
+
     public abstract void methodB();
 }
 
 class B implements I {
+
     public void methodB() {
         System.out.println("methodB");
     }
 }
 
 class InterfaceTest {
+
     public static void main(String[] args) {
         A a = new A();
         a.methodA(new B());
@@ -176,6 +194,7 @@ class InterfaceTest {
 
 ```java
 interface Calculator {
+
     static int execMulti(int a, int b) {
         return a * b;
     }
@@ -209,6 +228,7 @@ class CalculatorImpl implements Calculator {
 }
 
 class CalculatorTest {
+
     public static void main(String[] args) {
         Calculator cal = new CalculatorImpl();
 
@@ -236,6 +256,7 @@ default 메서드를 구현체에서 재정의 하지 않으면, 인터페이스
 ```java
 // 인터페이스 1
 interface Interface1 {
+
     void interfaceMethod1();
 
     default void defaultMethod() {
@@ -245,6 +266,7 @@ interface Interface1 {
 
 // 인터페이스 2
 interface Interface2 {
+
     void interfaceMethod2();
 
     default void defaultMethod() {
@@ -254,6 +276,7 @@ interface Interface2 {
 
 // 인터페이스를 구현한 클래스
 class ConcreteClass2 implements Interface1, Interface2 {
+
     @Override
     public void interfaceMethod1() {
         System.out.println("interfaceMethod1");
@@ -278,10 +301,12 @@ class ConcreteClass2 implements Interface1, Interface2 {
 
 ```java
 interface Calculator {
+
     int exec(int a, int b);
 }
 
 class CalculatorTest {
+
     public static void main(String[] args) {
         Calculator cal = new Calculator() {
             @Override

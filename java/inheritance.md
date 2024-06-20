@@ -13,12 +13,14 @@ layout: editorial
 
 ```java
 class Parent {
+
     private String name;
     private int age;
     // Child 클래스의 address 미존재 
 }
 
 class Child extends Parent {
+
     // Parent 클래스의 name, age 필드를 상속받음
     private String address;
 }
@@ -41,6 +43,7 @@ class Parent extends Object { // Object 클래스는 모든 클래스의 조상
 
 ```java
 class Circle {
+
     private int x;
     private int y;
     private int radius;
@@ -49,17 +52,20 @@ class Circle {
 
 ```java
 class Circle {
+
     private Point point = new Point();
     private int radius;
 }
 
 class Rectangle {
+
     private Point point = new Point();
     private int width;
     private int height;
 }
 
 class Point {
+
     private int x;
     private int y;
 }
@@ -78,6 +84,7 @@ class Point {
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -87,6 +94,7 @@ class Point {
 }
 
 class Point3D extends Point {
+
     int z;
 
     String getLocation() { // Overriding
@@ -111,6 +119,7 @@ class Point3D extends Point {
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -120,6 +129,7 @@ class Point {
 }
 
 class Point3D extends Point {
+
     int z;
 
     String getLocation() { // Overriding
@@ -134,10 +144,11 @@ class Point3D extends Point {
 
 ## super
 
-> 조상 클래스의 멤버와 자손 클래스의 멤버의 이름이 같을 때 둘을 구별하기 위해 사용하는 참조변수
+조상 클래스의 멤버와 자손 클래스의 멤버의 이름이 같을 때 둘을 구별하기 위해 사용하는 참조변수이다.
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -147,6 +158,7 @@ class Point {
 }
 
 class Point3D extends Point {
+
     int z;
 
     String getLocation() { // Overriding
@@ -161,16 +173,17 @@ class Point3D extends Point {
 
 ### super()
 
-> 조상 클래스의 생성자
+자손 클래스의 생성자에서 조상 클래스의 생성자를 호출할 때 사용한다.
 
-자손 클래스의 인스턴스를 생성하면, 자손 멤버와 조상의 멤버가 합쳐진 하나의 인스턴스가 생성된다.  
-자손 클래스의 생성자는 조상 클래스의 생성자를 호출하여 조상 클래스의 멤버들이 초기화되도록 해야 한다.  
-첫 줄에서 조상클래스 생성자를 호출애햐하는 이유는 조상 클래스의 멤버들이 자손 클래스의 멤버보다 먼저 초기화되어야 하기 때문이다.  
-마찬가지로 조상 클래스의 생성자도 상속 관계를 거슬러 올라가면서 최종적으론 Object 클래스의 생성자까지 호출하개 된다.  
-첫 줄에서 조상클래스 생성자를 호출하지 않으면 컴파일러가 자동으로 super()를 호출한다.
+- 자손 클래스의 인스턴스를 생성하면, 자손 멤버와 조상의 멤버가 합쳐진 하나의 인스턴스가 생성된다.
+- 자손 클래스의 생성자는 조상 클래스의 생성자를 호출하여 조상 클래스의 멤버들이 초기화되도록 해야 한다.
+- 첫 줄에서 조상클래스 생성자를 호출해야하는 이유는 조상 클래스의 멤버들이 자손 클래스의 멤버보다 먼저 초기화되어야 하기 때문이다.
+- 마찬가지로 조상 클래스의 생성자도 상속 관계를 거슬러 올라가면서 최종적으로 Object 클래스의 생성자까지 호출하게 된다.
+- 첫 줄에서 조상클래스 생성자를 호출하지 않으면 컴파일러가 자동으로 super()를 호출한다.
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -181,6 +194,7 @@ class Point {
 }
 
 class Point3D extends Point {
+
     int z;
 
     Point3D(int x, int y, int z) {
@@ -192,10 +206,11 @@ class Point3D extends Point {
 }
 ```
 
-위와 같이 조상 클래스의 생성자를 호출하지 않으면 컴파일러가 자동으로 super()를 호출하지만 정의 된 생성자가 없어 오류가 발생하므로 조상 클래스에 정의 된 생성자를 호출해야 한다.
+위와 같이 조상 클래스의 생성자를 호출하지 않으면 컴파일러가 super()를 호출하지만 정의 된 생성자가 없어 오류가 발생하므로 조상 클래스에 정의 된 생성자를 호출해야 한다.
 
 ```java
 class Point /* extends Object */ {
+
     int x;
     int y;
 
@@ -211,6 +226,7 @@ class Point /* extends Object */ {
 }
 
 class Point3D extends Point {
+
     int z;
 
     Point3D(int x, int y, int z) {

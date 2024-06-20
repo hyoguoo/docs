@@ -4,10 +4,17 @@ layout: editorial
 
 # String class
 
-> 문자열을 다루는 클래스로, 문자열을 저장하는 데 사용되는 문자 배열을 내부적으로 가지고 있으며, 변경 불가능한 특성을 가진다.
+> 문자열을 다루는 클래스
+
+문자열을 다룰 때는 `String` 클래스를 사용하며, 특징은 다음과 같다.
+
+- 문자열은 `char` 배열로 구성되어 있으며, `String` 클래스는 `char` 배열을 내부적으로 가지고 있음
+- 문자열에 있는 개별 문자는 직접 엑세스할 수 없고, 특정 메서드(`charAt`)를 사용해야 함
+- 문자열은 변형 불가능(`immutable`)하고, 변경하는 메서드는 자체를 변경하는 것이 아닌 새로운 문자열 인스턴스를 반환
 
 ```java
 public final class String implements java.io.Serializable, Comparable<String>, CharSequence {
+
     @Stable
     private final byte[] value;
     private final byte coder;
@@ -16,7 +23,28 @@ public final class String implements java.io.Serializable, Comparable<String>, C
 }
 ```
 
-때문에 문자열을 변경하는 경우, 인스턴스 변수의 값이 변경되는 것이 아니라, 새로운 문자열을 생성하게 되는 것이다.
+## 주요 메서드
+
+|                   메서드                    |                  설명                   |
+|:----------------------------------------:|:-------------------------------------:|
+|           `charAt(int index)`            |        문자열에서 index 위치의 문자를 반환         |
+|              `int length()`              |              문자열의 길이를 반환              |
+|   `String substring(int from, int to)`   |        문자열에서 해당 범위에 있는 문자열 반환         |
+|       `String substring(int from)`       |       문자열에서 해당 위치부터 끝까지 문자열 반환        |
+|       `String concat(String str)`        |          문자열을 더해서 새로운 문자열 반환          |
+| `String replace(String old, String new)` | 문자열에서 old 문자열을 new 문자열로 바꾼 새로운 문자열 반환 |
+|          `String toLowerCase()`          |        문자열을 소문자로 바꾼 새로운 문자열 반환        |
+|          `String toUpperCase()`          |        문자열을 대문자로 바꾼 새로운 문자열 반환        |
+|             `String trim()`              |      문자열의 앞뒤 공백을 제거한 새로운 문자열 반환       |
+|      `String[] split(String regex)`      |     문자열을 regex를 기준으로 나눈 문자열 배열 반환     |
+|       `boolean equals(Object obj)`       |              문자열이 같은지 비교              |
+|       `int compareTo(String str)`        |             문자열을 사전순으로 비교             |
+|        `int indexOf(String str)`         |       문자열에서 str이 처음 나타나는 위치를 반환       |
+|   `boolean startsWith(String prefix)`    |         문자열이 prefix로 시작하는지 확인         |
+|    `boolean endsWith(String suffix)`     |         문자열이 suffix로 끝나는지 확인          |
+|      `boolean contains(String str)`      |          문자열이 str을 포함하는지 확인           |
+|           `boolean isEmpty()`            |             문자열이 비어있는지 확인             |
+|          `char[] toCharArray()`          |            문자열을 문자 배열로 변환             |
 
 ## 문자열 비교
 
@@ -44,6 +72,7 @@ class Example {
 
 ```java
 public class StringEqualsTest {
+
     public static void main(String[] args) {
         String s1 = "ogu";
         String s2 = "ogu";
@@ -90,8 +119,8 @@ String에 문자열을 할당하게 됐을 때 JVM은 아래와 같은 과정을
 
 > 문자열을 변경할 수 있는 클래스
 
-기존 String 클래스는 문자열을 변경할 때마다 새로운 인스턴스를 생성하고, 기존 인스턴스는 GC의 대상이 되기 때문에 문자열을 변경할 때는 `StringBuffer`나 `StringBuilder`를 사용하는 것이
-좋다.
+기존 String 클래스는 문자열을 변경할 때마다 새로운 인스턴스를 생성하고, 기존 인스턴스는 GC의 대상이 된다.  
+때문에 성능 문제가 발생할 수 있어 문자열을 변경할 때는 `StringBuffer`나 `StringBuilder`를 사용하는 것이 좋다.
 
 ### StringBuffer
 
@@ -105,6 +134,7 @@ StringBuffer 클래스의 equals 메서드는 오버라이딩하지 않아 Objec
 
 ```java
 public class StringBufferTest {
+
     public static void main(String[] args) {
         StringBuffer sb1 = new StringBuffer("ogu");
         StringBuffer sb2 = new StringBuffer("ogu");

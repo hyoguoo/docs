@@ -29,6 +29,7 @@ Object 클래스의 `equals()` 메서드는 두 객체의 주소값(=동일성 �
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -39,6 +40,7 @@ class Point {
 }
 
 public class EqualsTest {
+
     public static void main(String[] args) {
         Point a = new Point(2, 3);
         Point b = new Point(2, 3);
@@ -55,11 +57,12 @@ public class EqualsTest {
 }
 ```
 
-위의 Point 클래스는 `equals()` 메서드를 오버라이딩하지 않았기 때문에, `Object` 클래스의 `equals()` 메서드가 호출되는데, 이 메서드는 두 객체의 주소값(=동일성 비교)을 비교한다.  
+Point 클래스는 `equals()` 메서드를 오버라이딩하지 않았기 때문에, `Object` 클래스의 메서드가 호출하게 되면서 두 객체의 주소값(=동일성 비교)을 비교한다.  
 만약 두 객체의 멤버 변수 값을 비교(=동등성 비교)하고 싶다면, `equals()` 메서드를 오버라이딩하여 사용할 수 있다.
 
 ```java
 class Point {
+
     int x;
     int y;
 
@@ -70,14 +73,17 @@ class Point {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Point point = (Point) o;
         return x == point.x && y == point.y;
     }
 }
 
 public class EqualsTest {
+
     public static void main(String[] args) {
         Point a = new Point(2, 3);
         Point b = new Point(2, 3);
@@ -103,6 +109,7 @@ String 클래스의 `hashCode()` 메서드는 문자열의 내용을 이용하�
 
 ```java
 public class HashCodeTest {
+
     public static void main(String[] args) {
         String s1 = "ogu";
         String s2 = "ogu";
@@ -124,6 +131,7 @@ public class HashCodeTest {
 
 ```java
 class Animal {
+
     private String name;
 
     public String getName() {
@@ -136,9 +144,12 @@ class Animal {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (obj.getClass() != this.getClass()) return false;
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != this.getClass())
+            return false;
         Animal animal = (Animal) obj;
         return this.name.equals(animal.getName());
     }
@@ -182,6 +193,7 @@ class Example {
 }
 
 class Animal {
+
     private String name;
 
     public String getName() {
@@ -194,9 +206,12 @@ class Animal {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (obj.getClass() != this.getClass()) return false;
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != this.getClass())
+            return false;
         Animal animal = (Animal) obj;
         return this.name.equals(animal.getName());
     }
@@ -219,7 +234,8 @@ class Example {
     public static void main(String[] args) {
         Animal animal = new Animal();
         animal.setName("ogu");
-        System.out.println(animal.toString()); // Animal{name='ogu'}, print 메서드를 호출하면 자동으로 toString() 메서드가 호출된다.
+        System.out.println(
+                animal.toString()); // Animal{name='ogu'}, print 메서드를 호출하면 자동으로 toString() 메서드가 호출된다.
     }
 }
 
@@ -236,7 +252,7 @@ class Animal {
 ## clone()
 
 `clone()` 메서드는 객체를 복제하여 새로운 객체를 생성한다.  
-Object 클래스의 `clone()` 메서드는 인스턴스 변수의 값만 복사하기 때문에, 인스턴스 변수가 참조형일 경우, 참조형 변수의 값이 복사되는 것이 아니라, 참조값이 복사된다.  
+Object 클래스의 `clone()` 메서드는 인스턴스 변수의 값만 복사하기 때문에, 인스턴스 변수가 참조형일 경우, 참조형 변수의 값 아닌 참조값이 복사된다.  
 따라서, `clone()` 메서드를 오버라이딩하여 참조형 변수의 값도 복사해주어야 한다.
 
 ```java
@@ -257,6 +273,7 @@ class Example {
 }
 
 class Animal implements Cloneable {
+
     private String name;
     private List<Integer> list = new ArrayList<>();
 
@@ -278,9 +295,12 @@ class Animal implements Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (obj.getClass() != this.getClass()) return false;
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != this.getClass())
+            return false;
         Animal animal = (Animal) obj;
         return this.name.equals(animal.name) && this.list.equals(animal.list);
     }
@@ -306,6 +326,7 @@ class Animal implements Cloneable {
 
 ```java
 class Example {
+
     // ...
     @Override
     public Animal clone() {
