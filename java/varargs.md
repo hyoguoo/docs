@@ -9,6 +9,7 @@ JDK 5에서 도입된 기능으로 메서드의 매개변수 개수를 클라이
 
 ```java
 class Main {
+
     public static void main(String[] args) {
         System.out.println(sum(1, 2, 3, 4, 5));
     }

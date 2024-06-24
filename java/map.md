@@ -10,13 +10,11 @@ layout: editorial
 
 ![Map 인터페이스 다이어그램](image/map-tree.png)
 
-`Map`은 중복된 키(key)를 허용하지 않지만 중복된 값(value)를 허용한다.
-
 ## Map Interface
 
-- `Map` 인터페이스는 `Collection` 인터페이스를 상속받지 않는다.
-- `Map` 인터페이스는 `key`와 `value`를 묶어서 하나의 데이터를 `entry`로 저장한다.
-- put, get, remove, containsKey, containsValue, size, isEmpty, clear 등의 메소드를 제공한다.
+- `Map` 인터페이스는 `Collection` 인터페이스를 상속받지 않음
+- `Map` 인터페이스는 `key`와 `value`를 묶어서 하나의 데이터를 `entry`로 저장
+- put, get, remove, containsKey, containsValue, size, isEmpty, clear 등의 메소드 제공
 
 [제공 메서드](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
 

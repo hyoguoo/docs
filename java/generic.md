@@ -9,6 +9,7 @@ layout: editorial
 ```java
 // 제네릭 클래스(= 제네릭 타입)
 class Box<T> {
+
     private T t;
 
     public void set(T t) {
@@ -21,6 +22,7 @@ class Box<T> {
 }
 
 class Main {
+
     public static void main(String[] args) {
         Box<String> box = new Box<String>();
         box.set("Hello");
@@ -66,6 +68,7 @@ class Main {
 
 ```java
 class Box<T> {
+
     static T t; // 컴파일 에러
 
     static int compare(T t1, T t2) { // 컴파일 에러
@@ -78,6 +81,7 @@ class Box<T> {
 
 ```java
 class Box<T> {
+
     T[] itemArr; // 가능
 
     T[] toArray() { // 불가능
@@ -91,6 +95,7 @@ new 연산자는 컴파일 시점에 타입 T가 정확히 알아야 하는데, 
 
 ```java
 class Box<T> {
+
     T[] itemArr;
 
     T[] toArray() {
@@ -103,6 +108,7 @@ class Box<T> {
 
 ```java
 class Box<T> {
+
     private T t;
 
     public void set(T t) {
@@ -115,6 +121,7 @@ class Box<T> {
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Box<Apple> appleBox = new Box<Apple>();
         Box<Apple> Box = new Box<>(); // 타입 추론에 의해 생략 가능
@@ -134,9 +141,11 @@ public class Main {
 
 ```java
 interface Eatable {
+
 }
 
 class Box<T extends Fruit & Eatable> {
+
     private T t;
 
     public void set(T t) {
@@ -149,24 +158,28 @@ class Box<T extends Fruit & Eatable> {
 }
 
 class Fruit implements Eatable {
+
     public String toString() {
         return "Fruit";
     }
 }
 
 class Apple extends Fruit {
+
     public String toString() {
         return "Apple";
     }
 }
 
 class Toy {
+
     public String toString() {
         return "Toy";
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Box<Fruit> fruitBox = new Box<Fruit>();
         Box<Apple> appleBox = new Box<Apple>();
@@ -184,6 +197,7 @@ public class Main {
 
 ```java
 class Juicer {
+
     static Juice makeJuice(FruitBox<Fruit> box) {
         String tmp = "";
 
@@ -200,16 +214,19 @@ class Juicer {
 
 ```java
 class Juicer {
+
     static Juice makeJuice(FruitBox<Fruit> box) {
         String tmp = "";
-        for (Fruit f : box.getList()) tmp += f + " ";
+        for (Fruit f : box.getList())
+            tmp += f + " ";
         return new Juice(tmp);
     }
 
     // 제네릭 타입이 다르더라도 오버로딩이 성립하지 않아 컴파일 에러
     static Juice makeJuice(FruitBox<Apple> box) {
         String tmp = "";
-        for (Fruit f : box.getList()) tmp += f + " ";
+        for (Fruit f : box.getList())
+            tmp += f + " ";
         return new Juice(tmp);
     }
 }
@@ -228,6 +245,7 @@ class Apple extends Fruit {
 }
 
 class FruitBox<T extends Fruit> {
+
     private final List<T> list = new ArrayList<>();
 
     public void add(T fruit) {
@@ -240,6 +258,7 @@ class FruitBox<T extends Fruit> {
 }
 
 class Juice {
+
     private final String content;
 
     public Juice(String content) {
@@ -253,6 +272,7 @@ class Juice {
 }
 
 class Juicer {
+
     static Juice makeJuice(FruitBox<? extends Fruit> box) {
         StringBuilder tmp = new StringBuilder();
         for (Fruit f : box.getList()) {
@@ -263,6 +283,7 @@ class Juicer {
 }
 
 class Main {
+
     public static void main(String[] args) {
         FruitBox<Fruit> fruitBox = new FruitBox<>();
         FruitBox<Apple> appleBox = new FruitBox<>();
@@ -308,6 +329,7 @@ class ClassName<E> {
 }
 
 public class Main {
+
     public static void main(String[] args) {
 
         ClassName<String> a = new ClassName<String>();
@@ -317,20 +339,42 @@ public class Main {
         b.set(10);
 
         System.out.println("a data : " + a.get()); // a data : 10
-        System.out.println("a E Type : " + a.get().getClass().getName()); // a E Type : java.lang.String
+        System.out.println(
+                "a E Type : " + a.get().getClass().getName()
+        ); // a E Type : java.lang.String
 
         System.out.println("b data : " + b.get()); // b data : 10
-        System.out.println("b E Type : " + b.get().getClass().getName()); // b E Type : java.lang.Integer
+        System.out.println(
+                "b E Type : " + b.get().getClass().getName()
+        ); // b E Type : java.lang.Integer
 
         // 제네릭 메소드 Integer
-        System.out.println("<T> returnType : " + a.<Integer>genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer
-        System.out.println("<T> returnType : " + a.genericMethod(3).getClass().getName()); // <T> returnType : java.lang.Integer, 타입 추론에 의해 생략 가능
+        System.out.println(
+                "<T> returnType : " + a.<Integer>genericMethod(3).getClass()
+                        .getName()
+        ); // <T> returnType : java.lang.Integer
+        System.out.println(
+                "<T> returnType : " + a.genericMethod(3).getClass()
+                        .getName()
+        ); // <T> returnType : java.lang.Integer, 타입 추론에 의해 생략 가능
         // 제네릭 메소드 String
-        System.out.println("<T> returnType : " + a.<String>genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String
-        System.out.println("<T> returnType : " + a.genericMethod("ABCD").getClass().getName()); // <T> returnType : java.lang.String, 타입 추론에 의해 생략 가능
+        System.out.println(
+                "<T> returnType : " + a.<String>genericMethod("ABCD").getClass()
+                        .getName()
+        ); // <T> returnType : java.lang.String
+        System.out.println(
+                "<T> returnType : " + a.genericMethod("ABCD").getClass()
+                        .getName()
+        ); // <T> returnType : java.lang.String, 타입 추론에 의해 생략 가능
         // 제네릭 메소드 ClassName b
-        System.out.println("<T> returnType : " + a.<ClassName>genericMethod(b).getClass().getName()); // <T> returnType : ClassName
-        System.out.println("<T> returnType : " + a.genericMethod(b).getClass().getName()); // <T> returnType : ClassName, 타입 추론에 의해 생략 가능
+        System.out.println(
+                "<T> returnType : " + a.<ClassName>genericMethod(b).getClass()
+                        .getName()
+        ); // <T> returnType : ClassName
+        System.out.println(
+                "<T> returnType : " + a.genericMethod(b).getClass()
+                        .getName()
+        ); // <T> returnType : ClassName, 타입 추론에 의해 생략 가능
     }
 }
 ```
@@ -380,6 +424,7 @@ class ClassName<E> {
 ```java
 // 컴파일 전
 class Test<T> {
+
     private T t;
 
     public void set(T t) {
@@ -393,6 +438,7 @@ class Test<T> {
 
 // 컴파일 후
 class Test {
+
     private Object t;
 
     public void set(Object t) {
@@ -408,6 +454,7 @@ class Test {
 ```java
 // 컴파일 전
 class Test<T extends Number> {
+
     private T t;
 
     public void set(T t) {
@@ -421,6 +468,7 @@ class Test<T extends Number> {
 
 // 컴파일 후
 class Test {
+
     private Number t;
 
     public void set(Number t) {

@@ -15,11 +15,13 @@ layout: editorial
 
 ```java
 interface MyFunction {
+
     int max(int a, int b);
 }
 
 
 class Example {
+
     public static void main(String[] args) {
         MyFunction f = new MyFunction() {
             @Override
@@ -36,6 +38,7 @@ class Example {
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         MyFunction f = (int a, int b) -> a > b ? a : b;
         int value = f.max(3, 5);
@@ -49,13 +52,14 @@ class Example {
 
 ### @FunctionalInterface
 
-`@FunctionalInterface` 어노테이션은 추상 메서드가 하나만 존재하는지 컴파일러가 체크하도록 해주는 역할을 하여 함수형 인터페이스를 올바르게 정의했는지 확인할 수 있다.  
+`@FunctionalInterface` 어노테이션은 추상 메서드가 하나만 존재하는지 컴파일러가 체크하도록 하여 함수형 인터페이스를 올바르게 정의했는지 확인할 수 있다.  
 아래는 실제 Comparator 인터페이스의 정의이다.
 
 ```java
 
 @FunctionalInterface
 public interface Comparator<T> {
+
     int compare(T o1, T o2);
 
     // ...
@@ -74,10 +78,12 @@ public interface Comparator<T> {
 
 ```java
 interface MyConsumer {
+
     void accept(String str);
 }
 
 class Example {
+
     public static void main(String[] args) {
         MyConsumer c = str -> System.out.println(str);
         doSomething(5, c);
@@ -94,12 +100,15 @@ class Example {
 그리고 반환타입이 함수형 인터페이스인 경우 람다식으로 반환할 수 있다.
 
 ```java
+
 @FunctionalInterface
 interface MyFunction {
+
     void run();
 }
 
 class Example {
+
     // 반환 타입이 MyFunction인 메서드
     static MyFunction getMyFunction() {
         MyFunction f = () -> System.out.println("Hello");
@@ -130,6 +139,7 @@ class Example {
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
 
@@ -168,10 +178,12 @@ class Example {
 
 @FunctionalInterface
 interface MyFunction {
+
     void print(String str);
 }
 
 class Example {
+
     public static void main(String[] args) {
         // 람다식
         MyFunction f1 = (str) -> System.out.println(str);

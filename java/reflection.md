@@ -20,41 +20,43 @@ class ReflectionExample {
     public static void main(String[] args) throws Exception {
         ReflectionExample obj = new ReflectionExample();
 
-        // 1. 클래스 정보 가져오기
+        // 1. 클래스 정보 조회
         Class<?> clazz = obj.getClass();
         System.out.println("Class name: " + clazz.getName());
 
-        // 2. 필드 정보 가져오기
+        // 2. 필드 정보 조회
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             System.out.println("Field name: " + field.getName());
         }
 
-        // 3. 메서드 정보 가져오기
+        // 3. 메서드 정보 조회
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             System.out.println("Method name: " + method.getName());
         }
 
-        // 4. private 필드에 접근하여 값 가져오기
+        // 4. private 필드에 접근하여 값 조회
         Field privateField = clazz.getDeclaredField("privateField");
         String fieldValue = (String) privateField.get(obj);
         System.out.println("Private field value: " + fieldValue);
 
-        // 5. private 필드에 접근하여 값 변경하기
-        privateField.setAccessible(true);
+        // 5. private 필드에 접근하여 값 수정
+        privateField.setAccessible(true); // private 필드에 접근할 수 있도록 설정
         privateField.set(obj, "New private field value");
         System.out.println("New private field value: " + obj.privateField);
 
-        // 6. private 메서드 호출하기
+        // 6. private 메서드 호출
         Method privateMethod = clazz.getDeclaredMethod("privateMethod");
         privateMethod.invoke(obj);
 
-        // 7. 정의되지 않은 메서드 호출하기
+        // 7. 정의되지 않은 메서드 호출
         try {
             clazz.getDeclaredMethod("undefinedMethod").invoke(obj);
         } catch (NoSuchMethodException e) {
-            System.out.println(e); // java.lang.NoSuchMethodException: ReflectionExample.undefinedMethod()
+            System.out.println(
+                    e
+            ); // java.lang.NoSuchMethodException: ReflectionExample.undefinedMethod()
         }
     }
 
@@ -67,25 +69,6 @@ class ReflectionExample {
     }
 }
 ```
-
-1. 클래스 정보 가져오기
-    - `Class<?> clazz = obj.getClass();`: ReflectionExample 클래스의 정보를 가져온다.
-2. 필드 정보 가져오기
-    - `Field[] fields = clazz.getDeclaredFields();`: ReflectionExample 클래스의 모든 필드 정보를 가져온다.
-3. 메서드 정보 가져오기
-    - `Method[] methods = clazz.getDeclaredMethods();`: ReflectionExample 클래스의 모든 메서드 정보를 가져온다.
-4. private 필드에 접근하여 값 가져오기
-    - `Field privateField = clazz.getDeclaredField("privateField");`: ReflectionExample 클래스의 privateField 정보를 가져온다.
-    - `String fieldValue = (String) privateField.get(obj);`: ReflectionExample 클래스의 privateField 값을 가져온다.
-5. private 필드에 접근하여 값 변경하기
-    - `privateField.setAccessible(true);`: ReflectionExample 클래스의 privateField에 접근할 수 있도록 설정한다.
-    - `privateField.set(obj, "New private field value");`: ReflectionExample 클래스의 privateField 값을 변경한다.
-6. private 메서드 호출하기
-    - `Method privateMethod = clazz.getDeclaredMethod("privateMethod");`: ReflectionExample 클래스의 privateMethod 정보를 가져온다.
-    - `privateMethod.invoke(obj);`: ReflectionExample 클래스의 privateMethod를 호출한다.
-7. 정의되지 않은 메서드 호출하기
-    - `clazz.getDeclaredMethod("undefinedMethod").invoke(obj);`: ReflectionExample 클래스의 undefinedMethod를 호출한다.
-    - 현재 클래스에 존재하지 않기 때문에 NoSuchMethodException이 발생하여 catch 블록이 실행된다.
 
 ## 장점
 
