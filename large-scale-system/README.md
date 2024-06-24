@@ -19,4 +19,5 @@ layout: editorial
 * [Design Video Streaming Service](design-video-streaming-service.md)
 * [Design Cloud Storage Service](design-cloud-storage-service.md)
 * [Design Proximity Service](design-proximity-service.md)
+* [Design Nearby Friends Service](design-nearby-friends-service.md)
 * [Design Payment System](design-payment-system.md)
