@@ -21,4 +21,5 @@ layout: editorial
 * [Design Proximity Service](design-proximity-service.md)
 * [Design Nearby Friends Service](design-nearby-friends-service.md)
 * [Design Map Service](design-map-service.md)
+* [Design Distributed Message Queue](design-distributed-message-queue.md)
 * [Design Payment System](design-payment-system.md)
