@@ -138,6 +138,7 @@
   * [Design Nearby Friends Service](large-scale-system/design-nearby-friends-service.md)
   * [Design Map Service](large-scale-system/design-map-service.md)
   * [Design Distributed Message Queue](large-scale-system/design-distributed-message-queue.md)
+  * [Design Metrics Monitoring System](large-scale-system/design-metrics-monitoring-system.md)
   * [Design Payment System](large-scale-system/design-payment-system.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
