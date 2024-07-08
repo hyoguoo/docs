@@ -7,9 +7,9 @@ layout: editorial
 HTTP 메시지는 단순한 줄 단위의 문자열이고, 이진 형식이 아닌 일반 텍스트 형식이기 때문에 사람이 쉽게 읽을 수 있다.  
 HTTP 메시지는 HTTP 애플리케이션 간에 주고 받는 데이터의 단위이며, HTTP 애플리케이션은 HTTP 메시지를 통해 요청과 응답을 주고 받는다.
 
-## 메시지의 흐름
+## 메시지의 흐름과 방향성
 
-메시지는 항상 업스트림에서 다운스트림으로 흐르며, 서버냐 클라이언트냐를 나누는 개념이 아니고 메시지의 발송자와 수신자를 나누는 개념이다.
+HTTP 통신에서 메시지의 흐름은 발송자로부터 수신자로 흐르는 방향으로 이루어진다.
 
 - 인바운드(Inbound) : 클라이언트에서 서버로의 방향
 - 아웃바운드(Outbound) : 서버에서 클라이언트로의 방향
@@ -20,9 +20,9 @@ HTTP 메시지는 HTTP 애플리케이션 간에 주고 받는 데이터의 단�
 
 HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
 
-- Start Line: 메시지의 첫 줄로, 메시지의 종류와 버전 등과 무엇을 하는지에 대한 정보를 담고 있다.
-- Headers: HTTP 전송에 필요한 모든 부가정보로, 0개 이상의 헤더 필드로 구성되어 있다.
-- Message Body: 실제 전송할 데이터로, 필요에 따라 생기는 데이터이다.
+- Start Line: 메시지의 첫 줄로, 메시지의 종류와 버전 등과 무엇을 하는지에 대한 정보
+- Headers: HTTP 전송에 필요한 모든 부가정보로, 0개 이상의 헤더 필드로 구성
+- Message Body: 실제 전송할 데이터(필요에 따라 생략 가능)
 
 각 줄은 CRLF(Carriage Return, Line Feed)로 끝나며, 각 부분은 CRLF로 구분된다.  
 하지만 모든 HTTP 애플리케이션이 CRLF를 제대로 사용하고 있지 않기 때문에, 그냥 개행 문자도 받아들일 수 있는 HTTP 애플리케이션으로 개발하는 것이 좋다.
@@ -38,6 +38,8 @@ HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
 
 ### HTTP Request Message
 
+HTTP Request Message의 형태와 예시는 다음과 같다.
+
 ```http request
 <method> <request-URI> <HTTP-version>
 <header>
@@ -45,7 +47,7 @@ HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
 <entity-body>
 ```
 
-위 형태를 가지고 있으며, 자세한 예시는 아래와 같다.
+entity body는 예시와 같이 생략될 수 있으며, 생략된 경우에는 CRLF로 끝나는 메시지가 된다.
 
 ```http request
 GET /index.html HTTP/1.1
@@ -59,9 +61,9 @@ Upgrade-Insecure-Requests: 1
 Cache-Control: max-age=0
 ```
 
-entity body는 생략될 수 있으며, 생략된 경우에는 CRLF로 끝나는 메시지가 된다.
-
 ### HTTP Response Message
+
+HTTP Response Message의 형태와 예시는 다음과 같다.
 
 ```http request
 <HTTP-version> <status-code> <reason-phrase>
@@ -69,8 +71,6 @@ entity body는 생략될 수 있으며, 생략된 경우에는 CRLF로 끝나는
 <CRLF>
 <entity-body>
 ```
-
-위 형태를 가지고 있으며, 자세한 예시는 아래와 같다.
 
 ```http request
 HTTP/1.1 200 OK
@@ -108,7 +108,8 @@ HTTP 메시지의 첫 줄로, 요청과 응답에 따라 구성에 약간 차이
 
 ### Headers
 
-HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 내용/크기/압축/인증 등을 포함한다.
+HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 내용/크기/압축/인증 등을 포함한다.  
+요청 혹은 응답의 컨텍스트를 설정하고, 메시지 전송을 더 잘 제어할 수 있도록 도와준다.
 
 ```http request
 status line
