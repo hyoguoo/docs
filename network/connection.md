@@ -5,7 +5,7 @@ layout: editorial
 # Connection(커넥션)
 
 HTTP는 기본적으로 TCP/IP를 기반으로 동작하기 때문에, HTTP 트랜잭션은 TCP 커넥션 위에서 이루어진다.  
-HTTP는 TCP/IP 위에서 동작하기 때문에 TCP/IP의 특성을 그대로 가지고 있으며, TCP/IP는 아래의 이점을 제공한다.
+HTTP는 TCP/IP 위에서 동작하기 때문에 TCP/IP의 특성을 그대로 가지게 되며, TCP/IP는 아래의 이점을 제공한다.
 
 - 오류 없는 데이터 전송
 - 순서에 맞는 전달
