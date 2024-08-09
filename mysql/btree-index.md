@@ -102,10 +102,8 @@ CREATE TABLE tb_test
     INDEX idx_country (country),
 );
 
--- Case A: Country 컬럼의 유니크한 값의 개수: 10개
--- -- 10개의 국가(country)의 도시(city) 레코드가 존재
--- Case B: Country 컬럼의 유니크한 값의 개수: 1,000개
--- -- 1,000개의 국가(country)의 도시(city) 레코드가 존재
+-- Case A: Country 컬럼의 유니크한 값의 개수 10개인 경우
+-- Case B: Country 컬럼의 유니크한 값의 개수 1,000개인 경우
 SELECT *
 FROM tb_test
 WHERE country = 'Korea'
