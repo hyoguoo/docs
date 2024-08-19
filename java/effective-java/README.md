@@ -141,3 +141,9 @@ layout: editorial
 |    [Item 82. Thread Safety Level](item82.md)    |       스레드 안전성 수준을 문서화하라        |
 |    [Item 83. Lazy Initialization](item83.md)    |        지연 초기화는 신중히 사용하라        |
 |     [Item 84. Thread Scheduler](item84.md)      |   프로그램 동작을 스레드 스케줄러에 기대지 말라    |
+
+## Chapter 12. 직렬화
+
+|                       Item                       |      Title      |
+|:------------------------------------------------:|:---------------:|
+| [Item 85. Alternatives Serialization](item85.md) | 자바 직렬화의 대안을 찾으라 |
