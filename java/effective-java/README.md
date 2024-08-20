@@ -144,6 +144,7 @@ layout: editorial
 
 ## Chapter 12. 직렬화
 
-|                       Item                       |      Title      |
-|:------------------------------------------------:|:---------------:|
-| [Item 85. Alternatives Serialization](item85.md) | 자바 직렬화의 대안을 찾으라 |
+|                       Item                       |            Title            |
+|:------------------------------------------------:|:---------------------------:|
+| [Item 85. Alternatives Serialization](item85.md) |       자바 직렬화의 대안을 찾으라       |
+|   [Item 86. Serializable Interface](item86.md)   | Serializable을 구현할지 신중히 결정하라 |
