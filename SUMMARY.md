@@ -121,6 +121,7 @@
     * [Item 85. Alternatives Serialization](java/effective-java/item85.md)
     * [Item 86. Serializable Interface](java/effective-java/item86.md)
     * [Item 87. Custom Serialization Form](java/effective-java/item87.md)
+    * [Item 88. Read Object Method](java/effective-java/item88.md)
     * [Item 9. try-with-resources](java/effective-java/item9.md)
 * [Large Scale System](large-scale-system/README.md)
   * [Basic](large-scale-system/basic.md)
