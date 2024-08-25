@@ -144,10 +144,11 @@ layout: editorial
 
 ## Chapter 12. 직렬화
 
-|                       Item                       |                    Title                    |
-|:------------------------------------------------:|:-------------------------------------------:|
-| [Item 85. Alternatives Serialization](item85.md) |               자바 직렬화의 대안을 찾으라               |
-|   [Item 86. Serializable Interface](item86.md)   |         Serializable을 구현할지 신중히 결정하라         |
-| [Item 87. Custom Serialization Form](item87.md)  |              커스텀 직렬화 형태를 고려해보라              |
-|     [Item 88. ReadObject Method](item88.md)      |         readObject 메서드는 방어적으로 작성하라          |
-| [Item 89. Enum for Instance Control](item89.md)  | 인스턴스 수를 통제해야 한다면 readResolve보다는 열거 타입을 사용하라 |
+|                       Item                        |                    Title                    |
+|:-------------------------------------------------:|:-------------------------------------------:|
+| [Item 85. Alternatives Serialization](item85.md)  |               자바 직렬화의 대안을 찾으라               |
+|   [Item 86. Serializable Interface](item86.md)    |         Serializable을 구현할지 신중히 결정하라         |
+|  [Item 87. Custom Serialization Form](item87.md)  |              커스텀 직렬화 형태를 고려해보라              |
+|      [Item 88. ReadObject Method](item88.md)      |         readObject 메서드는 방어적으로 작성하라          |
+|  [Item 89. Enum for Instance Control](item89.md)  | 인스턴스 수를 통제해야 한다면 readResolve보다는 열거 타입을 사용하라 |
+| [Item 90. Serialization Proxy Pattern](item90.md) |        직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라        |

@@ -124,6 +124,7 @@
     * [Item 88. Read Object Method](java/effective-java/item88.md)
     * [Item 89. Enum for Instance Control](java/effective-java/item89.md)
     * [Item 9. try-with-resources](java/effective-java/item9.md)
+    * [Item 90. Serialization Proxy Pattern](java/effective-java/item90.md)
 * [Large Scale System](large-scale-system/README.md)
   * [Basic](large-scale-system/basic.md)
   * [CAP](large-scale-system/cap.md)
