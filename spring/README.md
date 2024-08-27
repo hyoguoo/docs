@@ -32,5 +32,3 @@ layout: editorial
         * [Persistence Context](persistence-context.md)
         * [Lazy Loading](lazy-loading.md)
 * [Spring Boot](spring-boot.md)
-* JUnit
-    * [Testing Basic](testing-basic.md)

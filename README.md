@@ -26,6 +26,10 @@ layout: editorial
 
 * [Spring](spring/)
 
+### Software Engineering
+
+* [Test](test/)
+
 ### System Architecture
 
 * [Large Scale System](large-scale-system/)
