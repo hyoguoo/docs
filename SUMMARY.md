@@ -257,3 +257,4 @@
   * [Test Guide(테스트 가이드)](test/test-guide.md)
   * [Test Double(테스트 더블)](test/test-double.md)
   * [Test Fixture(테스트 픽스처)](test/test-fixture.md)
+  * [Spring Boot Test Context(스프링 부트 테스트 컨텍스트)](test/spring-boot-test-context.md)
