@@ -29,6 +29,7 @@
   * [Polymorphism(다형성)](java/polymorphism.md)
   * [Print(출력)](java/print.md)
   * [Reflection(리플렉션)](java/reflection.md)
+  * [Serialization(직렬화)](java/serialization.md)
   * [String class](java/string-class.md)
   * [Thread(쓰레드)](java/thread.md)
   * [Varargs(가변인수)](java/varargs.md)

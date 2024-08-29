@@ -37,3 +37,4 @@ layout: editorial
     * [Generic](generic.md)
     * [Lambda](lambda.md)
     * [Reflection](reflection.md)
+    * [Serialization](serialization.md)
