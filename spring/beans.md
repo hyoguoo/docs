@@ -28,10 +28,14 @@ Bean은 스프링을 구성하는 핵심요소로, 아래의 구성 요소를 �
 
 `@Component` Annotation이 있을 경우 스프링 빈으로 자동 등록하는 방법으로 주로 사용되는 방법이다.
 
+- 클래스에 `@Component`(`@Controller` / `@Service` ... etc) 선언
+- 생성자에 `@Autowired` 선언
+
 ```java
 
 @Controller
 public class MemberController {
+
     private final MemberService memberService;
 
     @Autowired
@@ -42,6 +46,7 @@ public class MemberController {
 
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
 
     @Autowired
@@ -53,16 +58,17 @@ public class MemberService {
 
 @Repository
 public class MemoryMemberRepository implements MemberRepository {
+
 }
 ```
 
-위와 같이 클래스 생성 후 클래스에 `@Component`(`@Controller` / `@Service`)을 선언하고, 생성자에 `@Autowired`를 선언하면된다.  
-이렇게 하면 애플리케이션이 실행되어 객체 생성 시점에 스프링이 서비스 객체를 연결하기 위해 연관된 객체를 스프링 컨테이너에서 찾아 넣게 해준다(의존성 주입).  
-의존성 주입이 완료된 후에는 아래와 같은 의존성 관계가 형성된다.
+선언을 하여 등록해두면, 애플리케이션이 실행되어 객체 생성 시점에 스프링이 서비스 객체를 연결하기 위해 연관된 객체를 스프링 컨테이너에서 찾아 의존성 주입을 수행한다.
 
 ```
 MemberController -> MemberService -> MemeberRepository
 ```
+
+의존성 주입이 완료된 후에는 위와 같이 의존성 관계가 형성된다.
 
 ### 2. @Bean / @Configuration을 통한 등록
 
@@ -85,13 +91,11 @@ public class SpringConfig {
 }
 ```
 
-결과는 1번의 컴포넌트 스캔을 통한 등록과 동일하다.
+결과는 1번의 컴포넌트 스캔을 통한 등록과 동일하게 동작한다.
 
 ## 빈 생명주기
 
-데이터베이스 커넥션 풀이나 네트워크 소켓처럼 애플리케이션 시작 시점에 필요한 연결을 미리 해두고, 종료 시점에 연결을 모두 종료하는 작업을 진행하기 위해서는 객체의 초기화와 종료 작업이 필요하다.  
-스프링 빈도 역시 생성 - 의존관계 주입 단계를 거쳐 사용할 수 있는 상태가 되고, 시작 및 종료 시점에 추가적인 작업을 수행할 수 있다.
-스프링 빈의 대략적인 이벤트 라이프 사이클은 아래와 같다.
+스프링 빈은 생성 - 의존관계 주입 단계를 거쳐 사용할 수 있는 상태가 되며, 스프링 빈의 대략적인 이벤트 라이프 사이클은 아래와 같다.
 
 1. 스프링 컨테이너 생성
 2. 스프링 빈 생성
@@ -110,9 +114,8 @@ public class SpringConfig {
 
 ### 빈 생명주기(초기화/소멸) 콜백
 
-시작 및 종료 시점에 추가적인 작업을 수행하기 위해 스프링은 다양한 방법을 지원한다.  
-스프링에서는 크게 3가지 방법으로 빈 생명주기 콜백을 지원하며 `@PostConstruct`, `@PreDestroy`를 가장 권장하고 있다.  
-실행 되는 순서는 아래 번호 순서대로 실행된다.
+위의 생명 주기 3, 5번에서 볼 수 있듯이, 시작 및 종료 시점에 추가적인 콜백 작업을 수행할 수 있다.  
+시작 및 종료 시점에 추가적인 작업을 수행하기 위해 스프링은 크게 3가지 방법을 제공한다.(실행되는 순서는 아래 번호 순서대로 실행된다.)
 
 #### 1. @PostConstruct, @PreDestroy 애노테이션
 
@@ -230,74 +233,6 @@ public class AppConfig {
     - 생성 및 초기화까지만 처리하기 때문에 `@PreDestroy` 같은 종료 메서드도 호출하지 않음
     - 프로토타입 빈은 프로토타입 빈을 조회한 클라이언트가 관리
     - 여러 빈에서 같은 프로토타입 빈을 주입 받으면, 주입 받은 모든 빈은 각자 다른 인스턴스를 사용(하나의 빈에선 계속 같은 프로토타입 빈을 가짐)
-
-[//]: # (### 웹 스코프)
-
-[//]: # ()
-[//]: # (웹 스코프는 웹 환경에서만 동작하는 스코프로, 프로토타입과 다르게 스프링이 해당 스코프 종료시점까지 관리하여 종료 메서드도 호출한다.  )
-
-[//]: # (웹 스코프의 종류는 `request`, `session`, `application`, `websocket` 이 있다.)
-
-[//]: # ()
-[//]: # (```java)
-
-[//]: # ()
-[//]: # (@Component)
-
-[//]: # (@Scope&#40;value = "request"&#41;)
-
-[//]: # (public class ExampleBean {)
-
-[//]: # ()
-[//]: # (    // ...)
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (웹 스코프는 위 코드처럼 생성할 수 있으며, 만약 이 `Bean`을 다른 곳에 주입 하여 스프링 애플리케이션을 실행하게 되면 오류가 발생하게 된다.)
-
-[//]: # ()
-[//]: # (```shell)
-
-[//]: # (Error creating bean with name 'exampleBean': Scope 'request' is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (스프링 애플리케이션을 실행하는 시점에 싱글톤 빈은 생성해서 주입이 가능하지만, `request` 스코프는 실제 요청이 들어오기 전의 상태기 때문에&#40;존재하지 않음&#41; 오류가 발생하게 된다.  )
-
-[//]: # (이를 위해 `Provider`을 사용해서 해결하는 방법도 있으나 `proxyMode`를 사용하는 방법이 더 간단하다.)
-
-[//]: # ()
-[//]: # (#### proxyMode)
-
-[//]: # ()
-[//]: # (```java)
-
-[//]: # ()
-[//]: # (@Component)
-
-[//]: # (@Scope&#40;value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS&#41; // proxyMode 추가)
-
-[//]: # (public class ExampleBean {)
-
-[//]: # ()
-[//]: # (    // ...)
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (- `proxyMode`를 `TARGET_CLASS`로 설정하면 `CGLIB`에서 사용해서 프록시 객체를 생성한다.)
-
-[//]: # (- 생성된 프록시 객체는 싱글톤처럼 동작하여 HTTP request와 상관 없이 다른 빈에 미리 주입해 둘 수 있다.)
-
-[//]: # (- 다른 빈에서 `ExampleBean`를 호출하면 실제로는 프록시 객체를 호출하게 되고, 이 프록시 객체가 `ExampleBean`을 호출하게 된다.)
-
-[//]: # (- 프록시 클래스는 원본 클래스인 `ExampleBean`을 상속받아서 생성되기 때문에 클라이언트는 `ExampleBean`의 모든 기능을 사용할 수 있다.&#40;다형성&#41;)
 
 ###### 참고자료
 
