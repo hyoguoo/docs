@@ -26,4 +26,5 @@ layout: editorial
 * [Design Ad Click Event Aggregation System](design-ad-click-event-aggregation-system.md)
 * [Design Hotel Reservation System](design-hotel-reservation-system.md)
 * [Design Distributed Mail Service](design-distributed-mail-service.md)
+* [Design Object Storage System](design-object-storage-system)
 * [Design Payment System](design-payment-system.md)

@@ -149,6 +149,7 @@
   * [Design Ad Click Event Aggregation System](large-scale-system/design-ad-click-event-aggregation-system.md)
   * [Design Hotel Reservation System](large-scale-system/design-hotel-reservation-system.md)
   * [Design Distributed Mail Service](large-scale-system/design-distributed-mail-service.md)
+  * [Design Object Storage System](large-scale-system/design-object-storage-system)
   * [Design Payment System](large-scale-system/design-payment-system.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
