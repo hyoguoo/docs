@@ -123,4 +123,4 @@ ID가 1씩 증가하는 값이라면 다음 단축 URL을 예측할 수 있어 �
 
 ###### 참고자료
 
-- [가상 면접 사례로 배우는 대규모 시스템 설계 기초](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=%EA%B0%80%EC%83%81+%EB%A9%B4%EC%A0%91+%EC%82%AC%EB%A1%80%EB%A1%9C+%EB%B0%B0%EC%9A%B0%EB%8A%94+%EB%8C%80%EA%B7%9C%EB%AA%A8&isbn=9788966263240&cipId=228421467%2C)
+- [가상 면접 사례로 배우는 대규모 시스템 설계 기초](https://kobic.net/book/bookInfo/view.do?isbn=9788966263158)

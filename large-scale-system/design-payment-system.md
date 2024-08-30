@@ -286,4 +286,4 @@ payment_order_id에 해당하는 결제 주문 정보를 조회하는 API
 
 ###### 참고자료
 
-- [가상 면접 사례로 배우는 대규모 시스템 설계 기초](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&isbn=9788966264339)
+- [가상 면접 사례로 배우는 대규모 시스템 설계 기초 2](https://kobic.net/book/bookInfo/view.do?isbn=9788966264254)

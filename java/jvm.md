@@ -71,4 +71,4 @@ JVM 메모리는 크게 5가지 영역으로 나뉘며, 각각의 영역은 다�
 
 ###### 참고자료
 
-- [java의 정석](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Java의+정석&isbn=9788994492032&cipId=200741285%2C)
+- [Java의 정석](https://kobic.net/book/bookInfo/view.do?isbn=9788994492032)

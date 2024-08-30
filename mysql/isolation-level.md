@@ -146,5 +146,5 @@ id = 59인 레코드에 대해서만 잠금이 걸리고, 트랜잭션 12의 요
 
 ###### 참고자료
 
-- [Real MySQL 8.0 1 - 개발자와 DBA를 위한 MySQL 실전 가이드](https://www.nl.go.kr/seoji/contents/S80100000000.do?schM=intgr_detail_view_isbn&page=1&pageUnit=10&schType=simple&schStr=Real+MySQL&isbn=9791158392703&cipId=228440237%2C)
+- [Real MySQL 8.0 (1권)](https://kobic.net/book/bookInfo/view.do?isbn=9791158392703)
 - [망나니개발자 티스토리](https://mangkyu.tistory.com/299)
