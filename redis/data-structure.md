@@ -100,6 +100,16 @@ Set과 유사하지만, 각 요소에 점수(score)를 부여해 자동으로 �
 - 시간 복잡도
     - 인덱스를 통한 조회: O(logN)
 
+#### Skip List
+
+Sorted Set은 Skip List를 사용해 데이터를 관리하기 때문에 O(logN)의 시간복잡도로 데이터를 조회할 수 있다.
+
+- 여러 레벨로 구성된 연결 리스트 구조
+- 각 레벨에서 일부 노드만 연결되며, 상위 레벨일수록 노드 수가 적음
+- 탐색할 때 최상위 레벨부터 시작하여, 원하는 값보다 큰 값이 나오는 지점에서 하위 레벨로 이동하여 탐색
+
+![Skip List Add Element(출처: https://en.wikipedia.org/wiki/Skip_list)](image/skip-list-add-element.gif)
+
 ### Bitmaps
 
 독자적인 자료 구조는 아니며, string 자료 구조에 bit 연산을 수행할 수 있도록 확장한 형태다.
