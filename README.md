@@ -17,6 +17,7 @@ layout: editorial
 ### Database
 
 * [MySQL](mysql/)
+* [Redis](redis/)
 
 ### Language
 

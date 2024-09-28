@@ -255,6 +255,8 @@
   * [Transactional](spring/transactional.md)
   * [Validation(검증)](spring/validator.md)
   * [View Resolver(뷰 리졸버)](spring/view-resolver.md)
+* [Redis](redis/README.md)
+  * [Basic(기초)](redis/basic.md)
 * [Test](test/README.md)
   * [Testing Basic(테스트 기초)](test/testing-basic.md)
   * [Test Guide(테스트 가이드)](test/test-guide.md)
