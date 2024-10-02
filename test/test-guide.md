@@ -8,7 +8,7 @@ layout: editorial
 
 ## 테스트 명세
 
-테스트 코드가 검증하느 내용을 명확하게 전달하여, 다른 개발자가 테스트 코드를 읽었을 때 테스트 대상이 무엇인지 쉽게 이해할 수 있도록 작성해야 한다.
+테스트 코드가 검증하는 내용을 명확하게 전달하여, 다른 개발자가 테스트 코드를 읽었을 때 테스트 대상이 무엇인지 쉽게 이해할 수 있도록 작성해야 한다.
 
 ### DisplayName
 
@@ -95,22 +95,40 @@ public class CartTest {
     void addItemToCart() {
         cart.addProduct(product);
 
+        // 제품이 카트에 제대로 추가되었는지 확인
         assertEquals(1, cart.getProductCount());
         assertTrue(cart.getProducts().contains(product));
     }
 
     @Test
     @Order(2)
+    void changeProductNameInCart() {
+        // 카트에서 제품을 꺼낸 후 이름을 변경
+        Product productInCart = cart.getProducts().stream()
+                .filter(p -> p.equals(product))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+
+        productInCart.setName("변경된 상품1");
+
+        // 제품 이름이 변경되었는지 확인
+        assertEquals("변경된 상품1", productInCart.getName());
+    }
+
+    @Test
+    @Order(3)
     void removeItemFromCart() {
+        // 이름이 변경된 상태에서 제품을 삭제하려고 시도
         cart.removeProduct(product);
 
+        // 제품이 카트에서 제대로 삭제되었는지 확인
         assertEquals(0, cart.getProductCount());
         assertFalse(cart.getProducts().contains(product));
     }
 }
 ```
 
-#### Good Practice: BeforeEach를 사용하여 각 테스트 실행 전 초기화
+#### Good Practice: 테스트 간에 상태를 공유하지 않고, 각 테스트는 독립적으로 실행되도록 작성
 
 ```java
 public class CartTest {
@@ -120,25 +138,46 @@ public class CartTest {
 
     @BeforeEach
     void setUp() {
+        // Given: 카트와 제품이 준비됨
         cart = new Cart();
         product = new Product("상품1", 1000);
     }
 
     @Test
     void addItemToCart() {
+        // When: 카트에 제품을 추가
         cart.addProduct(product);
 
+        // Then: 카트에 제품이 잘 추가되었는지 확인
         assertEquals(1, cart.getProductCount());
         assertTrue(cart.getProducts().contains(product));
     }
 
     @Test
     void removeItemFromCart() {
+        // Given: 카트에 제품이 추가된 상태
         cart.addProduct(product);
+
+        // When: 카트에서 제품을 제거
         cart.removeProduct(product);
 
+        // Then: 카트에서 제품이 잘 제거되었는지 확인
         assertEquals(0, cart.getProductCount());
         assertFalse(cart.getProducts().contains(product));
+    }
+
+    @Test
+    void changeProductNameAfterAddToCart() {
+        // Given: 카트에 제품이 추가된 상태
+        cart.addProduct(product);
+
+        // When: 카트에 있는 제품의 이름을 변경
+        Product productInCart = cart.getProducts().get(0);
+        productInCart.setName("변경된 상품1");
+
+        // Then: 제품 이름이 변경되었는지 확인
+        assertEquals("변경된 상품1", productInCart.getName());
+        assertTrue(cart.getProducts().contains(productInCart));
     }
 }
 ```
@@ -189,17 +228,18 @@ public class WeatherServiceIntegrationTest {
 public class WeatherServiceTest {
 
     private WeatherService weatherService;
-    private UserRepository mockUserRepository;
+    private FakeUserRepository fakeUserRepository;  // Fake 객체로 교체
     private WeatherApiClient mockWeatherApiClient;
 
     @BeforeEach
     void setUp() {
-        // Mock 객체를 생성
-        mockUserRepository = mock(UserRepository.class);
+        // Fake 객체 생성
+        fakeUserRepository = new FakeUserRepository();
+        // Mock 객체 생성
         mockWeatherApiClient = mock(WeatherApiClient.class);
 
-        // WeatherService에 Mock 객체 주입
-        weatherService = new WeatherService(mockUserRepository, mockWeatherApiClient);
+        // WeatherService에 Fake와 Mock 객체 주입
+        weatherService = new WeatherService(fakeUserRepository, mockWeatherApiClient);
     }
 
     @Test
@@ -209,17 +249,44 @@ public class WeatherServiceTest {
         WeatherData mockWeatherData = new WeatherData("Seoul", 25);
 
         // Mock 객체의 동작 정의
-        when(mockUserRepository.save(any(User.class))).thenReturn(user);
         when(mockWeatherApiClient.getWeather("Seoul")).thenReturn(mockWeatherData);
 
         // WeatherService 메서드 호출
         weatherService.fetchAndSaveWeatherData(user, "Seoul");
 
         // 결과 검증
-        verify(mockWeatherApiClient).getWeather("Seoul");
-        verify(mockUserRepository).save(user);
-        assertEquals("Seoul", user.getWeatherData().getLocation());
-        assertEquals(25, user.getWeatherData().getTemperature());
+        verify(mockWeatherApiClient).getWeather("Seoul"); // .getWeather 메서드가 호출되었는지 확인
+        User savedUser = fakeUserRepository.findById(user.getId());
+
+        assertNotNull(savedUser);
+        assertEquals("Seoul", savedUser.getWeatherData().getLocation());
+        assertEquals(25, savedUser.getWeatherData().getTemperature());
+    }
+
+    // Fake UserRepository 클래스
+    private static class FakeUserRepository implements UserRepository {
+
+        private Map<Long, User> database = new HashMap<>();
+        private long idSequence = 0L;
+
+        @Override
+        public User save(User user) {
+            if (user.getId() == null) {
+                user.setId(++idSequence);
+            }
+            database.put(user.getId(), user);
+            return user;
+        }
+
+        @Override
+        public User findById(Long id) {
+            return database.get(id);
+        }
+
+        @Override
+        public List<User> findAll() {
+            return new ArrayList<>(database.values());
+        }
     }
 }
 ```
