@@ -119,7 +119,7 @@ class Example {
 ### 2. isolation
 
 트랜잭션 격리 수준 지정으로 보통 데이터베이스에서 설정한 트랜잭션 수준을 사용하는 `DEFAULT`를 사용한다.  
-격리 수준에 대한 자세한 내용은 [격리 수준](../mysql/isolation-level) 참고
+격리 수준에 대한 자세한 내용은 [격리 수준](../mysql/isolation-level.md) 참고
 
 ### 3. timeout
 
