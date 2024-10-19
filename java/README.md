@@ -15,7 +15,7 @@ layout: editorial
     * [Array](array.md)
     * [Modifier](modifier.md)
     * [Enums](enums.md)
-    * [Exception Handling](exception-handling)
+    * [Exception Handling](exception-handling.md)
 * Object-Oriented Programming
     * [Class](class.md)
     * [Inheritance](inheritance.md)
