@@ -16,9 +16,9 @@ layout: editorial
 |      `public Class getClass()`      |               객체의 클래스 정보를 담고 있는 Class 인스턴스 반환               |
 |       `public int hashCode()`       |                        객체의 해시코드를 반환                         |
 |     `public String toString()`      |                         객체를 문자열로 반환                         |
-|       `public void notify()`        |                객체 자신을 사용하려고 기다리는 쓰레드를 하나만 깨움                |
-|      `public void notifyAll()`      |                객체 자신을 사용하려고 기다리는 쓰레드를 모두 깨움                 |
-|        `public void wait()`         | 다른 쓰레드가 `notify()` 혹은 `notifyAll()`을 호출할 때까지 지정된 시간동안 대기 지정 |
+|       `public void notify()`        |                객체 자신을 사용하려고 기다리는 스레드를 하나만 깨움                |
+|      `public void notifyAll()`      |                객체 자신을 사용하려고 기다리는 스레드를 모두 깨움                 |
+|        `public void wait()`         | 다른 스레드가 `notify()` 혹은 `notifyAll()`을 호출할 때까지 지정된 시간동안 대기 지정 |
 
 이중 `equals()`, `hashCode()`, `toString()` 메서드는 자주 사용된다.
 

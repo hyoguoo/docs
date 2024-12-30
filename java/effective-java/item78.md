@@ -183,7 +183,7 @@ class AddTest {
 
 ### Atomic 클래스를 이용한 동기화
 
-멀티 쓰레드 환경에서 동기화 문제를 별도의 synchronized 키워드 없이 해결할 수 있는 방법으로 `java.util.concurrent.atomic` 패키지에 있는 Atomic 클래스를 사용하는 방법이 있다.  
+멀티 스레드 환경에서 동기화 문제를 별도의 synchronized 키워드 없이 해결할 수 있는 방법으로 `java.util.concurrent.atomic` 패키지에 있는 Atomic 클래스를 사용하는 방법이 있다.  
 (내부적으로 volatile 키워드와 CAS 알고리즘을 사용하여 동시성 문제를 해결하고 있다.)
 
 ```java

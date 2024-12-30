@@ -153,8 +153,8 @@ public class StringBufferTest {
 ### 비교
 
 - String : 불변하기 때문에 문자열 연산이 적은 경우 사용
-- StringBuffer : 문자열 연산이 많고 멀티쓰레드인 경우 사용
-- StringBuilder : 문자열 연산이 많고 단일쓰레드이거나 동기화를 고려하지 않아도 될 경우 사용
+- StringBuffer : 문자열 연산이 많고 멀티스레드인 경우 사용
+- StringBuilder : 문자열 연산이 많고 단일스레드이거나 동기화를 고려하지 않아도 될 경우 사용
 
 |      -       |   String    | StringBuffer | StringBuilder |
 |:------------:|:-----------:|:------------:|:-------------:|

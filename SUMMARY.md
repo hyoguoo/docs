@@ -31,7 +31,7 @@
   * [Reflection(리플렉션)](java/reflection.md)
   * [Serialization(직렬화)](java/serialization.md)
   * [String class](java/string-class.md)
-  * [Thread(쓰레드)](java/thread.md)
+  * [Thread(스레드)](java/thread.md)
   * [Varargs(가변인수)](java/varargs.md)
   * [Variable(변수)](java/variable.md)
   * [Wrapper class](java/wrapper-class.md)
