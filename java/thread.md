@@ -2,11 +2,11 @@
 layout: editorial
 ---
 
-# Thread(쓰레드)
+# Thread(스레드)
 
 > 프로세스의 자원을 이용해 작업을 수행하는 실행 단위
 
-## 쓰레드 구현
+## 스레드 구현
 
 구현 방법으로는 아래 두 개의 방법이 있으며 큰 차이는 없으나 Thread 클래스를 상속 받으면 다른 클래스를 상속 받을 수 없기 떄문에 Runnable 방법을 권장한다.
 
@@ -15,6 +15,7 @@ layout: editorial
 ```java
 public class MyThread extends Thread {
 
+    @Override
     public void run() {
         // Do something
     }
@@ -26,21 +27,23 @@ public class MyThread extends Thread {
 ```java
 public class MyThread implements Runnable {
 
+    @Override
     public void run() {
         // Do Something
     }
 }
 ```
 
-Runnable 인터페이스는 `run()` 메서드 하나만 가지고 있기 때문에 `run()` 메서드만 구현하면 된다.  
-여기서 쓰레드를 구현하는 것은 쓰레드를 통해 작업하고 싶은 코드를 `run()` 메서드에 구현하는 것이다.
+## 스레드 실행
+
+생성된 스레드를 실행하기 위해서는 `run()`이 아닌 `start()` 메서드를 호출해야 한다.
 
 ```java
 class ThreadEX1 extends Thread {
 
     public void run() {
         for (int i = 0; i < 10; i++) {
-            // 조상 클래스에 구현 된 getName() 메서드를 이용해 쓰레드 이름을 출력
+            // 조상 클래스에 구현 된 getName() 메서드를 이용해 스레드 이름을 출력
             System.out.println("ThreadEX1: " + i + "번째 실행" + " Thread Name: " + getName());
         }
     }
@@ -50,11 +53,8 @@ class ThreadEX2 implements Runnable {
 
     public void run() {
         for (int i = 0; i < 10; i++) {
-            // Thread 클래스의 static 메서드인 currentThread()를 이용해 현재 실행 중인 쓰레드를 반환받아 getName() 메서드를 이용해 쓰레드 이름을 출력
-            System.out.println(
-                    "ThreadEX2: " + i + "번째 실행" + " Thread Name: " + Thread.currentThread()
-                            .getName()
-            );
+            // Thread 클래스의 static 메서드인 currentThread()를 이용해 현재 실행 중인 스레드를 반환받아 getName() 메서드를 이용해 스레드 이름을 출력
+            System.out.println("ThreadEX2: " + i + "번째 실행" + " Thread Name: " + Thread.currentThread().getName());
         }
     }
 }
@@ -73,19 +73,16 @@ class ThreadMain {
 }
 ```
 
-## 쓰레드 실행
+`start()` 메서드가 호출되어도 해당 스레드에서 바로 실행 되는 것이 아니기 때문에, 스레드 스케줄러에 의해 대기 상태가 되고 대기 상태에 있는 스레드는 스레드 스케줄러에 의해 실행된다.  
+한 번 실행된 스레드는 다시 실행할 수 없으며 두 번 이상 실행하게 되면 `IllegalThreadStateException` 예외가 발생한다.
 
-위 코드에서 보았듯이 생성된 쓰레드를 실행하기 위해서는 `run()`이 아닌 `start()` 메서드를 호출해야 한다.  
-`start()` 메서드가 호출되어도 바로 실행 되는 것은 아니며 쓰레드 스케줄러에 의해 대기 상태가 되고 대기 상태에 있는 쓰레드는 쓰레드 스케줄러에 의해 실행된다.  
-한 번 실행된 쓰레드는 다시 실행할 수 없으며 두 번 이상 실행하게 되면 `IllegalThreadStateException` 예외가 발생한다.
+### `start()` vs `run()`
 
-### `start()` /  `run()`
+- `run()`: 생성된 스레드를 실행시키는 것이 아니라 단순히 클래스에 선언된 메서드를 호출
+- `start()`: 새로운 스레드가 작업을 실행하는데 필요한 `call stack`을 생성하고 생성된 `call stack`에 `run()`메서드를 실행
 
-- `run()`: 생성된 쓰레드를 실행시키는 것이 아니라 단순히 클래스에 선언된 메서드를 호출
-- `start()`: 새로운 쓰레드가 작업을 실행하는데 필요한 `call stack`을 생성하고 생성된 `call stack`에 `run()`메서드를 실행
-
-호출 스택을 강제로 출력하는 코드 사용하여 결과를 확인해보면 `start()` 메서드를 호출한 경우 main 쓰레드와 별도의 쓰레드가 생성되어 실행되는 것을 확인할 수 있다.  
-`run()` 메서드를 호출한 경우 main 쓰레드에서 `run()` 메서드가 실행되는 것을 확인할 수 있다.
+호출 스택을 강제로 출력하는 코드 사용하여 결과를 확인해보면 `start()` 메서드를 호출한 경우 main 스레드와 별도의 스레드가 생성되어 실행되는 것을 확인할 수 있다.  
+`run()`을 통해 실행하게 되면 단순히 메서드를 호출하는 것이기 때문에 main 스레드에서 `run()` 메서드가 실행되는 것을 확인할 수 있다.
 
 ```java
 class ThreadEX1 extends Thread {
@@ -152,14 +149,16 @@ java.lang.Exception
  */
 ```
 
-모든 쓰레드는 독립적인 작업을 수행하기 위해 자신만의 `call stack`을 필요하다.  
-`start()` 메서드를 호출하면 새로운 쓰레드가 생성되고 `run()` 메서드가 호출되어 새로운 `call stack`이 생성된다.  
-그리고 쓰레드가 종료되면 해당 쓰레드의 `call stack`은 소멸한다.  
-`start()` 메서드를 호출하면 아래의 순서로 실행된다.
+모든 스레드는 작업을 수행하기 위해 자신만의 `call stack`이 필요한데, 새로운 스레드를 생성하고 실행하면 아래와 같은 순서로 실행된다.
 
-1. main 메서드에서 쓰레드의 `start()` 메서드를 호출
-2. `start()`는 새로운 쓰레드를 생성하고, 쓰레드가 작업하는데 사용될 `call stack`을 생성
-3. 새로 생성된 `call stack`에 `run()` 메서드를 호출
+1. 새로운 스레드가 생성되고 `run()` 메서드가 호출되어 새로운 `call stack`이 생성
+2. `run()` 메서드가 종료되면서 해당 스택이 비워지게 되면서, 해당 스레드는 종료되고 `call stack`도 소멸
+
+결국 main 스레드에서 `start()` 메서드를 호출하면 아래의 순서로 실행된다.
+
+1. main 메서드에서 구현한 스레드의 `start()` 메서드를 호출
+2. `start()`는 새로운 스레드를 생성하고, 스레드가 작업하는데 사용될 `call stack`을 생성
+3. 생성된 스레드가 새로 생성된 `call stack`에 `run()` 메서드를 호출
 4. 스케줄러에 의해 번갈아 가며 작업 수행
 
 ## 쓰레드 우선순위
