@@ -33,7 +33,7 @@ layout: editorial
     * [Optional](optional.md)
 * Multi-Thread
     * [Thread](thread.md)
-    * [Synchronization](synchronization)
+    * [Synchronization](synchronization.md)
 * Advanced
     * [Varargs](varargs.md)
     * [Generic](generic.md)
