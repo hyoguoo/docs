@@ -42,31 +42,27 @@ class Example {
 ### 스레드 동기화 예시
 
 ```java
-class Example {
-
-    public static void main(String[] args) {
-        Runnable runnable = new Runnable();
-        new Thread(runnable).start();
-        new Thread(runnable).start();
-    }
-}
-
 class Account {
 
     private int balance = 1000;
 
-    public int getBalance() {
-        return balance;
-    }
-
-    public /*synchronized*/ void withdraw(int money) {
+    public synchronized void withdraw(int money) {
         if (balance >= money) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(100); // 지연을 추가하여 스레드 충돌 상황 테스트
             } catch (InterruptedException ignored) {
             }
             balance -= money;
+            System.out.println(Thread.currentThread().getName()
+                    + " withdrew " + money);
+        } else {
+            System.out.println(Thread.currentThread().getName()
+                    + " attempted to withdraw " + money + " but insufficient balance.");
         }
+    }
+
+    public int getBalance() {
+        return balance;
     }
 }
 
@@ -79,13 +75,17 @@ class Withdraw implements Runnable {
         while (acc.getBalance() > 0) {
             int money = (int) (Math.random() * 3 + 1) * 100;
             acc.withdraw(money);
-            System.out.println("balance : " + acc.getBalance());
+            System.out.println("Remaining balance: " + acc.getBalance());
         }
     }
 }
 ```
 
-위의 예시에서 `withdraw()` 메서드에 `synchronized` 키워드를 붙이지 않으면 잔액이 마이너스가 되는 경우가 발생한다.
+`withdraw()` 메서드가 `synchronized` 키워드를 붙여 동기화된 덕분에 잔액이 부족한 상황이 발생하지 않는다.
+
+- 한 번에 하나의 스레드만 메서드에 진입하므로, balance가 0보다 작아지는 상황이 발생하지 않음
+- 잔약이 부족한 경우에도 동기화로 인해 항상 정확한 잔액 조회하여 출금 가능 여부를 판단할 수 있음
+
 
 - `withdraw()` 메서드가 임계 영역으로 지정되지 않으면 두 개 이상의 스레드가 동시에 `withdraw()` 메서드가 실행됨
 - 여러 개의 스레드가 동시에 `balance` 변수의 값을 읽어오고, 비교 및 감소 연산을 수행하게 됨
