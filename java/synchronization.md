@@ -154,8 +154,101 @@ class Account {
 }
 ```
 
-- `withdraw()` 메서드가 임계 영역으로 지정되지 않으면 두 개 이상의 스레드가 동시에 `withdraw()` 메서드가 실행됨
-- 여러 개의 스레드가 동시에 `balance` 변수의 값을 읽어오고, 비교 및 감소 연산을 수행하게 됨
+## ReentrantLock
+
+`ReentrantLock`은 `synchronized` 키워드와 유사하게 임계 영역을 지정할 수 있으며, 더 유연한 동기화 처리를 제공한다.  
+기존 `synchronized`와는 다르게 모니터 락이 아닌 직접적인 락 객체를 사용하는 방식으로 동작한다.
+
+1. 락 획득 타임아웃 설정 가능
+    - `tryLock(long timeout, TimeUnit unit)` 메서드를 사용하여 락 획득 시도 시간 설정 가능
+    - 락 획득 실패 시 다른 로직을 수행하거나 재시도를 하여 데드락을 방지할 수 있음
+2. 인터럽트 처리 가능
+    - `lockInterruptibly()` 메서드를 사용하여 락 대기 중에 인터럽트 처리 가능
+3. 세분화된 락 제어
+    - 여러 `Condition` 객체를 생성하여 세부적인 대기/알림 제어를 구현 가능
+
+|    **특징**    |        **`synchronized`**         |     **`ReentrantLock`**      |
+|:------------:|:---------------------------------:|:----------------------------:|
+|   **락 타입**   |           모니터 락(JVM 관리)           |       객체 기반 락 (직접 관리)        |
+| **타임아웃 지원**  |                미지원                |        지원 (`tryLock`)        |
+| **인터럽트 지원**  |                미지원                |   지원 (`lockInterruptibly`)   |
+|  **락 세분화**   |                불가능                |  가능 (다중 `ReentrantLock` 사용)  |
+| **대기/알림 제어** | `wait()` / `notify()` 메서드로 제한적 제어 | `Condition` 객체를 통한 세부적 제어 가능 |
+
+### `ReentrantLock` 동작 방식
+
+`syncronized` 키워드와 유사하게 두 가지 대기 상태를 관리한다.
+
+- `ReentrantLock` 객체 대기 큐: 락을 획득하려는 스레드 대기 공간
+- `Condition` 객체 스레드 대기 공간: `await()` 메서드에 의해 대기 중인 스레드 대기 공간
+
+동작 과정은 아래와 같다.
+
+1. 스레드에서 `lock()` 메서드를 호출하여 락을 획득하려 시도
+2. 이미 사용 중인 경우 대기 큐에서 `WAITING` 상태로 전환하여 대기
+3. `unlock()` 메서드를 호출하여 락을 반납하면 대기 큐에서 대기 중인 스레드 중 하나가 락을 획득하고 `RUNNABLE` 상태로 전환
+4. `await()` 메서드를 호출하면 `WAITING` 상태로 전환하여 스레드 대기 공간으로 이동하고 락을 반납
+5. 다른 스레드에서 `signal()` 메서드를 호출하면 스레드 대기 공간에 있는 대기 중인 스레드 중 하나를 깨움
+6. 깨어난 스레드는 `WAITING` 상태로 전환하여 대기 큐로 이동
+7. 락 획득을 시도하고 성공하면 `RUNNABLE` 상태로 전환
+8. `await()`를 호출한 부분부터 다시 실행
+
+### `ReentrantLock` 사용 예시
+
+```java
+
+class PrinterQueue {
+
+    private final Lock lock = new ReentrantLock();
+    private final Condition notFullCondition = lock.newCondition();
+    private final Condition notEmptyCondition = lock.newCondition();
+
+    private final Queue<String> queue = new LinkedList<>();
+    private final int maxCapacity;
+
+    public PrinterQueue(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    // 프린트 작업 추가
+    public void addPrintJob(String job) {
+        lock.lock();
+        try {
+            while (queue.size() == maxCapacity) {
+                System.out.println(Thread.currentThread().getName() + " is waiting to add print job: " + job);
+                notFullCondition.await(); // 큐가 가득 찬 경우 대기
+            }
+            queue.offer(job);
+            System.out.println(Thread.currentThread().getName() + " added print job: " + job);
+            notEmptyCondition.signal(); // 큐에 데이터가 추가되었으므로 소비자 알림
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println(Thread.currentThread().getName() + " was interrupted while adding a print job.");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    // 프린트 작업 처리
+    public void processPrintJob() {
+        lock.lock();
+        try {
+            while (queue.isEmpty()) {
+                System.out.println(Thread.currentThread().getName() + " is waiting for a print job to process.");
+                notEmptyCondition.await(); // 큐가 비어 있는 경우 대기
+            }
+            String job = queue.poll();
+            System.out.println(Thread.currentThread().getName() + " is processing print job: " + job);
+            notFullCondition.signal(); // 큐에 공간이 생겼으므로 생산자 알림
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println(Thread.currentThread().getName() + " was interrupted while processing a print job.");
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
 
 ###### 참고자료
 
