@@ -7,7 +7,6 @@ layout: editorial
 ## [Effective Java](effective-java)
 
 * [JVM](jvm.md)
-* [Volatile](volatile.md)
 * [Garbage Collection](garbage-collection.md)
 * Basic
     * [Variable](variable.md)
@@ -35,6 +34,7 @@ layout: editorial
     * [Thread](thread.md)
     * [Synchronization](synchronization.md)
 * Advanced
+    * [Volatile](volatile.md)
     * [Varargs](varargs.md)
     * [Generic](generic.md)
     * [Lambda](lambda.md)
