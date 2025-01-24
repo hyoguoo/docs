@@ -35,6 +35,7 @@ layout: editorial
     * [Synchronization](synchronization.md)
 * Advanced
     * [Volatile](volatile.md)
+    * [CAS](cas.md)
     * [Varargs](varargs.md)
     * [Generic](generic.md)
     * [Lambda](lambda.md)
