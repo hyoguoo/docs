@@ -31,11 +31,11 @@ layout: editorial
     * [Iterator & Stream](iterator-stream.md)
     * [Optional](optional.md)
 * Multi-Thread
+    * [Volatile](volatile.md)
+    * [CAS](cas.md)
     * [Thread](thread.md)
     * [Synchronization](synchronization.md)
 * Advanced
-    * [Volatile](volatile.md)
-    * [CAS](cas.md)
     * [Varargs](varargs.md)
     * [Generic](generic.md)
     * [Lambda](lambda.md)
