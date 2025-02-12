@@ -8,3 +8,4 @@ layout: editorial
 * [Data Structure](data-structure.md)
 * [Key Management](key-management.md)
 * [Data Structure Use Case](data-structure-use-case.md)
+* [Cache](cache.md)
