@@ -21,7 +21,7 @@ OSI 7계층의 계층들을 TCP/IP 4계층에 맞게 재배치하면 아래와 �
 |  Application   |    HTTP / FTP    |       유저에게 제공되는 애플리케이션에서 사용하는 통신의 움직임을 결정       | Session(5) / Presentation(6) / Application(7) |  Stream   |
 |   Transport    |     TCP/UDP      | 애플리케이션 계층에 네트워크로 접속되어 있는 2대의 컴퓨터 사이의 데이터 흐름을 제공 |                 Transport(4)                  |  Segment  |
 |    Internet    |        IP        |     네트워크 상에서 패킷의 이동을 다룸(패킷: 전송하는 데이터 최소 단위)     |                  Network(3)                   |  Packet   |
-| Network Access | LAN 드라이버, LAN 장비 |               네트워크에 접속하는 하드웨어적인 면               |           DataLink(1) / Physical(2)           |   Frame   |
+| Network Access | LAN 드라이버, LAN 장비 |               네트워크에 접속하는 하드웨어적인 면               |           Physical(1) / DataLink(2)           |   Frame   |
 
 - Stream: 데이터의 시작은 있으나 끝은 정확하게 정의할 수 없고, 애플리케이션에서 정의하게 됨
 - 나머지 데이터: 시작과 끝이 정의되어 있으며, 각 계층에서 정의된 데이터 단위를 통해 전달
