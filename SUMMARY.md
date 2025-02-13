@@ -264,6 +264,7 @@
   * [Key Management(키 관리)](redis/key-management.md)
   * [Data Structure Use Case(자료 구조 활용 사례)](redis/data-structure-use-case.md)
   * [Cache(캐시)](redis/cache.md)
+  * [Data Backup(데이터 백업)](redis/data-backup.md)
 * [Test](test/README.md)
   * [Testing Basic(테스트 기초)](test/testing-basic.md)
   * [Test Guide(테스트 가이드)](test/test-guide.md)
