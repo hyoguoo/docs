@@ -14,10 +14,9 @@ layout: editorial
 
 Iterator 인터페이스를 상속한 가장 기본이 되는 인터페이스로 add, remove, contains, isEmpty, size, toArray 등의 메소드를 가지고 있다.
 
-### Collections
+### Collections vs Collection
 
-Collection 인터페이스와 달리 `Collections`는 클래스로 인스턴스화 불가능 클래스로 구현되어 있는데,  
-Collection 인터페이스를 구현한 클래스들을 다루는 `static` 메소드를 제공한다.
+Collections는 인스턴스화할 수 없는 클래스이며, Collection 인터페이스를 구현한 클래스들을 다루는 static 메서드를 제공한다.
 
 ```java
 public class Collections {
