@@ -40,12 +40,15 @@ Spring Web MVC는 크게 두 가지 구성으로 나뉜다.
 |   DelegatingFilterProxy    | Spring Bean으로 등록된 Filter를 서블릿 필터 체인에 연결하기 위한 프록시  |
 |      FilterChainProxy      |       Spring Security가 내부적으로 사용하는 보안 필터 체인        |
 
-## Spring MVC Code
+## Spring MVC 코드 흐름 예시
+
+아래는 Spring MVC에서 HTTP 요청을 처리하고 뷰를 렌더링하는 전체 흐름의 간단한 예시이다.
 
 ```java
 
-@Controller("/spring")
-public class SpringExmapleController {
+@Controller
+@RequestMapping("/spring")
+public class SpringExampleController {
 
     @GetMapping("/example")
     public String process(Model model) {
@@ -59,20 +62,27 @@ public class SpringExmapleController {
 }
 ```
 
-- `@Controller`
-    - 스프링이 자동으로 스프링 빈으로 등록할 수 있도록 함
-    - 내부에 `@Component` 애노테이션이 있어 컴포넌트 스캔의 대상
-    - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
-    - [RequestMappingHandlerMapping](handler-mapping-adapter)이 스프링 빈 중에서 `@Controller`가 붙은 클래스를 찾아 매핑 정보를 생성
-- `@RequestMapping`(=`@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`)
-    - 요청 정보를 매핑하여 해당 URL이 호출되면 애노테이션이 있는 메서드가 호출됨
-    - 애노테이션 기반으로 동작하기 때문에 임의의 이름으로 지어도 상관 없음
-- 반환 `String`
-    - 뷰의 논리 이름
-    - `ViewResolver`가 논리 이름을 실제 뷰 이름으로 변환하여 뷰를 찾음
-- `Model`
-    - 뷰에 전달할 데이터를 담는 객체
-    - `Model`에 데이터를 담으면 `Model`은 `Map`으로 변환되어 뷰에 전달됨
+### 주요 코드 및 흐름
+
+- `@Controller`: 해당 클래스를 스프링 컨테이너에 등록되는 웹 계층 컴포넌트로 인식. `HandlerMapping`이 이 애노테이션이 붙은 클래스를 핸들러로 탐색
+- `@RequestMapping`, `@GetMapping`: URI와 HTTP 메서드 조건을 기반으로 특정 메서드에 요청을 매핑. 이 매핑 정보는 `HandlerMapping`에서 사용됨
+- `Model`: 컨트롤러에서 데이터를 전달할 때 사용하는 객체로, 내부적으로 `ModelMap` 혹은 `ModelAndView`로 구성되어 뷰 렌더링 시 `ViewResolver`로 전달됨
+- 반환 `String`: 논리적 뷰 이름을 나타내며, `ViewResolver`가 이를 기반으로 실제 물리적 뷰 경로를 결정하여 렌더링 수행
+
+동작의 흐름은 다음과 같다.
+
+1. 클라이언트가 `/spring/example` 경로로 HTTP 요청을 전송
+2. 요청은 먼저 `Filter Chain`을 거치며, 등록된 `Filter`, `DelegatingFilterProxy`, `FilterChainProxy` 등이 보안, 로깅, CORS 등을 처리
+3. 필터 처리가 끝나면 요청은 `Servlet Container`에 의해 `DispatcherServlet`으로 전달
+4. `DispatcherServlet`은 `HandlerMapping`을 통해 해당 URI에 매핑된 컨트롤러(`SpringExampleController`)의 메서드를 탐색
+5. 매핑된 핸들러 정보를 바탕으로 `HandlerAdapter`가 실제 컨트롤러 메서드를 호출할 수 있도록 실행 로직을 위임
+6. 요청 전에는 필요한 경우 `Handler Interceptor`가 먼저 실행되어 인증, 로깅 등의 전처리를 수행
+7. 컨트롤러 메서드 내부에서 비즈니스 로직 수행
+8. `Model` 객체에 데이터 추가 (`Application Code` 영역에서 처리)
+9. 논리 뷰 이름 `"example"`을 반환
+10. `DispatcherServlet`은 반환된 논리 이름을 기반으로 `ViewResolver`를 통해 실제 JSP/HTML 뷰를 결정
+11. 뷰 렌더링 중 예외가 발생하면 `Handler Exception Resolver`가 적절한 예외 응답으로 변환
+12. 최종적으로 뷰가 렌더링되어 클라이언트에 응답 전송
 
 ###### 참고자료
 
