@@ -14,7 +14,7 @@ layout: editorial
     * [Dependency Injection](dependency-injection.md)
 * [Singleton](singleton.md)
 * [Servlet](servlet.md)
-* [Spring MVC](spring-mvc.md)
+* [Spring Web MVC](spring-web-mvc.md)
     * [DispatcherServlet](dispatcher-servlet.md)
     * [HandlerMapping & HandlerAdapter](handler-mapping-adapter.md)
     * [View Resolver](view-resolver.md)

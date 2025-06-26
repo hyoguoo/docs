@@ -254,7 +254,7 @@
   * [Servlet(서블릿)](spring/servlet.md)
   * [Singleton(싱글톤)](spring/singleton.md)
   * [Spring Boot(스프링 부트)](spring/spring-boot.md)
-  * [Spring MVC(Model View Controller)](spring/spring-mvc.md)
+  * [Spring Web MVC](spring/spring-web-mvc.md)
   * [Transactional](spring/transactional.md)
   * [Validation(검증)](spring/validator.md)
   * [View Resolver(뷰 리졸버)](spring/view-resolver.md)
