@@ -4,41 +4,41 @@ layout: editorial
 
 # Spring Web MVC
 
-> Spring에서 제공하는 웹 모듈로, Model / View / Controller 세 가지 구성요소를 사용해 HTTP 요청을 처리를 지원해주는 프레임워크
+> Spring Web MVC는 Spring Framework에서 제공하는 웹 애플리케이션 프레임워크
 
-## MVC 패턴 구조
+## Spring Web MVC 아키텍처의 핵심 구성 요소
 
-- Model: 애플리케이션 데이터
-- View: 모델을 사용자에게 표시
-- Controller: 모델 데이터를 조작
+![Spring Tomcat & Spring Container](image/spring-tomcat-and-spring-container.png)
 
-## 구성 요소
+Spring Web MVC는 다양한 컴포넌트가 협력하여 HTTP 요청을 처리하고 응답을 생성하는 구조로 구성된다.
 
-|       구성 요소       |                                    설명                                    |
-|:-----------------:|:------------------------------------------------------------------------:|
-| DispatcherServlet | 클라이언트의 요청을 전달받아, Controller에게 클라이언트의 요청을 전달하고, 리턴한 결과를 View에 전달하여 응답을 생성 |
-|  HandlerMapping   |              클라이언트의 요청 URL을 분석하여, 해당 요청을 처리할 Controller를 결정              |
-|  HandlerAdapter   |                   Controller를 처리할 수 있는 Adapter를 찾아 반환                    |
-|    Controller     |           클라이언트의 요청을 처리하고, 처리 결과를 DispatcherServlet에게 반환하는 객체            |
-|   ViewResolver    |                           처리 결과를 보여줄 View를 결정                            |
-|       View        |                                보여줄 응답을 생성                                |
+- Spring MVC는 보통 Tomcat 위에서 동작
+- Tomcat은 웹 서버와 서블릿 컨테이너 역할을 함께 수행하며, 요청을 받아 서블릿에 위임하고, 스레드 풀을 통해 처리
 
-이 중 [DispatcherServlet](dispatcher-servlet)이 가장 중요한 역할을 한다.
+Spring Web MVC는 크게 두 가지 구성으로 나뉜다.
 
-## Spring MVC Flow
+- Servlet Container
+    - Tomcat과 같은 WAS 내부에서 동작하며 Servlet의 생명주기를 관리하고 DispatcherServlet 실행 환경 제공
+    - 요청/응답 처리 및 스레드 관리 수행
+- Spring Container
+    - IoC/DI 기반으로 관리되는 Spring 프레임워크의 핵심 컨테이너
+    - 공통 Bean을 관리하는 Root Context와 Web 계층 Bean을 관리하는 Servlet Context로 구성
 
-![Spring MVC Flow(출처: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술)](image/spring-mvc-flow.png)
+### 구성 요소 및 역할
 
-| 순서 |         내용         |                              설명                              |
-|:--:|:------------------:|:------------------------------------------------------------:|
-| 1  |       핸들러 조회       |                핸들러 매핑을 통해 요청 URL에 매핑된 핸들러 조회                 |
-| 2  |     핸들러 어댑터 조회     |                   핸들러를 처리할 수 있는 핸들러 어댑터 조회                   |
-| 3  |     핸들러 어댑터 실행     |                          핸들러 어댑터 실행                          |
-| 4  | 핸들러 어댑터를 통해 핸들러 실행 |                      핸들러 어댑터를 통해 핸들러 실행                      |
-| 5  |  ModelAndView 반환   |          핸들러 어댑터는 핸들러의 반환 정보를 ModelAndView로 변환해서 반환          |
-| 6  |  뷰 리졸버를 통해서 뷰 찾기   |                       뷰 리졸버를 통해서 뷰를 찾음                       |
-| 7  |      View 반환       | 뷰 리졸버는 논리 뷰 이름을 물리 뷰 이름으로 변환해서 반환 후 렌더링 역할을 담항하는 View 객체를 반환 |
-| 8  |       뷰 렌더링        |             View 객체의 `render()` 메서드를 호출해서 뷰 렌더링              |
+|           구성 요소            |                        역할                         |
+|:--------------------------:|:-------------------------------------------------:|
+|        Filter Chain        | 인증 / 로깅 / CORS 등 공통 처리를 위한 Filter들이 체인 형태로 연결된 구조 |
+|           Filter           |      FilterChain에 연결되어 서블릿 요청 전후에 공통 작업을 수행       |
+|     DispatcherServlet      |    요청 수신 및 응답 반환 역할 수행하는 Spring MVC의 프론트 컨트롤러     |
+|      Handler Mapping       |          요청 URI를 기준으로 Controller 탐색 및 결정          |
+|    Handler Interceptor     |   Controller 전후로 실행되어 인증 / 로깅 / 전처리 / 후처리 등 수행    |
+|      Handler Adapter       |               요청을 처리할 수 있는 핸들러를 실행                |
+|         Controller         |            비즈니스 로직 수행 및 응답 데이터 혹은 뷰 반환            |
+| Handler Exception Resolver |     Controller에서 발생한 예외를 View 혹은 Response로 변환     |
+|      Application Code      |     사용자 정의 비즈니스 로직 코드(Service, Repository 등)      |
+|   DelegatingFilterProxy    | Spring Bean으로 등록된 Filter를 서블릿 필터 체인에 연결하기 위한 프록시  |
+|      FilterChainProxy      |       Spring Security가 내부적으로 사용하는 보안 필터 체인        |
 
 ## Spring MVC Code
 
