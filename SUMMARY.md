@@ -250,7 +250,6 @@
   * [Message Converter(메시지 컨버터)](spring/message-converter.md)
   * [Spring & OOP](spring/oop.md)
   * [Persistence Context(영속성 컨텍스트)](spring/persistence-context.md)
-  * [Project Setting(프로젝트 설정)](spring/project-setting.md)
   * [Servlet(서블릿)](spring/servlet.md)
   * [Singleton(싱글톤)](spring/singleton.md)
   * [Spring Boot(스프링 부트)](spring/spring-boot.md)

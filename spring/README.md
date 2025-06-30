@@ -5,7 +5,6 @@ layout: editorial
 # Spring
 
 * [Introduce](introduce.md)
-* [Project Setting](project-setting.md)
 * [Spring & OOP](oop.md)
 * Spring IoC Container & DI
     * [Container](container.md)
