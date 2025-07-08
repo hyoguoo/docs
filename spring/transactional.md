@@ -93,6 +93,7 @@ class Hello {
 
 @Transactional(isolation = Isolation.DEFAULT, readOnly = false)
 class Example {
+
 }
 ```
 
@@ -111,6 +112,7 @@ class Example {
 
 @Transactional(rollbackFor = Exception.class)
 class Example {
+
 }
 ```
 
@@ -157,19 +159,53 @@ isolation , timeout , readOnly 는 트랜잭션이 처음 시작될 때만 적�
 
 ![트랜잭션 요청/응답 흐름](image/transaction-propagation-flow.png)
 
-신규 트랜잭션이 아닌 경우에 커밋/롤백을 하게 되면 커넥션이 끝나버리기 때문에 실제로 커넥션을 가져온 매니저에서만 커밋/롤백을 수행하고,  
-신규 트랜잭션이 아닌 경우에는 실제로 하는 것이 아닌 논리적으로만 커밋/롤백을 수행하여 전체 트랜잭션 결과에 영향을 줄 수 있게 한다.
+- 내부 트랜잭션 실패로 외부 트랜잭션이 롤백되는 예시
 
-- 내부 트랜잭션 롤백 시 로그
+```java
+// 외부 트랜잭션
+@Service
+public class BatchRegistrationService {
 
-```shell
-Participating transaction failed - marking existing transaction as rollback-only
-Setting JDBC transaction [...] rollback-only
-...
-Global transaction is marked as rollback-only but transactional code requested commit
-Initiating transaction rollback
-Rolling back JDBC transaction on Connection [...]
+    private final MemberService memberService;
+
+    public BatchRegistrationService(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @Transactional
+    public void registerMultipleMembers() {
+        for (long point = 0; point < 5; point++) {
+            try {
+                memberService.registerMember(point);
+            } catch (Exception e) {
+                System.out.println("예외 발생: " + e.getMessage());
+            }
+        }
+    }
+}
+
+// 내부 트랜잭션
+@Service
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    @Transactional
+    public void registerMember(long point) {
+        if (point == 2L) {
+            throw new RuntimeException("포인트가 2인 회원은 등록할 수 없습니다.");
+        }
+        Member member = new Member(point);
+        memberRepository.save(member);
+    }
+}
 ```
+
+외부 트랜잭션에서 예외를 감싸서 외부 트랜잭션에서의 예외 발생을 방지했지만, 내부 트랜잭션에서 예외가 발생하여 롤백 마킹됐기 때문에 전체 트랜잭션이 롤백된다.
 
 ###### 참고자료
 
