@@ -237,7 +237,7 @@
   * [AOP(Aspect-Oriented Programming)](spring/aop.md)
   * [Beans(빈)](spring/beans.md)
   * [Component Scan(컴포넌트 스캔)](spring/component-scan.md)
-  * [Container(컨테이너)](spring/container.md)
+  * [Spring Container(스프링 컨테이너)](spring/spring-container.md)
   * [Dependency Injection(의존성 주입)](spring/dependency-injection.md)
   * [DispatcherServlet(디스패처 서블릿)](spring/dispatcher-servlet.md)
   * [Exception Handling(예외 처리)](spring/exception-handling.md)

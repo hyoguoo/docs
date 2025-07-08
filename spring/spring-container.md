@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Container(컨테이너)
+# Spring Container(컨테이너)
 
 스프링 컨테이너는 스프링에서 애플리케이션을 구성하는 여러 빈(Bean)들을 관리하는 공간을 말한다.  
 스프링 컨테이너를 언급할 때는 빈 팩토리(`Bean Factory`)와 애플리케이션 컨텍스트(`Application Context`) 크게 두 가지로 나눌 수 있다.
