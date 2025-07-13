@@ -116,15 +116,16 @@ RENAME TABLE rank TO rank_backup, rank_new TO rank;
 
 ### 응용 - 테이블 구조 변경
 
-만약 서비스 유지 중 테이블 구조를 변경해야하는 상황이라면 아래와 같이 할 수 있다.
+MySQL에서는 Online DDL 기능을 제공하지만, 테이블 크기가 크거나 인덱스 재구성이 필요한 경우 상당한 시간이 소요될 수 있다.  
+이런 경우에는 신규 테이블을 생성하고 데이터를 점진적으로 복사한 후, 최종적으로 `RENAME TABLE` 명령으로 교체하는 방식이 효과적이다.
 
 1. 새로운 구조의 테이블 생성
-2. 최근(1시간 직전 또는 하루 전)까지의 데이터를 Primary Key인 id 값을 범위별로 나눠서 여러 개의 스레드로 복사
-3. 트랜잭션을 auto commit으로 설정
-4. 작업 대상 테이블에 대해 테이블 락을 설정
-5. 기존 테이블의 데이터를 새로운 테이블로 복사
-6. 모든 데이터 복사 완료 후 테이블 이름 변경
-7. 테이블 쓰기 락 해제 및 테이블 삭제
+2. 과거 데이터부터 Primary Key 기준 범위별로 복사
+3. `autocommit = 0` 설정
+4. 대상 테이블들에 WRITE 락 설정
+5. 최근 데이터 복사 및 COMMIT
+6. 테이블 이름 교체 (RENAME)
+7. 락 해제 및 기존 테이블 삭제
 
 ```sql
 -- 1. 새로운 구조의 테이블 생성
@@ -136,7 +137,7 @@ CREATE TABLE access_log_new
     PRIMARY KEY (id)
 )
 
--- 2. 최근(1시간 직전 또는 하루 전) 데이터까지는 Primary Key인 id 값을 범위별로 나눠서 여러 개의 스레드로 복사
+-- 2. 최근(1시간 직전 또는 하루 전) 데이터까지는 Primary Key인 id 값을 범위별로 나눠서 복사
 INSERT INTO access_log_new
 SELECT *
 FROM access_log_new
@@ -176,6 +177,25 @@ UNLOCK TABLES;
 DROP TABLE access_log_old;
 ```
 
+### 운영 중 테이블 교체 시 MDL 주의사항
+
+운영 중 `RENAME TABLE`을 사용해 신규 테이블로 교체하는 전략을 고려할 수 있지만, 메타데이터 락(MDL)에 대한 이해가 반드시 필요하다.  
+MySQL에서는 트랜잭션 내 SELECT 쿼리조차도 해당 테이블에 대해 메타데이터 락을 획득하게 되고, 트랜잭션이 종료될 때까지 유지된다.
+
+```sql
+-- 세션 1
+START TRANSACTION;
+SELECT * FROM users;
+-- 트랜잭션 종료 전까지 users 테이블에 대한 MDL 유지
+
+-- 세션 2
+RENAME TABLE users TO users_backup, users_new TO users;
+-- 세션 1 종료 전까지 대기
+```
+
+이러한 특성으로 인해 운영 중 테이블 교체 작업을 수행할 때는, 트랜잭션 상태나 백그라운드 쿼리 유무를 사전에 점검하고, RENAME 시도 시 블로킹 가능성을 반드시 고려해야 한다.
+
 ###### 참고자료
 
 - [Real MySQL 8.0 (1권)](https://kobic.net/book/bookInfo/view.do?isbn=9791158392703)
+- [MySQL 공식 문서 - Metadata Locking](https://dev.mysql.com/doc/refman/8.0/en/metadata-locking.html)
