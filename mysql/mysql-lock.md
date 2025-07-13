@@ -154,7 +154,7 @@ FROM access_log_new
 WHERE id BETWEEN 2000001 AND 3000000;
 -- ...
 
--- 3. 트랜잭션을 auto commit으로 설정
+-- 3. 트랜잭션을 auto commit으로 설정(START TRANSACTION과 테이블 락은 호환되지 않아 autocommit을 0으로 설정)
 SET autocommit = 0;
 
 -- 4. 작업 대상 테이블 2개에 대해 테이블 쓰기 락 설정
