@@ -102,9 +102,52 @@ gpg --armor --export A***************
 ...
 -----END PGP PUBLIC KEY BLOCK-----
 ```
+
 위의 명령어를 실행해 GPG Key 확인하면 출력되는 내용(BEGIN ~ END까지)을 복사 후  
 `GitHub - Settings - SSH and GPG keys - New GPG key` 에서 복사한 내용을 붙여넣기 후 등록
 
-## 커밋
+## 커밋 확인
 
 최초 커밋 시 위에서 설정한 비밀번호 입력하면 `Verified Commit`이 된다.
+
+## 사용 중 커밋 에러가 발생하는 경우
+
+커밋 시 아래와 같은 GPG 서명 에러가 발생할 수 있다.
+
+```
+error: gpg failed to sign the data:
+gpg: signing failed: Bad CA certificate
+fatal: 커밋 오브젝트를 쓰는데 실패했습니다
+```
+
+이는 GPG 키에 대한 신뢰(trust) 설정이나 pinentry 설정이 제대로 되어 있지 않은 경우 발생할 수 있는데, 아래 단계를 통해 문제를 해결할 수 있다.
+
+### 1. GPG 키 확인 및 git에 등록된 키 일치 여부 확인
+
+```shell
+gpg --list-secret-keys --keyid-format LONG
+git config --global user.signingkey A***************
+```
+
+### 2. 해당 키에 대한 신뢰 수준을 `ultimate`로 수동 설정
+
+```shell
+gpg --edit-key A***************
+```
+
+프롬프트에서 다음과 같이 입력
+
+```
+trust
+5
+```
+
+### 3. pinentry 경로 확인 및 gpg-agent 설정 파일에 반영
+
+```shell
+which pinentry-mac
+echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
+killall gpg-agent
+```
+
+위의 절차를 모두 수행한 뒤 다시 커밋을 시도하면 다시 정상적으로 `Verified` 커밋이 가능해진다.
