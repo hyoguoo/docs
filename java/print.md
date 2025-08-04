@@ -4,9 +4,11 @@ layout: editorial
 
 # Print(출력)
 
-> 프로그램의 결과를 화면이나 파일로 보내는 것
+`System.out.println()`과 `printf()`는 자바에서 간편하게 콘솔에 데이터를 출력하는 방법이다.
 
-## printf
+- [System.out.println()의 동작 원리와 성능 이슈](https://hyoguoo.gitbook.io/tech-log/posts/java-print-performance)
+
+## printf 지시자
 
 `printf`는 지시자(specifier)를 통해 변수의 값을 여러 가지 형식으로 변환하여 출력하는 기능을 가지고 있다.
 
