@@ -131,7 +131,6 @@
     * [Item 90. Serialization Proxy Pattern](java/effective-java/item90.md)
 * [Large Scale System](large-scale-system/README.md)
   * [Basic](large-scale-system/basic.md)
-  * [CAP](large-scale-system/cap.md)
   * [Design Rate Limiter](large-scale-system/design-rate-limiter.md)
   * [Design Consistent Hashing](large-scale-system/design-consistent-hashing.md)
   * [Design Key-Value Store](large-scale-system/design-key-value-store.md)

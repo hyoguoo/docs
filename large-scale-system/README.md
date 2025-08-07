@@ -5,7 +5,6 @@ layout: editorial
 # Large Scale System
 
 * [Basic](basic.md)
-* [CAP](cap.md)
 * [Design Rate Limiter](design-rate-limiter.md)
 * [Design Consistent Hashing](design-consistent-hashing.md)
 * [Design Key-Value Store](design-key-value-store.md)
