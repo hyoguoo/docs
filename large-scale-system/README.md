@@ -6,7 +6,6 @@ layout: editorial
 
 모든 문서들은 [가상 면접 사례로 배우는 대규모 시스템 설계 기초](https://kobic.net/book/bookInfo/view.do?isbn=9788966263158) 책을 읽고 정리한 내용입니다.
 
-
 |           목차            |                                                     제목                                                      |
 |:-----------------------:|:-----------------------------------------------------------------------------------------------------------:|
 |    사용자 수에 따른 규모 확장성     |                                              [Basic](basic.md)                                              |
@@ -31,4 +30,5 @@ layout: editorial
 |        호텔 예약 시스템        |                    [Design Hotel Reservation System](design-hotel-reservation-system.md)                    |
 |       분산 이메일 서비스        |                    [Design Distributed Mail Service](design-distributed-mail-service.md)                    |
 |     S3와 유사한 객체 저장소      |                        [Design Object Storage System](design-object-storage-system)                         |
+|       실시간 게임 순위표        |                  [Design Real-time Game Leaderboard](design-real-time-game-leaderboard.md)                  |
 |         결제 시스템          |                              [Design Payment System](design-payment-system.md)                              |
