@@ -4,10 +4,14 @@ layout: editorial
 
 # Redis
 
-* [Basic](basic.md)
-* [Data Structure](data-structure.md)
-* [Key Management](key-management.md)
-* [Data Structure Use Case](data-structure-use-case.md)
-* [Cache](cache.md)
-* [Data Backup](data-backup.md)
-* [Message Broker](message-broker.md)
+* Basic
+    * [Basic](basic.md)
+    * [Data Structure](data-structure.md)
+    * [Key Management](key-management.md)
+* Use Cases
+    * [Data Structure Use Case](data-structure-use-case.md)
+    * [Cache](cache.md)
+    * [Message Broker](message-broker.md)
+* Operations
+    * [Data Backup](data-backup.md)
+    * [Sentinel](sentinel.md)
