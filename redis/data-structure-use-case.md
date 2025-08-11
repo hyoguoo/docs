@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Data Structure Use Case(자료구조 활용 사례)
+# Data Structure Use Case
 
 ## Sorted Set - 실시간 리더보드
 
