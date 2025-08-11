@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Data Structure Use Case
+# Data Structure Use Case(자료 구조 활용 사례)
 
 레디스는 다양한 자료구조를 제공하여, 특정 요구사항에 맞는 자료구조를 선택하여 사용할 수 있다.
 
