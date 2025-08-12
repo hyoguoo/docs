@@ -15,3 +15,4 @@ layout: editorial
 * Operations
     * [Data Backup](data-backup.md)
     * [Sentinel](sentinel.md)
+    * [Cluster](cluster.md)

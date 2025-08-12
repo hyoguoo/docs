@@ -266,6 +266,7 @@
   * [Data Backup(데이터 백업)](redis/data-backup.md)
   * [Message Broker(메시지 브로커)](redis/message-broker.md)
   * [Sentinel(센티널)](redis/sentinel.md)
+  * [Cluster(클러스터)](redis/cluster.md)
 * [Test](test/README.md)
   * [Testing Basic(테스트 기초)](test/testing-basic.md)
   * [Test Guide(테스트 가이드)](test/test-guide.md)
