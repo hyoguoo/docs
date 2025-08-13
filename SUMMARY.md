@@ -154,6 +154,7 @@
   * [Design Object Storage System](large-scale-system/design-object-storage-system)
   * [Design Payment System](large-scale-system/design-payment-system.md)
   * [Design Real-time Game Leaderboard](large-scale-system/design-real-time-game-leaderboard.md)
+  * [Design E-Wallet](large-scale-system/design-e-wallet.md)
 * [MySQL](mysql/README.md)
   * [Analyze Execution Plan(실행 계획 분석)](mysql/analyze-execution-plan.md)
   * [Architecture(아키텍처)](mysql/architecture.md)
