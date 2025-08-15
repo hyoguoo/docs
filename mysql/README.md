@@ -7,6 +7,7 @@ layout: editorial
 버전이나 스토리지 엔진이 명시되지 않은 경우 MySQL 8.0 / InnoDB 스토리지 엔진을 기준으로 합니다.
 
 * [Architecture](architecture.md)
+* [Query Processing](query-processing.md)
 * [Transaction](transaction.md)
 * Lock
     * [MySQL Engine Lock](mysql-lock.md)
