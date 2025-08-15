@@ -37,4 +37,7 @@ layout: editorial
     * [Number](number.md)
     * [Date Time](date-time.md)
     * [enum](enum.md)
-* [Replication](replication.md)
+* Advanced
+    * [Index Condition Pushdown](index-condition-pushdown.md)
+* Operations
+    * [Replication](replication.md)
