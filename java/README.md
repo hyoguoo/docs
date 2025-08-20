@@ -34,6 +34,7 @@ layout: editorial
     * [Volatile](volatile.md)
     * [CAS](cas.md)
     * [Thread](thread.md)
+    * [Monitor](monitor.md)
     * [Synchronization](synchronization.md)
 * Advanced
     * [Varargs](varargs.md)

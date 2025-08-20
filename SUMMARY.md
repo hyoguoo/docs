@@ -38,6 +38,7 @@
   * [Variable(변수)](java/variable.md)
   * [Volatile](java/volatile.md)
   * [Wrapper class](java/wrapper-class.md)
+  * [Monitor(모니터)](java/monitor.md)
   * [Effective Java](java/effective-java/README.md)
     * [Item 1. Static Factory Method](java/effective-java/item1.md)
     * [Item 10. equals](java/effective-java/item10.md)
