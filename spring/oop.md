@@ -4,83 +4,157 @@ layout: editorial
 
 # Spring & OOP
 
-- 객체 지향 프로그래밍은 컴퓨터 프로그램을 명령어의 목록으로 보는 시각에서 벗어나 여러 개의 독립된 단위, 즉 "객체"들의 모임으로 파악하고자 하는 것이다. 각각의 객체는 메시지를 주고받고, 데이터를 처리할 수
-  있다.
-- 객체 지향 프로그래밍은 프로그램을 유연하고 변경이 용이하게 만들기 때문에 대규모 소프트웨어 개발에 많이 사용된다.
+스프링은 객체지향 설계를 가능하게 만드는 인프라를 제공한다.
 
-## 객체 지향 특징(다형성)
+- IoC(Inversion of Control) / DI(Dependency Injection)
+- AOP(Aspect Oriented Programming)
+- PSA(Portable Service Abstraction)
+- 이벤트(Event)
 
-객체 지향엔 추상화 / 캡슐화 / 상속 / 다형성이라는 특징이 있는데 스프링은 다형성 특징을 살리기 좋은 프레임워크다.
+위와 같은 기술로 작성하는 코드는 비즈니스 규칙에 집중하고, 기술 · 부가기능은 프레임워크에 위임하는 구조를 만든다.
 
-### 다형성
+## IoC/DI - 추상화와 의존성 주입
 
-다형성은 `역할`과 `구현`으로 구분하여 실세계와 비유해볼 수 있다. 예를 들어 운전자 - 자동차라는 관계가 있고, 자동차 역할은 K3/아반떼/테슬라 등으로 구현할 수 있다.  
-사용자는 자동차의 인터페이스를 알고 있고, 위의 자동차들은 자동차 인터페이스를 통해 만들어졌기 때문에 문제 없이 작동할 수 있다. -> 클라이언트에게 영향을 주지 않고 새로운 기능을 추가적으로 개발할 수 있다.
+구현 대신 인터페이스에 의존하도록 설계하고, 스프링 컨테이너가 의존성을 주입한다. 이를 통해 구현 교체가 용이해지고, 코드의 결합도를 낮출 수 있다.
 
-### 역할과 구현 분리
-
-- 역할과 구현으로 구분하면 단순해지고, 유연해지며 변경도 편리해진다.
-- 장점
-    - 대상의 인터페이스만 알면 된다.
-    - 대상의 내부 구조를 몰라도 된다.
-    - 대상의 내부 구조가 변경되어도 영향을 받지 않는다.
-    - 대상 자체를 변경해도 영향을 받지 않는다.
-
-### 자바에서의 역할과 구현 분리
-
-- 자바 언어의 다형성을 활용
-    - 역할 -> 인터페이스
-    - 구현 -> 인터페이스를 구현한 클래스, 구현 객체
-- 객체를 설계할 때 역할과 구현을 명확히 분리하여, 역할(인터페이스)를 먼저 부여하고 구현 객체 만들기
-
-### 자바 언어의 다형성
-
-자바 기본 문법인 `오버라이딩`으로 다형성을 구현할 수 있다.  
-다형성으로 인터페이스를 구현한 객체를 실행 시점에 유연하게 변경할 수 있으며, 클래스 상속 관계에서도 적용 가능하다.
+- 객체는 인터페이스에 의존하고 구현 주입은 컨테이너가 담당
+- 프로파일/설정만 바꿔 구현을 교체할 수 있어 테스트 · 배포 환경 분리 용이
 
 ```java
-public interface MemberRepository {
-    // ...
+public interface PaymentGateway {
+
+    void authorize(String orderId, long amount);
 }
 
-public class JdbcMemberRepository implements MemberRepository {
-    // ...
+@Service
+class TossPaymentsGateway implements PaymentGateway {
+
+    public void authorize(String orderId, long amount) { /* ... */ }
 }
 
-public class MemoryMemberRepository implements MemberRepository {
-    // ...
+@Primary
+@Service
+class KakaoPayGateway implements PaymentGateway {
+
+    public void authorize(String orderId, long amount) { /* ... */ }
 }
 
-public class MemberService {
-    //    private MemberRepository memberRepository = new MemoryMemberRepository();
-    private MemberRepository memberRepository = new JdbcMemberRepository();
+@Service
+class PaymentService {
+
+    private final PaymentGateway gateway;
+
+    public PaymentService(@Qualifier("tossPaymentsGateway") PaymentGateway gateway) {
+        this.gateway = gateway;
+    }
 }
 ```
 
-### 다형성의 본질
+## AOP - 관심사 분리
 
-- 인터페이스를 구현한 객체 인스턴스를 실행 시점에 유연하게 변경할 수 있다.
-- 다형성의 본질을 이해하려면 협력이라는 객체사이의 관계에서 시작해야함
-- 클라이언트를 변경하지 않고, 서버의 구현 기능을 유연하게 변경할 수 있다.
+로깅, 보안 같은 횡단 관심사를 비즈니스 로직에서 분리하여 관리할 수 있다. 스프링 트랜잭션의 `@Transactional` 어노테이션도 AOP 기반으로 동작한다.
 
-### 역할과 구현 분리의 한계
+- 로깅 · 보안 · 트랜잭션 같은 횡단 관심사를 애스펙트로 분리
+- 프록시 기반으로 메서드 경계에서 정책을 일괄 적용하되, 남용 시 흐름 추적이 어려워지므로 범위를 명확히 관리
 
-- 인터페이스 자체가 변경될 경우 클라이언트/서버 모두 큰 변경이 발생
-- 인터페이스를 안정적으로 잘 설계하는 것이 가장 중요
+```java
 
-### 스프링과 객체 지향
+@Aspect
+@Component
+class LoggingAspect {
 
-- 다형성은 객체 지향의 가장 큰 특징
-- 스프링은 다형성을 극대화시키기 좋은 프레임워크
-- 제어의 역전(IoC) / 의존관계 주입(DI)은 다형성을 활용해 역할과 구현을 편리하게 다룰 수 있도록 지원
+    @Around("execution(* com.example..*Service.*(..))")
+    public Object around(org.aspectj.lang.ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.nanoTime();
+        try {
+            return pjp.proceed();
+        } finally {
+            long elapsed = System.nanoTime() - start;
+        }
+    }
+}
+```
 
-## 정리
+## PSA(Portable Service Abstraction) - 일관된 서비스 추상화
 
-객체 지향의 핵심은 다형성이지만, 다형성 하나 만으로는 객체 지향 설계의 원칙을 지킬 수 없으며, 변경 용이성도 매우 떨어지게 된다.  
-스프링은 DI 컨테이너를 제공하여 다형성 + OCP/DIP를 가능하게 지원해준다.  
-모든 설계에 인터페이스를 부여하는 것이 이상적이지만, 추상화라는 비용(구현체를 봐야하는)이 발생한다.  
-그래서 기능 확장 가능성이 없는 경우엔 구체 클래스를 직접 사용하고, 필요할 때 도입하는 겻도 나쁘지 않은 방법이다.
+스프링이 제공하는 일관된 서비스 추상화로, 애플리케이션 코드는 공통 인터페이스(또는 애노테이션)에 의존하고 실제 구현(라이브러리/벤더)은 빈 구성으로 교체할 수 있게 한다.
 
-###### 참고자료
+- 공통 인터페이스/애노테이션에 의존하고 실제 구현은 빈 구성으로 교체
+- 캐시 · 트랜잭션·메시징 등 인프라를 환경에 맞게 바꿔도 비즈니스 코드는 그대로 유지됨
 
-- [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/스프링-핵심-원리-기본편)
+```java
+
+@Service
+class ProductService {
+
+    @Cacheable(cacheNames = "productById", key = "#productId")
+    public Product getProduct(long productId) {
+        // DB 조회 등 비용 큰 연산
+        return findFromDb(productId);
+    }
+}
+```
+
+```java
+// 개발 환경 - Caffeine
+@Configuration
+@EnableCaching
+class CacheConfigDev {
+
+    @Bean
+    CacheManager cacheManager() {
+        return new org.springframework.cache.caffeine.CaffeineCacheManager("productById");
+    }
+}
+
+// 운영 환경 - Redis
+
+@Configuration
+@EnableCaching
+class CacheConfigProd {
+
+    @Bean
+    CacheManager cacheManager(RedisConnectionFactory cf) {
+        return RedisCacheManager.builder(cf).build();
+    }
+}
+```
+
+## 이벤트 - 모듈 간 결합도 감소
+
+이벤트는 한 모듈의 메시지를 발행하고, 다른 모듈이 후처리를 구독하게 해 관심사를 분리하고 결합도를 낮출 수 있다.
+
+- 이벤트 발행하고 관심 모듈이 구독하도록 설계해 런타임 결합도를 낮춤
+- `AFTER_COMMIT`과 비동기 리스너로 후처리를 격리하고, Outbox · 멱등 처리로 유실과 중복을 방지 가능
+
+```java
+public record OrderPlaced(String orderId, long amount) {
+
+}
+
+@Service
+@RequiredArgsConstructor
+class OrderService {
+
+    private final ApplicationEventPublisher events;
+
+    @Transactional
+    public void placeOrder(String orderId, long amount) {
+        // 주문 저장 등 핵심 로직
+        // ...
+        // 후처리는 이벤트로 알림
+        events.publishEvent(new OrderPlaced(orderId, amount));
+    }
+}
+
+@Component
+class IssueCouponOnOrderPlaced {
+
+    // 커밋 이후 실행: DB 일관성 확보 후 외부 연동/부가작업 수행
+    // @Aync 을 붙이면 비동기 실행
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void handle(OrderPlaced event) {
+        // 쿠폰 발급, 알림 발송 등
+    }
+}
+```
