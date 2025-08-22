@@ -4,52 +4,49 @@ layout: editorial
 
 # Beans(빈)
 
-> 스프링 빈(Bean) : 스프링 컨테이너에 의해 생성 및 관리하는 자바 객체
+> 스프링 빈(Bean) : 스프링 컨테이너가 생성하고 생명주기를 관리하는 자바 객체
 
-Bean은 스프링을 구성하는 핵심요소로, 아래의 구성 요소를 가지고 있다.
+Bean은 스프링을 구성하는 핵심 요소로, 빈 정의 메타데이터(BeanDefinition)로 등록되고 컨테이너는 해당 정의에 따라 객체를 생성, 의존성 주입, 초기화, 소멸까지 관리한다.
 
-1. class(클래스): Bean으로 등록할 Java 클래스
+## 핵심 구성 요소
+
+1. class
+    - 빈으로 등록할 Java 클래스
     - 스프링 컨테이너에 의해 객체로 생성 및 관리되어 클래스의 인스턴스를 Bean으로 사용
-    - 이후 필요한 곳에서 해당 Bean을 주입하여 사용
-2. id(고유 식별자): 각 Bean의 고유한 식별자
-    - 스프링 컨테이너에서 각 Bean을 식별 및 조회할 때 사용
-3. scope(범위): 해당 Bean이 유효 범위 정책 정의
-    - Singleton / Prototype / Request / Session / Global Session 존재(기본값: Singleton)
-4. constructor arguments(생성자 인자): Bean을 생성할 때 생성자에 전달할 인자들을 정의
+2. id
+    - 컨테이너에서 빈을 식별하기 위한 고유 식별자
+    - 클래스명을 decapitalize한 이름을 기본으로 부여하며, 명시적으로 지정 가능
+3. scope
+    - 빈 인스턴스의 생존 범위 정의
+    - 기본값 singleton
+4. constructor-arguments
+    - Bean을 생성할 때 생성자에 전달할 인자들을 정의
     - Bean을 초기화하는 데 사용
-    - 정의된 생성자에 대응하는 값을 넣어 Bean을 생성할 때 사용
-5. property(속성): Bean을 생성할 때 setter를 통해 전달할 인자들을 정의
+5. property
+    - Bean을 생성할 때 setter를 통해 전달할 인자들을 정의
+6. 기타 메타데이터
+    - initMethod, destroyMethod, lazyInit, primary, autowireCandidate, dependsOn, description 등
 
-## 스프링 빈 등록
+## 스프링 빈 등록 방법
 
-스프링 빈을 등록할 때 현재 주로 사용되는 방법은 크게 2가지로, 컴포넌트 스캔을 통한 등록과 `@Bean` / `@Configuration`을 통한 등록이 있다.
+### 1. 컴포넌트 스캔
 
-### 1. 컴포넌트 스캔을 통한 등록
+컴포넌트 스캔으로 어노테이션이 부여된 클래스를 자동 탐지하여 빈으로 등록한다.
 
-`@Component` Annotation이 있을 경우 스프링 빈으로 자동 등록하는 방법으로 주로 사용되는 방법이다.
+- 사용 어노테이션: `@Component` 와 특화 어노테이션(`@Controller`, `@Service`, `@Repository`, 등)
+- 탐색 범위: `@ComponentScan` 의 `basePackages`, `basePackageClasses`, `includeFilters`, `excludeFilters`로 제어
+- 이름 규칙: 기본은 클래스명 decapitalize. @Component("customName")로 지정 가능
 
-- 클래스에 `@Component`(`@Controller` / `@Service` ... etc) 선언
-- 생성자에 `@Autowired` 선언
+의존성 주입은 방법으론 여러 가지가 있는데, 그 중 생성자 주입 방법을 권장하고 있다.(단일 생성자일 경우 @Autowired 생략 가능)
 
 ```java
-
-@Controller
-public class MemberController {
-
-    private final MemberService memberService;
-
-    @Autowired
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-}
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
+    @Autowired // 생략 가능
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -62,17 +59,9 @@ public class MemoryMemberRepository implements MemberRepository {
 }
 ```
 
-선언을 하여 등록해두면, 애플리케이션이 실행되어 객체 생성 시점에 스프링이 서비스 객체를 연결하기 위해 연관된 객체를 스프링 컨테이너에서 찾아 의존성 주입을 수행한다.
+### 2. 자바 설정(@Configuration + @Bean)
 
-```
-MemberController -> MemberService -> MemeberRepository
-```
-
-의존성 주입이 완료된 후에는 위와 같이 의존성 관계가 형성된다.
-
-### 2. @Bean / @Configuration을 통한 등록
-
-정형화 되지 않은 코드거나, 상황에 따라 구현 클래스를 변경해야하는 경우 사용하는 방법으로, `@Configuration` 클래스와 `@Bean`을 통해 직접 등록하는 방법이다.
+정형화 되지 않은 코드거나, 상황에 따라 구현 클래스를 변경해야하는 경우 사용한다.
 
 ```java
 
@@ -91,7 +80,11 @@ public class SpringConfig {
 }
 ```
 
-결과는 1번의 컴포넌트 스캔을 통한 등록과 동일하게 동작한다.
+`@Configuration`에 두 가지 속성이 존재하는데, 각 역할은 다음과 같다.
+
+- `value`: `@Configuration` 선언된 클래스의 이름을 지정
+- `proxyBeanMethods`: 스프링이 관리하는 빈을 참조할 때 프록시를 사용하여 싱글톤 보장(기본값 `true`)
+    - 직접 생성한 객체를 사용하는 것이 아닌, `CGLIB`에 의해 생성된 프록시 객체를 사용하여 싱글톤 보장
 
 ## 빈 생명주기
 
@@ -114,8 +107,7 @@ public class SpringConfig {
 
 ### 빈 생명주기(초기화/소멸) 콜백
 
-위의 생명 주기 3, 5번에서 볼 수 있듯이, 시작 및 종료 시점에 추가적인 콜백 작업을 수행할 수 있다.  
-시작 및 종료 시점에 추가적인 작업을 수행하기 위해 스프링은 크게 3가지 방법을 제공한다.(실행되는 순서는 아래 번호 순서대로 실행된다.)
+빈은 시작 및 종료 시점에 추가적인 콜백 작업을 수행할 수 있으며, 아래 세 가지 방법을 제공한다.(실행되는 순서는 아래 번호 순서대로 실행)
 
 #### 1. @PostConstruct, @PreDestroy 애노테이션
 
