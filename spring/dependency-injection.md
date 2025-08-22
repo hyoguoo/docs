@@ -6,20 +6,24 @@ layout: editorial
 
 > 객체 간 의존성을 자신이 아닌 외부에서 두 객체 간의 관계를 결정해주는 디자인 패턴
 
-스프링에선 의존성 주입을 여러가지 방법으로 주입할 수 있는데, 각 방법마다 장/단점이 존재한다.  
-현재는 대부분 생성자 주입을 사용하며, 이 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있다.
+스프링에선 의존성 주입을 여러가지 방법으로 주입할 수 있는데, 현재는 대부분 생성자 주입을 사용하며, 이 방법으로 의존성을 주입했을 경우 아래의 장점을 얻을 수 있다.
 
 - Test 용이
 - 코드 재사용성 증가
 - 객체 간 의존성 감소
 - 객체 간 결합도를 낮춰 유연한 코드 작성
 
+핵심은 DI를 통해 제어의 역전을 실현하고, 객체 간의 관계를 명확하게 정의하여 코드의 유연성과 테스트 용이성을 높이는 것이다.
+
 ## 의존성 주입이 필요한 이유
 
-- 기존 코드
+### 기존 코드
+
+아래 예시에서는 `MessageSender` 클래스가 `EmailService` 클래스에 의존하기 때문에 EmailService 클래스의 구현체가 변경되면 MessageSender 클래스도 변경되어야 한다.
 
 ```java
 public class MessageSender {
+
     private EmailService emailService; // 구체적인 구현체에 의존
 
     public MessageSender() {
@@ -32,17 +36,20 @@ public class MessageSender {
 }
 ```
 
-위 예시에서는 `MessageSender` 클래스가 `EmailService` 클래스에 의존하기 때문에 EmailService 클래스의 구현체가 변경되면 MessageSender 클래스도 변경되어야 한다.  
 결국 객체들 간의 관계가 아닌 클래스 간의 관계가 형성되어 유연한 코드 작성이 어렵게 된다.
 
-- 의존성 주입을 이용한 코드
+### 의존성 주입을 이용한 코드
+
+아래 예시에서는 `MessageSender` 클래스가 `MessageService` 인터페이스(역할)에 의존하게 된다.
 
 ```java
 public interface MessageService {
+
     void sendMessage(String message);
 }
 
 public class EmailService implements MessageService {
+
     @Override
     public void sendMessage(String message) {
         System.out.println("Sending email: " + message);
@@ -51,6 +58,7 @@ public class EmailService implements MessageService {
 }
 
 public class MessageSender {
+
     private MessageService messageService; // 인터페이스에 의존
 
     public MessageSender(MessageService messageService) {
@@ -63,21 +71,19 @@ public class MessageSender {
 }
 ```
 
-위 예시에서는 `MessageSender` 클래스가 `MessageService` 인터페이스(역할)에 의존하게 된다.  
 이렇게 되면 `MessageService` 인터페이스를 구현한 클래스가 변경되어도 `MessageSender` 클래스는 변경하지 않아도 된다.
 
 ## DI 3가지 방법(Spring)
 
-스프링 프레임워크에서는 여러 방법으로 의존성을 주입할 수 있으며, 그 중에서 생성자 주입을 가장 많이 사용한다.
+스프링 프레임워크에서는 여러 방법으로 의존성을 주입할 수 있다.
 
-### 1. 생성자 주입
-
-생성자를 통해서 의존 관계를 주입 받는 방법으로, 대부분 이 방법을 사용한다.
+### 1. 생성자 주입(가장 권장되는 방법)
 
 ```java
 
 @Controller
 public class MemberController {
+
     private final MemberService memberService;
 
     // @Autowired // 생략가능
@@ -93,12 +99,11 @@ public class MemberController {
 
 ### 2. Field 주입
 
-필드에 바로 주입하는 방법으로, 과거에 많이 사용되었으나 최근에는 권장하지 않는 방법이다.
-
 ```java
 
 @Controller
 public class MemberController {
+
     @Autowired
     private MemberService memberService;
 }
@@ -110,12 +115,11 @@ public class MemberController {
 
 ### 3. 수정자 주입(Setter Injection)
 
-Setter 메서드에 `@Autowired` Annotation을 붙이는 방법으로, `Setter` 메서드를 통해 의존성을 주입하는 방법이다.
-
 ```java
 
 @Controller
 public class MemberController {
+
     private MemberService memberService;
 
     @Autowired
@@ -126,16 +130,15 @@ public class MemberController {
 ```
 
 - 선택/변경 가능성이 있는 의존관계에서 사용
-- 결국 `Setter`를 `public`으로 열어두어야 하기 때문에 실행 중에 의존 관계가 변경 될 가능성 존재하여 위험
+- 결국 `Setter`를 `public`으로 열어두어야 하기 때문에 실행 중에 의존 관계가 변경 가능성이 있어 위험
 
 ### 4. 일반 메서드 주입
-
-일반 메서드를 통해 주입하는 방법으로, 거의 사용되지 않는 방법이다.
 
 ```java
 
 @Controller
 public class MemberController {
+
     private MemberService memberService;
 
     @Autowired
@@ -146,14 +149,14 @@ public class MemberController {
 ```
 
 - 한 번에 여러 필드를 주입 받을 수 있음
-- 일반적으로 잘 사용하지 않음
+- 일반적으로 잘 사용하지 않으며, 의존 관계 변경 가능성이 있어 위험
 
 ## 생성자 주입을 사용하는 이유
 
 기본적으로 `Spring Framework`에서 권장하는 방법은 1번의 `생성자 주입`이며, 그 이유는 다음과 같다.
 
-- 대부분 의존관계 주입은 한 번 일어나면 애플리케이션 종료 시점까지 변경할 일이 없으며 변하면 안 된다.(불변성)
-- 3번의 `Setter`방식은 실행 중 의존성이 변경되는 위험한 가능성이 있다.
+- 대부분 의존관계 주입은 한 번 일어나면 애플리케이션 종료 시점까지 변경할 일이 없음
+- 3번의 `Setter`방식은 실행 중 의존성이 변경되는 위험성 존재
 
 ### 1. 순환 참조 방지
 
@@ -163,6 +166,7 @@ public class MemberController {
 
 @Service
 public class AService {
+
     @Autowired
     private BService bService;
 
@@ -173,6 +177,7 @@ public class AService {
 
 @Service
 public class BService {
+
     @Autowired
     private AService bService;
 
@@ -190,17 +195,14 @@ public class BService {
 
 ### 2. 불변성
 
-생성자로 의존성을 주입할 경우 `final`로 선언할 수 있어, 런타임 도중에 의존성을 주입 받는 객체의 불변성을 보장해준다.(OOP 5가지 원칙 중, 개방-폐쇄 원칙)
+생성자로 의존성을 주입할 경우 `final`로 선언할 수 있어, 런타임 도중에 의존성을 주입 받는 객체의 불변성을 보장해준다.
 
 ### 3. 테스트 용이
 
-테스트가 특정 프레임워크(Spring)에 의존하는 것보다는 순수 자바 코드로 테스트를 작성하는 것이 가장 좋다.  
-생성자 주입이 아닌 다른 주입 방법을 사용했을 경우 순수 자바 코드로 Unit 테스트를 작성하는 것이 어려워진다.
-
-- Service Code
+테스트가 특정 프레임워크(Spring)에 의존하는 것보다는 순수 자바 코드로 테스트를 작성하는 것이 가장 좋은데, 다른 주입 방법을 사용했을 경우 순수 자바 코드로 Unit 테스트를 작성하는 것이 어려워진다.
 
 ```java
-
+// Service Code
 @Service
 public class MemberService {
 
@@ -211,11 +213,8 @@ public class MemberService {
         memberRepository.save(id);
     }
 }
-```
 
-- Test Code
-
-```java
+// Test Code
 public class MemberTest {
 
     @Test
@@ -231,13 +230,13 @@ public class MemberTest {
 
 ## Lombok 활용
 
-생성자 주입은 많은 장점을 가져다주지만 필드 주입에 비해 편의성 면에선 조금 떨어지는데 Lombok을 사용하면 이를 극복할 수 있다.  
-생성자를 한 개만 두고 `@Autowired`를 생략 할 수 있다면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되어 생성자 관련 코드를 간략하게 사용할 수 있다.
+생성자 주입은 많은 장점을 가져다주지만 필드 주입에 비해 편의성 면에선 조금 떨어지는데 Lombok을 사용하면 이를 극복할 수 있다.
 
 ```java
 // before
 @Controller
 public class MemberController {
+
     private final MemberService memberService;
 
     @Autowired
@@ -250,11 +249,14 @@ public class MemberController {
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
 }
 ```
 
-## 두 개 이상의 빈
+생성자를 한 개만 두고 `@Autowired`를 생략 할 수 있다면 Lombok 라이브러리의 `@RequiredArgsConstructor`를 사용하게 되어 생성자 관련 코드를 간략하게 사용할 수 있다.
+
+## 두 개 이상의 빈이 존재하는 경우
 
 `DiscountPolicy`를 구현한 두 개의 클래스가 있고, 두 클래스 전부 스프링 빈으로 등록하여 다른 클래스에 자동 주입했을 경우 `NoUniqueBeanDefinitionException`이 발생한다.
 
@@ -262,10 +264,12 @@ public class MemberController {
 
 @Component
 public class FixDiscountPolicy implements DiscountPolicy {
+
 }
 
 @Component
 public class RateDiscountPolicy implements DiscountPolicy {
+
 }
 
 // 의존성 주입
@@ -293,7 +297,8 @@ public class OrderService {
     private final DiscountPolicy discountPolicy;
 
     @Autowired
-    public OrderServiceImpl(DiscountPolicy rateDiscountPolicy) { // discountPolicy -> rateDiscountPolicy로 변경하여 필드명과 동일하게 매칭
+    public OrderServiceImpl(
+            DiscountPolicy rateDiscountPolicy) { // discountPolicy -> rateDiscountPolicy로 변경하여 필드명과 동일하게 매칭
         this.discountPolicy = rateDiscountPolicy;
     }
 }
@@ -308,11 +313,13 @@ public class OrderService {
 @Component
 @Qualifier("mainDiscountPolicy")
 public class FixDiscountPolicy implements DiscountPolicy {
+
 }
 
 @Component
 @Qualifier("fixDiscountPolicy")
 public class RateDiscountPolicy implements DiscountPolicy {
+
 }
 
 // 의존성 주입
@@ -328,7 +335,7 @@ public class OrderService {
 }
 ```
 
-만약 `@Qualifier`에 해당 하는 `Qualifier`값이 없는 경우 그 이름의 스프링 빈을 추가로 찾게된다.(이런 상황이 발생하지 않는 것이 좋다.)
+만약 `@Qualifier`에 해당 하는 값이 없는 경우 그 이름의 스프링 빈을 추가로 찾게된다.
 
 ### 3. @Primary 사용
 
@@ -339,43 +346,18 @@ public class OrderService {
 @Component
 @Primary
 public class RateDiscountPolicy implements DiscountPolicy {
+
 }
 ```
 
 `@Qualifier`는 사용하는 모든 코드에 붙여줘야 하지만, `@Primary`는 해당 코드에만 붙여주면 의존성 주입 정리가 끝난다.
 
-### 정리
+## 수동 빈 등록 하는 상황
 
-메인으로 사용 할 스프링 빈은 `@Primary` 를 적용해서 편리하게 조회하고, 서브로 사용할 빈은 `@Qualifier` 를 지정해서 명시적으로 획득 하는 방식으로 사용하면 코드를 깔끔하게 유지할 수 있다.  
-간략하게 정리하면 다음과 같다.
-
-- `@Autowired`
-    1. 타입 매칭
-    2. 타입 매칭의 결과가 2개 이상일 때 필드명/파라미터명으로 빈 이름 매칭
-- `@Qualifier`
-    1. `@Qualifier`끼리 매칭
-    2. 빈 이름 매칭
-    3. 둘 다 없는 경우 `NoSuchBeanDefinitionException`
-- `@Primary`
-    1. 우선 순위 가짐
-
-## 결론
-
-> 생성자 자동 주입을 기본으로 사용
-
-설정 정보 기반(`@Configuration`)으로 구성 부분/실제 동작 부분을 명확하게 나누는 것이 이상적이지만,  
-빈을 하나 등록할 때 마다 설정 정보를 관리하는 것은 부담도 많이 크고, 자동으로 등록하더라도 `OCP`, `DIP`를 모두 보장 받을 수 있다.
-
-### 수동 빈 등록 하는 상황?
-
-애플리케이션은 크게 `업무 로직`과 `기술 지원`으로 나눌 수 있다.
-
-- `업무 로직 빈`: 웹을 지원하는 컨트롤러, 핵심 비즈니스 로직이 있는 서비스, 데이터 계층의 레포지토리 등
-- `기술 지원 빈`: 기술적인 문제나 공통 관심사(AOP)를 처리
-
-`업무 로직 빈`은 숫자도 많고 유사한 패턴이 반복되어 자동 등록 기능을 사용하는 것이 좋고,  
-`기술 지원 빈`은 잘 적용 되고 있는지 아닌지 파악하기 어려운 경우가 많아 설정 정보에 나타나도록 수동으로 등록하는 것이 좋다.  
-그 외에도 비즈니스 로직 중에서 다형성을 적극 활용해야하는 경우엔 수동 등록을 고민해 볼 수 있다.
+- 업무 로직 빈: 웹을 지원하는 컨트롤러, 핵심 비즈니스 로직이 있는 서비스, 데이터 계층의 레포지토리 등
+    - 유사한 패턴이 반복되는 경우가 많아 자동 등록 기능을 사용하는 것이 좋음
+- 기술 지원 빈: 기술적인 문제나 공통 관심사(AOP)를 처리
+    - 설정 정보에 나타나도록 수동으로 등록하는 것이 좋음
 
 ###### 참고자료
 
