@@ -17,16 +17,17 @@ public class SingletonTest {
         MemberService memberService1 = appConfig.memberService();
         MemberService memberService2 = appConfig.memberService();
 
-        System.out.println("memberService1 = " + memberService1); // memberService1 = study.corebasic.member.MemberServiceImpl@35fc6dc4
-        System.out.println("memberService2 = " + memberService2); // memberService2 = study.corebasic.member.MemberServiceImpl@7fe8ea47
+        System.out.println("memberService1 = "
+                + memberService1); // memberService1 = study.corebasic.member.MemberServiceImpl@35fc6dc4
+        System.out.println("memberService2 = "
+                + memberService2); // memberService2 = study.corebasic.member.MemberServiceImpl@7fe8ea47
 
         assertThat(memberService1).isNotSameAs(memberService2);
     }
 }
 ```
 
-그렇게 되면 인스턴스가 무수히 많이 생성하게 되어 메모리 낭비가 심해 성능 저하 이슈가 발생할 수 있다.  
--> 해당 객체를 딱 1개만 생성하고, 공유하도록 설계하는 싱글톤 패턴을 적용하여 해결할 수 있다.
+그렇게 되면 인스턴스가 무수히 많이 생성하게 되기 때문에 싱글톤 패턴을 적용하여 해결할 수 있다.
 
 ## Java에서의 싱글톤 패턴
 
@@ -59,21 +60,18 @@ public class SingletonService {
 
 위 방법으로 순수 Java로 싱글톤 패턴을 구현할 수 있지만 여러 단점이 생겨나게 된다.
 
-- 싱글톤 패턴을 구현하는 코드 자체가 늘어남
+- 싱글톤 패턴 구현 코드 증가
 - 의존관계상 클라이언트가 구체 클래스에 의존 -> DIP 위반
-- 클라이언트가 구체 클래스에 의존해서 OCP, 테스트, private 생성자로 자식 클래스 생성 불가 등의 문제점이 발생할 수 있음
-- 테스트의 어려움
-- 내부 속성을 변경하거나 초기화 하기 어려움
-- private 생성자로 자식 클래스를 만들기 어려움
-- 유연성이 떨어짐
+- 클라이언트가 구체 클래스에 의존해서 OCP, 테스트, private 생성자로 자식 클래스 생성 불가 등의 문제점 발생
 
 ## 싱글톤 레지스트리(Singleton Registry)
 
-[스프링 컨테이너](spring-container.md)에 객체들이 빈으로 등록되면서 객체를 생성하고 관리하는데, 이 때 싱글톤 레지스트리 패턴을 사용한다.  
-때문에 스프링 컨테이너에 빈으로 등록되면 싱글톤으로 객체를 관리하게 되면서 위에 언급 된 문제점을 해결할 수 있다.
+[스프링 컨테이너](spring-container.md)에 객체들이 빈으로 등록되면서 객체를 생성하고 관리하는데, 이 때 싱글톤 레지스트리 패턴을 사용한다.
 
 - 싱글톤 패턴을 위한 `getInstance()`와 같은 코드가 필요하지 않음
 - DIP, OCP, 테스트, private 생성자로 부터 자유롭게 싱글톤을 사용할 수 있음
+
+때문에 스프링 컨테이너에 빈으로 등록되면 싱글톤으로 객체를 관리하게 되면서 위에 언급 된 문제점을 해결할 수 있다.
 
 ## 싱글톤 방식의 주의점
 
@@ -107,8 +105,7 @@ public class StatefulServiceTest {
 
     @Test
     void statefulServiceSingleton() {
-        ConfigurableApplicationContext ac = new SpringApplicationBuilder(TestConfig.class)
-                .run();
+        ConfigurableApplicationContext ac = new SpringApplicationBuilder(TestConfig.class).run();
 
         StatefulService statefulService1 = ac.getBean(StatefulService.class);
         StatefulService statefulService2 = ac.getBean(StatefulService.class);
@@ -136,6 +133,8 @@ public class StatefulServiceTest {
 - `statefulService1`이 `price`를 변경하면 `statefulService2`도 변경되는 문제 발생
 
 ## @Configuration과 싱글톤
+
+Config로 스프링 컨테이너에 등록되면 자바 코드 상으론 여러 번의 `memberRepository()` 호출을 하여 여러 개의 인스턴스를 생성하게된다.
 
 ```java
 
@@ -167,22 +166,26 @@ public class AppConfig {
 }
 ```
 
-위의 Config로 스프링 컨테이너에 등록되면 자바 코드 상으론 여러 번의 `memberRepository()` 호출을 하여 여러 개의 인스턴스를 생성하게된다.  
+### proxyBeanMethods 옵션과 inter-bean 호출
+
 하지만 실제로는 한 번만 호출되며, 스프링이 CGLIB라는 라이브러리를 통해 @Configuration이 붙은 클래스를 프록시 클래스를 만들어 싱글톤을 보장한다.
+
+- @Configuration의 기본값은 proxyBeanMethods=true. 동일 클래스 내 @Bean 메서드 호출을 프록시가 가로채어 컨테이너에 등록된 싱글톤을 반환함
+- proxyBeanMethods=false로 설정하면 메서드 간 직접 호출이 일반 자바 호출이 되어 새로운 인스턴스가 생성될 수 있음
 
 ```java
 public class ConfigurationSingletonTest {
+
     @Test
     void configurationDeep() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         AppConfig bean = ac.getBean(AppConfig.class);
 
-        System.out.println("bean = " + bean.getClass()); // bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$d7f7f2a2
+        System.out.println(
+                "bean = " + bean.getClass()); // bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$d7f7f2a2
     }
 }
 ```
-
-Configuration 프록시 클래스가 스프링 빈으로 등록되어 다른 스프링 빈을 등록할 때, 이미 등록되어있는 스프링 빈은 그대로 반환하고 없으면 생성하여 반환하는 코드가 동적으로 만들어 싱글톤을 보장한다.
 
 ###### 참고자료
 
