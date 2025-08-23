@@ -18,7 +18,6 @@ layout: editorial
     * [HandlerMapping & HandlerAdapter](handler-mapping-adapter.md)
     * [View Resolver](view-resolver.md)
     * [Message Converter](message-converter.md)
-    * [Exception Handler](exception-handler.md)
 * [Validator](validator.md)
 * [Filter & Interceptor](filter-interceptor.md)
 * [Exception Handling](exception-handling.md)
