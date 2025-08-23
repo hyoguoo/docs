@@ -14,6 +14,7 @@ Spring Web MVC는 다양한 컴포넌트가 협력하여 HTTP 요청을 처리�
 
 - Spring MVC는 보통 Tomcat 위에서 동작
 - Tomcat은 웹 서버와 서블릿 컨테이너 역할을 함께 수행하며, 요청을 받아 서블릿에 위임하고, 스레드 풀을 통해 처리
+- Spring Boot는 임베디드 컨테이너 사용이 기본값이며 Tomcat, Jetty, Undertow 중 선택 가능
 
 Spring Web MVC는 크게 두 가지 구성으로 나뉜다.
 
@@ -23,6 +24,17 @@ Spring Web MVC는 크게 두 가지 구성으로 나뉜다.
 - Spring Container
     - IoC/DI 기반으로 관리되는 Spring 프레임워크의 핵심 컨테이너
     - 공통 Bean을 관리하는 Root Context와 Web 계층 Bean을 관리하는 Servlet Context로 구성
+
+### 요청-응답 처리 파이프라인
+
+1. 클라이언트 요청 도착
+2. 서블릿 컨테이너가 등록된 필터 체인을 적용
+3. DispatcherServlet이 요청을 수신
+4. HandlerMapping에서 요청에 매칭되는 핸들러 탐색
+5. HandlerAdapter가 컨트롤러 호출 규약을 수행
+6. 컨트롤러가 모델 또는 응답 본문 생성
+7. 반환 타입에 따라 ViewResolver 또는 HttpMessageConverter가 응답 생성
+8. DispatcherServlet이 응답을 커밋
 
 ### 구성 요소 및 역할
 
@@ -62,8 +74,6 @@ public class SpringExampleController {
 }
 ```
 
-### 주요 코드 및 흐름
-
 - `@Controller`: 해당 클래스를 스프링 컨테이너에 등록되는 웹 계층 컴포넌트로 인식. `HandlerMapping`이 이 애노테이션이 붙은 클래스를 핸들러로 탐색
 - `@RequestMapping`, `@GetMapping`: URI와 HTTP 메서드 조건을 기반으로 특정 메서드에 요청을 매핑. 이 매핑 정보는 `HandlerMapping`에서 사용됨
 - `Model`: 컨트롤러에서 데이터를 전달할 때 사용하는 객체로, 내부적으로 `ModelMap` 혹은 `ModelAndView`로 구성되어 뷰 렌더링 시 `ViewResolver`로 전달됨
@@ -83,6 +93,18 @@ public class SpringExampleController {
 10. `DispatcherServlet`은 반환된 논리 이름을 기반으로 `ViewResolver`를 통해 실제 JSP/HTML 뷰를 결정
 11. 뷰 렌더링 중 예외가 발생하면 `Handler Exception Resolver`가 적절한 예외 응답으로 변환
 12. 최종적으로 뷰가 렌더링되어 클라이언트에 응답 전송
+
+## 반환 타입과 응답 처리
+
+Spring MVC 컨트롤러 메서드는 다양한 반환 타입을 지원하며, 각 타입에 따라 응답 처리 방식이 다르다.
+
+|        반환 타입        |                    처리 경로                     |
+|:-------------------:|:--------------------------------------------:|
+|       String        |        ViewResolver로 논리 이름 해석 후 뷰 렌더링        |
+|    ModelAndView     |                뷰 이름과 모델 동시 지정                |
+|        void         | 요청 경로 기반 뷰 선택 또는 직접 `HttpServletResponse` 사용 |
+|  ResponseEntity<T>  |            상태 코드/헤더/본문을 명시적으로 구성             |
+| `@ResponseBody` + T |               메시지 컨버터로 본문 직렬화                |
 
 ###### 참고자료
 
