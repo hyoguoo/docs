@@ -6,10 +6,11 @@ layout: editorial
 
 > 자바를 이용한 웹 프로그래밍을 위한 기술
 
-Java 기반 웹 애플리케이션에서 요청-응답 구조의 서버를 구현하기 위한 표준 인터페이스로, Java EE에서 제공하는 서버 사이드 컴포넌트 기술이다.
+Java 기반 웹 애플리케이션에서 요청-응답 구조의 서버를 구현하기 위한 표준 인터페이스이며, Jakarta EE(현재)에서 제공하는 서버 사이드 컴포넌트 기술이다.
 
 - 클라이언트의 요청에 대해 동적으로 작동하는 웹 애플리케이션 컴포넌트
-- 멀티 스레드 기반으로 동작하며, 클라이언트의 각 요청을 개별 스레드로 처리
+- 멀티 스레드 기반 동작
+- 하나의 서블릿 인스턴스에 여러 요청이 동시에 진입하며, 각 요청은 별도 스레드로 처리
 - MVC 패턴에서 Controller 역할을 수행
 
 ## Servlet 클래스 계층 구조
@@ -32,17 +33,23 @@ javax.servlet.http.HttpServlet (추상 클래스)
 
 - `init(ServletConfig config)`: 서블릿이 최초로 로딩될 때 한 번 호출되며, 초기화 작업 수행
 - `service(ServletRequest req, ServletResponse res)`: 클라이언트의 요청이 들어올 때마다 호출하여 요청을 처리
+- `doGet()`, `doPost()` 등: `HttpServlet`에서 HTTP 메서드별 처리 메서드
 - `destroy()`: 서블릿이 컨테이너에 의해 제거될 때 호출되며, 자원 해제 등의 정리 작업 수행
 
 ## Servlet Life Cycle
 
-1. 서블릿 클래스 로딩 및 인스턴스 생성
-    - 클라이언트 요청이 들어왔을 때 컨테이너에서 해당 서블릿이 메모리에 로딩되어 있는지 확인
-    - 없는 경우, `init()` 메서드를 호출(`init()` 메서드는 서블릿이 최초로 요청되었을 때 한 번만 호출)
-2. 서블릿 `service()` 메서드 호출하여 요청 처리
-    - `service()` 메서드 내에서 클라이언트의 요청 방식에 따라 `doGet()`, `doPost()` 등의 메서드를 호출
-3. 서블릿 소멸
-    - 컨테이너가 서블릿에 종료를 명령하면 `destroy()` 메서드 호출
+1. 클래스 로딩과 인스턴스 생성
+    - 매핑된 URL로 최초 요청이 들어오면 컨테이너가 클래스를 로딩하고 단일 인스턴스를 생성
+    - `web.xml`의 `load-on-startup` 또는 Spring Boot 자동 설정에 따라 애플리케이션 기동 시점에 미리 로딩 가능
+2. 초기화
+    - `init(ServletConfig config)` 한 번 호출
+    - 초기 파라미터(`init-param`)와 `ServletContext` 접근을 통해 외부 리소스 준비
+3. 요청 처리
+    - 매 요청마다 `service()` 호출
+    - `HttpServlet`은 `service()` 내부에서 HTTP 메서드에 따라 `doGet()`, `doPost()` 등으로 위임
+4. 소멸
+    - 컨테이너 종료 또는 재배포 시 `destroy()` 한 번 호출
+    - 내부 자원 정리 후 참조 해제되어 GC 대상이 됨
 
 ## Servlet Container
 
@@ -58,7 +65,7 @@ javax.servlet.http.HttpServlet (추상 클래스)
 2. 서블릿 생명주기 관리
     - 서블릿의 생성, 초기화, 호출, 소멸 등의 생명주기를 관리
     - 최초 로딩 시점에 서블릿 클래스를 인스턴스화하여 초기화 메서드를 호출하고, 그 외에 요청이 들어오면 적절한 서블릿 메서드를 호출
-    - 서블릿이 더 이상 필요하지 않을 때 Garbage Collection을 수행
+    - 서블릿이 더 이상 필요하지 않을 때 참조를 해제해 GC 대상이 되도록 함
 3. 멀티 스레드 지원 및 관리
     - 서블릿은 스레드로 동작하기 때문에 요청이 올 때마다 스레드 가져와 처리
     - 멀티 스레드 부분을 관리하고, 스레드 풀을 사용하여 스레드를 재사용
@@ -68,12 +75,14 @@ javax.servlet.http.HttpServlet (추상 클래스)
 
 ### Servlet Request 처리 과정
 
-1. 사용자가 요청한 HTTP Request를 Servlet Container에 전달
-2. 요청을 받은 Servlet Container에서 `HttpServletRequest`와 `HttpServletResponse` 인스턴스 생성
-3. 요청할 서블릿 인스턴스를 찾아서 로드
-4. 해당 서블릿에서 `service()` 메서드 호출(메서드 내에서 HTTP Method에 따라 `doGet()`, `doPost()` 등의 메서드 호출)
-5. `HttpServletResponse` 인스턴스에 로직 수행 후 생성된 응답 전송
-6. 전송이 완료되면 `HttpServletRequest`, `HttpServletResponse` 인스턴스 소멸
+1. 사용자가 요청한 HTTP Request를 서블릿 컨테이너에 전달
+2. 서블릿 컨테이너가 필터 체인을 적용(인코딩, 보안, 로깅 등)
+3. 요청을 받은 서블릿 컨테이너에서 `HttpServletRequest`와 `HttpServletResponse` 인스턴스 생성
+4. 요청 URL과 매핑 정보를 기반으로 대상 서블릿 탐색 및 로딩
+5. 대상 서블릿의 `service()` 호출(내부에서 `doGet()`/`doPost()` 등 분기)
+6. 필요 시 멀티파트 처리, 세션 생성/조회, 파라미터 바인딩 수행
+7. `HttpServletResponse` 인스턴스에 로직 수행 후 생성된 응답 전송
+8. 전송이 완료되면 `HttpServletRequest`, `HttpServletResponse` 인스턴스 소멸
 
 ## 서블릿과 스레드 풀
 
