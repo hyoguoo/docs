@@ -5,14 +5,24 @@ layout: editorial
 # Message Converter(메시지 컨버터)
 
 뷰 템플릿이나 정적 컨텐츠를 응답하는 것이 아니라, JSON, XML 또는 사용자 지정 형식과 같은 다양한 형식의 데이터를 교환하는 작업이 필요할 때 메시지 컨버터를 사용할 수 있다.
-Spring MVC에서 다음의 경우 메시지 컨버터를 사용한다.
 
 - HTTP 요청: `@RequestBody`, `HttpEntity`, `RequestEntity`
 - HTTP 응답: `@ResponseBody`, `HttpEntity`, `ResponseEntity`
 
+Spring MVC에선 위의 경우 메시지 컨버터를 사용하여 HTTP 요청 본문을 자바 객체로 변환하거나, 자바 객체를 HTTP 응답 본문으로 직렬화한다.
+
+## ViewResolver와 MessageConverter 비교
+
+|    구분    | ViewResolver                       | MessageConverter                                             |
+|:--------:|:-----------------------------------|:-------------------------------------------------------------|
+|    목적    | 논리적 뷰 이름을 실제 뷰로 해석                 | HTTP 본문을 객체로 변환하거나 객체를 본문으로 직렬화                              |
+|  동작 시점   | 컨트롤러 반환값이 뷰 이름일 때                  | @RequestBody, @ResponseBody, HttpEntity, ResponseEntity 사용 시 |
+| 입력/출력 대상 | JSP, Thymeleaf, FreeMarker 등 템플릿 뷰 | JSON, XML, 문자열, 바이트 등 데이터 형식                                 |
+| 주된 사용 예시 | HTML 페이지 렌더링                       | REST API 요청/응답 처리                                            |
+
 ## HTTP 메시지 컨버터 인터페이스
 
-`org.springframework.http.converter.HttpMessageConverter`
+메시지 컨버터는 다음 인터페이스를 기반으로 동작하며, 읽기와 쓰기 기능을 정의한다.
 
 ```java
 package org.springframework.http.converter;
@@ -36,10 +46,21 @@ public interface HttpMessageConverter<T> {
 - `canRead()` / `canWrite()`: 메시지 컨버터가 해당 클래스, 미디어 타입을 지원하는지 확인
 - `read()` / `write()`: 메시지 컨버터를 통해서 메시지를 읽고 쓰는 기능
 
+### 주요 구현체
+
+인터페이스를 구현한 다양한 메시지 컨버터가 존재하며, 대표적인 구현체는 다음과 같다.
+
+| 구현체                                    | 설명                                           |
+|:---------------------------------------|:---------------------------------------------|
+| ByteArrayHttpMessageConverter          | 바이트 배열 지원, 파일 다운로드나 이미지 응답에 활용               |
+| StringHttpMessageConverter             | 문자열 데이터 지원                                   |
+| MappingJackson2HttpMessageConverter    | JSON 직렬화와 역직렬화                               |
+| MappingJackson2XmlHttpMessageConverter | XML 처리 지원                                    |
+| FormHttpMessageConverter               | application/x-www-form-urlencoded 요청 및 응답 처리 |
+
 ## 스프링 부트 기본 메시지 컨버터
 
-스프링 부트에서는 다양한 메시지 컨버터를 제공하는데, 클래스 타입과 미디어 타입을 체크하여 사용여부를 체크하게 된다.  
-우선 순위는 아래와 같으며 만족하지 않으면 다음 우선 순위의 메시지 컨버터를 사용한다.
+스프링 부트에서는 다양한 메시지 컨버터를 제공하는데, 클래스 타입과 미디어 타입을 체크하여 사용여부를 체크하게 되며, 우선 순위는 다음과 같다.
 
 1. `ByteArrayHttpMessageConverter`: `byte[]` 데이터 처리
 2. `StringHttpMessageConverter`: `String` 문자로 데이터 처리
