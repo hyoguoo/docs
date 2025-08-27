@@ -10,6 +10,13 @@ layout: editorial
 
 자바에서 제공하는 스펙으로, 디스패처 서블릿(DispatcherServlet)에 요청이 전달되기 전과 후에 작업을 필터링(Filter) 처리 할 수 있는 기능을 제공한다.
 
+### 동작 순서
+
+1. 클라이언트 요청이 서블릿 컨테이너에 도착
+2. 등록된 필터 체인이 dispatcherType 설정에 맞는 요청에 대해 순서대로 실행
+3. 체인 마지막에서 디스패처 서블릿으로 전달
+4. 서블릿 처리 완료 후 필터 체인의 나머지 구간이 역순으로 실행
+
 - 스프링 영역에 있지 않아, 스프링에 구현 된 예외 처리기를 적용 받지 않아 예외 처리 별도로 해야 함
 - 필터는 체인하여 여러 개를 사용할 수 있으며, 체인된 순서대로 필터 실행
 
@@ -48,7 +55,28 @@ public class MyFilter implements Filter {
 }
 ```
 
-파라미터로 넘기는 request / response 는 다음 필터에 전달되는데, 아예 다른 객체를 넘길 수 있다.
+파라미터로 넘기는 request / response 는 다음 필터에 전달되며, 아예 다른 객체를 넘길 수 있다.
+
+### 등록 방법
+
+스프링 부트에서는 FilterRegistrationBean으로 순서와 URL 패턴을 제어할 수 있다.
+
+```java
+
+@Configuration
+public class FilterConfig {
+
+    @Bean
+    public FilterRegistrationBean<MyFilter> myFilter() {
+        FilterRegistrationBean<MyFilter> reg = new FilterRegistrationBean<>();
+        reg.setFilter(new MyFilter());
+        reg.addUrlPatterns("/*");      // 적용 경로
+        reg.setOrder(1);               // 실행 순서(값이 작을수록 먼저 실행)
+        reg.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
+        return reg;
+    }
+}
+```
 
 ### 용도
 
@@ -57,14 +85,23 @@ public class MyFilter implements Filter {
 - 인코딩 변환
 - 모든 요청에 대한 로깅
 - 공통된 인증/인가 작업(Spring Security)
+- 요청/응답 본문 로깅 시 ContentCachingRequestWrapper/ResponseWrapper 활용
+- OncePerRequestFilter를 상속해 중복 실행을 방지
 
 ## 인터셉터(Interceptor)
 
-Spring에서 제공하는 기술로, 디스패처 서블릿이 컨트롤러를 호출하기 전과 후에 요청과 응답을 가로채(intercept) 처리하는 기능을 제공한다.
+Spring에서 제공하는 스펙으로, 디스패처 서블릿이 컨트롤러를 호출하기 전과 후에 요청과 응답을 가로채(intercept) 처리하는 기능을 제공한다.
 
 - 필터와 달리 스프링 영역에 있어, 스프링에 구현 된 예외 처리기를 적용 받아 예외 처리 가능
 - 디스패처 서블릿에서 핸들러 매핑을 통해 컨트롤러를 찾아 요청하면 실행 체인을 얻음
 - 얻은 실행 체인에 인터셉터가 등록되어 있다면 컨트롤러를 호출하기 전과 후에 인터셉터가 실행
+
+### 동작 순서
+
+1. 디스패처 서블릿이 핸들러 매핑으로부터 HandlerExecutionChain 조회
+2. 체인에 등록된 인터셉터의 preHandle이 순서대로 실행(false를 반환하면 이후 체인을 중단)
+3. 컨트롤러가 실행되고 핸들러 반환 후 postHandle이 실행(예외 발생 시 생략)
+4. 뷰 렌더링 단계가 끝난 뒤 afterCompletion이 역순으로 실행(예외 발생 여부와 무관)
 
 인터셉터는 `org.springframework.web.servlet.HandlerInterceptor` 인터페이스를 구현하여 사용한다.
 
@@ -104,6 +141,7 @@ public interface HandlerInterceptor {
 구현된 인터셉터는 아래와 같이 등록할 수 있다.
 
 ```java
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -122,8 +160,19 @@ public class WebConfig implements WebMvcConfigurer {
 
 클라이언트의 요청과 관련되어 전역적으로 처리해야 하는 작업들을 처리하는데 사용한다.
 
-- 로그인 사용자의 권한 체크
-- Controller에 넘겨주기 전 `HttpServletRequest` / `HttpServletResponse` 내부 데이터 가공
+- 로그인 사용자의 권한 체크, 세션 검사
+- 공통 헤더 추가, 모델 공통 값 주입
+- 컨트롤러로 넘기기 전 HttpServletRequest/HttpServletResponse 가공
+
+## 필터 vs 인터셉터 비교
+
+|   구분   | 필터(Filter)                                    | 인터셉터(HandlerInterceptor)                 |
+|:------:|:----------------------------------------------|:-----------------------------------------|
+|   위치   | 서블릿 컨테이너 레벨                                   | 스프링 MVC 디스패처 서블릿 내부                      |
+| 적용 범위  | 컨트롤러 외 정적 리소스, 에러 디스패치까지 포함 가능                | 핸들러 매핑으로 선택된 컨트롤러 실행 흐름                  |
+| 예외 처리  | @ControllerAdvice 적용 대상 아님                    | HandlerExceptionResolver 체계에 포함          |
+| 등록/순서  | FilterRegistrationBean, @WebFilter / setOrder | WebMvcConfigurer#addInterceptors / 등록 순서 |
+| 전형적 용도 | 인코딩, 보안 필터 체인, 요청 전처리                         | 인증/인가 체크, 로깅, 공통 모델 주입                   |
 
 ###### 참고자료
 
