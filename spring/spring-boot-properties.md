@@ -51,7 +51,6 @@ public class EnvReader {
 
 - `Environment` 빈을 주입받아 `getProperty()` 메서드로 값을 조회
 - 프로퍼티 키를 문자열로 직접 지정(기본값 설정 가능)
-- `Duration`, `DataSize` 등 다양한 타입으로 변환을 지원
 
 ### @Value
 
@@ -76,7 +75,6 @@ public class ValueReader {
 
 - `${...}` 플레이스홀더를 사용해 프로퍼티 키를 명시
 - SpEL(Spring Expression Language)을 활용한 동적인 값 주입 가능
-- 타입 변환 지원
 - `:` 문자를 이용해 기본값 설정
 
 간편하게 사용 가능하지만 다음과 같은 단점이 있다.
@@ -110,7 +108,7 @@ public record ApiProperties(
 ```java
 // Application.java
 @SpringBootApplication
-@ConfigurationPropertiesScan // "com.example.demo" 패키지 하위를 스캔
+@ConfigurationPropertiesScan
 public class Application {
 
     public static void main(String[] args) {
@@ -145,7 +143,6 @@ public class PropsReader {
 | `Environment.getProperty`  | 프레임워크 내부 또는 동적으로 키를 결정해야 할 때 사용   | 스프링 컨테이너 어디서든 주입받아 사용 가능 | 키를 문자열로 관리, 타입 안정성 부족    |
 | `@Value`                   | 소수의, 서로 관련 없는 단일 값을 주입할 때 간편하게 사용 | SpEL 지원, 사용법이 직관적        | 프로퍼티 관리 분산, 컴파일 시점 검증 불가 |
 | `@ConfigurationProperties` | 여러 관련 값을 하나의 그룹으로 묶어 관리할 때 사용     | 타입 안전, 강력한 검증 기능, 테스트 용이 | 별도의 클래스 정의 필요            |
-
 
 ## 프로필(Profile)
 
