@@ -59,17 +59,24 @@ public class EnvReader {
 @Component
 public class ValueReader {
 
-    @Value("${app.api.key}")
-    private String key;
-    @Value("${app.api.timeout}")
-    private Duration timeout;
-    @Value("${app.api.retry-max:3}")
-    private int retryMax;
-    @Value("${app.api.endpoints}")
-    private List<String> endpoints;
-    @Value("${app.api.max-body-size}")
-    private DataSize maxBodySize;
+    private final String key;
+    private final Duration timeout;
+    private final int retryMax;
+    private final List<String> endpoints;
+    private final DataSize maxBodySize;
 
+    public ValueReader(
+            @Value("${app.api.key}") String key,
+            @Value("${app.api.timeout}") Duration timeout,
+            @Value("${app.api.retry-max:3}") int retryMax,
+            @Value("${app.api.endpoints}") List<String> endpoints,
+            @Value("${app.api.max-body-size}") DataSize maxBodySize) {
+        this.key = key;
+        this.timeout = timeout;
+        this.retryMax = retryMax;
+        this.endpoints = endpoints;
+        this.maxBodySize = maxBodySize;
+    }
 }
 ```
 
@@ -77,10 +84,16 @@ public class ValueReader {
 - SpEL(Spring Expression Language)을 활용한 동적인 값 주입 가능
 - `:` 문자를 이용해 기본값 설정
 
-간편하게 사용 가능하지만 다음과 같은 단점이 있다.
+#### @Value 주입 과정
 
-- 관련 프로퍼티들이 코드 전반에 흩어져 응집도가 낮아질 수 있음
-- 타입 안정성이 낮고, 컴파일 시점 검증이 어려움
+`@Value`의 주입은 생성자 파라미터에 `@Value`를 붙이는 경우와 필드에 `@Value`를 붙이는 경우 주입 시점이 다르다.
+
+- 필드 레벨
+   - 객체 생성 이후 `BeanPostProcessor`가 리플렉션으로 주입 처리
+   - 생성 이후에 처리되므로 `final` 필드에는 주입 불가
+- 생성자 파라미터 레벨
+   - 객체 생성 시점에 프로퍼티 값을 미리 읽어와 생성자 인자로 전달
+   - 생성자 호출 시점에 이미 값이 준비되어 있으므로 `final` 필드에도 주입 가능
 
 ### @ConfigurationProperties
 
@@ -204,3 +217,7 @@ app:
 - JAR 실행: `java -jar build/libs/app.jar --spring.profiles.active=local`
 - Gradle: `./gradlew bootRun --args='--spring.profiles.active=local'`
 - Maven: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`
+
+###### 참고자료
+
+- [Spring Framework-AutowiredAnnotationBeanPostProcessor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/AutowiredAnnotationBeanPostProcessor.html)
