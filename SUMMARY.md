@@ -250,7 +250,6 @@
   * [Introduce](spring/introduce.md)
   * [JDBC(Java Database Connectivity)](spring/jdbc.md)
   * [JPA](spring/jpa-basic.md)
-  * [Lazy Loading](spring/lazy-loading.md)
   * [Message Converter(메시지 컨버터)](spring/message-converter.md)
   * [Spring & OOP](spring/oop.md)
   * [Persistence Context(영속성 컨텍스트)](spring/persistence-context.md)

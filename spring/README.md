@@ -31,7 +31,6 @@ layout: editorial
     * JPA
         * [Basic](jpa-basic.md)
         * [Persistence Context](persistence-context.md)
-        * [Lazy Loading](lazy-loading.md)
 * Spring Boot
     * [Spring Boot Core Execution](spring-boot-core-execution.md)
     * [Spring Boot Properties](spring-boot-properties.md)
