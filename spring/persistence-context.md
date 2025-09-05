@@ -4,19 +4,36 @@ layout: editorial
 
 # Persistence Context(영속성 컨텍스트)
 
-> 엔티티를 영구 저장하는 환경
+엔티티를 저장하는 환경으로, EntityManager를 통해 접근하고 관리되는 엔티티의 집합이다.
 
-## 생명 주기
+## 스프링 환경에서의 영속성 컨텍스트
+
+스프링 프레임워크와 같은 컨테이너 환경에서는 `EntityManager`와 영속성 컨텍스트가 직접 관리되지 않고 컨테이너에 의해 관리된다.
+
+- 생명주기: 영속성 컨텍스트는 트랜잭션의 생명주기와 동일하게 유지
+    - 스프링의 `@Transactional`이 붙은 메서드가 시작될 때 생성되고, 메서드가 종료되어 트랜잭션이 커밋되거나 롤백될 때 함께 소멸
+- 공유: 같은 트랜잭션 내에서는 여러 클래스에서의 주입 받은 `EntityManager`는 모두 동일한 영속성 컨텍스트 인스턴스 공유
+    - 스프링의 트랜잭션 동기화 매니저를 통해 보장
+
+결과으로 `@Transactional` 적용을 통해 트랜잭션 범위 영속성 컨텍스트(Transaction-Scoped Persistence Context)를 지정하고 사용할 수 있다.
+
+## 엔티티 생명 주기
 
 ![영속성 생명 주기](image/persistence-life-cycle.png)
 
-1. 비영속(new/transient): 영속성 컨텍스트와 전혀 관계가 없는 새로운 상태
-2. 영속(managed): 영속성 컨텍스트에 관리되는 상태
-3. 준영속(detached): 영속성 컨텍스트에 저장되어있다가 분리된 상태
-4. 삭제(removed): 삭제된 상태
+1. 비영속(New/Transient): 순수 자바 객체 상태
+    - 영속성 컨텍스트나 데이터베이스와 전혀 관계가 없는 상태
+2. 영속(Managed): `entityManager.persist()` 등을 통해 영속성 컨텍스트에 의해 관리되는 상태
+    - 1차 캐시에 저장
+    - 변경 감지 등의 기능을 제공 받음
+3. 준영속(Detached): 영속성 컨텍스트에 의해 관리되다가 분리된 상태
+    - 영속성 컨텍스트가 소멸(트랜잭션 종료)되거나 `detach()`, `clear()` 호출 시 전환
+4. 삭제(Removed): `entityManager.remove()`를 통해 삭제된 상태
+    - 트랜잭션 커밋 시 실제 데이터베이스에서 삭제
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         Member member = new Member(); // 1. 비영속
         member.setId("member1");
@@ -34,35 +51,25 @@ class Example {
 
 ## 영속성 컨텍스트 특징
 
-### 1차 캐시
+### 1차 캐시와 동일성 보장
 
-`entityManager.persist(member)` 처럼 엔티티를 영속성 컨텍스트에 저장하면, 영속성 컨텍스트는 엔티티를 1차 캐시에 저장하고, 식별자 키를 통해 엔티티를 관리한다.
+영속성 컨텍스트는 내부에 맵과 유사한 1차 캐시를 가지고 있으며, 엔티티의 식별자(@Id)를 키로, 엔티티 인스턴스를 값으로 저장한다.
 
 | @Id |            Entity            |
 |:---:|:----------------------------:|
 |  1  | Member(id=1, username="회원1") |
 
-위 상태에서 `entityManager.find(Member.class, 1)` 을 호출하면, 데이터베이스에서 조회하기 전에 1차 캐시에서 조회하고, 없으면 데이터베이스에서 조회한다.  
-마찬가지로 데이터베이스에 없어서 조회한 경우에도 그 결과를 1차 캐시에 저장한다.(캐시를 통해 조회하게 되는 경우 DB 조회 쿼리를 실행하지 않음)
+- `em.find()` 호출 시, 우선 1차 캐시에서 엔티티 조회
+- 캐시에 존재하면 DB 조회 없이 즉시 해당 인스턴스를 반환
+- 캐시에 없으면 DB에서 조회한 후, 그 결과를 1차 캐시에 저장하고 반환
 
-### 동일성(identity) 보장
-
-```java
-class Example {
-    public static void main(String[] args) {
-        Member member1 = entityManager.find(Member.class, 1L);
-        Member member2 = entityManager.find(Member.class, 1L);
-        System.out.println(member1 == member2); // true
-    }
-}
-```
-
-1차 캐시를 통해 조회하면, 동일한 트랜잭션에서 조회한 엔티티는 같은 인스턴스를 반환하기 때문에 동일한 인스턴스를 반환한다.
+이러한 메커니즘 덕분에 같은 트랜잭션 내에서 동일한 식별자로 조회한 엔티티는 항상 같은 메모리 주소를 가진 인스턴스임이 보장된다(`member1 == member2` 결과가 `true`).
 
 ### 트랜잭션을 지원하는 쓰기 지연(transactional write-behind)
 
 ```java
 class Example {
+
     public static void main(String[] args) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -72,20 +79,27 @@ class Example {
 
         entityManager.persist(member1);
         entityManager.persist(member2);
-        // 여기까지 INSERT SQL을 데이터베이스에 보내지 않는다.
+        // 여기까지 INSERT SQL을 데이터베이스에 보내지 않음
 
-        entityManager.getTransaction().commit(); // 여기서 INSERT SQL을 데이터베이스에 보낸다.
+        entityManager.getTransaction().commit(); // INSERT SQL 수행
     }
 }
 ```
 
-`persist(*)`를 호출하면, 엔티티를 1차 캐시에 저장하고, 그와 동시에 INSERT SQL을 생성하고 바로 데이터베이스에 보내지 않고, 쓰기 지연 SQL 저장소에 저장하게 된다.  
-그리고 트랜잭션을 커밋하면, 쓰기 지연 SQL 저장소에 저장된 쿼리를 데이터베이스에 보내게 된다.
+영속성 컨텍스트를 이용한 쓰기 지연 작업은 다음과 같은 절차로 진행된다.
+
+1. `em.persist()` 호출 시, 엔티티를 1차 캐시에 저장
+    - 그와 동시에 INSERT SQL을 생성하여 쓰기 지연 SQL 저장소에 등록
+2. 트랜잭션 커밋 시점에 `flush()`가 호출
+    - 쓰기 지연 SQL 저장소에 등록된 쿼리를 데이터베이스에 전송
 
 ### 변경 감지(Dirty Checking)
 
+JPA는 엔티티가 1차 캐시에 처음 저장될 때의 상태를 스냅샷으로 만들어 별도로 보관한다.
+
 ```java
 class Example {
+
     public static void main(String[] args) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -93,106 +107,17 @@ class Example {
         Member member = entityManager.find(Member.class, 150L);
         member.setUsername("OGU");
 
-        // entityManager.update(member); 와 같은 메서드가 존재하지 않고, persist()를 호출하지 않아도 된다.
+        // persist()와 같은 메서드 호출 X
 
-        entityManager.getTransaction().commit(); // 여기서 UPDATE SQL을 데이터베이스에 보낸다.
+        entityManager.getTransaction().commit(); // UPDATE SQL 수행
     }
 }
 ```
 
-트랜잭션을 커밋(flush)하면, 1차 캐시에 있는 엔티티와 스냅샷을 비교해서 변경된 엔티티를 찾고, UPDATE SQL을 생성해서 데이터베이스에 보낸다.  
-비슷하게 엔티티 삭제하는 경우에도, 1차 캐시에 있는 엔티티와 스냅샷을 비교해서 삭제 쿼리를 생성해서 데이터베이스에 보낸다.
-
-## 플러시(Flush)
-
-영속성 컨텍스트의 변경 내용을 데이터베이스에 반영하는 것으로, 아래와 같은 절차로 진행된다.
-
-1. 변경 감지
-2. 수정된 엔티티 쓰기 지연 SQL 저장소에 등록
-3. 쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송(등록, 수정, 삭제 쿼리)
-
-플러시는 기본적으로 트랜잭션 커밋을 호출하면 자동 호출되고, 아래의 상황에서 플러시가 호출된다.
-
-#### 1. 트랜잭션 커밋
-
-#### 2. JPQL 쿼리 실행
-
-- 해당 트랜잭션 내에서 반영 된 변경 내용을 JPQL 쿼리를 통해 조회하려고 할 때, 플러시가 호출된다.
-
-```java
-class Example {
-    public static void main(String[] args) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-
-        Member member = new Member(150L, "A");
-        entityManager.persist(member);
-
-        // 위에서 저장된 엔티티도 조회하기 위해 플러시를 호출하여 데이터베이스에 반영한 뒤 조회한다.
-        List<Member> memberList = entityManager.createQuery("SELECT m FROM Member m", Member.class).getResultList();
-
-        System.out.println("member = " + member);
-    }
-}
-```
-
-#### 3. 기본 키 생성을 데이터베이스에 위임하는 `IDENTITY` 전략 사용 시 `persist()` 호출 시점
-
-- 1차 캐시에 저장하고 영속성으로 관리하기 위해선 PK가 필요하기 때문에 데이터베이스에 저장하고 PK를 가져올 수 있도록 플러시를 호출한다.
-
-```java
-class Example {
-    public static void main(String[] args) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-
-        Member member = new Member("A"); // IDENTITY 전략 사용 시, PK id를 따로 지정하지 않는다.
-        entityManager.persist(member); // 여기서 플러시가 호출
-
-        System.out.println("member = " + member);
-    }
-}
-```
-
-#### 4. `entityManager.flush()` 메서드 직접 호출(거의 사용하지 않으나 테스트에서 사용)
-
-플러시를 직접 호출한다고 해서 영속성 컨텍스트를 비우는 것은 아니며, 영속성 컨텍스트의 변경 내용을 데이터베이스에 동기화하는 것이다.
-
-### 플러시 모드 옵션
-
-- `FlushModeType.AUTO`: 커밋이나 쿼리를 실행할 때 플러시(기본값)
-- `FlushModeType.COMMIT`: 커밋할 때만 플러시
-
-## 준영속 상태
-
-영속 상태의 엔티티가 영속성 컨텍스트에서 분리(detached)된 상태를 말하며, 영속성 컨텍스트가 제공하는 기능을 사용할 수 없다.
-
-### 준영속 상태로 만드는 방법
-
-- `entityManager.detach(entity)`: 특정 엔티티만 준영속 상태로 전환
-- `entityManager.clear()`: 영속성 컨텍스트를 완전히 초기화
-- `entityManager.close()`: 영속성 컨텍스트를 종료
-
-### 병합(merge)
-
-```java
-class Example {
-    @Transactional
-    void update(Item itemParam) { // itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
-        Item mergeItem = em.merge(itemParam); // 준영속 상태의 엔티티를 영속 상태로 변경
-    }
-}
-```
-
-준영속 상태의 엔티티를 영속 상태로 변경하는 기능으로 동작 방식은 아래와 같다.
-
-1. 준영속 엔티티의 식별자 값으로 1차 캐시에서 엔티티 조회
-    - 만약 1차 캐시에 없으면 데이터베이스에서 조회 후 1차 캐시에 저장
-2. 조회한 영속 엔티티(mergeItem)에 준영속 엔티티(itemParam)의 값을 채워넣어 변경
-3. 영속 엔티티(mergeItem)를 반환
-
-여기서 준영속 엔티티의 값을 모두 교체하기 때문에 `null`로 업데이트 될 위험이 있어 사용하지 않는 것이 좋다.  
-때문에 `merge()`를 통한 변경보다는 변경 감지 기능을 사용하여 변경하는 것이 좋다.
+1. 트랜잭션 커밋 시점에 `flush()` 호출
+2. JPA는 1차 캐시에 있는 모든 영속 상태 엔티티와 이전에 만들어둔 스냅샷을 비교
+3. 만약 변경된 점이 있다면, `UPDATE` 쿼리를 생성하여 쓰기 지연 SQL 저장소에 저장
+4. 쓰기 지연 SQL 저장소의 쿼리들을 데이터베이스에 전송하고 트랜잭션을 커밋
 
 ###### 참고자료
 
