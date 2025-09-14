@@ -263,6 +263,7 @@
   * [Spring Boot Properties(스프링 부트 프로퍼티)](spring/spring-boot-properties.md)
   * [Spring Boot Auto Configuration(스프링 부트 자동 설정)](spring/spring-boot-auto-configuration.md)
   * [SpEL(Spring Expression Language)](spring/spel.md)
+  * [Event Listener(이벤트 리스너)](spring/event-listener.md)
 * [Redis](redis/README.md)
   * [Basic(기초)](redis/basic.md)
   * [Data Structure(자료 구조)](redis/data-structure.md)

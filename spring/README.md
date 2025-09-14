@@ -15,6 +15,7 @@ layout: editorial
         * [Dependency Injection](dependency-injection.md)
     * [Singleton](singleton.md)
     * [AOP](aop.md)
+    * [Event Listener](event-listener.md)
 * Spring Web
     * [Servlet](servlet.md)
     * [Spring Web MVC](spring-web-mvc.md)
