@@ -132,10 +132,7 @@ public @interface TransactionalEventListener {
 ### 1. 이벤트 정의
 
 ```java
-public record UserRegistrationEvent(
-        String email,
-        String username
-) {
+public record OrderPlacedEvent(Long orderId, Long userId) {
 
 }
 ```
@@ -146,18 +143,19 @@ public record UserRegistrationEvent(
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class OrderService {
 
-    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public void registerUser(String email, String username) {
-        // 사용자 저장 로직...
-        User savedUser = userRepository.save(new User(email, username));
+    public Order placeOrder(Long userId, /* ... */) {
+        Order newOrder = new Order(userId, /* ... */);
+        Order savedOrder = orderRepository.save(newOrder);
 
-        // 이벤트 발행
-        eventPublisher.publishEvent(new UserRegistrationEvent(savedUser.getEmail(), savedUser.getUsername()));
+        // 트랜잭션이 성공적으로 커밋되면 이벤트가 발행되도록 예약
+        eventPublisher.publishEvent(new OrderPlacedEvent(savedOrder.getId(), userId));
+        return savedOrder;
     }
 }
 ```
@@ -165,19 +163,38 @@ public class UserService {
 ### 3. 이벤트 리스너
 
 ```java
-// UserEventListener.java
+
 @Component
 @RequiredArgsConstructor
-public class UserEventListener {
+@Slf4j
+public class OrderEventListener {
 
-    private final EmailService emailService;
+    private final EmailService emailService; // 이메일 발송 서비스
+    private final StatisticsService statisticsService; // 통계 갱신 서비스
 
-    // 트랜잭션이 성공적으로 커밋된 후에 비동기로 실행
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    /**
+     * 주문 완료 이메일 발송 (별도 트랜잭션 불필요)
+     */
     @Async
-    public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        // 이메일 발송 로직
-        emailService.sendWelcomeEmail(event.email(), event.username());
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void sendOrderConfirmationEmail(OrderPlacedEvent event) {
+        log.info("주문 완료(ID: {}) 이메일 발송 시작", event.orderId());
+        emailService.sendOrderMail(event.orderId());
+    }
+
+    /**
+     * 사용자 구매 통계 갱신 (별도 트랜잭션 필수)
+     */
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // 새로운 트랜잭션에서 실행
+    public void updateUserStatistics(OrderPlacedEvent event) {
+        log.info("사용자(ID: {}) 구매 통계 갱신 시작", event.userId());
+        try {
+            statisticsService.updateUserPurchaseStats(event.userId());
+        } catch (Exception e) {
+            // 이 리스너의 트랜잭션만 롤백되며, 주문 트랜잭션이나 이메일 발송에는 영향을 주지 않음
+            log.error("통계 갱신 중 오류 발생", e);
+        }
     }
 }
 ```
