@@ -23,6 +23,64 @@ layout: editorial
 7. 예외 발생 여부에 따라 프록시는 `PlatformTransactionManager`에게 트랜잭션 커밋 또는 롤백을 요청
 8. 트랜잭션이 종료되고, 트랜잭션 동기화 매니저에 보관된 트랜잭션 정보가 정리
 
+## 트랜잭션 커밋 과정
+
+트랜잭션 커밋 과정은 다음과 같은 단계로 이루어진다.
+
+1. `@Transactional` 메서드가 호출되면, 스프링은 AOP를 통해 트랜잭션 처리 시작
+2. 해당 프록시는 실제 비즈니스 로직 실행 전후로 트랜잭션 관련 부가 기능을 수행하는 `TransactionInterceptor`에 제어를 위임
+3. `TransactionInterceptor는` `PlatformTransactionManager`의 구현체를 사용하여 트랜잭션을 시작하고, 비즈니스 로직이 정상적으로 완료되면 커밋 요청
+4. 실제 커밋 과정은 `PlatformTransactionManager`의 추상 클래스인 `AbstractPlatformTransactionManager`의 `processCommit` 메서드에서 단계적으로 처리
+
+`processCommit` 메서드에서 커밋의 핵심 로직이 수행되며, 주요 단계는 다음과 같다.
+
+```java
+
+private void processCommit(DefaultTransactionStatus status) {
+    try {
+        boolean beforeCompletionInvoked = false;
+
+        try {
+            prepareForCommit(status);          // 1. 커밋 준비
+            triggerBeforeCommit(status);       // 2. 커밋 전 콜백
+            triggerBeforeCompletion(status);   // 3. 완료 직전 콜백
+            beforeCompletionInvoked = true;
+
+            // ... 세이브포인트/트랜잭션 분기 처리 등
+            else if (status.isNewTransaction()) {
+                doCommit(status);              // 4. DB 트랜잭션 커밋 (이 시점에 DB 트랜잭션 종료)
+            }
+
+        } catch (Exception ex) {
+            // 예외 발생 시 롤백 및 예외 전파
+            throw ex;
+        }
+
+        try {
+            triggerAfterCommit(status);        // 5. 커밋 이후 콜백
+        } finally {
+            triggerAfterCompletion(            // 6. 완료 후 콜백
+                    status, TransactionSynchronization.STATUS_COMMITTED
+            );
+        }
+
+    } finally {
+        cleanupAfterCompletion(status);        // 7. 트랜잭션 컨텍스트 정리 (리소스 언바인딩)
+    }
+}
+```
+
+1. `prepareForCommit`: 플러시 등 커밋 직전 준비 수행
+2. `triggerBeforeCommit`: 커밋 전 콜백 실행
+    - 아직 DB 트랜잭션이 살아있는 상태
+3. `triggerBeforeCompletion`: 완료 직전 콜백 실행
+4. `doCommit`: 실제 DB 커밋 수행
+    - 이 시점에 DB 트랜잭션이 종료
+5. `triggerAfterCommit`: 커밋 이후 콜백 실행
+    - DB 트랜잭션은 이미 종료되었으나, 스프링 트랜잭션 컨텍스트는 아직 살아있는 상태
+6. `triggerAfterCompletion`: 완료 후 콜백 실행
+7. `cleanupAfterCompletion`: 스레드 컨텍스트 정리
+
 ## 트랜잭션 우선 순위
 
 `@Transactional` 애노테이션은 클래스, 인터페이스, 메서드에 적용할 수 있으며, 우선순위는 더 구체적이고 자세한 것이 높은 우선순위를 가지는 것을 원칙으로 한다.
@@ -204,4 +262,3 @@ public class MemberService {
 ###### 참고자료
 
 - [스프링 DB 2편 - 데이터 접근 활용 기술](https://www.inflearn.com/course/스프링-db-2)
-
