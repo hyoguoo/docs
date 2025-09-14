@@ -106,6 +106,25 @@ public @interface TransactionalEventListener {
 
 기본적으로 현재 진행 중인 트랜잭션이 없는 경우 이벤트를 무시하니 주의해야 한다.(없는 상황에서도 리스너를 실행해야 한다면 `fallbackExecution = true` 설정)
 
+### 트랜잭션 흐름과 리스너 실행 시점
+
+`@TransactionalEventListener`의 실행 시점은 [스프링의 트랜잭션 처리 흐름](transactional.md)과 밀접하게 연관되어 있다.
+
+- `BEFORE_COMMIT`: 트랜잭션 커밋 전 콜백에서 실행(`triggerBeforeCommit`)
+- `AFTER_COMMIT`: 트랜잭션 커밋 후 콜백에서 실행(`triggerAfterCommit`)
+    - DB 트랜잭션은 종료되었지만, 스프링의 트랜잭션 컨텍스트는 아직 살아있는 상태
+- `AFTER_COMPLETION`: 트랜잭션 완료 후 콜백에서 실행(`triggerAfterCompletion`)
+
+#### `AFTER_COMMIT` 주의점
+
+`AFTER_COMMIT` 리스너가 실행되는 시점은 DB 트랜잭션은 종료되었지만, 스프링의 트랜잭션 컨텍스트는 아직 살아있는 상태로 다음과 같은 흐름으로 문제가 발생할 수 있다.
+
+1. 리스너 내부에서 `@Transactional` 어노테이션이 붙은 다른 서비스 메서드를 호출(기본 전파 속성 `Propagation.REQUIRED` 가정)
+2. 스프링은 아직 트랜잭션 컨텍스트가 남아있다고 판단하여 새로운 트랜잭션을 시작하지 않고 기존 컨텍스트에 참여하려고 시도
+3. 하지만 실제 DB 트랜잭션은 이미 종료되었기 때문에, 데이터가 정상적으로 반영되지 않거나 예외 발생
+
+이를 해결하기 위해서는 `Propagation.REQUIRES_NEW`를 사용하거나, `@Async`를 통해 별도의 스레드에서 실행하여 완전히 새로운 트랜잭션 컨텍스트를 확보하는 방법 등이 있다.
+
 ## 예시 코드
 
 사용자가 가입했을 때 이메일을 보내는 예시 코드는 다음과 같은 구조로 작성할 수 있다.
