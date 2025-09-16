@@ -27,9 +27,25 @@ WHERE e.first_name = 'ABC';
 - 위쪽에 출력된 결과일수록(id 컬럼의 값이 작을수록) 쿼리의 바깥 부분이거나 먼저 접근한 테이블
 - 아래쪽에 출력된 결과일수록 쿼리의 안쪽(Inner) 부분 또는 나중에 접근한 테이블에 해당
 
+## 주요 컬럼
+
 실행 계획 테이블을 살펴보면, 여러 컬럼이 표시되는데 각 컬럼의 의미는 다음과 같다.
 
-## id 컬럼
+| 키             | 설명                                                              | 비고                                                                    |
+|:--------------|:----------------------------------------------------------------|:----------------------------------------------------------------------|
+| id            | 쿼리 내의 SELECT 문 실행 순서                                            | 하나의 SELECT 문 안에 서브쿼리나 UNION 등이 포함되면 여러 개의 id가 나타날 수 있음                |
+| select_type   | 각 단위 SELECT 쿼리가 어떤 타입의 쿼리인지 표시                                  | SIMPLE, PRIMARY, SUBQUERY, DERIVED, UNION 등 다양한 유형 존재                 |
+| table         | 테이블의 이름에 별칭이 부여된 경우에는 별칭이 표시되며 `<>`로 둘러싸인 테이블은 임시 테이블을 의미       | 안의 숫자는 단위 쿼리의 id값                                                     |
+| type          | 테이블 접근 방식                                                       | const, ref, eq_ref, range, index, ALL 등 성능의 큰 핵심 지표                   |
+| possible_keys | 옵티마이저가 쿼리 처리를 위해 고려했던 후보 인덱스 목록                                 | 실제로 사용된 인덱스와 다를 수 있음                                                  |
+| extra         | 쿼리 실행 계획에 대한 추가적인 정보를 쉼표로 구분해서 표시                               | Using where, Using index, Using filesort, Using temporary 등 다양한 정보 존재 |
+| key           | 옵티마이저가 최종적으로 선택한 인덱스                                            | 인덱스가 사용되지 않은 경우 NULL로 표시                                              |
+| key_len       | 사용된 인덱스의 길이(바이트 단위, CHAR(4) + INTEGER 인덱스를 사용한 경우 4*4 + 4 = 20) | 인덱스 효율성 추정 가능                                                         |
+| ref           | 접근 방법(`type`)이 ref인 경우, 참조 조건으로 어떤 값이 제공됐는지 표시                  | 연산이 적용된 경우 func로 표시                                                   |
+| rows          | 실행 계획상 접근해야 할 것으로 예측하는 레코드의 수                                   | 예상 접근 레코드 수로, 실제와 다를 수 있음                                             |
+| filtered      | `rows` 컬럼에서 예상한 레코드 중 WHERE 조건에 일치하는 데이터의 비율                    | 예측 값으로 실제와 일치하지 않음, 실제 데이터와 비슷하게 예측할수록 쿼리 성능 향상                       |
+
+### id 컬럼
 
 각 SELECT 문에 부여되는 식별자 값으로, 하나의 SELECT 문 안에 서브쿼리나 UNION 등이 포함되면 여러 개의 id가 나타날 수 있다.
 
@@ -44,7 +60,7 @@ SELECT ((SELECT COUNT(*) FROM employees) + (SELECT COUNT(*) FROM departments)) A
 | 3  |  SUBQUERY   | departments | index | ux_deptname | NULL |   9    |  Using index   |
 | 2  |  SUBQUERY   |  employees  | index | ix_hiredate | NULL | 300252 |  Using index   |
 
-## select_type 컬럼
+### select_type 컬럼
 
 각 단위 SELECT 쿼리가 어떤 타입의 쿼리인지 표시되는 컬럼으로, 쿼리의 종류에 따라 다음과 같이 표시된다.
 
@@ -58,8 +74,6 @@ SELECT ((SELECT COUNT(*) FROM employees) + (SELECT COUNT(*) FROM departments)) A
 - DEPENDENT DERIVED: 외부 쿼리의 값에 의존하는 단위 SELECT 쿼리로, LATERAL JOIN을 사용하여 외부 컬럼을 참조하는 경우
 - UNCACHEABLE SUBQUERY/UNION: 캐시가 불가능한 서브쿼리로, 사용자 변수 / NOT-DETERMINISTIC 속성의 스토어드 루틴 / RAND() 같은 함수가 서브쿼리 내에 사용된 경우
 - MATERIALIZE: DERIVED와 비슷하게 쿼리의 내용을 임시 테이블로 생성하는 쿼리(동일하지는 않음)
-
-아래는 `select_type`의 예시이다.
 
 ```sql
 EXPLAIN
@@ -100,7 +114,7 @@ FROM employees e
 | 1  |      PRIMARY      | <derived2> | ref  | <auto_key0> |      NULL      |
 | 2  | DEPENDENT DERIVED |     s      | ref  |   PRIMARY   | Using filesort |
 
-## type 컬럼
+### type 컬럼
 
 쿼리의 테이블 접근 방식을 의미하며, 인덱스를 사용했는지, 풀 테이블 스캔을 했는지 등을 표시한다.
 
@@ -117,7 +131,7 @@ FROM employees e
 - index_merge: 2개 이상의 인덱스를 이용해 각 검색 결과를 병합해서 접근하는 방법
 - fulltext: MySQL 서버의 전문 검색(Full-text Search) 인덱스를 사용하는 경우 사용
 
-## extra 컬럼
+### extra 컬럼
 
 쿼리의 실행 계획에 대한 추가적인 정보를 쉼표로 구분해서 표시하며, 명시된 순서는 상관 없다.
 
@@ -126,18 +140,6 @@ FROM employees e
 - Using filesort: 정렬이 필요한데, 적절한 인덱스를 사용하지 못해 별도의 정렬 작업이 발생하는 경우(메모리 또는 디스크에서 수행되어 성능 저하의 원인)
 - Using temporary: 쿼리 처리 중 중간 결과를 저장하기 위해 임시 테이블을 사용하는 경우(GROUP BY나 UNION 등에서 나타나며, 성능 저하의 원인)
 - Using index condition: 인덱스 조건 푸시다운이 활성화되어 인덱스만으로 WHERE 조건을 평가할 수 있는 경우 표시
-
-## 그 외 컬럼
-
-| 키             | 설명                                                              | 비고                                              |
-|:--------------|:----------------------------------------------------------------|:------------------------------------------------|
-| table         | 테이블의 이름에 별칭이 부여된 경우에는 별칭이 표시되며 `<>`로 둘러싸인 테이블은 임시 테이블을 의미       | 안의 숫자는 단위 쿼리의 id값                               |
-| possible_keys | 옵티마이저가 쿼리 처리를 위해 고려했던 후보 인덱스 목록                                 | 실제로 사용된 인덱스와 다를 수 있음                            |
-| key           | 실제로 사용된 인덱스의 이름                                                 | 인덱스가 사용되지 않은 경우 NULL로 표시                        |
-| key_len       | 사용된 인덱스의 길이(바이트 단위, CHAR(4) + INTEGER 인덱스를 사용한 경우 4*4 + 4 = 20) | 인덱스 효율성 추정 가능                                   |
-| ref           | 접근 방법(`type`)이 ref인 경우, 참조 조건으로 어떤 값이 제공됐는지 표시                  | 연산이 적용된 경우 func로 표시                             |
-| rows          | 쿼리를 처리하기 위해 읽어야 할 레코드의 건수                                       | 예상 접근 레코드 수로, 실제와 다를 수 있음                       |
-| filtered      | `rows` 컬럼에서 예상한 레코드 중 WHERE 조건에 일치하는 데이터의 비율                    | 예측 값으로 실제와 일치하지 않음, 실제 데이터와 비슷하게 예측할수록 쿼리 성능 향상 |
 
 ###### 참고자료
 
