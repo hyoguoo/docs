@@ -4,10 +4,9 @@ layout: editorial
 
 # Analyze Execution Plan(실행 계획 분석)
 
-MySQL의 `EXPLAIN`은 SQL 문이 어떤 방식으로 실행될 것인지 보여주는 실행 계획(Execution Plan)을 확인하는 명령이다.  
-옵티마이저가 수립한 쿼리 처리 경로를 분석하여 성능 문제를 진단하고 쿼리를 튜닝하는 데 핵심적인 역할을 한다.
+MySQL의 `EXPLAIN`은 실행 계획(Execution Plan)을 확인하는 명령으로, 옵티마이저가 수립한 쿼리 처리 경로를 분석하여 성능 문제를 진단하고 쿼리를 튜닝하는 데 핵심적인 역할을 한다.
 
-실행 계획은 전통적인 테이블 형태뿐만 아니라 `FORMAT=JSON`, `FORMAT=TREE` 옵션을 통해 다른 형식으로도 확인할 수 있다.
+## 실행 계획의 기본 구조와 순서
 
 ```sql
 EXPLAIN
@@ -22,10 +21,11 @@ WHERE e.first_name = 'ABC';
 | 1  |   SIMPLE    |   e   |    NULL    | ref  | PRIMARY,ix_firstname | ix_firstname |   58    |       const        |  1   |  100.00  | NULL  |
 | 1  |   SIMPLE    |   e   |    NULL    | ref  |       PRIMARY        |   PRIMARY    |    4    | employees.e.emp_no |  10  |  100.00  | NULL  |
 
-실행 계획의 각 레코드는 데이터베이스가 테이블에 접근하는 하나의 단계를 의미하며, 실행 순서는 다음 규칙을 따른다.
+`EXPLAIN` 결과의 각 행은 쿼리 실행의 한 단계를 의미하며, 일반적으로 다음 규칙에 따라 실행 순서를 파악할 수 있다.
 
-- 위쪽에 출력된 결과일수록(id 컬럼의 값이 작을수록) 쿼리의 바깥 부분이거나 먼저 접근한 테이블
-- 아래쪽에 출력된 결과일수록 쿼리의 안쪽(Inner) 부분 또는 나중에 접근한 테이블에 해당
+1. `id` 컬럼 값이 클수록 먼저 실행
+2. `id` 값이 같다면 위쪽에 있는 행이 먼저 실행(= 드라이빙 테이블)
+3. 들여쓰기(TREE, JSON 형식)는 다른 행에 종속됨을 의미하며, 가장 안쪽부터 실행
 
 ## 주요 컬럼
 
@@ -118,7 +118,7 @@ FROM employees e
 
 쿼리의 테이블 접근 방식을 의미하며, 인덱스를 사용했는지, 풀 테이블 스캔을 했는지 등을 표시한다.
 
-- const: PRIMARY KEY나 UNIQUE 인덳스 컬럼을 상수 조건으로 조회하여 1건만 읽는 경우 사용
+- const: PRIMARY KEY나 UNIQUE 인덱스 컬럼을 상수 조건으로 조회하여 1건만 읽는 경우 사용
 - ref: PRIMARY KEY나 UNIQUE가 아닌 인덱스를 동등(Equal) 조건 검색 시 사용
 - eq_ref: 조인 시 첫 번째 테이블의 컬럼 값을 이용해 두 번째 테이블의 PRIMARY KEY나 UNIQUE 인덱스를 조회할 때 사용
 - ref_or_null: ref 접근 방법과 동일하나 NULL 비교도 추가된 형태
