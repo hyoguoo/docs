@@ -227,11 +227,11 @@ WHERE e.emp_no = x.emp_no;
 ### 래터럴 조인(Lateral Join)
 
 MySQL 8.0부터 지원하는 기능으로 특정 그룹별로 서브쿼리를 실행해서 결과를 반환하는 기능이다.
-`FROM` 절의 한 테이블(외부 쿼리)의 결과를 `JOIN` 절의 서브쿼리(내부 쿼리)에서 참조할 수 있게 해준다.
 
 ```sql
--- employees 테이블에서 first_name이 Matt인 레코드를 조회하고, 
--- salaries 테이블에서 가장 최근에 받은 급여 2건을 조회하는 쿼리
+-- `FROM` 절의 한 테이블(외부 쿼리)의 결과를 `JOIN` 절의 서브쿼리(내부 쿼리)에서 참조
+-- employees 테이블에서 first_name이 Matt인 레코드를 조회하고, -> 외부 쿼리의 결과를
+-- salaries 테이블에서 가장 최근에 받은 급여 2건을 조회하는 쿼리 -> 내부 쿼리에서 사용
 SELECT *
 FROM employees e
          LEFT JOIN LATERAL ( SELECT *
