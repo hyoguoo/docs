@@ -27,6 +27,10 @@ layout: editorial
 
 * [Spring](spring/)
 
+### Messaging & Streaming
+
+* [Kafka](kafka/)
+
 ### Software Engineering
 
 * [Test](test/)
