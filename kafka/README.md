@@ -6,3 +6,4 @@ layout: editorial
 
 * Core Concepts
     * [Introduction](introduction.md)
+    * [Core Components](core-components.md)

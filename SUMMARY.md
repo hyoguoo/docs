@@ -283,3 +283,4 @@
   * [Mocking Framework - Mockito](test/mocking-framework-mockito.md)
 * [Kafka](kafka/README.md)
   * [Introduction](kafka/introduction.md)
+  * [Core Components](kafka/core-components.md)
