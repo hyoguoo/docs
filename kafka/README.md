@@ -8,3 +8,5 @@ layout: editorial
     * [Introduction](introduction.md)
     * [Core Components](core-components.md)
     * [Zookeeper & KRaft](zookeeper-and-kraft.md)
+* Architecture
+    * [Topic & Partition Internals](topic-and-partition-internals.md)

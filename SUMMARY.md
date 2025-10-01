@@ -285,3 +285,4 @@
   * [Introduction](kafka/introduction.md)
   * [Core Components](kafka/core-components.md)
   * [Zookeeper & KRaft](kafka/zookeeper-and-kraft.md)
+  * [Topic & Partition Internals](kafka/topic-and-partition-internals.md)
