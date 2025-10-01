@@ -38,5 +38,6 @@ layout: editorial
     * [Spring Boot Auto Configuration](spring-boot-auto-configuration.md)
 * Spring WebFlux & Reactive
     * [Reactive Programming](reactive-programming.md)
+    * [Spring WebFlux](spring-webflux.md)
 * Additional
     * [SpEL(Spring Expression Language)](spel.md)
