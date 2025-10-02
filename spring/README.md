@@ -42,5 +42,6 @@ layout: editorial
     * Reactive Streams & Publisher
         * [Mono & Flux](mono-and-flux.md)
         * [Scheduler & Thread Model](scheduler-thread-model.md)
+    * [Netty & EventLoop](netty-eventloop.md)
 * Additional
     * [SpEL(Spring Expression Language)](spel.md)
