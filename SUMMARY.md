@@ -294,3 +294,4 @@
   * [Topic & Partition Internals](kafka/topic-and-partition-internals.md)
   * [Producer Internals](kafka/producer-internals.md)
   * [Consumer Internals](kafka/consumer-internals.md)
+  * [Replication Internals](kafka/replication-internals.md)

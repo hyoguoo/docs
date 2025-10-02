@@ -12,3 +12,4 @@ layout: editorial
     * [Topic & Partition Internals](topic-and-partition-internals.md)
     * [Producer Internals](producer-internals.md)
     * [Consumer Internals](consumer-internals.md)
+    * [Replication Internals](replication-internals.md)
