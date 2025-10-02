@@ -41,5 +41,6 @@ layout: editorial
     * [Spring WebFlux](spring-webflux.md)
     * Reactive Streams & Publisher
         * [Mono & Flux](mono-and-flux.md)
+        * [Scheduler & Thread Model](scheduler-thread-model.md)
 * Additional
     * [SpEL(Spring Expression Language)](spel.md)
