@@ -43,5 +43,6 @@ layout: editorial
         * [Mono & Flux](mono-and-flux.md)
         * [Scheduler & Thread Model](scheduler-thread-model.md)
     * [Netty & EventLoop](netty-eventloop.md)
+    * [WebFlux in API Gateway](webflux-api-gateway.md)
 * Additional
     * [SpEL(Spring Expression Language)](spel.md)
