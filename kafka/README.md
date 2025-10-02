@@ -10,3 +10,5 @@ layout: editorial
     * [Zookeeper & KRaft](zookeeper-and-kraft.md)
 * Architecture
     * [Topic & Partition Internals](topic-and-partition-internals.md)
+    * [Producer Internals](producer-internals.md)
+    * [Consumer Internals](consumer-internals.md)
