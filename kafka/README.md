@@ -13,3 +13,4 @@ layout: editorial
     * [Producer Internals](producer-internals.md)
     * [Consumer Internals](consumer-internals.md)
     * [Replication Internals](replication-internals.md)
+    * [Message Delivery Semantics](message-delivery-semantics.md)
