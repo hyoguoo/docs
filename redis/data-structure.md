@@ -4,30 +4,34 @@ layout: editorial
 
 # Data Structure(자료구조)
 
+Redis는 다양한 자료구조를 지원하며, 각 자료구조의 내부 동작 방식과 시간 복잡도를 이해하는 것은 Redis의 성능을 최적화하는 데 중요하다.
+
 ### String
 
-Redis에서 가장 기본적인 자료구조로, key-value 방식으로 데이터를 저장하며, 문자열뿐만 아니라 이미지, JSON, 직렬화된 객체 등 다양한 데이터를 저장할 수 있다.
+Redis에서 가장 기본적인 자료구조로, key 하나에 value 하나가 대응되는 구조다.
 
-- 메모리 제한: 최대 512MB까지의 문자열 저장을 지원
+- 문자열뿐만 아니라 이미지, JSON, 직렬화된 객체 등 다양한 데이터 저장 가능
+- 메모리 제한: 최대 512MB까지의 문자열 저장 가능
 - 명령어
 
-|                  명령어                  |          기능           |                       예시                       |
-|:-------------------------------------:|:---------------------:|:----------------------------------------------:|
-| `INCR` / `INCRBY` / `DECR` / `DECRBY` | 숫자 값을 원자적으로 증가 또는 감소  | `INCR counter # 1` <br> `INCRBY counter 5 # 6` |
-|                `NX` 옵션                |    지정한 키가 없을 때만 저장    |             `SET key2 "value2" NX`             |
-|                `XX` 옵션                |  지정한 키가 있을 때만 값 업데이트  |           `SET key1 "new_value" XX`            |
-|                `MSET`                 |   여러 키의 값을 한 번에 설정    |       `MSET key1 "value1" key2 "value2"`       |
-|                `MGET`                 |   여러 키의 값을 한 번에 조회    |                `MGET key1 key2`                |
-|               `APPEND`                |     기존 값에 데이터를 추가     |             `APPEND key1 "suffix"`             |
-|              `GETRANGE`               | 문자열의 부분을 가져오기 (서브스트링) |              `GETRANGE key1 0 3`               |
-|              `SETRANGE`               |  문자열의 특정 위치부터 값을 설정   |           `SETRANGE key1 6 "world"`            |
+|                  명령어                  |          기능           |                   예시                   |
+|:-------------------------------------:|:---------------------:|:--------------------------------------:|
+| `INCR` / `INCRBY` / `DECR` / `DECRBY` | 숫자 값을 원자적으로 증가 또는 감소  | `INCR counter` <br> `INCRBY counter 5` |
+|                `NX` 옵션                |    지정한 키가 없을 때만 저장    |         `SET key2 "value2" NX`         |
+|                `XX` 옵션                |  지정한 키가 있을 때만 값 업데이트  |       `SET key1 "new_value" XX`        |
+|                `MSET`                 |   여러 키의 값을 한 번에 설정    |   `MSET key1 "value1" key2 "value2"`   |
+|                `MGET`                 |   여러 키의 값을 한 번에 조회    |            `MGET key1 key2`            |
+|               `APPEND`                |     기존 값에 데이터를 추가     |         `APPEND key1 "suffix"`         |
+|              `GETRANGE`               | 문자열의 부분을 가져오기 (서브스트링) |          `GETRANGE key1 0 3`           |
+|              `SETRANGE`               |  문자열의 특정 위치부터 값을 설정   |       `SETRANGE key1 6 "world"`        |
 
 - 활용 사례: 간단한 캐시 / 세션 관리 / 카운터(예: 방문자 수, 좋아요 수 등) 등
 
 ### List
 
-순서를 가지는 문자열 목록으로, 인덱스를 사용해 직접 접근할 수 있으며, 스택과 큐로 활용 가능하다.
+순서를 가지는 문자열 목록으로, 인덱스를 사용해 직접 접근할 수 있다.
 
+- 내부적으로는 연결 리스트(Linked List)로 구현되어 있음
 - 메모리 제한: 하나의 리스트에 최대 42억여 개의 아이템 저장 가능
 - 기능
 
@@ -62,54 +66,58 @@ Redis에서 가장 기본적인 자료구조로, key-value 방식으로 데이�
 
 키 안에 또 다른 필드-값 쌍으로 구성된 데이터를 저장하는 자료구조로, 작은 객체나 테이블 데이터를 저장하는 데 적합하다.
 
+- 적은 수의 필드를 가질 때 ziplist나 listpack이라는 특별한 방식으로 인코딩하여 메모리 사용량을 크게 줄임
 - 명령어
 
 |    명령어    |      기능      |                  예시                   |
 |:---------:|:------------:|:-------------------------------------:|
-|  `HSET`   |  필드-값 쌍 저장   |     `HSET` user:1000 name "John"      |
-|  `HGET`   |  필드 값 가져오기   |         `HGET` user:1000 name         |
-|  `HMSET`  | 여러 필드-값 쌍 설정 | `HMSET` user:1001 name "Alice" age 30 |
-|  `HDEL`   |    필드 삭제     |         `HDEL` user:1000 age          |
-| `HEXISTS` | 필드 존재 여부 확인  |       `HEXISTS` user:1000 name        |
-| `HGETALL` | 모든 필드-값 쌍 조회 |          `HGETALL` user:1000          |
+|  `HSET`   |  필드-값 쌍 저장   |     `HSET user:1000 name "John"`      |
+|  `HGET`   |  필드 값 가져오기   |         `HGET user:1000 name`         |
+|  `HMSET`  | 여러 필드-값 쌍 설정 | `HMSET user:1001 name "Alice" age 30` |
+|  `HDEL`   |    필드 삭제     |         `HDEL user:1000 age`          |
+| `HEXISTS` | 필드 존재 여부 확인  |       `HEXISTS user:1000 name`        |
+| `HGETALL` | 모든 필드-값 쌍 조회 |          `HGETALL user:1000`          |
 
 - 활용 사례: 사용자 프로필 / 상품 정보 저장
 
 ### Set
 
-고유한 값들의 집합을 저장하며, 중복된 데이터를 허용하지 않으며 순서가 없는 데이터 저장에 적합하다.
+순서가 없고, 중복된 데이터를 허용하지 않는 문자열의 집합을 저장하는 자료구조다.
 
+- 내부적으로 해시 테이블(Hash Table)로 구현
 - 명령어
 
 |     명령어     |       기능        |              예시               |
 |:-----------:|:---------------:|:-----------------------------:|
-|   `SADD`    |      값 추가       | `SADD` myset "apple" "banana" |
-|   `SREM`    |      값 제거       |     `SREM` myset "apple"      |
-|  `SINTER`   |    두 집합의 교집합    |    `SINTER` myset yourset     |
-|  `SUnion`   |    두 집합의 합집합    |    `SUnion` myset yourset     |
-| `SISMEMBER` | 값이 집합에 존재하는지 확인 |   `SISMEMBER` myset "apple"   |
-| `SMEMBERS`  |   집합의 모든 값 조회   |       `SMEMBERS` myset        |
+|   `SADD`    |      값 추가       | `SADD myset "apple" "banana"` |
+|   `SREM`    |      값 제거       |     `SREM myset "apple"`      |
+|  `SINTER`   |    두 집합의 교집합    |    `SINTER myset yourset`     |
+|  `SUnion`   |    두 집합의 합집합    |    `SUnion myset yourset`     |
+| `SISMEMBER` | 값이 집합에 존재하는지 확인 |   `SISMEMBER myset "apple"`   |
+| `SMEMBERS`  |   집합의 모든 값 조회   |       `SMEMBERS myset`        |
 
-- 활용 사례: 태그 저장 / 고유 사용자 저장 / 복권 번호 추첨
+- 활용 사례: 태그 저장 / 고유 사용자 저장
 
 ### Sorted Set
 
-Set과 유사하지만, 각 요소에 점수(score)를 부여해 자동으로 정렬된 상태로 저장하게 된다.
+Set과 유사하지만, 각 요소에 점수(score)를 부여해 자동으로 정렬된 상태를 유지하는 자료구조다.
 
+- 내부적으로 해시 테이블과 스킵 리스트(Skip List)로 구현
 - 명령어
 
 |     명령어     |                                             기능                                              |                 예시                 |
 |:-----------:|:-------------------------------------------------------------------------------------------:|:----------------------------------:|
-|   `ZADD`    |                                          요소와 점수 삽입                                          |  `ZADD` leaderboard 100 "player1"  |
-|  `ZRANGE`   | 인덱스 범위 내 요소 조회 <br> WITHSCORES: 스코어 함께 출력 / REV: 역순 / BYLEX: 사전 순 정렬 / BYSCORES: 스코어 범위로 조회 |     `ZRANGE` leaderboard 0 -1      |
-|   `ZREM`    |                                            요소 삭제                                            |    `ZREM` leaderboard "player1"    |
-|  `ZINCRBY`  |                                           점수 값 증가                                           | `ZINCRBY` leaderboard 50 "player1" |
-|  `ZSCORE`   |                                        특정 요소의 점수 조회                                         |   `ZSCORE` leaderboard "player1"   |
-| `ZREVRANGE` |                                     높은 점수 순으로 정렬된 요소 조회                                     |    `ZREVRANGE` leaderboard 0 -1    |
+|   `ZADD`    |                                          요소와 점수 삽입                                          |  `ZADD leaderboard 100 "player1"`  |
+|  `ZRANGE`   | 인덱스 범위 내 요소 조회 <br> WITHSCORES: 스코어 함께 출력 / REV: 역순 / BYLEX: 사전 순 정렬 / BYSCORES: 스코어 범위로 조회 |     `ZRANGE leaderboard 0 -1`      |
+|   `ZREM`    |                                            요소 삭제                                            |    `ZREM leaderboard "player1"`    |
+|  `ZINCRBY`  |                                           점수 값 증가                                           | `ZINCRBY leaderboard 50 "player1"` |
+|  `ZSCORE`   |                                        특정 요소의 점수 조회                                         |   `ZSCORE leaderboard "player1"`   |
+| `ZREVRANGE` |                                     높은 점수 순으로 정렬된 요소 조회                                     |    `ZREVRANGE leaderboard 0 -1`    |
 
 - 활용 사례: 리더보드 / 순위 계산 / 시간 기반 정렬된 이벤트 저장
 - 시간 복잡도
-    - 인덱스를 통한 조회: O(logN)
+    - 특정 데이터: 해시 테이블 구조로 O(1)
+    - 점수 범위 조회: 스킵 리스트 구조로 O(logN)
 
 #### Skip List
 
@@ -123,46 +131,49 @@ Sorted Set은 Skip List를 사용해 데이터를 관리하기 때문에 O(logN)
 
 ### Bitmaps
 
-독자적인 자료 구조는 아니며, string 자료 구조에 bit 연산을 수행할 수 있도록 확장한 형태다.
+별도의 자료구조가 아니라, String 자료구조를 비트(bit) 단위로 조작할 수 있도록 하는 기능의 집합이다.
 
+- 하나의 키에 매우 큰 비트 배열을 저장하고, 각 비트의 인덱스(offset)를 통해 `0` 또는 `1`의 값을 설정하고 조회
 - 메모리 제한: 2^32의 비트를 가지고 있는 비트맵 형태
 - 명령어
 
 |    명령어     |            기능            |              예시              |
 |:----------:|:------------------------:|:----------------------------:|
-|  `SETBIT`  |          비트 설정           |    `SETBIT` pageviews 1 1    |
-|  `GETBIT`  |         비트 값 조회          |     `GETBIT` pageviews 1     |
-| `BITCOUNT` |    비트 값이 1인 비트 개수 세기     |     `BITCOUNT` pageviews     |
-|  `BITOP`   | 비트 연산(AND, OR, XOR, NOT) | `BITOP` AND result key1 key2 |
+|  `SETBIT`  |          비트 설정           |    `SETBIT pageviews 1 1`    |
+|  `GETBIT`  |         비트 값 조회          |     `GETBIT pageviews 1`     |
+| `BITCOUNT` |    비트 값이 1인 비트 개수 세기     |     `BITCOUNT pageviews`     |
+|  `BITOP`   | 비트 연산(AND, OR, XOR, NOT) | `BITOP AND result key1 key2` |
 
 - 활용 사례: 이벤트 발생 여부 추적 / 월간 사용자 활성화 상태 / 플래그 저장
 
 ### HyperLogLog
 
-집합의 원소 개수인 카디널리티를 추정할 수 있는 자료 구조로, 대량 데이터에서 중복되지 않는 고유한 값을 집계할 때 사용한다.(카디널리티 추정 오차 약 0.81%)
+매우 적은 메모리를 사용하여 집합에 포함된 고유한 원소의 개수(Cardinality)를 추정하는 확률적 자료구조.
 
+- 수 십억 개의 원소에 대해서도 약 0.81%의 표준 오차 내에서 고유 원소 개수를 추정
 - 메모리 제한: 최대 12KB 사용 / 최대 2^64개의 원소 저장 가능
 - 명령어
 
 |    명령어    |        기능         |                      예시                      |
 |:---------:|:-----------------:|:--------------------------------------------:|
-|  `PFADD`  |       원소 추가       |       `PFADD` visitors "user1" "user2"       |
-| `PFCOUNT` |    고유 원소 개수 추정    |              `PFCOUNT` visitors              |
-| `PFMERGE` | 여러 HyperLogLog 병합 | `PFMERGE` total_visitors visitors1 visitors2 |
+|  `PFADD`  |       원소 추가       |       `PFADD visitors "user1" "user2"`       |
+| `PFCOUNT` |    고유 원소 개수 추정    |              `PFCOUNT visitors`              |
+| `PFMERGE` | 여러 HyperLogLog 병합 | `PFMERGE total_visitors visitors1 visitors2` |
 
 - 활용 사례: 대규모 사용자 방문 기록 / 이벤트 추적
 
 ### Geospatial
 
-지리적 좌표(longitude, latitude)를 저장하고, 반경 내의 위치 검색을 효율적으로 처리하는 자료구조.
+지리 공간 데이터(경도, 위도)를 저장하고, 특정 지점 주변의 다른 지점들을 검색하거나 두 지점 간의 거리를 계산하는 데 특화된 기능을 제공한다.
 
+- 내부적으로는 Sorted Set을 활용
 - 명령어
 
 |     명령어     |      기능      |                             예시                             |
 |:-----------:|:------------:|:----------------------------------------------------------:|
-|  `GEOADD`   |    좌표 추가     |      `GEOADD` locations 13.361389 38.115556 "Palermo"      |
-| `GEOSEARCH` |  좌표 조회(반경)   | `GEOSEARCH` locations FROMMEMBER "Palermo" BYRADIUS 100 km |
-|  `GEODIST`  | 두 지점 간 거리 계산 |          `GEODIST` locations "Palermo" "Catania"           |
+|  `GEOADD`   |    좌표 추가     |      `GEOADD locations 13.361389 38.115556 "Palermo"`      |
+| `GEOSEARCH` |  좌표 조회(반경)   | `GEOSEARCH locations FROMMEMBER "Palermo" BYRADIUS 100 km` |
+|  `GEODIST`  | 두 지점 간 거리 계산 |          `GEODIST locations "Palermo" "Catania"`           |
 
 - 활용 사례: 근처 매장 찾기 / 배달 서비스에서의 위치 기반 검색
 
