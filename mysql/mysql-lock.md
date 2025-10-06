@@ -183,13 +183,20 @@ DROP TABLE access_log_old;
 -- 세션 1
 START TRANSACTION;
 SELECT *
-FROM users;
+FROM users
+WHERE id = 1;
 -- 트랜잭션 종료 전까지 users 테이블에 대한 MDL 유지
 
 -- 세션 2
 RENAME TABLE users TO users_backup, users_new TO users;
 -- 세션 1 종료 전까지 대기
 ```
+
+단순히 테이블 변경 작업이 계속 대기하는 것이 문제가 아니라, 다른 모든 쿼리가 대기 상태에 빠질 수 있어 주의해야 한다.
+
+1. `RENAME TABLE` 세션 1에 의해 배타적 메타데이터 락 획득 대기
+2. 이후의 모든 쿼리가 세션 1의 트랜잭션과 상관 없이 `RENAME TABLE` 명령이 완료될 때까지 대기
+3. 새로운 쿼리들이 연쇄적으로 쌓이게 되면서 DB 커넥션이 모두 소진되어 서비스 장애로 이어질 수 있음
 
 ###### 참고자료
 
