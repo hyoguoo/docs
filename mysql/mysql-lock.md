@@ -180,16 +180,26 @@ DROP TABLE access_log_old;
 3. 때문에 해당 테이블을 사용하는 어떠한 활성 트랜잭션도 없을 때만 획득 가능
 
 ```sql
--- 세션 1
+-- 세션 1: 장기 실행 트랜잭션 (분석 쿼리 등)
 START TRANSACTION;
 SELECT *
 FROM users
-WHERE id = 1;
--- 트랜잭션 종료 전까지 users 테이블에 대한 MDL 유지
+WHERE ...;
+-- 쿼리 실행이 오래 걸리거나, COMMIT이 늦어짐
+-- 트랜잭션이 종료될 때까지 users 테이블에 대한 Shared MDL을 점유
 
--- 세션 2
+
+-- 세션 2: DDL 실행
 RENAME TABLE users TO users_backup, users_new TO users;
--- 세션 1 종료 전까지 대기
+-- 세션 1의 트랜잭션이 끝나길 기다리며 '대기' 상태에 빠짐
+
+
+-- 세션 3: 새로운 일반 쿼리
+SELECT *
+FROM users
+WHERE user_id = 123;
+-- 이 쿼리는 세션 1의 공유 락과는 충돌하지 않지만, 대기열에 먼저 들어온
+-- 세션 2의 DDL 작업 때문에 함께 '대기' 상태에 빠짐
 ```
 
 단순히 테이블 변경 작업이 계속 대기하는 것이 문제가 아니라, 다른 모든 쿼리가 대기 상태에 빠질 수 있어 주의해야 한다.
