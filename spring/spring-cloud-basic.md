@@ -53,8 +53,8 @@ MSA 환경에서 각 서비스의 위치 정보(IP, Port)를 등록하고 조회
     4. Cancel(취소): 서비스가 정상적으로 종료될 때, 서버에 등록 해제 요청
 - 특징
     - Self-Preservation Mode(자기보호 모드)
-        - 상황: 네트워크 문제로 Eureka Server가 다수의 클라이언트로부터 하트비트를 받지 못하는 경우
-        - 동작: 서버는 이를 일시적인 네트워크 장애로 간주하고 만료된 인스턴스를 함부로 제거하지 않고, 기존 레지스트리를 유지
+        - Eureka Server가 다수의 클라이언트로부터 하트비트를 받지 못하는 경우 일시적인 문제로 판단
+        - 만료된 인스턴스를 함부로 제거하지 않고, 기존 레지스트리를 유지
     - Client-Side Load Balancing
         - Eureka 자체는 로드 밸런서가 아니며, `Client-Side Load Balancing` 방식 사용
         - 클라이언트(Spring Cloud Gateway나 RestTemplate)가 Eureka로부터 특정 서비스의 인스턴스 목록을 받아와 자체적으로 요청을 분산 처리
