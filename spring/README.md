@@ -46,3 +46,4 @@ layout: editorial
     * [WebFlux in API Gateway](webflux-api-gateway.md)
 * Additional
     * [SpEL(Spring Expression Language)](spel.md)
+    * [Spring Cloud Basic](spring-cloud-basic.md)
