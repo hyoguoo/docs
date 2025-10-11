@@ -34,17 +34,15 @@ Spring Cloud는 다양한 하위 프로젝트(모듈)로 구성되어 있으며,
 
 시스템의 모든 외부 요청이 거쳐가는 단일 진입점(Single Point of Entry) 역할을 하는 API 게이트웨이로, 비동기 논블로킹 방식으로 동작하여 높은 성능을 제공한다.
 
-- 핵심 구성 요소
-    - Route: ID, 목적지 URI, 조건(Predicate) 및 필터(Filter)로 구성
-    - Predicate: 들어온 요청을 평가하여 Route와 매칭시키는 조건. 경로(Path), 헤더(Header), 쿠키(Cookie) 등 다양한 조건으로 설정 가능
-    - Filter: 매칭된 요청이 다운스트림 서비스로 전달되기 전후에 특정 로직을 수행
-- 특징
-    - 성능: 비동기 논블로킹 스택(Project Reactor, Netty) 기반으로 동작하여 기존 블로킹 방식보다 적은 리소스로 더 많은 동시 요청 처리 가능
-    - 필터 적용: 필터는 특정 라우트에만 적용되는 `GatewayFilter`와 모든 라우트에 공통으로 적용되는 `GlobalFilter`로 구분
+- Route: ID, 목적지 URI, 조건(Predicate) 및 필터(Filter)로 구성
+- Predicate: 들어온 요청을 평가하여 Route와 매칭시키는 조건. 경로(Path), 헤더(Header), 쿠키(Cookie) 등 다양한 조건으로 설정 가능
+- Filter: 매칭된 요청이 다운스트림 서비스로 전달되기 전후에 특정 로직을 수행
+    - GatewayFilter: 특정 라우트에만 적용
+    - GlobalFilter: 모든 라우트에 공통으로 적용
 
 ### Eureka
 
-MSA 환경에서 각 서비스의 위치 정보(IP, Port)를 등록하고 조회할 수 있는 서비스 디스커버리(Service Discovery) 서버다.
+MSA 환경에서 각 서비스의 위치 정보(IP, Port)를 등록하고 조회할 수 있는 서비스 디스커버리(Service Discovery) 서버이다.
 
 - 동작 방식
     1. Register(등록): 각 서비스 인스턴스(Eureka Client)는 시작 시 자신의 메타데이터(이름, IP, 포트 등)를 Eureka Server에 등록
@@ -53,8 +51,9 @@ MSA 환경에서 각 서비스의 위치 정보(IP, Port)를 등록하고 조회
     4. Cancel(취소): 서비스가 정상적으로 종료될 때, 서버에 등록 해제 요청
 - 특징
     - Self-Preservation Mode(자기보호 모드)
-        - Eureka Server가 다수의 클라이언트로부터 하트비트를 받지 못하는 경우 일시적인 문제로 판단
-        - 만료된 인스턴스를 함부로 제거하지 않고, 기존 레지스트리를 유지
+        - 목적: 개별 서비스의 장애가 아니라, 일시적인 네트워크 단절로 인해 다수의 클라이언트로부터 하트비트를 받지 못하는 상황을 대비한 방어 메커니즘
+        - 동작: Eureka Server가 다수의 클라이언트로부터 하트비트를 받지 못하는 경우 일시적인 문제로 판단하여 기존 레지스트리를 유지
+            - 만약 제거하면 네트워크가 복구되었을 때 정상적인 서비스들이 서로를 찾지 못하는 연쇄 장애로 이어질 수 있음
     - Client-Side Load Balancing
         - Eureka 자체는 로드 밸런서가 아니며, `Client-Side Load Balancing` 방식 사용
         - 클라이언트(Spring Cloud Gateway나 RestTemplate)가 Eureka로부터 특정 서비스의 인스턴스 목록을 받아와 자체적으로 요청을 분산 처리
