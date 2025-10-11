@@ -20,12 +20,12 @@ API Gateway 작업 특성상 CPU 집약적인 계산보다는 대부분 I/O(네�
     - 나중에 내부 서비스로부터 응답이 오면, 이벤트 루프가 이를 감지하여 응답을 클라이언트에게 전달하는 후속 작업 처리
     - 이로 인해 소수의 스레드만으로도 수많은 동시 요청을 효율적으로 처리
 
-## Spring Cloud Gateway에서의 WebFlux 활용 사례
+## Spring Cloud Gateway에서의 WebFlux
 
 Spring Cloud Gateway는 Spring 생태계에서 MSA를 위한 API Gateway 스택으로, Spring WebFlux 위에서 구축되었다.
 
 - 기술 스택: Spring Boot, Spring WebFlux, Project Reactor 기반으로, Netty를 내장 서버로 사용하여 논블로킹 시스템으로 동작
-- 동작 원리:
+- 동작 원리
     1. 클라이언트의 요청이 들어오면, Netty의 이벤트 루프 스레드가 요청 수신
     2. Spring Cloud Gateway에 정의된 다양한 필터(Filter)와 라우팅 규칙(Route)들이 순차적으로 적용(인증, 로깅, 헤더 변조 등의 기능을 수행)
     3. 모든 처리는 리액티브 스트림(Mono, Flux) 파이프라인 위에서 처리
@@ -72,3 +72,34 @@ public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
             }));
 }
 ```
+
+## 동작 과정
+
+동작 과정은 내부적으로 Project Reactor와 Netty에 기반한 비동기 논블로킹(Asynchronous Non-Blocking) 모델을 사용하여, 높은 처리량과 낮은 지연 시간을 제공한다.
+
+1. 클라이언트의 요청이 들어오면, `DispatcherHandler` 가 가장 먼저 요청을 받음
+2. 요청은 `RoutePredicateHandlerMapping` 을 통해 어떤 `Route`와 일치하는지 검사(Predicate 평가)
+3. 일치하는 `Route`를 찾으면, 요청은 `FilteringWebHandler` 로 전달되어 해당 `Route`에 정의된 필터 체인을 순차적으로 실행
+4. 필터 체인은 Pre-Filter(요청 전달 전)와 Post-Filter(응답 받은 후)로 나뉘어 동작
+5. 모든 필터링이 완료되면, 요청은 실제 마이크로서비스로 프록시되고, 응답 역시 필터 체인을 역순으로 거쳐 클라이언트에게 전달
+
+## 리액티브 스트림으로서의 요청 처리
+
+Spring Cloud Gateway는 요청과 응답을 단일 데이터가 아닌, 이벤트의 연속적인 흐름, 즉 리액티브 스트림(Reactive Stream)으로 처리한다.
+
+1. 스트림 생성(Publisher 생성)
+    - 클라이언트 요청이 들어오면, Netty 서버는 이를 I/O 작업이 처리되는 이벤트 루프(Event Loop)에 할당
+    - 요청은 즉시 처리되지 않고, `ServerHttpRequest` 객체를 포함한 `Mono<ServerWebExchange>` 라는 스트림 객체로 포장
+        - `Mono` 객체는 "요청을 어떻게 처리할지"에 대한 설계도(Publisher)이며, 아직 실행되지 않은 상태
+2. 처리 파이프라인 정의(Operator 체이닝)
+    - `DispatcherHandler` 는 이 설계도를 받아, 어떤 `Route`로 보낼지 결정(`Predicate` 평가)
+    - 해당 `Route`에 필요한 필터(`GatewayFilter`,`GlobalFilter`)들을 순서대로 연결하여 파이프라인을 완성
+3. 구독과 실행(Subscription & Execution)
+    - 정의된 파이프라인의 맨 끝에서 `.subscribe()` 가 호출되는 순간, 실제 데이터 흐름이 시작
+    - 요청 데이터는 Pre-Filter 체인을 순서대로 통과한 후, 실제 마이크로서비스로 비동기적으로 전달
+    - 이때 요청을 보낸 스레드는 결과를 기다리며 멈추지 않고(Non-Blocking) 즉시 반환되어 다른 요청 처리
+4. 비동기 응답 처리(Asynchronous Response)
+    - 다운스트림 서비스로부터 응답이 오면, 이벤트로 간주되어 파이프라인을 역방향으로 타고 흐르면서 Post-Filter 로직이 적용
+    - 응답 데이터는 Post-Filter 체인을 통과하며 가공된 후, 최종적으로 클라이언트에게 전달
+
+이처럼 모든 요청 처리 과정은 하나의 거대한 파이프라인(Pipeline)을 정의하는 것과 같으며, 실제 데이터 흐름은 마지막에 구독(subscribe)이 일어날 때 시작된다.
