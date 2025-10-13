@@ -132,6 +132,7 @@
     * [Item 90. Serialization Proxy Pattern](java/effective-java/item90.md)
 * [Large Scale System](large-scale-system/README.md)
   * [SAGA Pattern](large-scale-system/saga-pattern.md)
+  * [Transactional Outbox Pattern](large-scale-system/transactional-outbox-pattern.md)
   * [System Design Interview](large-scale-system/system-design-interview/README.md)
     * [Basic](large-scale-system/system-design-interview/basic.md)
     * [Design Rate Limiter](large-scale-system/system-design-interview/design-rate-limiter.md)
