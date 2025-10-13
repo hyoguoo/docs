@@ -4,8 +4,6 @@ layout: editorial
 
 # Java
 
-## [Effective Java](effective-java)
-
 * [JVM](jvm.md)
 * [Garbage Collection](garbage-collection.md)
 * Basic
@@ -42,3 +40,5 @@ layout: editorial
     * [Lambda](lambda.md)
     * [Reflection](reflection.md)
     * [Serialization](serialization.md)
+
+### [Effective Java](effective-java)
