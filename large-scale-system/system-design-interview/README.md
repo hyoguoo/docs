@@ -29,7 +29,7 @@ layout: editorial
 |      광고 클릭 이벤트 집계       |           [Design Ad Click Event Aggregation System](design-ad-click-event-aggregation-system.md)           |
 |        호텔 예약 시스템        |                    [Design Hotel Reservation System](design-hotel-reservation-system.md)                    |
 |       분산 이메일 서비스        |                    [Design Distributed Mail Service](design-distributed-mail-service.md)                    |
-|     S3와 유사한 객체 저장소      |                        [Design Object Storage System](design-object-storage-system)                         |
+|     S3와 유사한 객체 저장소      |                       [Design Object Storage System](design-object-storage-system.md)                       |
 |       실시간 게임 순위표        |                  [Design Real-time Game Leaderboard](design-real-time-game-leaderboard.md)                  |
 |         결제 시스템          |                              [Design Payment System](design-payment-system.md)                              |
 |          전자 지갑          |                                    [Design E-Wallet](design-e-wallet.md)                                    |
