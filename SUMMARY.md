@@ -131,6 +131,7 @@
     * [Item 9. try-with-resources](java/effective-java/item9.md)
     * [Item 90. Serialization Proxy Pattern](java/effective-java/item90.md)
 * [Large Scale System](large-scale-system/README.md)
+  * [Monolithic vs Microservices](large-scale-system/monolithic-vs-microservices-architecture.md)
   * [SAGA Pattern](large-scale-system/saga-pattern.md)
   * [Transactional Outbox Pattern](large-scale-system/transactional-outbox-pattern.md)
   * [Circuit Breaker Pattern](large-scale-system/circuit-breaker-pattern.md)
