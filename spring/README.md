@@ -36,6 +36,9 @@ layout: editorial
     * [Spring Boot Core Execution](spring-boot-core-execution.md)
     * [Spring Boot Properties](spring-boot-properties.md)
     * [Spring Boot Auto Configuration](spring-boot-auto-configuration.md)
+* Testing
+    * [Spring Boot Test Context](spring-boot-test-context.md)
+    * [Mocking Framework - Mockito](mocking-framework-mockito.md)
 * Spring WebFlux & Reactive
     * [Reactive Programming](reactive-programming.md)
     * [Spring WebFlux](spring-webflux.md)

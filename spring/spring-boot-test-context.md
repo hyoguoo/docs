@@ -92,7 +92,7 @@ public class PaymentServiceTest {
 public abstract class IntegrationTestSupport {
     // ...
 }
-    
+
 // 공통 설정을 사용하는 테스트
 public class OrderServiceTest extends IntegrationTestSupport {
     // ...
