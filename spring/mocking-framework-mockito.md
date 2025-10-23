@@ -16,6 +16,8 @@ Mockito는 Java 단위 테스트(Unit Test) 작성을 돕는 모킹(Mocking) 프
 
 ### `Mockito.mock()` 메서드 사용
 
+가장 기본적인 방법으로, `mock()` 정적 메서드를 사용해 Mock 객체를 직접 생성한다.
+
 ```java
 import static org.mockito.Mockito.mock;
 
@@ -27,8 +29,9 @@ class MemberServiceTest {
 
 ### `@Mock` 어노테이션 사용
 
-테스트 클래스 상단에 `@ExtendWith(MockitoExtension.class)`를 선언하여 Mockito 확장 기능을 활성화한 후, 필드에 `@Mock` 어노테이션을 붙여 사용한다.
+JUnit 5 확장 기능을 사용하여 애노테이션 기반으로 Mock 객체를 생성하고 주입한다.
 
+- `@ExtendWith(MockitoExtension.class)`: 테스트 클래스에 Mockito 확장 기능 활성화
 - `@Mock`: 해당 필드를 Mock 객체로 초기화
 - `@InjectMocks`: 테스트 대상 객체를 생성하고, `@Mock` 또는 `@Spy`로 생성된 의존 객체를 자동으로 주입
 
@@ -48,7 +51,7 @@ class MemberServiceTest {
 
 ### `@Spy` - 실제 객체 일부 Mocking
 
-실제 객체를 사용하면서 특정 메서드의 행동만 변경하고 싶을 때 사용한다.(Stubbing 하지 않은 메서드는 실제 로직을 수행)
+실제 객체를 사용하면서 특정 메서드의 행동만 변경하고 싶을 때 사용한다.
 
 ```java
 
@@ -65,6 +68,32 @@ void spyTest() {
 
     assertEquals(100, spiedList.size()); // Stubbing된 값 반환
     assertEquals("one", spiedList.get(0)); // 실제 get 메서드 동작
+}
+```
+
+### `@MockBean` - 스프링 컨텍스트 통합 테스트용
+
+`@Mock`이 순수 단위 테스트용이라면, `@MockBean`은 스프링 컨텍스트와 통합된 테스트에서 사용된다.
+
+- 동작 방식: 스프링의 `ApplicationContext`에 등록된 실제 빈(Bean)을 Mockito Mock 객체로 교체
+- 주요 사용처
+    - `@WebMvcTest`: 컨트롤러 테스트 시, 하위 계층인 `Service`를 Mock 객체로 대체할 때 사용
+    - `@SpringBootTest`: 통합 테스트 중, 외부 API 호출 (`ApiClient`) 등 특정 빈만 가짜로 대체할 때 사용
+
+`@MockBean`이나 `@SpyBean`을 사용하면, 기존과 다른 설정의 컨텍스트가 필요하다고 간주되어 컨텍스트 캐시가 재사용되지 않는다.
+
+```java
+
+@WebMvcTest(MemberController.class)
+class MemberControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc; // 컨트롤러 테스트용 MockMvc
+
+    @MockBean // Context에 등록된 MemberService 빈을 Mock 객체로 대체
+    private MemberService memberService;
+
+    // ...
 }
 ```
 
@@ -97,7 +126,7 @@ void exmaple() {
     when(mock.someMethod())
             .thenReturn("first call")
             .thenReturn("second call");
-    
+
     // 동적인 응답 생성
     when(mock.calculate(anyInt()))
             .thenAnswer(invocation -> {
@@ -131,6 +160,23 @@ void exmaple() {
             .delete(member);
 }
 
+```
+
+### BDD 스타일 Stubbing (`given`/`willReturn`)
+
+BDD(행위 주도 개발) 스타일을 선호하는 경우, `BDDMockito`를 사용할 수 있다.
+
+- `given(mock.method())`: `when(mock.method())` 동일
+- `willReturn(value)`: `thenReturn(value)` 동일
+
+```java
+
+@Test
+void bddStubbingExample() {
+    // given (준비)
+    given(memberRepository.findById(1L))
+            .willReturn(Optional.of(member));
+}
 ```
 
 ## 3. Verification - 행위 검증
@@ -169,6 +215,24 @@ void exmaple() {
 }
 ```
 
+### BDD 스타일 검증 (`then`/`should`)
+
+BDDMockito는 검증을 위한 `then/should` 문법도 제공한다.
+
+```java
+import static org.mockito.BDDMockito.then;
+
+@Test
+void bddVerificationExample() {
+    // ... 로직 실행 ...
+
+    // then (검증)
+    then(memberRepository)
+            .should(times(1)) // 1번 호출되었는지
+            .deleteById(1L);
+}
+```
+
 ## 4. Argument Matchers & Captors
 
 ### Argument Matchers
@@ -185,9 +249,36 @@ Stubbing이나 검증 시, 인자의 실제 값 대신 유연한 조건을 사�
 
 @Test
 void exmaple() {
-
     // eq()를 사용하여 일반 값을 Matcher로 변환
     when(memberRepository.save(eq("user"), anyInt()))
             .thenReturn(member);
 }
 ```
+
+### ArgumentCaptor(인자 캡처)
+
+Mock 객체의 메서드가 호출될 때 전달된 실제 인자 값을 포착(Capture)하여, 나중에 검증할 수 있도록 돕는다.
+
+```java
+// MockitoExtension을 사용하면 @Captor 애노테이션으로 자동 생성 가능
+@Captor
+private ArgumentCaptor<Member> memberCaptor;
+
+@Test
+void captorExample() {
+    // 테스트 대상 로직 실행 (예: memberService.join("newName", 20))
+    memberService.join("newName", 20);
+
+    // 1. save 메서드가 호출될 때 인자를 캡처하도록 설정
+    verify(memberRepository).save(memberCaptor.capture());
+
+    // 2. 캡처된 인자(Member 객체)를 가져옴
+    Member capturedMember = memberCaptor.getValue();
+
+    // 3. 캡처된 객체의 내부 값을 검증
+    assertEquals("newName", capturedMember.getName());
+    assertEquals(20, capturedMember.getAge());
+}
+```
+
+메서드 호출 여부뿐만 아니라, "정확히 어떤 값이 전달되었는지" 그 내용을 검증해야 할 때 사용한다. (예: `save` 메서드로 전달된 객체의 필드 값 검증)
