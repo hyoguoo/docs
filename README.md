@@ -34,6 +34,7 @@ layout: editorial
 ### Software Engineering
 
 * [Test](test/)
+* [AI-Assisted Development](ai-assisted-development/)
 
 ### System Architecture
 

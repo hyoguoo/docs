@@ -304,3 +304,4 @@
   * [Consumer Internals](kafka/consumer-internals.md)
   * [Replication Internals](kafka/replication-internals.md)
   * [Message Delivery Semantics](kafka/message-delivery-semantics.md)
+* [AI-Assisted Development](ai-assisted-development/README.md)
