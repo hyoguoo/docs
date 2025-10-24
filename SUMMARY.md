@@ -305,3 +305,4 @@
   * [Replication Internals](kafka/replication-internals.md)
   * [Message Delivery Semantics](kafka/message-delivery-semantics.md)
 * [AI-Assisted Development](ai-assisted-development/README.md)
+  * [AI Assistant 작동 원리](ai-assisted-development/ai-assistant-how-it-works.md)
