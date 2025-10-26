@@ -2,7 +2,7 @@
 layout: editorial
 ---
 
-# Claude Code - Core Concepts
+# Claude Code - Core Features and Usage Guide
 
 Claude Code는 Anthropic이 개발한 터미널 기반 AI 어시스트턴트다.
 
