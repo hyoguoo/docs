@@ -307,4 +307,5 @@
 * [AI-Assisted Development](ai-assisted-development/README.md)
   * [AI Assistant 작동 원리](ai-assisted-development/ai-assistant-how-it-works.md)
   * [Prompt Engineering For Developer](ai-assisted-development/prompt-engineering-for-devs.md)
-  * [Core Features and Usage Guide](ai-assisted-development/claude-code-core-features-guide.md)
+  * [Claude Code Core Features and Usage Guide](ai-assisted-development/claude-code-core-features-guide.md)
+  * [Claude Code - Super Claude Framework](ai-assisted-development/claude-code-super-claude-framework.md)
