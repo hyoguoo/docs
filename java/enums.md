@@ -4,37 +4,45 @@ layout: editorial
 
 # Enums
 
-데이터 타입을 정의해주고 다형성을 구현할 수 있는 기능을 제공한다.  
-Java의 enum은 클래스로 정의되어 있어, 단순히 정수형 상수를 정의하는 기능 이상의 기능을 구현할 수 있다.
+열거형(Enums)은 서로 연관된 상수들의 집합을 정의할 때 사용하는 데이터 타입으로, 타입 안전성을 보장하고 코드의 가독성을 높이는 데 목적이 있다.
 
 ## Enum 정의와 사용
 
-가장 기본적인 타입 정의와 사용 방법은 아래와 같다.
+`enum` 키워드를 사용하여 열거형을 정의하며, 각 상수는 관례적으로 대문자로 작성하며 쉼표로 구분한다.
 
 ```java
 enum Direction {
     EAST, SOUTH, WEST, NORTH
 }
+```
 
+### 열거형 비교와 활용
+
+열거형 상수는 JVM 내에서 유일한 인스턴스(싱글턴)임이 보장된다.
+
+- `==` 연산자: 참조가 동일하므로 `==` 연산자로 비교 가능
+- `equals()` 메서드: `Object`의 `equals()`를 오버라이드하며, `==` 비교와 동일하게 동작
+- `compareTo()` 메서드: `Comparable` 인터페이스를 구현하며, 열거형 상수가 선언된 순서(ordinal)를 기준으로 비교
+- 비교 연산자: `<`, `>`와 같은 정수 비교 연산자는 사용 불가능
+
+```java
 class Unit {
 
     int x, y;
     Direction direction;
 
     void moveIf(Direction direction) {
-        if (direction.equals(Direction.EAST)) { // enum의 상수는 equals()로 비교 가능
+        if (direction == Direction.EAST) { // '==' 연산자 비교 권장
             x++;
-        } else if (direction == Direction.SOUTH) { // '==' 연산자를 사용해 equals() 보다 빠른 성능을 기대할 수 있다.
+        } else if (direction.equals(Direction.SOUTH)) { // equals()도 가능
             y--;
-        } else if (direction.compareTo(Direction.NORTH)) { // compareTo() 사용 가능
+        } else if (direction.compareTo(Direction.NORTH) == 0) { // compareTo()도 사용 가능
             y++;
         }
-//        else if (direction > Direction.WEST) { // enum 에는 비교 연산자인 '<', '>' 사용 불가 
-//            x--;
-//        }
     }
 
-    void moveSwitch(Direction direction) { // switch 조건식 가능
+    void moveSwitch(Direction direction) {
+        // switch 문에서 case 레이블에 'Direction.EAST'가 아닌 'EAST' 사용
         switch (direction) {
             case EAST:
                 x++;
@@ -55,17 +63,27 @@ class Unit {
 
 ## 열거형과 멤버 변수, 메서드
 
-단순히 상수를 나열하는 것 이상의 기능을 제공하기 위해 클래스와 비슷하게 열거형 상수의 값을 멤버 변수에 저장할 수 있고, 메서드를 정의할 수 있다.
+열거형은 클래스의 특성을 가지므로, 멤버 변수, 메서드, 생성자를 가질 수 있다.
+
+- 열거형의 생성자는 묵시적으로 `private`
+    - `public`이나 `protected`로 선언 불가능
+    - 열거형 인스턴스를 임의로 생성하는 것을 막기 위해 제한
+- 상수를 선언할 때 괄호 `()`를 사용하여 생성자를 호출하고 값 전달하는 방식으로 선언
 
 ```java
 enum Direction {
-    EAST(1, ">"), SOUTH(2, "V"), WEST(3, "<"), NORTH(4, "^"); // 열거형 상수를 선언과 동시에 생성자 호출
+    EAST(1, ">"), SOUTH(2, "V"), WEST(3, "<"), NORTH(4, "^");
 
+    // static 메서드
     private static final Direction[] DIR_ARR = Direction.values();
+    // `values()` 메서드는 호출될 때마다 열거형 상수의 배열을 새로 생성
+    // 자주 호출되는 경우, 성능 향상을 위해 static final 배열로 캐싱하여 성능 향상 가능
+    // 멤버 변수
     private final int value;
     private final String symbol;
 
-    private Direction(int value, String symbol) { // 열거형의 생성자는 private(생략 가능)
+    // 생성자 (private 생략됨)
+    Direction(int value, String symbol) {
         this.value = value;
         this.symbol = symbol;
     }
@@ -77,6 +95,7 @@ enum Direction {
         return DIR_ARR[dir - 1];
     }
 
+    // 메서드
     public int getValue() {
         return value;
     }
@@ -97,10 +116,11 @@ enum Direction {
 }
 ```
 
-## Enum과 클래스
+## 열거형과 다형성
 
-enum은 클래스의 일종이기 때문에 클래스에서 할 수 있는 것들을 할 수 있다.  
-아래는 enum 내부에 추상 메서드를 선언하고, 각 상수에서 해당 메서드를 구현하는 예시이다.
+### 추상 메서드 활용
+
+열거형 내부에 추상 메서드를 선언하고, 각 상수가 익명 클래스처럼 해당 메서드를 오버라이드하여 구현할 수 있다.
 
 ```java
 enum Operation {
@@ -123,6 +143,7 @@ enum Operation {
         this.symbol = symbol;
     }
 
+    // 추상 메서드 선언
     public abstract int eval(int x, int y);
 
     @Override
@@ -132,30 +153,33 @@ enum Operation {
 }
 ```
 
-또한, 열거형 상수에는 단순 원시 타입이나 문자열만 저장할 수 있는 것이 아니라 람다식을 저장할 수 있어 아래와 같이 변경할 수 있다.  
-기존 메서드를 람다식으로 대체하고 인터페이스를 상속받아 구현한 위와 동일한 기능을 수행한다.
+### 인터페이스와 람다 활용
+
+인터페이스를 구현하고, 람다 표현식을 생성자로 받아 상수별 동작을 정의할 수도 있다.
 
 ```java
+// 함수형 인터페이스 정의
 interface Calculator {
 
     int eval(int x, int y);
 }
 
+// Calculator 인터페이스 구현
 enum Operation implements Calculator {
     PLUS("+", (x, y) -> x + y),
     MINUS("-", (x, y) -> x - y);
 
     private final String symbol;
-    private final IntBinaryOperator op;
+    private final Calculator calculator; // 람다식을 저장할 멤버 변수
 
-    Operation(String symbol, IntBinaryOperator op) {
+    Operation(String symbol, Calculator calculator) {
         this.symbol = symbol;
-        this.op = op;
+        this.calculator = calculator;
     }
 
     @Override
     public int eval(int x, int y) {
-        return op.applyAsInt(x, y);
+        return calculator.eval(x, y); // 위임
     }
 
     @Override
@@ -169,12 +193,13 @@ enum Operation implements Calculator {
 
 Java의 모든 열거형은 java.lang.Enum 클래스를 상속받는다. 이 클래스는 열거형을 다루기 위한 여러 유용한 메서드를 제공한다.
 
-|             메서드              |              설명               |
-|:----------------------------:|:-----------------------------:|
-|         T[] values()         |       모든 열거형 상수를 배열로 반환       |
-|        int ordinal()         |        열거형 상수의 순서를 반환         |
-|        String name()         |      열거형 상수의 이름을 문자열로 반환      |
-| Class<E> getDeclaringClass() | 열거형 상수가 정의된 열거형의 Class 객체를 반환 |
+|             메서드              |                 설명                  |
+|:----------------------------:|:-----------------------------------:|
+|         T[] values()         |          모든 열거형 상수를 배열로 반환          |
+|        int ordinal()         |           열거형 상수의 순서를 반환            |
+|        String name()         |         열거형 상수의 이름을 문자열로 반환         |
+| Class<E> getDeclaringClass() |    열거형 상수가 정의된 열거형의 Class 객체를 반환    |
+|      String toString()       | 열거형 상수의 문자열 표현을 반환(기본적으로 name() 반환) |
 
 ```java
 enum Direction {
@@ -205,35 +230,47 @@ class Test {
 
 ## 열거형의 내부 구현
 
-```java
-enum Direction {
-    EAST, SOUTH, WEST, NORTH
-}
-```
-
-열거형이 위와 같이 정의되어 있을 때 사실은 내부의 상수 하나하나가 `Direction` 클래스의 인스턴스라고 볼 수 있다.  
-위의 enum을 클래스로 정의하면 아래와 같이 표현할 수 있다.(동일한 것은 아님)
+`enum Direction { EAST, SOUTH }`는 내부적으로 다음과 유사한 클래스로 변환된다.
 
 ```java
-class Direction {
+// 컴파일러가 변환한 예상 코드
+final class Direction extends java.lang.Enum<Direction> {
 
-    public static final Direction EAST = new Direction("EAST");
-    public static final Direction SOUTH = new Direction("SOUTH");
-    public static final Direction WEST = new Direction("WEST");
-    public static final Direction NORTH = new Direction("NORTH");
+    public static final Direction EAST = new Direction("EAST", 0);
+    public static final Direction SOUTH = new Direction("SOUTH", 1);
 
-    private String name;
+    private static final Direction[] $VALUES = {EAST, SOUTH};
 
-    private Direction(String name) {
-        this.name = name;
+    // private 생성자
+    private Direction(String name, int ordinal) {
+        super(name, ordinal);
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public static Direction[] values() {
+        return $VALUES.clone();
+    }
+
+    public static Direction valueOf(String name) {
+        return Enum.valueOf(Direction.class, name);
     }
 }
 ```
+
+각 열거형 상수는 `public static final`로 선언된 자기 자신의 인스턴스가 되어 JVM 내에서 각 상수의 유일성(싱글턴)을 보장하며, `==` 비교가 가능한 근거가 된다.
+
+
+-----
+
+## EnumSet과 EnumMap
+
+자바 컬렉션 프레임워크는 열거형을 위해 특별히 최적화된 `Set`과 `Map` 구현체를 제공한다.
+
+- `EnumSet`
+    - 내부적으로 비트 벡터(bit vector) 사용
+    - 메모리 사용량이 매우 적고, `HashSet`보다 월등히 빠른 성능을 제공
+- `EnumMap`
+    - 내부적으로 단순 배열을 사용하며, 상수의 `ordinal()` 값을 인덱스로 활용
+    - `HashMap`보다 훨씬 빠르고 효율적이다.
 
 ###### 참고자료
 
