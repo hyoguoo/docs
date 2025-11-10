@@ -4,9 +4,7 @@ layout: editorial
 
 # Collections(컬렉션)
 
-> 객체 그룹을 저장하고 조작하는 아키텍처를 제공하는 프레임워크
-
-- 컬렉션 프레임워크 계층 구조
+컬렉션은 객체 그룹을 저장하고 조작하기 위한 표준화된 프레임워크를 제공한다.
 
 ![Collection Tree Diagram](image/collections-tree.png)
 
@@ -16,16 +14,8 @@ Iterator 인터페이스를 상속한 가장 기본이 되는 인터페이스로
 
 ### Collections vs Collection
 
-Collections는 인스턴스화할 수 없는 클래스이며, Collection 인터페이스를 구현한 클래스들을 다루는 static 메서드를 제공한다.
-
-```java
-public class Collections {
-
-    // Suppresses default constructor, ensuring non-instantiability.
-    private Collections() {
-    }
-}
-```
+- `Collection`: `List`, `Set` 등 모든 컬렉션 구현체의 조상이 되는 기본 인터페이스
+- `Collections`: `Collection` 구현체들을 조작하는 유틸리티(utility) 메서드를 `static`으로 제공하는 클래스
 
 [제공 메서드](https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html)
 
@@ -45,29 +35,34 @@ public class Collections {
 
 ## Vector & Stack 사용하지 않는 이유
 
-Vector는 ArrayList와 같이 List 인터페이스를 구현한 컬렉션 프레임워크이며, 쓰레드 안전 여부를 제외하고는 ArrayList와 거의 동일하다.  
-하지만 아래와 같은 이유로 현재 더 이상 사용하지 않는 것을 권장하고 있다.
+`Vector`와 `Stack`은 자바 초창기 버전부터 존재했던 클래스로, 현재는 하위 호환성을 위해서만 존재하며, 새로운 코드에서는 사용이 권장되지 않는다.
 
 ### 1. `synchronized`로 인한 성능 저하
 
-Stack과 Vector는 거의 모든 메서드에 `synchronized` 키워드가 붙어있어 멀티 쓰레드 환경에서 안전하게 사용할 수 있지만, 이로 인해 성능이 저하된다.  
-동기화 처리라는 장점이 있다고 생각할 수 있지만, 메서드 레벨에서만 동기화 처리가 되어있어 여러 메서드를 호출하는 경우에는 여전히 안전하지 않다.
+`Vector`와 `Stack`의 거의 모든 메서드(예: `add()`, `remove()`)에는 `synchronized` 키워드가 적용되어 있다.
+
+- 멀티스레드 환경에서 데이터의 일관성을 보장하지만(스레드 안전성), 메서드를 호출할 때마다 락(lock)을 획득하고 해제하는 오버헤드가 발생
+- 단일 스레드 환경은 물론, 멀티스레드 환경에서도 `ArrayList`에 비해 심각한 성능 저하를 유발
+- `Vector`의 동기화는 메서드 단위로만 동작하여, 여러 메서드를 조합하여 사용할 때는 여전히 스레드 안전성을 보장하지 못함
 
 ```java
 public static void main(String[] args) {
+    Vector<Integer> vector = new Vector<>();
     // ...
-    if (!vector.isEmpty()) { // 이 시점에 다른 스레드가 remove를 수행할 수 있음
-        vector.remove(0);
+    if (!vector.isEmpty()) { // (1)
+        // ...
+        // 이 시점(1)과 (2) 사이에서 다른 스레드가 마지막 요소를 제거(remove) 가능
+        // ...
+        vector.remove(0); // (2)
     }
 }
 ```
 
-** `ConcurrentHashMap`와 같은 동시성 컬렉션들은 내부적으로 CAS(Compare And Swap)를 사용하여 동기화 문제를 해결하고 있다.
+최근의 자바에서는 `synchronized` 대신 `CAS(Compare-And-Swap)` 알고리즘을 사용하는  `ConcurrentHashMap`와 같은 동시성 컬렉션을 사용하여 동기화 문제를 해결하고 있다.
 
-### 후입선출 구조 위반
+### 2. 후입선출 구조 위반
 
-Stack에는 후입선출을 위한 메서드만 존재하지만, Vector는 List 인터페이스를 구현하고 있어 get, add, remove 등의 메서드를 사용할 수 있다.  
-이는 Stack의 후입선출 구조를 위반하여 원하는 위치에 자유롭게 접근할 수 있게 된다.
+Stack에는 후입선출을 위한 메서드만 존재하지만, Vector는 List 인터페이스를 구현하고 있어 get, add, remove 등의 메서드를 사용할 수 있다.
 
 ```java
 public static void main(String[] args) {
@@ -80,6 +75,8 @@ public static void main(String[] args) {
     stack.remove(1); // Stack의 후입선출 구조를 위반
 }
 ```
+
+이는 Stack의 후입선출 구조를 위반하여 원하는 위치에 자유롭게 접근할 수 있게 만들어, Stack의 본래 목적에 맞지 않다.
 
 ###### 참고자료
 
