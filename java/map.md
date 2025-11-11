@@ -4,41 +4,53 @@ layout: editorial
 
 # Map
 
-> Key-Value 쌍으로 이루어진 데이터 구조
-
-- Java Map 계층 구조
+키(Key)와 값(Value)을 하나의 쌍으로 묶어 저장하는 자료 구조로, 키를 통해 값을 빠르게 탐색하는 데 최적화되어 있다.
 
 ![Map 인터페이스 다이어그램](image/map-tree.png)
 
 ## Map Interface
 
-- `Map` 인터페이스는 `Collection` 인터페이스를 상속받지 않음
-- `Map` 인터페이스는 `key`와 `value`를 묶어서 하나의 데이터를 `entry`로 저장
-- put, get, remove, containsKey, containsValue, size, isEmpty, clear 등의 메소드 제공
+`Map` 인터페이스는 `List`나 `Set`과는 달리 `Collection` 인터페이스를 상속받지 않는다.
 
-[제공 메서드](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
+- 하나의 쌍(pair)을 `엔트리(Entry)`라고 부르며, `Map`은 이 `Entry` 객체들을 관리
+- 키(Key)는 `Map` 내에서 유일해야 하며(중복 불가), 값(Value)은 중복 가능
+- `Map` 자체는 순회(iteration)를 직접 지원하지 않으므로, 키나 값의 집합을 얻어와 순회해야 함
+    - `keySet()`: `Map`의 모든 키를 `Set` 형태로 반환
+    - `values()`: `Map`의 모든 값을 `Collection` 형태로 반환
+    - `entrySet()`: `Map`의 모든 `Entry`(키-값 쌍)를 `Set` 형태로 반환
 
 ## Map 하위 Class 특징
 
-|     Class     | Base Class  | Base Interface | Duplicate Key | Duplicate Value | Order |   Get    |
-|:-------------:|:-----------:|:--------------:|:-------------:|:---------------:|:-----:|:--------:|
-|    HashMap    | AbstractMap |      Map       |       X       |        O        |   X   |   O(1)   |
-|    TreeMap    |  SortedMap  |  NavigableMap  |       X       |        O        |   O   | O(log n) |
-| LinkedHashMap |   HashMap   |      Map       |       X       |        O        |   O   |   O(1)   |
+|     Class     | Base Class  | Base Interface | 순서 보장 |  탐색 시간   |
+|:-------------:|:-----------:|:--------------:|:-----:|:--------:|
+|    HashMap    | AbstractMap |      Map       |   X   |   O(1)   |
+|    TreeMap    |  SortedMap  |  NavigableMap  |   O   | O(log n) |
+| LinkedHashMap |   HashMap   |      Map       |   O   |   O(1)   |
 
 ### HashMap
 
-- 내부적으로 `Entry` 배열을 만들어 관리
-- `put()` 메서드를 이용하여 `Entry`를 추가하면 `key` 값으로 `hash`값을 계산하여 `Entry`를 저장할 위치(접근 인덱스)를 찾아 사용
-- `hash`값 계산은 자바 버전에 따라 다르지만 기본적으로 `Object`의 `hashCode()` 메서드를 기반으로 동작
-- `HashCode`를 계산하여 사용하기 때문에 순서가 보장되지 않음
+`HashMap`은 해시 테이블(Hash Table) 자료구조를 기반으로 구현되었다.
+
+- 내부적으로 `Entry` 객체를 저장하는 배열(해시 버킷)을 사용
+- `put(key, value)` 메서드 호출 시, `key` 객체의 `hashCode()` 메서드를 기반으로 해시 값 계산
+    - `equals()`와 `hashCode()` 메서드를 올바르게 재정의(override)해야 의도대로 동작
+- 해시 충돌
+    - Java 8 이전: 연결 리스트(Separate Chaining) 방식으로 충돌 처리
+    - Java 8 이후: 충돌이 심한 경우, 연결 리스트를 `레드-블랙 트리(Red-Black Tree)` 구조로 변환하여 데이터 관리
 
 ### TreeMap
 
-- `key`-`value` 쌍을 내부적으로 `Red-Black Tree`로 관리
-- `key` 값으로 `Red-Black Tree`를 구성하기 때문에 `Comparator` 인터페이스를 구현하여 `key` 값을 정렬할 수 있음
+`TreeMap`은 `Red-Black Tree`라는 이진 검색 트리(Binary Search Tree)를 기반으로 구현되었다.
+
+- 데이터를 저장할 때 키(Key) 값을 기준으로 자동 정렬
+- 객체는 `Comparable` 인터페이스를 구현(자연 정렬)하거나, `TreeMap` 생성 시 `Comparator` 구현 필요
 
 ### LinkedHashMap
 
-- `HashMap`과 동일하게 내부적으로 `Entry` 배열을 만들어 관리
-- `before`와 `after`를 이용하여 `Entry`를 추가한 순서대로 `Entry`를터 관리하기 때문에 순서가 보장됨
+`LinkedHashMap`은 `HashMap`을 상속받아, 해시 테이블의 장점과 연결 리스트의 장점을 결합한 자료구조다.
+
+- `HashMap`과 동일하게 해시 테이블을 기반으로 동작
+- 내부에서 `양방향 연결 리스트`를 사용하여 모든 `Entry`를 연결하여 데이터가 삽입된 순서를 유지
+    - 삽입된 순서(Insertion Order)대로 순회 가능
+- 생성자 옵션을 통해 최근 접근 순서(Access Order)로 순서를 유지하도록 설정 가능
+    - LRU(Least Recently Used) 캐시 구현에 유용
