@@ -4,32 +4,36 @@ layout: editorial
 
 # CAS(Compare And Swap)
 
-특정 메모리 위치의 값을 비교하고, 예상하는 값이 일치하면 새로운 값으로 교체하는 연산이다.
+CAS는 '비교 후 교체'를 의미하며, 특정 메모리 위치의 값을 예상되는 값과 비교하여, 일치할 경우에만 새로운 값으로 교체하는 원자적(atomic) 연산이다.
 
-1. 인자로 기존 값, 새로운 값을 전달
-2. 기존 값이 현재 메모리의 값과 같다면 새로운 값으로 교체
-3. 교체 성공 여부를 반환
+- 연산에 필요한 인자는 예상되는 현재 값, 새로운 값, 실제 메모리 주소 세 가지
+- 메모리의 현재 값이 예상 값과 일치하는지 비교
+- 일치하면 메모리 값을 새로운 값으로 교체
+- 일치하지 않으면 교체를 수행하지 않음
+- 이 모든 과정의 성공 여부 반환
 
-비교 + 교체 두 개의 연산으로 보이지만, 이는 하드웨어 수준에서 처리할 수 있어 원자적으로 동작하며, 동시에 여러 스레드가 동시에 CAS 연산을 수행해도 문제가 발생하지 않는다.
+비교와 교체 두 단계로 보이지만, 이 과정은 CPU의 특별한 명령어(instruction)를 통해 하드웨어 수준에서 하나의 원자적 연산으로 처리된다.
 
 ## Java에서의 CAS
 
-`java.util.concurrent.atomic` 패키지에서 제공하는 `Atomic` 클래스들은 CAS 연산을 지원한다.  
-CAS 연산은 Atomic 클래스의 메서드로 구현되어 있으며, 각 타입에 대응하는 클래스가 제공된다.(AtomicInteger, AtomicLong, AtomicBoolean 등)
+자바는 `java.util.concurrent.atomic` 패키지를 통해 CAS 연산을 지원한다.
+
+- CAS 연산을 Atomic 클래스의 메서드로 구현
+- 각 타입에 대응하는 클래스가 제공(AtomicInteger, AtomicLong, AtomicBoolean 등)
+- `compareAndSet(expectedValue, newValue)` 메서드를 통해 CAS 연산 수행
 
 ```java
-public class CASExample {
+public static void main(String[] args) {
+    AtomicInteger atomicInt = new AtomicInteger(0);
 
-    public static void main(String[] args) {
-        AtomicInteger atomicInt = new AtomicInteger(0);
+    int expectedValue = 0;
+    int newValue = 1;
 
-        int expectedValue = 0;
-        int newValue = 1;
+    // 현재 값이 0(expectedValue)이면 1(newValue)로 교체
+    boolean success = atomicInt.compareAndSet(expectedValue, newValue);
 
-        boolean success = atomicInt.compareAndSet(expectedValue, newValue);
-        System.out.println("CAS 성공 여부: " + success);
-        System.out.println("현재 값: " + atomicInt.get());
-    }
+    System.out.println("CAS 성공 여부: " + success); // true
+    System.out.println("현재 값: " + atomicInt.get()); // 1
 }
 ```
 
@@ -58,7 +62,7 @@ volatile 키워드는 메모리 가시성을 보장하기 위해 사용되는데
 
 ### vs 락 기반 동기화
 
-여러 스레드가 동시에 하나의 자원에 접근할 때, 락 기반 동기화와 CAS 방식 두 가지 방법을 사용할 수 있다.
+여러 스레드가 공유 자원에 접근할 때, 동기화 방식은 크게 락(Lock) 기반 방식과 CAS 기반 방식으로 나눌 수 있다.
 
 - CAS 방식: 간단한 연산과 충돌이 적은 환경에 적합 / 충돌 발생 시 재시도로 인해 성능 저하 가능
 - 락 기반: 복잡한 동기화 로직이나 충돌이 빈번한 환경에 적합 / 락 획득 과정에서 경합과 대기 발생 가능
