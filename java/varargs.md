@@ -4,68 +4,68 @@ layout: editorial
 
 # Varargs(가변인수)
 
-JDK 5에서 도입된 기능으로 메서드의 매개변수 개수를 클라이언트가 조절할 수 있게 해준다.  
-자바 라이브러리에서는 `String.format()`이 대표적인 예이다.
+JDK 5부터 도입된 기능으로 메서드 호출 시 넘기는 인자의 개수를 클라이언트가 유동적으로 조절할 수 있게 해주는 문법이다.
 
 ```java
-class Main {
+public static void main(String[] args) {
+    System.out.println(sum(1, 2, 3, 4, 5));
+}
 
-    public static void main(String[] args) {
-        System.out.println(sum(1, 2, 3, 4, 5));
+private static int sum(int... args) {
+    int sum = 0;
+    for (int arg : args) {
+        sum += arg;
     }
-
-    private static int sum(int... args) {
-        int sum = 0;
-        for (int arg : args) {
-            sum += arg;
-        }
-        return sum;
-    }
+    return sum;
 }
 ```
 
-컴파일러가 컴파일 타임에 배열을 만들고, 전달 된 인자들을 배열로 래핑하여 전달하는 방식으로 동작한다.  
-메서드 내부에서는 배열을 다루는 것과 완벽히 동일하게 동작한다.
+## 기본 동작 원리 및 특징
+
+개발자가 `Type...` 문법을 사용하면 컴파일러는 이를 내부적으로 해당 타입의 배열로 변환하여 처리한다.
+
+1. `sum(1, 2, 3)` 호출
+2. 컴파일러가 `new int[]{1, 2, 3}` 배열 생성 코드로 변환
+3. 내부에서는 `int[] args` 배열로 메서드 실행
+
+메서드 내부에서는 배열을 다루는 것과 동일하게 동작하며, 다음과 같은 특징이 있다.
+
+- 호출 비용 발생
+    - 메서드가 호출될 때마다 새로운 배열을 할당하고 초기화하는 오버헤드가 있음
+    - 성능이 매우 중요한 루프 내에서는 사용을 지양하거나 최적화가 필요함
+- 마지막 매개변수
+    - 가변인수 매개변수는 반드시 매개변수 리스트의 마지막에 위치해야 함
+    - 하나의 메서드에 여러 개의 가변인수 매개변수를 둘 수 없음
 
 ## 주의사항
 
-### 1. 마지막 인자로만 사용 가능
+### 오버로딩 모호성
 
-가변인수는 말 그대로 가변인수이기 때문에, 몇 개의 인자가 전달될지 모르는 상황이기 때문에, 마지막 인자로만 사용할 수 있다.
-
-### 2. 오버로딩 주의
-
-가변인수를 사용한 메서드와 동일한 시그니처를 가진 메서드를 오버로딩하면, 호출되는 메서드를 판단하기 모호해지고 컴파일 에러가 발생할 수 있다.
+컴파일러가 어떤 메서드를 호출해야 할지 판단하기 어려워 모호성 에러가 발생하거나, 의도와 다르게 동작할 수 있다.
 
 ```java
-class Main {
-    public static void main(String[] args) {
-        System.out.println(sum(1, 2, 3, 4));
+private static int sum(int... args) {
+    int sum = 0;
+    for (int arg : args) {
+        sum += arg;
     }
-
-    // origin
-    private static int sum(int... args) {
-        int sum = 0;
-        for (int arg : args) {
-            sum += arg;
-        }
-        return sum;
-    }
-
-    // 인자가 3개인 경우 호출되지만, 모호함이 발생
-    private static int sum(int a, int b, int c) {
-        return a + b + c;
-    }
-
-    // 컴파일 에러 발생, Ambiguous method call. Both
-    private static int sum(int a, int b, int... args) {
-        int sum = 0;
-        for (int arg : args) {
-            sum += arg;
-        }
-        return sum + a + b;
-    }
+    return sum;
 }
+
+// 인자가 3개인 경우 호출되지만, 모호함이 발생
+private static int sum(int a, int b, int c) {
+    return a + b + c;
+}
+
+// 컴파일 에러 발생, Ambiguous method call.
+private static int sum(int a, int b, int... args) {
+    int sum = 0;
+    for (int arg : args) {
+        sum += arg;
+    }
+    return sum + a + b;
+}
+
 ```
 
-### 3. [Generic 사용 시](effective-java/item32.md)
+### [제네릭과 힙 오염](effective-java/item32.md)
