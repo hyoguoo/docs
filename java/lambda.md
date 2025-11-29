@@ -4,195 +4,105 @@ layout: editorial
 
 # Lambda
 
-자바는 객체지향언어이지만, 자바 8에 도입된 람다식을 통해 함수형 언어의 특징을 사용할 수 있다.  
-람다식을 사용하면 메서드를 하나의 식으로 표현할 수 있으며, 코드의 양을 줄이면서 가독성을 높일 수 있다.  
-또한 람다식은 메서드의 매개변수로 전달할 수 있으며, 메서드의 결과로 반환할 수도 있다.
+메서드를 하나의 식(Expression)으로 표현한 것으로, 자바는 객체지향 언어이지만 람다식을 통해 함수형 프로그래밍의 특징을 부분적으로 지원한다.
+
+```mermaid
+flowchart LR
+    Interface[함수형 인터페이스<br>Single Abstract Method]
+    Anon[익명 클래스<br>Anonymous Class]
+    Lambda[람다식<br>Lambda Expression]
+    Ref[메서드 참조<br>Method Reference]
+    Interface -->|구현| Anon
+    Anon -->|간소화| Lambda
+    Lambda -->|더 간소화| Ref
+```
 
 ## 함수형 인터페이스(Functional Interface)
 
-함수형 인터페이스는 단 하나의 추상 메서드를 가지는 인터페이스를 말하며, 해당 메서드를 함수라고 부른다.  
-일반적으로 인터페이스를 구현한 익명 클래스의 객체는 다음과 같이 생성할 수 있다.
+람다식은 함수형 인터페이스의 인스턴스를 생성하는 방식으로, 함수형 인터페이스는 단 하나의 추상 메서드만을 가지는 인터페이스를 의미한다.
+
+- 조건
+    - 오직 하나의 추상 메서드만 존재해야 함
+    - `static` 메서드나 `default` 메서드는 개수에 제한 없음
+    - `java.lang.Object`의 메서드(toString, equals 등)를 오버라이딩한 추상 메서드는 카운트에서 제외
+- `@FunctionalInterface`
+    - 컴파일러에게 해당 인터페이스가 함수형 인터페이스의 조건을 충족하는지 검사하도록 요청하는 어노테이션
+    - 유지보수 과정에서 추상 메서드가 추가되는 실수 방지
 
 ```java
+
+@FunctionalInterface
 interface MyFunction {
 
     int max(int a, int b);
+    // int min(int a, int b); // 주석 해제 시 컴파일 에러 발생
 }
 
-
-class Example {
+class Main {
 
     public static void main(String[] args) {
-        MyFunction f = new MyFunction() {
-            @Override
+        // 1. 익명 클래스 사용
+        MyFunction f1 = new MyFunction() {
             public int max(int a, int b) {
                 return a > b ? a : b;
             }
         };
-        int value = f.max(3, 5);
+
+        // 2. 람다식 사용 (익명 객체를 대체)
+        MyFunction f2 = (a, b) -> a > b ? a : b;
     }
 }
 ```
 
-위 코드의 메서드 `max()` 메서드를 람다식으로 아래와 같이 표현할 수 있다.
+## 익명 클래스와의 차이점
 
-```java
-class Example {
+람다식은 익명 클래스와 비슷해 보이지만 스코프(Scope) 처리 방식에서 차이가 있다.
 
-    public static void main(String[] args) {
-        MyFunction f = (int a, int b) -> a > b ? a : b;
-        int value = f.max(3, 5);
-    }
-}
-```
-
-이처럼 `MyFunction` 인터페이스를 구현한 익명 클래스의 객체를 람다식으로 대체할 수 있는 이유는 구현한 인터페이스가 함수형 인터페이스이기 때문이다.  
-함수형 인터페이스가 되기 위한 조건은 default 메서드나 static 메서드를 가질 수 있지만, 구현해야 할 추상 메서드는 하나만 존재해야 한다.  
-결국 구현해야 할 추상 메서드가 하니이기 때문에 람다식을 통해 익명 클래스의 객체를 생성할 수 있는 것이다.
-
-### @FunctionalInterface
-
-`@FunctionalInterface` 어노테이션은 추상 메서드가 하나만 존재하는지 컴파일러가 체크하도록 하여 함수형 인터페이스를 올바르게 정의했는지 확인할 수 있다.  
-아래는 실제 Comparator 인터페이스의 정의이다.
-
-```java
-
-@FunctionalInterface
-public interface Comparator<T> {
-
-    int compare(T o1, T o2);
-
-    // ...
-
-    default Comparator<T> reversed() {
-        // ... 구현 내용
-    }
-
-    // 그 외 default / static 메서드
-}
-```
-
-## 반환과 매개변수
-
-메서드의 매개변수가 함수형 인터페이스인 경우 람다식을 매개변수로 전달할 수 있다.
-
-```java
-interface MyConsumer {
-
-    void accept(String str);
-}
-
-class Example {
-
-    public static void main(String[] args) {
-        MyConsumer c = str -> System.out.println(str);
-        doSomething(5, c);
-    }
-
-    static void doSomething(int n, MyConsumer c) {
-        for (int i = 0; i < n; i++) {
-            c.accept("Hello" + i);
-        }
-    }
-}
-```
-
-그리고 반환타입이 함수형 인터페이스인 경우 람다식으로 반환할 수 있다.
-
-```java
-
-@FunctionalInterface
-interface MyFunction {
-
-    void run();
-}
-
-class Example {
-
-    // 반환 타입이 MyFunction인 메서드
-    static MyFunction getMyFunction() {
-        MyFunction f = () -> System.out.println("Hello");
-        return f;
-    }
-
-    public static void main(String[] args) {
-        MyFunction f = getMyFunction();
-
-        f.run(); // Hello
-    }
-}
-```
+- 익명 클래스
+    - 새로운 클래스 스코프를 생성함
+    - 내부에서 `this`를 호출하면 익명 클래스 자신의 인스턴스를 가리킴
+- 람다식
+    - 새로운 스코프를 생성하지 않음(run-time에 별도의 클래스 파일을 생성하지 않음)
+    - 내부에서 `this`를 호출하면 람다식을 감싸고 있는 외부 클래스의 인스턴스를 가리킴
 
 ## java.util.function 패키지
 
-일반적으로 자주 쓰이는 형식의 메서드를 함수형 인터페이스들을 미리 정의해놓은 패키지로 자주 쓰이는 함수형 인터페이스는 아래와 같다.
+자바에서 자주 사용되는 함수형 인터페이스 패턴을 미리 정의해 둔 패키지로, 매개변수와 반환값의 유무에 따라 구분된다.
 
-|       인터페이스        |        메서드        | 매개변수 |   반환값   |
-|:------------------:|:-----------------:|:----:|:-------:|
-| java.lang.Runnable |    void run()     |  없음  |   없음    |
-|    Supplier<T>     |      T get()      |  없음  |    T    |
-|    Consumer<T>     | void accept(T t)  |  T   |   없음    |
-|   Function<T, R>   |   R apply(T t)    |  T   |    R    |
-|    Predicate<T>    | boolean test(T t) |  T   | boolean |
-
-위 인터페이스 중 `Function<T, R>`과 `Predicate<T>`를 활용한 예시는 아래와 같다.
-
-```java
-class Example {
-
-    public static void main(String[] args) {
-        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
-
-        // Predicate: 문자열의 길이가 4보다 큰지 확인
-        Predicate<String> lengthGreaterThan4 = s -> s.length() > 4;
-
-        // Function: 문자열을 대문자로 변환
-        Function<String, String> toUpperCase = s -> s.toUpperCase();
-
-        // 문자열 길이가 4보다 큰 이름을 필터링하고 대문자로 변환
-        List<String> result = names.stream()
-                .filter(lengthGreaterThan4)
-                .map(toUpperCase)
-                .collect(Collectors.toList());
-
-        // 위 코드를 람다식으로 표현한 경우 아래와 같다.
-//        List<String> result = names.stream()
-//                .filter(s1 -> s1.length() > 4)
-//                .map(s -> s.toUpperCase())
-//                .collect(Collectors.toList());
-
-        System.out.println(result);
-    }
-}
-```
-
-그 외에도 `BiFunction<T, U, R>`과 `BiPredicate<T, U>` 등과 같은 두 개 이상의 매개변수를 가지는 함수형 인터페이스도 있으며,  
-`UnaryOperator<T>`와 `BinaryOperator<T>`는 매개변수와 반환값의 타입이 같는 함수형 인터페이스도 존재한다.
+| 인터페이스               | 메서드                   | 매개변수 |    반환값    | 설명                      |
+|:--------------------|:----------------------|:----:|:---------:|:------------------------|
+| `Runnable`          | `void run()`          |  X   |     X     | 실행만 하는 경우               |
+| `Supplier<T>`       | `T get()`             |  X   |     O     | 값을 공급(반환)만 하는 경우        |
+| `Consumer<T>`       | `void accept(T t)`    |  O   |     X     | 값을 받아 소비만 하는 경우         |
+| `Function<T, R>`    | `R apply(T t)`        |  O   |     O     | 값을 받아 변환하여 반환하는 경우      |
+| `Predicate<T>`      | `boolean test(T t)`   |  O   | `boolean` | 조건식을 확인하여 참/거짓 반환       |
+| `UnaryOperator<T>`  | `T apply(T t)`        |  O   |     O     | 단항 연산(입력과 출력 타입이 같음)    |
+| `BinaryOperator<T>` | `T apply(T t1, T t2)` | O, O |     O     | 이항 연산(입력 2개와 출력 타입이 같음) |
 
 ## 메서드 참조(Method Reference)
 
-메서드 참조는 람다식으로 표현할 수 있는 익명 클래스의 인스턴스를 생성하는 코드를 더 간결하게 표현할 수 있는 방법이다.  
-전달 받은 인자를 그대로 다른 메서드로 전달하는 경우에 사용할 수 있다.
+람다식이 하나의 메서드만 호출하는 경우, 이를 더 간결하게 표현할 수 있는 문법이다.
+
+|        종류         |            람다식 예시            |       메서드 참조        |
+|:-----------------:|:----------------------------:|:-------------------:|
+| 정적(Static) 메서드 참조 | `(x) -> ClassName.method(x)` | `ClassName::method` |
+|    인스턴스 메서드 참조    | `(obj, x) -> obj.method(x)`  | `ClassName::method` |
+|   특정 객체 메서드 참조    |    `(x) -> obj.method(x)`    |    `obj::method`    |
+|      생성자 참조       |   `() -> new ClassName()`    |  `ClassName::new`   |
+|     배열 생성자 참조     |     `(x) -> new int[x]`      |    `int[]::new`     |
 
 ```java
+// 1. Static 메서드 참조
+Function<String, Integer> f1 = (s) -> Integer.parseInt(s);
+Function<String, Integer> f2 = Integer::parseInt;
 
-@FunctionalInterface
-interface MyFunction {
+// 2. 임의 객체의 인스턴스 메서드 참조 (첫 번째 인자가 메서드의 수신자가 됨)
+BiPredicate<String, String> p1 = (s1, s2) -> s1.equals(s2);
+BiPredicate<String, String> p2 = String::equals;
 
-    void print(String str);
-}
-
-class Example {
-
-    public static void main(String[] args) {
-        // 람다식
-        MyFunction f1 = (str) -> System.out.println(str);
-        // 메서드 참조
-        MyFunction f2 = System.out::println;
-        f1.print("Hello World!");
-        f2.print("Hello World!");
-    }
-}
+// 3. 생성자 참조
+Supplier<MyClass> s1 = () -> new MyClass();
+Supplier<MyClass> s2 = MyClass::new;
 ```
 
 ###### 참고자료
