@@ -4,15 +4,18 @@ layout: editorial
 
 # Transport Layer(전송 계층) - TCP/IP Layer 3
 
-전송 계층은 응용 계층(TCP/IP L4)의 애플리케이션 프로세스 식별과, 네트워크 계층(TCP/IP L2)의 신뢰성/연결성 확립(네트워크 계층의 한계 극복)을 담당한다.
+네트워크 계층(IP)이 호스트(PC) 간의 데이터 전달을 담당한다면, 전송 계층은 호스트 내에서 실행 중인 어떤 프로세스(애플리케이션)에게 데이터를 전달할지 결정하고 데이터의 신뢰성을 관리하는 계층이다.
 
-- 애플리케이션 프로세스 식별 -> 포트 번호
-- 신뢰성/연결성 확립 -> TCP 프로토콜
+- 멀티플렉싱/디멀티플렉싱: 여러 애플리케이션의 데이터를 묶어 보내거나(Sender), 받아서 구분해 전달(Receiver)
+- 프로세스 식별: 포트(Port) 번호 사용
+- 신뢰성 및 흐름 제어: TCP 프로토콜 사용
 
 ## PORT
 
-네트워크 내의 단일 장치에서 실행되는 프로세스를 식별하는 논리적인 단위이다.  
-포트 번호는 16비트의 숫자로, 0 ~ 65535까지 사용할 수 있으며, 범위에 따라 아래와 같이 분류된다.
+단일 호스트 내에서 실행되는 프로세스를 구분하는 논리적인 식별자다.
+
+- 16비트 주소 체계로 0 ~ 65535 범위를 가짐
+- 하나의 포트는 하나의 프로세스만 점유 가능(일반적인 경우)
 
 |            포트 종류             |      범위       |                     설명                      |
 |:----------------------------:|:-------------:|:-------------------------------------------:|
@@ -27,43 +30,28 @@ IANA(Internet Assigned Numbers Authority)에서 관리하고 있으며, 포트 �
 
 TCP는 전송 계층의 대표적인 프로토콜로, 신뢰성 있는 데이터 전송을 보장한다.
 
-- TCP의 데이터 단위는 세그먼트(Segment)이며, 세그먼트는 TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성된다.
-- 세그먼트는 최대 크기가 MSS(Maximum Segment Size)로 제한되는데, 더 큰 데이터를 전송하고자 할 경우 여러 개의 세그먼트로 나누어 전송하게 된다.
-- 보통 여러 개의 TCP 커넥션을 유지하고 있는데 아래 네 가지의 값으로 커넥션을 구분한다.
-    - 송신지 Port
-    - 수신지 Port
-    - 송신지 IP 주소
-    - 수신지 IP 주소
-
-### TCP 소켓 프로그래밍
-
-운영체제는 TCP 커넥션 생성과 관련된 여러 기능을 제공하고 있다.
-
-- 연결 되지 않은 익명의 소켓 생성
-- 소켓에 로컬 포트 번호와 인터페이스 할당
-- 로컬의 소켓과 원격의 호스트 및 포트 사이에 TCP 커넥션 생성
-- 커넥션을 받아들이기 위해 로컬 소켓에 허용함을 표시
-- ...
-- TCP 커넥션을 완전히 끊음
-- TCP 커넥션의 입출력만 닫음
-- ...
-
-위 기능을 사용할 수 있는 소켓 API의 다양한 구현체들이 존재하여 현재 대부분 운영체제나 프로그래밍 언어에서 사용할 수 있다.
+- 연결 지향(Connection-oriented): 통신 전 논리적인 연결 통로(Virtual Circuit) 먼저 생성
+- 신뢰성(Reliability): 패킷 손실, 중복, 순서 바뀜 등을 감지하고 복구
+- 세그먼트(Segment): 데이터를 전송하는 단위
+    - TCP 헤더와 Payload(애플리케이션 계층에서 전달받은 데이터)로 구성
+    - MSS(Maximum Segment Size): IP 계층에서의 단편화를 막기 위해 TCP 레벨에서 데이터를 자르는 최대 크기
 
 ### TCP Segment 헤더 구조
 
 ![TCP Segment Header(https://itwiki.kr/w/TCP_%ED%97%A4%EB%8D%94)](image/tcp-segment-header.png)
 
-- Source Port: 송신지 포트 번호
-- Destination Port: 수신지 포트 번호
-- Sequence Number: 송수신되는 세그먼트 데이터 첫 바이트에 부여되는 순서 번호
-- Acknowledgement Number: 순서 번호에 대한 응답(다음으로 수신받길 기대하는 바이트 번호)
-- Control Bits: TCP 연결 설정/해제, 데이터 전송 등을 제어하는 비트
-    - ACK: 세그먼트 승인을 나타내는 비트
-    - SYN: 연결 수립을 위한 비트
-    - FIN: 연결을 끝내기 위한 비트
-    - 그 외: URG / PSH / RST ...
-- Window Size: 수신지 윈도우 크기(한 번에 수신 받고자 하는 크기)로 연결 과정에서 설정되며, 가변적으로 변경될 수 있다.(MSS와는 다른 개념)
+헤더는 최소 20바이트에서 옵션에 따라 최대 60바이트까지 가질 수 있다.
+
+- Sequence Number: 데이터의 순서를 보장하기 위한 번호. 전송하는 데이터의 시작 바이트 위치를 나타냄
+- Acknowledgement Number (ACK): 다음에 수신하기를 기대하는 바이트 번호 (상대방에게 '여기까지 잘 받았다'는 의미)
+- Window Size: 수신 측의 버퍼 여유 용량을 알려주어 흐름 제어에 사용
+- Control Flags: 6개의 비트로 통신 상태 제어
+    - SYN: 연결 요청
+    - ACK: 응답 확인
+    - FIN: 연결 종료
+    - RST: 연결 강제 초기화 (비정상 종료 시)
+    - PSH: 버퍼가 차기를 기다리지 않고 즉시 데이터 전달
+    - URG: 긴급 데이터 처리
 
 ### TCP Segment Sequence
 
@@ -73,8 +61,12 @@ TCP는 전송 순서를 보장하기 위해 Sequence Number와 Acknowledgement N
 
 ### UDP(User Datagram Protocol)
 
-UDP는 TCP와 비교했을 때 기능이 없는 프로토콜로, 단지 IP 패킷을 캡슐화하는 역할만 수행한다.  
-때문에 포트 정보와 길이, 체크섬(신뢰성과 관련 없는 필드) 정도의 정보만 가지고 있으며, 기능이 필요할 경우 UDP 위에 기능을 추가하여 사용한다.
+TCP의 복잡한 기능을 제거하고 단순한 데이터 전송에 집중한 프로토콜이다.
+
+- 비연결형: 핸드셰이크 과정 없음
+- 비신뢰성: 수신 여부 확인(ACK)이나 순서 보장, 흐름 제어를 하지 않음
+- 헤더가 가볍고(8바이트) 전송 속도가 빠름
+- 활용: 실시간 스트리밍, DNS, 온라인 게임, 그리고 HTTP/3(QUIC)의 기반 프로토콜
 
 |            TCP             |          UDP           |
 |:--------------------------:|:----------------------:|
@@ -85,32 +77,60 @@ UDP는 TCP와 비교했을 때 기능이 없는 프로토콜로, 단지 IP 패�
 |           혼잡 제어            |        혼잡 제어 X         |
 |           느린 성능            |         빠른 성능          |
 
-### TCP Connection Flow
+## TCP 연결 관리 (Connection Management)
 
-TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지향형 프로토콜로, 신뢰성을 보장하기 위해 아래와 같은 과정을 거친다.
+TCP는 안정적인 연결을 위해 3-way Handshake로 연결을 맺고, 4-way Handshake로 연결을 끊는다.
 
-1. 연결 수립
-2. 데이터 송수신
-3. 연결 해제
+### 연결 수립: 3-Way Handshake
 
-전체적으로 위의 과정을 통해 TCP는 신뢰성을 보장하는데, 연결 수립과 해제 과정은 아래와 같다.
+통신을 시작하기 전, 양쪽의 논리적 연결을 맺고 서로의 시작 Sequence Number(ISN)를 교환하는 과정이다.
 
-- 연결 수립 - Three-way Handshake
-    1. 호스트 A가 호스트 B에게 SYN 비트가 1로 초기화된 TCP 세그먼트를 전송
-    2. 호스트 B가 호스트 A에게 SYN 비트와 ACK 비트가 1로 초기화된 TCP 세그먼트를 전송
-    3. 호스트 A가 호스트 B에게 ACK 비트가 1로 초기화된 TCP 세그먼트를 전송
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    Note over Server: LISTEN (포트 열고 대기)
+    Client ->> Server: 1. [SYN] Seq=x
+    Note over Client: SYN_SENT
+    Note right of Client: 접속 요청
+    Server ->> Client: 2. [SYN, ACK] Seq=y, Ack=x+1
+    Note over Server: SYN_RCVD
+    Note left of Server: 요청 수락 및 내 Seq 전송
+    Client ->> Server: 3. [ACK] Seq=x+1, Ack=y+1
+    Note over Client: ESTABLISHED
+    Note over Server: ESTABLISHED
+    Note right of Client: 연결 확립
+```
 
-- 연결 해제 - Four-way Handshake
-    1. 호스트 A가 호스트 B에게 FIN 비트가 1로 초기화된 TCP 세그먼트를 전송
-    2. 호스트 B가 호스트 A에게 ACK 비트가 1로 초기화된 TCP 세그먼트를 전송
-    3. 호스트 B가 호스트 A에게 FIN 비트가 1로 초기화된 TCP 세그먼트를 전송
-    4. 호스트 A가 호스트 B에게 ACK 비트가 1로 초기화된 TCP 세그먼트를 전송
-        - 호스트 B는 ACK를 받은 뒤에 바로 연결 해제
-        - 호스트 A는 ACK를 보낸 뒤 일정 시간을 기다린 뒤 연결 해제
+### 연결 해제: 4-Way Handshake
 
-연결 수립과 데이터 송수신, 연결 해제 과정에 따라 TCP는 다양한 상태를 가지게 된다.(Stateful)
+데이터 전송이 끝난 후 리소스를 정리하는 과정이다. 양방향 통신이므로 송/수신 연결을 각각 독립적으로 닫는다.
 
-- TCP 상태
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    Client ->> Server: 1. [FIN] Seq=u
+    Note over Client: FIN_WAIT_1
+    Note right of Client: 종료 요청
+    Server ->> Client: 2. [ACK] Seq=v, Ack=u+1
+    Note over Server: CLOSE_WAIT
+    Note over Client: FIN_WAIT_2
+    Note left of Server: 종료 확인(남은 데이터 처리)
+    Server ->> Client: 3. [FIN] Seq=w, Ack=u+1
+    Note over Server: LAST_ACK
+    Note left of Server: 전부 전송
+    Client ->> Server: 4. [ACK] Seq=u+1, Ack=w+1
+    Note over Client: TIME_WAIT
+    Note over Server: CLOSED
+    Note right of Client: 확인
+```
+
+- TIME_WAIT: 클라이언트가 마지막 ACK를 보내고 일정 시간(보통 2MSL, 1~2분) 동안 소켓을 닫지 않고 기다리는 상태
+    - 이유 1: 마지막 ACK가 유실되어 서버가 FIN을 재전송할 경우를 대비
+    - 이유 2: 네트워크에 떠돌던 지연 패킷이 뒤늦게 도착해 다음 연결의 데이터와 섞이는 것을 방지
+
+### TCP 상태와 흐름
 
 |      상태      |                          설명                          |
 |:------------:|:----------------------------------------------------:|
@@ -120,20 +140,15 @@ TCP는 연결을 수립하고, 연결을 끊는 과정을 거치는 연결 지�
 | SYN-RECEIVED |         SYN-ACK 세그먼트를 보낸 뒤 ACK 세그먼트를 기다리는 상태         |
 | ESTABLISHED  | 연결이 수립된 상태로, Three-way Handshake가 완료되어 데이터를 송수신하는 상태 |
 
-그 외에 FIN-WAIT-1,2 / CLOSE-WAIT / LAST-ACK / TIME-WAIT 는 연결 해제 과정에서 사용되는 상태이며, 종료되면 CLOSED 상태가 된다.  
-연결 수립 및 해제 과정과 상태 변경에 대한 흐름은 아래 그림과 같다.
-
-![TCP Connection Flow](image/tcp-connection-flow.png)
-
-상태에 따른 세그먼트 흐름은 아래와 같다.
+그 외에 FIN-WAIT-1,2 / CLOSE-WAIT / LAST-ACK / TIME-WAIT 는 연결 해제 과정에서 사용되는 상태이며, 종료되면 CLOSED 상태가 된다.
 
 ![TCP State Diagram(https://en.wikipedia.org/wiki/Transmission_Control_Protocol)](image/tcp-state-diagram.png)
 
-### TCP가 신뢰성을 보장하는 방법
+## TCP 신뢰성 보장 메커니즘
 
 신뢰성 있는 데이터 전송을 보장하기 위해 재전송 기반의 오류 제어, 흐름 제어 / 혼잡 제어를 사용한다.
 
-#### 1. 재전송 기반의 오류 제어 - ARQ(Automatic Repeat Request)
+### 1. 오류 제어 (Error Control) - ARQ(Automatic Repeat Request)
 
 TCP는 중복된 ACK 세그먼트를 수신했을 때나 타임아웃이 발생했을 때 잘못 전송되었음을 감지하고, 재전송을 하게 된다.
 
@@ -150,32 +165,33 @@ TCP는 중복된 ACK 세그먼트를 수신했을 때나 타임아웃이 발생�
     - 올바르지 않은 세그먼트가 수신되면 그 세그먼트만 재전송
     - Go-Back-N ARQ에 비해 복잡하지만, 네트워크 효율이 높아 사용
 
-#### 2. 흐름 제어 / 혼잡 제어
+### 2. 흐름 제어 (Flow Control) - Sliding Window
 
-송신자와 수신자는 한정된 버퍼를 가지고 있기 때문에, 송신자가 너무 빠르게 데이터를 전송하면 수신자는 버퍼가 가득 차서 데이터를 처리하지 못하게 된다.(데이터 손실)  
-이러한 문제를 해결하기 위해 TCP는 흐름 제어와 혼잡 제어를 사용한다.
+수신자는 버퍼가 가득 차서 데이터를 처리하지 못하게 되는 것을 방지하기 위해, 수신 측의 처리 속도에 맞춰 송신 속도를 조절하는 기술이다.
 
-- 흐름 제어: 수신 호스트의 처리 속도를 고려하여 송수신 속도를 균일하게 조절
-    - 수신 호스트는 TCP Segment Header의 Window Size를 통해 자신의 버퍼 크기를 전송하여 송신자에게 알림
-        - Window Size: 확인 응답 받지 않고 전송할 수 있는 한 번에 전송할 수 있는 데이터의 크기
-- 혼잡 제어: 많은 트래픽으로 인해 패킷 처리 속도가 느려지거나 유실될 수 있는 것을 방지
-    - 혼잡 제어가 이루어지지 않으면 계속 유실되어 재전송을 하게 되면서 네트워크 혼잡 심화
-    - 송신 호스트에서 혼잡 없이 전송할 수 있을 양을 계산하여 전송(= Congestion Window Size)
-    - Congestion Window Size는 계속해서 증가하고 감소하는 가변적인 크기(RTT, 패킷 유실 등을 고려)
-    - Congestion Window Size와 TCP Segment Header의 Window Size 중 작은 값을 전송할 수 있는 데이터의 크기로 결정
-    - 느린 시작(Slow Start) / 혼잡 회피(Congestion Avoidance) / 빠른 회복(Fast Recovery) 알고리즘을 통해 혼잡 제어 수행
+- 수신 측은 ACK를 보낼 때 자신의 남은 버퍼 크기(Window Size)를 헤더에 담아 전송
+- 송신 측은 이 윈도우 크기 내에서 ACK 없이 연속적으로 데이터를 전송 가능
+- 윈도우 크기가 0이 되면 전송을 중단하고 주기적으로 윈도우 갱신 패킷(Probe)을 전송
 
-### TCP와 HTTP
+### 3. 혼잡 제어 (Congestion Control)
 
-HTTP는 TCP 바로 위에 있는 계층이기 떄문에 HTTP 트랜잭션의 성능은 그 아래 계층인 TCP 성능에 영향을 받게 된다.  
-대부분 HTTP 지연의 대부분은 TCP의 아래와 같은 특징 때문에 발생하게 된다.
+네트워크 자체의 혼잡 상태를 파악하여 송신 속도를 조절하는 기술로, 라우터에 데이터가 몰려 패킷 유실이 발생하는 것을 방지한다.
 
-- TCP 커넥션의 핸드셰이크 설정
-- TCP 재전송 기반의 오류 제어
-- 인터넷 혼잡을 제어하기 위한 TCP의 혼잡 제어
-- 네트워크 효율을 위해 TCP 세그먼트보다 작은 여러 개의 데이터를 하나의 TCP 세그먼트로 전송하기 위한 Nagle 알고리즘
+- Slow Start: 연결 초기에는 패킷을 하나만 보내고, ACK를 받을 때마다 윈도우 크기(Congestion Window)를 2배씩 지수적으로 증가시킴
+- Congestion Avoidance: 특정 임계치(Threshold)에 도달하면 선형적으로 증가시킴
+- Fast Retransmit/Recovery: 타임아웃 전이라도 중복된 ACK가 3번 연속 오면 즉시 재전송하고 윈도우 크기를 줄여 혼잡 상황에 대처
 
-결국 대부분이 신뢰성과 연결성을 보장하는 기능이지만, HTTP에서는 성능 저하를 일으키게 된다.
+## TCP와 성능 이슈
+
+HTTP는 TCP 위에서 동작하므로 TCP의 구조적 특징이 웹 성능에 직접적인 영향을 준다.
+
+- Handshake Latency: 매 연결마다 3-way handshake가 발생하여 RTT(왕복 시간)가 증가
+    - 해결: HTTP Keep-Alive를 통해 한 번 맺은 연결을 재사용
+- HOL Blocking (Head of Line Blocking): 앞선 패킷이 유실되면 뒤의 패킷들이 멀쩡해도 처리를 못 하고 대기해야 함 (TCP의 순서 보장 특성)
+    - 해결: HTTP/3(QUIC)에서는 UDP 기반으로 이를 해결
+- Nagle 알고리즘: 작은 패킷을 여러 개 보내는 오버헤드를 줄이기 위해, 버퍼가 찰 때까지 기다렸다가 전송하는 알고리즘
+    - 문제: 실시간성이 중요한 온라인 게임이나 반응형 웹에서는 지연(Latency) 유발
+    - 해결: `TCP_NODELAY` 옵션으로 Nagle 알고리즘 비활성화
 
 ###### 참고자료
 
