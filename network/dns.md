@@ -4,31 +4,28 @@ layout: editorial
 
 # DNS(Domain Name System)
 
-네트워크 상에서는 MAC 주소와 IP 주소로 호스트를 특정할 수 있지만 실제로 사용하기엔 아래의 단점들이 존재한다.
+TCP/IP 네트워크 상에서 사람이 기억하기 어려운 IP 주소(예: 142.250.207.46) 대신, 기억하기 쉬운 도메인 이름을 사용하여 호스트를 식별할 수 있게 해주는 시스템이다.
 
-- 주소들을 외우기 어려움
-- IP 주소는 변경될 수 있음
-
-때문에 DNS가 등장하여 애플리케이션 계층과 네트워크 계층 사이에서 도메인 이름을 IP 주소로 변환하는 중요한 브리지 역할을 하고 있다.
+- 핵심 역할: 도메인 이름을 IP 주소로 변환(Forward Zone)하거나, IP 주소를 도메인 이름으로 변환(Reverse Zone)하는 네임 레졸루션(Name Resolution) 수행
+- 프로토콜: 주로 UDP 53번 포트를 사용 (데이터 크기가 512바이트를 초과하거나 Zone Transfer 시에는 TCP 53번 사용)
 
 ## 계층적 도메인 구조
 
-DNS는 도메인 이름을 계층 구조로 구성하며 각 레벨은 `.`로 구분된다.
+DNS는 거대한 분산 데이터베이스 시스템으로, 역트리(Inverted Tree) 형태의 계층 구조를 가지며, 각 레벨은 `.`로 구분된다.
 
 - 도메인 이름의 가장 오른쪽이 최상위 도메인(Top Level Domain) / 왼쪽으로 갈수록 하위 도메인(Sub Domain)
 - 보통 사용되는 최상위 도메인은 `.com`, `.net`, `.org` 등 존재
 - 최상위 도메인은 IANA(Internet Assigned Numbers Authority)에서 관리
 
-`www.platypus.ogu.com`를 예로 들면 아래와 같다.
+|  레벨  |            명칭             |                    설명                     |             예시             |
+|:----:|:-------------------------:|:-----------------------------------------:|:--------------------------:|
+| Root |        Root Domain        | 도메인 체계의 최상위. 전 세계에 13개의 원본 루트 서버 클러스터가 존재 |          `.` (생략)          |
+| 1단계  |  TLD (Top Level Domain)   |      국가 코드(ccTLD)나 일반 목적(gTLD)을 나타냄       |     `kr`, `com`, `org`     |
+| 2단계  | SLD (Second Level Domain) |       조직의 종류나 성격을 나타냄 (국가 도메인인 경우)        | `co` (Company), `go` (Gov) |
+| 3단계  |        Domain Name        |            사용자가 등록한 실제 도메인 이름             |         `example`          |
+| 4단계  |   Hostname (Sub Domain)   |              특정 서버나 서비스를 식별               |    `www`, `blog`, `api`    |
 
-- `com`: 최상위 도메인(Top Level Domain)
-- `ogu`: Second Level Domain
-- `platypus`: Third Level Domain
-- `www`: Forth Level Domain
-
-마지막 레벨의 도메인은 일반적으로 도메인 내의 특정 호스트나 서비스를 나타내며, 도메인의 왼쪽에 더 많은 수준을 추가하여 서브도메인을 생성하여 계층을 더욱 세분화할 수 있다.
-
-## DNS 서버
+## DNS 서버의 종류
 
 DNS 서버는 도메인 이름을 IP 주소로 변환하는 역할을 하는데, 전세계적인 거대한 분산 시스템이라고 할 수 있다.
 
@@ -36,19 +33,53 @@ DNS 서버는 도메인 이름을 IP 주소로 변환하는 역할을 하는데,
 - 사용자가 접속한 호스트의 도메인 이름을 가지고 있는 DNS 서버를 찾아가며 IP 주소 탐색(폴더 트리 구조와 비슷)
 - 사용자가 가장 먼저 찾는 DNS 서버는 Local DNS 서버로, DHCP를 사용한다면 DHCP 서버가 자동으로 설정
 
-![한국의 DNS 서버 계층 구조(한국인터넷정보센터)](image/domain-server-tree.png)
+아래의 4가지 주요 DNS 서버가 협력하여 도메인 이름을 IP 주소로 변환한다.
 
-사용자가 도메인을 입력하면 아래와 같은 과정을 거쳐 IP 주소를 찾아오게 된다.
+1. Local DNS (Recursive Resolver)
+    - ISP(통신사)가 제공하거나 구글(8.8.8.8), 클라우드플레어(1.1.1.1) 등의 Public DNS를 사용
+    - 클라이언트(PC)의 요청을 받아주는 첫 번째 서버
+    - 캐싱 기능을 가지고 있어 자주 요청되는 도메인은 상위 서버에 묻지 않고 바로 응답
+2. Root Name Server
+    - TLD 서버의 IP 주소를 알고 있는 서버
+    - 전 세계 인터넷의 도메인 시스템을 관장하는 최상위 서버
+3. TLD Name Server
+    - `.com`, `.kr` 등의 최상위 도메인을 관리하는 서버
+    - 해당 도메인에 등록된 Authoritative Name Server의 위치를 알려줌
+4. Authoritative Name Server (권한 있는 네임 서버)
+    - 실제 도메인 소유자가 관리하거나 호스팅 업체가 제공하는 서버
+    - 해당 도메인에 대한 실제 IP 주소(Record)를 가지고 있음 (가비아, AWS Route53 등에서 설정하는 곳)
 
-1. 웹 브라우저에서 캐시를 확인
-2. 도메인 이름을 가지고 있다면, IP 주소를 반환하여 사용자가 접속
-3. 만약 없다면 Local DNS 서버에 요청
-4. Local DNS에도 없다면 아래 그림과 같이 DNS 서버 계층 구조를 따라서 IP 주소를 찾아옴
+## DNS 동작 원리(Name Resolution Process)
 
-![DNS_Resolution_Mechanism(https://en.wikipedia.org/wiki/Domain_Name_System)](image/dns-resolution-mechanism.png)
+사용자가 브라우저 주소창에 `www.google.com`을 입력했을 때의 흐름이다.
 
-위의 예시는 반복적 질의(Iterative Query) 방식으로 진행되었는데,  
-질의를 받은 DNS 서버가 다시 하위 DNS 서버에게 질의를 하는 재귀적 질의(Recursive Query) 방식도 존재한다.
+```mermaid
+sequenceDiagram
+    participant Client as PC/Browser
+    participant Hosts as hosts 파일
+    participant LocalDNS as Local DNS (ISP)
+    participant Root as Root DNS
+    participant TLD as TLD DNS (.com)
+    participant Auth as Authoritative DNS (google.com)
+    Client ->> Hosts: 1. hosts 파일 확인
+    Note right of Client: 없으면 다음 진행
+    Client ->> Client: 2. OS/Browser DNS 캐시 확인
+    Note right of Client: 없으면 다음 진행
+    Client ->> LocalDNS: 3. www.google.com IP 질의 (Recursive Query)
+
+    alt Local DNS 캐시에 정보가 있는 경우
+        LocalDNS -->> Client: 캐시된 IP 반환
+    else 캐시에 없는 경우 (Iterative Query 시작)
+        LocalDNS ->> Root: 4. .com 서버 질의
+        Root -->> LocalDNS: .com TLD 서버 IP 반환
+        LocalDNS ->> TLD: 5. google.com 서버 질의
+        TLD -->> LocalDNS: google.com 네임 서버 IP 반환
+        LocalDNS ->> Auth: 6. www.google.com IP 질의
+        Auth -->> LocalDNS: 실제 IP 주소 (223.130.x.x) 반환
+        LocalDNS ->> LocalDNS: 결과 캐싱 (TTL 만큼 저장)
+        LocalDNS -->> Client: IP 주소 전달
+    end
+```
 
 ###### 참고자료
 
