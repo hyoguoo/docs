@@ -4,49 +4,66 @@ layout: editorial
 
 # HTTP(HyperText Transfer Protocol)
 
-HTML/TEXT, IMAGE, 음성, 영상, 파일, JSON, XML 등 다양한 데이터를 전송 가능한 프로토콜로, 현재 네트워크 통신에서 많이 사용되는 프로토콜이다.  
-주로 서버와 클라이언트 사이에서 요청/응답을 주고받는데 사용되고 있다.
+웹 브라우저와 웹 서버가 HTML, 이미지, JSON 등 다양한 데이터를 주고받기 위해 사용하는 애플리케이션 계층 프로토콜이다.
 
 ## 역사
 
-- HTTP/0.9: 초기 버전(GET 메서드만 지원 / 헤더 없음)
-- HTTP/1.0: 메서드와 헤더를 추가로 지원하는 버전(지속 연결 미지원)
-- HTTP/1.1: 현재 가장 널리 사용되는 버전으로, 지속 연결, 파이프라이닝(pipelining)을 지원하여 성능 향상
-- HTTP/2: HTTP/1.1의 성능 문제를 보완하기 위해 설계된 버전으로, 헤더 압축, 스트림 다중화 등으로 성능을 개선
-- HTTP/3: TCP 대신 UDP 프로토콜 위에서 작동하며, 기존 TCP 기반의 문제점을 개선하여 더 빠른 성능 제공
+단순한 텍스트 전송에서 시작해, 성능 최적화와 보안 강화를 목적으로 지속적으로 발전해왔다.
 
-## 전송 계층과 HTTP
+|    버전    |  연도  |                      특징 및 주요 개선점                      |   전송 계층    |
+|:--------:|:----:|:-----------------------------------------------------:|:----------:|
+| HTTP/0.9 | 1991 |            GET 메서드만 지원, 헤더 없음, HTML만 전송 가능            |    TCP     |
+| HTTP/1.0 | 1996 |     헤더 도입, 상태 코드 추가, Content-Type 지원(멀티미디어 전송 가능)     |    TCP     |
+| HTTP/1.1 | 1997 |   현재 가장 널리 쓰임. 지속 연결(Keep-Alive), 파이프라이닝, 캐시 제어 향상    |    TCP     |
+|  HTTP/2  | 2015 |  성능 개선 목적. 멀티플렉싱(한 커넥션으로 동시 전송), 헤더 압축(HPACK), 서버 푸시  |    TCP     |
+|  HTTP/3  | 2022 | QUIC 프로토콜 기반. TCP의 구조적 문제(HOL Blocking) 해결, 핸드셰이크 최소화 | UDP (QUIC) |
 
-- TCP: HTTP/1.1, HTTP/2
-- UDP: HTTP/3
+### HTTP/3와 UDP
 
-HTTP/3는 UDP 프로토콜 위에 애플리케이션 레벨에서 성능을 최적화하도록 새로 설계된 프로토콜이다.
-([참고 링크](https://evan-moon.github.io/2019/10/08/what-is-http3/))
+HTTP/3는 TCP가 아닌 UDP 기반의 QUIC 프로토콜을 사용한다.
+
+- TCP는 패킷 하나만 유실되어도 전체 데이터 처리가 중단되는 HOL(Head of Line) Blocking 문제가 발생
+- UDP를 튜닝하여 신뢰성을 확보하면서도 위 문제를 해결하고 연결 수립 속도 단축
 
 ## HTTP 특징
 
-- 요청-응답 기반의 `Client`-`Server` 구조를 가짐
-- `request`를 보내면 `response`로 돌아오며, `request` 없이는 `response`가 존재하지 않음
-- 상태를 유지하지 않음(`stateless`)
-- HTMP / 이미지 / 영상 / 파일 / JSON / XML 등 다양한 데이터를 전송 가능(미디어 독립적)
-- 비연결성(`connectionless`)
-- 지속 연결(`Keep-Alive`)을 통해 하나의 TCP 커넥션 여러 개의 요청과 응답을 처리(Three-way Handshake를 한 번만 하면 되기 때문에 성능 향상)
-- `GET` / `POST` / `PUT` / `HEAD` / `DELETE` / `OPTIONS` 메서드 존재
+- 클라이언트-서버 구조: 리소스를 요청하는 클라이언트와 리소스를 제공하는 서버로 분리
+- 무상태(Stateless): 서버가 클라이언트의 이전 상태를 보존하지 않음
+    - 장점: 서버 확장성이 높음
+    - 단점: 로그인 유지 등을 위한 쿠키나 세션 같은 별도의 기술 필요
+- 비연결성(Connectionless): 기본적으로 요청을 처리한 후 연결을 끊어 리소스를 절약
+    - 매 요청마다 TCP 연결을 새로 맺는 오버헤드를 줄이기 위해 HTTP/1.1부터는 `Keep-Alive`를 통해 연결을 유지하는 기능 도입
 
 ## 전송 방식
 
-HTTP는 다양한 방식으로 데이터를 전송하는데, 이 방식은 메시지 전송 시 사용하는 헤더에 따라 결정된다.
+데이터의 크기와 성격에 따라 다양한 전송 방식을 사용한다.
 
-|           전송 방식            |       사용 헤더       |           설명           |
-|:--------------------------:|:-----------------:|:----------------------:|
-|  단순 전송(Simplest Transfer)  |  Content-Length   |    메시지 바디의 크기를 알려줌     |
-| 압축 전송(Compressed Transfer) | Content-Encoding  |  메시지 바디를 압축한 방식을 알려줌   |
-|  분할 전송(Chunked Transfer)   | Transfer-Encoding | 메시지 바디를 여러 조각으로 나누어 전송 |
-|   범위 전송(Ranged Transfer)   |   Content-Range   |     메시지 바디의 일부만 요청     |
+| 전송 방식 |           사용 헤더            |                        설명                        |
+|:-----:|:--------------------------:|:------------------------------------------------:|
+| 단순 전송 |       Content-Length       |       데이터의 전체 크기를 미리 알고 있을 때 사용하며, 한 번에 전송       |
+| 압축 전송 |      Content-Encoding      |            gzip 등으로 데이터를 압축하여 전송량 절감             |
+| 분할 전송 | Transfer-Encoding: chunked | 용량이 큰 데이터를 전송할 때, 전체 크기를 모르더라도 조금씩 쪼개서(Chunk) 전송 |
+| 범위 전송 |    Range, Content-Range    |               데이터의 일부분만 요청하거나 응답한                |
+
+## 요청과 응답 메시지 구조
+
+HTTP 통신은 명확한 텍스트 기반의 메시지 구조를 가진다.
+
+```
+[Start Line]     HTTP/1.1 200 OK
+[Headers]        Content-Type: application/json
+                 Content-Length: 34
+[Empty Line]     (헤더와 바디의 구분)
+[Message Body]   { "username": "user1" }
+```
+
+- Start Line: 요청 라인(메서드, 경로, 버전) 또는 상태 라인(버전, 상태 코드, 문구)
+- Headers: HTTP 전송에 필요한 메타 데이터
+- Body: 실제 전송할 데이터 (HTML, 이미지, JSON 등)
 
 ## Content Negotiation
 
-클라이언트가 서버에게 어떤 컨텐츠를 원하는지 알려주는 기능으로, 서버는 이 정보를 통해 가장 적절한 컨텐츠를 제공할 수 있다.
+클라이언트가 서버에게 어떤 컨텐츠를 원하는지 알려주는 기능으로, , 서버가 그에 맞춰 가장 적절한 형태의 리소스를 제공하는 메커니즘이다.
 
 - 클라이언트는 `request message`에 Accept* 헤더 필드를 사용하여 요청
 - 서버는 `response message`에 Content* 헤더 필드를 사용하여 응답
@@ -67,17 +84,18 @@ HTTP는 다양한 방식으로 데이터를 전송하는데, 이 방식은 메�
 
 자세한 내용은 [HTTP Status](https://developer.mozilla.org/ko/docs/Web/HTTP/Status) 참고
 
-## MIME(Multipurpose Internet Mail Extensions)
+## MIME (Multipurpose Internet Mail Extensions)
 
-텍스트/영상/이미지 등 다양한 데이터를 다루기 위한 기능으로 `Content-Type` 헤더 필드를 사용하여 데이터의 종류를 나타낸다.  
-웹 서버에서 MIME 타입을 지정하면 웹 브라우저는 다룰 수 있는 객체인지 확인하고, 해당 타입에 맞는 애플리케이션을 실행하여 데이터를 처리한다.
+본래 이메일 전송을 위해 만들어졌으나, 현재는 웹에서 전송되는 모든 데이터의 형식을 명시하기 위해 `Content-Type` 헤더에 기재된다.
 
 - 이미지 등의 바이너리 데이터를 아스키(ASCII) 문자열에 인코딩하는 방법과 데이터 종류를 나타내는 방법 등을 규정
 - 확장 사양에 있는 멀티파트(Multipart)라고 하는 여러 다른 종류의 데이터를 수용하는 방법 사용
 - `HTTP`도 멀티파트에 대응하고 있어 하나의 메시지 바디 내부에 여러 엔티티를 포함시킬 수 있음
 - 전송 방식
-    - multipart/form-data: Web 폼으로부터 파일 업로드에 사용
-    - multipart/byteranges: 상태 코드 206(Partial Content) `response message`가 복수 범위의 내용을 포함할 때 사용
+    - `text/html`: HTML 문서
+    - `application/json`: JSON 데이터 (API 통신 표준)
+    - `image/png`, `image/jpeg`: 이미지 파일
+    - `multipart/form-data`: HTML Form을 통해 파일과 텍스트 데이터를 함께 전송할 때 사용. 각 파트마다 경계(Boundary)로 구분하여 전송한다.
 
 ###### 참고자료
 
