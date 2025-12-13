@@ -4,50 +4,50 @@ layout: editorial
 
 # HTTP Message
 
-HTTP 메시지는 단순한 줄 단위의 문자열이고, 이진 형식이 아닌 일반 텍스트 형식이기 때문에 사람이 쉽게 읽을 수 있다.  
-HTTP 메시지는 HTTP 애플리케이션 간에 주고 받는 데이터의 단위이며, HTTP 애플리케이션은 HTTP 메시지를 통해 요청과 응답을 주고 받는다.
+HTTP 메시지는 클라이언트와 서버 간에 데이터 교환을 위해 사용하는 규격화된 데이터 블록이다.
 
 ## 메시지의 흐름과 방향성
 
-HTTP 통신에서 메시지의 흐름은 발송자로부터 수신자로 흐르는 방향으로 이루어진다.
+메시지가 어디서 와서 어디로 가는지에 따라 용어가 구분된다.
 
-- 인바운드(Inbound) : 클라이언트에서 서버로의 방향
-- 아웃바운드(Outbound) : 서버에서 클라이언트로의 방향
-- 업스트림(Upstream) : 발송자
-- 다운스트림(Downstream) : 수신자
+- 인바운드(Inbound): 메시지가 서버를 향해 들어오는 방향
+- 아웃바운드(Outbound): 메시지가 처리를 마치고 클라이언트로 나가는 방향
+- 업스트림(Upstream): 요청 데이터가 흘러가는 방향 (클라이언트 -> 서버)
+- 다운스트림(Downstream): 응답 데이터가 흘러가는 방향 (서버 -> 클라이언트)
 
 ## HTTP 구조
 
-HTTP 메시지는 크게 아래 세 개로 구성되어 있다.
+요청(Request)과 응답(Response) 모두 크게 세 부분으로 나뉜다.
 
-- Start Line: 메시지의 첫 줄로, 메시지의 종류와 버전 등과 무엇을 하는지에 대한 정보
-- Headers: HTTP 전송에 필요한 모든 부가정보로, 0개 이상의 헤더 필드로 구성
-- Message Body: 실제 전송할 데이터(필요에 따라 생략 가능)
+- Start Line: 메시지의 요약 정보 (무엇을 요청했는지, 성공했는지 등)
+- Headers: 전송에 필요한 메타 데이터 (길이, 타입, 인증 정보 등)
+- Empty Line: 헤더의 끝을 알리는 공백 (`CRLF`)
+- Message Body: 실제 전송할 데이터 (HTML, JSON, 이미지 등)
 
-각 줄은 CRLF(Carriage Return, Line Feed)로 끝나며, 각 부분은 CRLF로 구분된다.  
-하지만 모든 HTTP 애플리케이션이 CRLF를 제대로 사용하고 있지 않기 때문에, 그냥 개행 문자도 받아들일 수 있는 HTTP 애플리케이션으로 개발하는 것이 좋다.
-
-```http request
-<start-line>
-<headers>
-<CRLF>
-<message-body>
+```mermaid
+classDiagram
+    class HTTP_Message {
+        Start Line(시작 라인)
+        Headers(헤더)
+        Empty Line(공백 라인, 필수)
+        Message Body(본문, 옵션)
+    }
 ```
-
-** CRLF: Carriage Return, Line Feed, 즉 `\r\n`을 의미하며 캐리지 리턴과 개행 문자로 구성된 문자열
 
 ### HTTP Request Message
 
-HTTP Request Message의 형태와 예시는 다음과 같다.
-
-```http request
-<method> <request-URI> <HTTP-version>
-<header>
+```http
+<Method> <Request-URI> <HTTP-Version>
+<Headers>
 <CRLF>
-<entity-body>
+<Entity-Body>
 ```
 
-entity body는 예시와 같이 생략될 수 있으며, 생략된 경우에는 CRLF로 끝나는 메시지가 된다.
+- Method: 서버가 수행해야 할 동작 (GET, POST, PUT, DELETE 등)
+- Request-URI: 요청하는 리소스의 경로 (Path + Query String)
+- HTTP-Version: 사용하는 프로토콜 버전 (HTTP/1.1 등)
+
+#### 예시
 
 ```http request
 GET /index.html HTTP/1.1
@@ -66,11 +66,17 @@ Cache-Control: max-age=0
 HTTP Response Message의 형태와 예시는 다음과 같다.
 
 ```http request
-<HTTP-version> <status-code> <reason-phrase>
-<header>
+<HTTP-Version> <Status-Code> <Reason-Phrase>
+<Headers>
 <CRLF>
-<entity-body>
+<Entity-Body>
 ```
+
+- HTTP-Version: 프로토콜 버전
+- Status-Code: 처리 결과를 나타내는 3자리 숫자 (200, 404, 500 등)
+- Reason-Phrase: 숫자로 된 상태 코드를 사람이 이해할 수 있게 설명하는 짧은 글 (OK, Not Found 등)
+
+#### 예시
 
 ```http request
 HTTP/1.1 200 OK
@@ -88,28 +94,9 @@ Content-Type: text/html
 </html>
 ```
 
-각 부분에 대한 자세한 설명은 아래와 같다.
+## HTTP Header
 
-### Start Line
-
-HTTP 메시지의 첫 줄로, 요청과 응답에 따라 구성에 약간 차이가 있으며, 메시지의 종류와 버전 등과 무엇을 하는지에 대한 정보를 담고 있다.
-
-- Request
-
-```http request
-<method> <request-URI> <HTTP-version>
-```
-
-- Response
-
-```http request
-<HTTP-version> <status-code> <reason-phrase>
-```
-
-### Headers
-
-HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 내용/크기/압축/인증 등을 포함한다.  
-요청 혹은 응답의 컨텍스트를 설정하고, 메시지 전송을 더 잘 제어할 수 있도록 도와준다.
+HTTP 전송에 필요한 모든 부가정보를 담고 있으며, 메시지 내용/크기/압축/인증 등을 포함한다.
 
 ```http request
 status line
@@ -122,16 +109,23 @@ CRLF
 
 HTTP 헤더는 크게 아래와 같이 구분할 수 있으며, 각 분류 안에 많은 헤더 필드가 존재한다.
 
-- General Header: 메시지에 대한 기본적인 정보를 가진 헤더
-- Request Header: 요청에 대한 정보, 요청자에 대한 정보나 어떤 리소스를 요청하는지에 대한 정보를 가진 헤더
-- Response Header: 응답에 대한 정보, 응답자에 대한 정보나 응답에 대한 부가적인 정보를 가진 헤더
-- Entity Header: 엔티티 바디에 대한 정보, 엔티티 바디의 데이터 타입이나 길이 등 엔티티 바디에 대한 부가적인 정보를 가진 헤더
-- Extension Header: 명세에 정의되지 않은 새로운 헤더, 사용자가 직접 만들어 사용한 헤더
+| 분류              |                   설명                   |                                 주요 예시                                 |
+|:----------------|:--------------------------------------:|:---------------------------------------------------------------------:|
+| General Header  |     요청과 응답 메시지 양쪽 모두에 적용되는 일반적인 정보     |     `Date` (생성 일시), `Connection` (연결 관리), `Cache-Control` (캐시 제어)     |
+| Request Header  | 요청 메시지에서만 사용하며, 요청의 내용이나 클라이언트의 정보를 담음 |      `Host`, `User-Agent`, `Referer`, `Accept`, `Authorization`       |
+| Response Header |  응답 메시지에서만 사용하며, 서버의 정보나 응답 부가 정보를 담음  |          `Server`, `Set-Cookie`, `Allow`, `Location`, `Vary`          |
+| Entity Header   |     실제 전송되는 본문(Body) 데이터에 대한 상세 정보     | `Content-Type`, `Content-Length`, `Content-Encoding`, `Last-Modified` |
 
-### Message Body(Entity Body)
+이 외에도 명세에 정의되지 않은 사용자가 직접 만들어 사용한 헤더인 `Extension Header`도 존재한다.
 
-실제 전송할 데이터로, byte로 표현할 수 있는 모든 데이터를 전송할 수 있다.  
-모든 메시지가 가지고 있지는 않으며, 그냥 CRLF로 끝나는 메시지도 존재한다.
+## Message Body(Entity Body)
+
+실제 전송하려는 데이터가 담기는 곳이다.
+
+- 모든 메시지가 바디를 가지는 것은 아님
+    - GET, HEAD, DELETE 요청은 보통 바디가 없음
+    - 204 No Content, 304 Not Modified 응답은 바디가 없음
+- 데이터 타입은 텍스트뿐만 아니라 이미지, 영상, 파일 등 바이너리 데이터도 포함 가능 (`Content-Type` 헤더로 명시)
 
 ###### 참고자료
 
