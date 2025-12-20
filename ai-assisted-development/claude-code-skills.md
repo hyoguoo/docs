@@ -96,7 +96,7 @@ graph TD
     C -->|description 유사도 높음| D[Skill 자동 활성화]
     C -->|매칭 불확실| E[일반 모드]
     A --> F{명시적 호출?}
-    F -->|@skill - name 사용| G[해당 Skill 강제 활성화]
+    F -->|skill name 사용| G[해당 Skill 강제 활성화]
     F -->|없음| C
     style D fill: #d4edda
     style G fill: #d4edda
