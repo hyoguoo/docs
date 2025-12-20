@@ -310,3 +310,4 @@
   * [Claude Code Core Features and Usage Guide](ai-assisted-development/claude-code-core-features-guide.md)
   * [Claude Code - Super Claude Framework](ai-assisted-development/claude-code-super-claude-framework.md)
   * [Claude Context Management](ai-assisted-development/claude-context-management.md)
+  * [Claude Code Skills](ai-assisted-development/claude-code-skills.md)
