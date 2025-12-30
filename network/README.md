@@ -22,6 +22,4 @@ layout: editorial
             * [Cookie](cookie.md)
             * [Encoding](encoding.md)
 * [Proxy](proxy.md)
-* [Gateway](gateway.md)
-* [Tunnel](tunnel.md)
 * [CORS](cors.md)
