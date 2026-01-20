@@ -4,231 +4,130 @@ layout: editorial
 
 # Secure Coding(시큐어 코딩)
 
-> 소프트웨어(SW)를 개발함에 있어 개발자의 실수, 논리적 오류 등으로 인해 SW에 내포될 수 있는 보안취약점(vulnerability)을 배제하기 위한 코딩 기법
+소프트웨어 개발 과정에서 개발자의 실수나 논리적 오류로 인해 발생할 수 있는 보안 취약점을 사전에 제거하여 안전한 소프트웨어를 개발하는 기법이다.
 
 ## 입력 데이터 검증 및 표현
 
-프로그램 입력 값에 대한 검증 누락 또는 부적절한 검증 등으로 SQL Injection, 크로스사이트 스크립트(XSS) 등의 공격 유발 가능
+외부 입력값에 대한 검증 누락이나 부적절한 처리는 SQL Injection, XSS 등 심각한 보안 사고의 주원인으로, 모든 입력값은 신뢰하지 않는다는 전제로 검증해야 한다.
 
 ### 1. SQL Injection
 
-사용자로부터 입력된 값을 입력 받은 경우 동적쿼리(Dynamic Query)를 생성하기 때문에 개발자가 의도하지 않은 쿼리가 실행되어 정보유출에 대한 악용 가능성
+사용자로부터 입력된 값을 입력 받은 경우 동적쿼리(Dynamic Query)를 생성하는데, 악의적인 SQL 구문을 주입하여 데이터베이스를 조작하거나 정보를 탈취하는 공격이다.
 
-#### 공격 예시
+#### 방어 및 대응 방안
 
-- 코드와 전달 인자
+- 정적 쿼리(Prepared Statement) 사용: DB 컴파일러가 쿼리 문법을 미리 파싱한 후 데이터를 바인딩하므로, 입력값이 문법에 영향을 주지 않고 단순 문자열로 처리됨
+- ORM(Object Relational Mapping) 프레임워크 사용: Hibernate, JPA 등은 기본적으로 내부적인 파라미터 바인딩을 수행
+- 입력값 검증: 특수문자 필터링 및 입력 길이 제한
 
-```typescript
-// 인자로 `name"; DROP BOARD; --`; 전달
-const sql = `
-    SELECT
-        *
-    FROM
-        BOARD
-    WHERE
-        contents = "${contents}"
-`;
-```
-
-- 실행되는 쿼리
-
-```sql
-SELECT *
-FROM BOARD
-WHERE contents = "name";
-DROP
-BOARD; --"
-```
-
-#### 안전한 코딩 기법
-
-- 동적 쿼리에 들어오는 값 검증
-- Prepared Statement: 쿼리의 문법 처리 과정이 미리 선 수행되고 바인딩 데이터가 할당 되기 때문에 해당 데이터는 SQL 문법적인 의미를 가질 수 없게됨
-
-```typescript
-const sql = `
-    SELECT
-        *
-    FROM
-        BOARD
-    WHERE
-        contents = ?
-`;
-
-return await this.datasource.query(sql, [
-    contents,
-]);
+```mermaid
+flowchart LR
+    A[사용자 입력] --> B{쿼리 생성 방식}
+    B -- 동적 쿼리 --> C[SQL 문법으로 해석됨] --> D[공격 성공]
+    B -- Prepared Statement --> E[단순 문자열로 바인딩] --> F[공격 무력화]
 ```
 
 ### 2. 크로스 사이트 스크립트(XSS)
 
-웹 페이지에서 악의적인 스크립트를 포함시켜 사용자 측에서 실행되게 유도하는 방법
+공격자가 웹 페이지에 악성 스크립트를 삽입하여, 이를 열람하는 사용자의 브라우저에서 스크립트가 실행되도록 하는 공격으로, 세션 탈취, 리다이렉트, 악성코드 다운로드 등을 유발한다.
 
-#### 안전한 코딩 기법
+- Stored XSS: 악성 스크립트가 DB에 저장되어 지속적으로 피해 발생
+- Reflected XSS: URL 파라미터 등에 포함된 스크립트가 즉시 반사되어 실행
 
-- 외부 입력 값 또는 출력값에 스크립트가 삽입되지 못하도록 문자열 치환 함수를 사용해 `^ < > * ' / ( )` 등을 `&amp;`등으로 특수문자 코드로 치환하여 사용
-- html 태그를 허용하는 대상의 경우 white list를 만들어 해당 태그들만 허용
+#### 방어 및 대응 방안
+
+- 입/출력값 치환: `< > & " '` 등의 특수문자를 `&lt; &gt;` 등의 HTML Entity로 변환(HTML Escaping)
+- 라이브러리 사용: OWASP Java Encoder, Naver Lucy XSS Filter 등 검증된 라이브러리 활용
+- White List 방식 필터링: HTML 태그 허용이 필수적인 경우, 안전한 태그만 허용
 
 ### 3. 위험한 형식 파일 업로드
 
-서버 측에서 실행될 수 있는 스크립트 파일을 업로드하여 그 파일을 통해 웹을 통해 직접 실행 시켜 공격하는 방법
+확장자나 파일 타입 검증 없이 업로드를 허용할 경우, 웹 쉘(Web Shell)과 같은 실행 가능한 악성 파일이 서버에 저장되고 실행될 수 있다.
 
-#### 안전한 코딩 기법
+#### 방어 및 대응 방안
 
-- 특정 파일만 허용하는 white list 설정
-- 파일 확장자 및 Content-Type 확인
-- 파일 크기 및 파일 개수 제한
-- 파일의 실행을 막기 위해 무작위 이름으로 변환 및 해당 파일의 실행 권한 삭제
-
-```typescript
-const MEGABYTE = 1024 * 1024;
-
-class File {
-    public static isValidImage(image?: Express.Multer.File) {
-        this.validateSize(image, 5 * MEGABYTE);
-        this.validateImageExtension(image);
-    }
-
-    private static validateSize(image: Express.Multer.File, maximumSize: number) {
-        if (image.size < 0 || image.size > maximumSize) {
-            throw new BadRequestException(
-                `이미지 크기가 유효하지 않습니다.(0 ~ ${maximumSize / MEGABYTE}MB)`,
-            );
-        }
-    }
-
-    private static validateImageExtension(image: Express.Multer.File) {
-        const validExtensionList = ['jpeg', 'jpg', 'png'];
-        const imageExtension = image.mimetype.split('/')[1];
-
-        if (!validExtensionList.includes(imageExtension)) {
-            throw new BadRequestException(
-                '지원하지 않는 파일 형식입니다.(jpg, jpeg, png)',
-            );
-        }
-    }
-}
-```
+- 화이트리스트 확장자 검사: 허용된 확장자(예: jpg, png)만 업로드 가능하도록 제한
+- 파일 시그니처(Magic Number) 검증: 확장자 위변조 방지를 위해 파일 헤더의 고유 바이트 확인
+- 파일명 난수화: 업로드된 파일명을 UUID 등으로 변경하여 공격자가 파일에 접근하거나 실행하는 것을 방해
+- 실행 권한 제거: 업로드 디렉토리의 실행 권한(Execute) 제거
+- 저장 경로 분리: 웹 루트(Web Root) 외부의 경로에 파일 저장
 
 ### 4. 경로 조작 및 자원 삽입
 
-검증되지 않은 외부 입력 값을 통해 파일 및 서버 등 시스템 자원에 대한 접근 혹은 식별을 허용할 경우 입력 값을 통해 접근할 경우 생기는 문제
-
-#### 공격 예시
+입력값에 경로 순회 문자(`../`, `..%2f`) 등을 포함시켜 허가되지 않은 파일 시스템 경로에 접근하는 공격이다.
 
 - 변조 전: `http://www.example.com/file/download/?filename=pic.jpg%path=data`
 - 변조 후: `http://www.example.com/file/download/?filename=paaword%path=../../etc`
 
-#### 안전한 코딩 기법
+#### 방어 및 대응 방안
 
-- 외부의 입력 값을 식별자로 사용하는 경우 적절한 검증을 거치거나 사전에 정의된 리스트에서 선택되도록 제한
-- 외부 입력이 파일명인 경우에는 경로 순회(`/ \ ..`)문자를 제거 하여 사용
-
-```typescript
-export class TermsSaveRequest {
-    @IsNotEmpty()
-    @IsEnum(TermsType)
-    termsType: TermsType; // 디렉토리 경로가 될 type을 Enum value로 강제
-
-    @IsNotEmpty()
-    @IsDateString()
-    revisionDate: string;
-}
-```
+- 경로 순회 문자 필터링: 파일명에서 `/`, `\`, `..` 제거
+- 베이스 디렉토리 고정: 입력받은 파일명이 지정된 디렉토리 내부인지 `canonicalPath` 등으로 확인 후 처리
+- 식별자 매핑: 파일명 직접 입력 대신 ID 등을 받아 내부적으로 매핑된 파일 접근
 
 ### 5. 운영체제 명령어 삽입
 
-사용자 입력 값에 운영체제 명령어의 일부 또는 전부로 구성되어 실행되는 경우 의도치 않은 시스템 명령어를 유발시킬 수 있는 경우로 시스템 동작 및 운영에 악영향을 미칠 수 있다.
+외부 입력값이 시스템 명령어의 파라미터나 일부로 전달될 때, 메타 문자(`|`, `;`, `&` 등)를 이용해 추가 명령어를 실행시키는 취약점이다.
 
-#### 안전한 코딩 기법
+#### 방어 및 대응 방안
 
-- 외부 입력 값이 시스템 명령에 포함되는 경우 `| ; & : > <  \ !` 같은 멀티라인 파이프 리다이렉트 문자 등을 필터링
-- 명령어 생성에 필요한 값들을 미리 지정해놓고 외부 입력에 따라 선택하여 사용
+- 언어 자체 API 사용: `Runtime.exec()` 같은 쉘 호출 대신 라이브러리 함수 사용
+- 화이트리스트 입력 제한: 허용된 명령어 목록 내에서만 실행되도록 제한
+- 메타 문자 필터링: 명령어 연결에 사용되는 특수문자 제거
 
-### 6. 신뢰하지 않은 URL 주소로 자동접속 연결
+### 6. 오픈 리다이렉트
 
-사용자로부터 입력되는 값을 외부사이트의 주소로 사용하여 연결하는 서버 프로그램은 피싱(Phishing) 공격 노출 취약성
+사용자가 입력한 URL로 자동 이동하는 기능이 검증 없이 구현될 경우, 피싱 사이트로 유도하거나 악성 코드를 유포하는 데 악용될 수 있다.
 
-#### 안전한 코딩기법
+#### 방어 및 대응 방안
 
-- 허용하는 URL을 white list로 관리
-
-```java
-class Example {
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String allowURL[] = {"http://url1.com", "http://url2.com", "http://url3.com"};
-        String nurl = request.getParameter("nurl");
-        try {
-            Integer n = Integer.parseInt(nurl);
-            if (n >= 0 && n < 3)
-                response.sendRedirect(allowURL[n]);
-        } catch (NumberFormatException nfe) {
-        }
-    }
-}
-```
+- 화이트리스트 도메인 관리: 허용된 도메인 리스트 내에서만 리다이렉트 허용
+- 상대 경로 사용: 외부 도메인 이동이 불필요한 경우 도메인을 제외한 경로만 사용
 
 ### 7. 크로스 사이트 요청 위조(Cross-Site Request Forgery)
 
-특정 웹사이트에 대해서 사용자가 인지하지 못한 상황에서 사용자의 의도와는 무관하게 요청하는 공격
+사용자가 자신의 의지와 무관하게 공격자가 의도한 행위(수정, 삭제, 등록 등)를 특정 웹사이트에 요청하게 만드는 공격이다.
 
-1. 공격자가 CSRF 스크립트가 포함된 게시물 등록
-2. 사용자가 해당 게시물 조회
-3. 사용자의 권한(Auth)으로 CSRF Script 실행
-4. 서버는 사용자의 요청으로 인식해 그대로 실행
+```mermaid
+sequenceDiagram
+    participant User as 사용자
+    participant Attacker as 공격자 서버
+    participant Server as 피해 서버
+    User ->> Server: 1. 로그인 (세션 생성)
+    User ->> Attacker: 2. 공격자 사이트 방문 (이메일/게시판 등)
+    Attacker ->> User: 3. 악성 스크립트 포함된 페이지 응답
+    User ->> Server: 4. 스크립트 자동 실행 (사용자 세션으로 요청 전송)
+    Server ->> Server: 5. 정상 요청으로 판단하여 처리 (공격 성공)
+```
 
-#### 예시
-
-사용자가 아래와 같은 태그가 포함된 사이트를 열람할 시 아래 태그에 있는 스크립트가 실행되어 비밀번호가 강제로 변경
+만약 사용자가 아래와 같은 태그가 포함된 사이트를 열람할 시 아래 태그에 있는 스크립트가 실행되어 비밀번호가 강제로 변경된다.
 
 ```html
 <img src="https://examplesite.com/user?action=set-pw&pw=1234" , width="0" height="0"/>
 ```
 
-#### 안전한 코딩 기법
+#### 방어 및 대응 방안
 
-- 정보 수정을 하는 API는 `GET` 메서드를 사용하지 말고 `POST` 사용
-- request header에 있는 요청을 한 페이지가 정보가 담긴 referer 속성을 검증하여 차단
-- CSRF Token 검증  
-  (https://junhyunny.github.io/information/security/spring-boot/spring-security/cross-site-reqeust-forgery/)
+- 메서드 구분: 상태를 변경하는 요청은 `GET` 대신 `POST`, `PUT`, `DELETE` 사용
+- CSRF Token 사용: 난수화된 토큰을 세션에 저장하고, 요청 시마다 토큰 일치 여부 검증
+- Referer 검증: 요청을 발송한 출처가 허용된 도메인인지 확인
+- SameSite Cookie 설정: 쿠키의 `SameSite` 속성을 `Strict` 또는 `Lax`로 설정하여 타 도메인에서의 쿠키 전송 제한
 
-```java
-// 보통 Host와 Referrer 값이 일치하는 특성을 이용한 방어 코드 
-public class ReferrerCheckInterceptor implements HandlerInterceptor {
+### 8. 서버사이드 요청 위조(SSRF)
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String referer = request.getHeader("Referer");
-        String host = request.getHeader("host");
-        if (referer == null || !referer.contains(host)) {
-            response.sendRedirect("/");
-            return false;
-        }
-        return true;
-    }
-}
-```
-
-### 8. 서버사이드 요청 위조
-
-적절한 검증절차를 거치지 않은 사용자가 입력 값을 서버 간의 요청 안에 악의적인 행위를 넣어 발생 시키는 보안 약점
+공격자가 서버를 매개로 하여 외부에서 접근할 수 없는 내부망(Internal Network)의 자원에 접근하거나 스캔하는 공격이다.
 
 ```
 [공격자] <--> [웹 서버] <--> [내부 서버]
 # 공격자는 내부 서버에 직접 접근이 불가능한 환경
 ```
 
-1. 공격자가 서버에 조작한 요청 전송
-2. 서버가 해당 요청 처리
-3. 수신한 서버가 조작된 요청을 내부 서버에 다시 요청
+#### 방어 및 대응 방안
 
-#### 안전한 코딩 기법
+- 내부 IP 대역 차단: `127.0.0.1`, `localhost`, `10.x.x.x`, `192.168.x.x` 등 사설 IP 및 루프백 주소 접근 차단
+- URL 스키마 제한: `file://`, `gopher://` 등 불필요한 프로토콜 비활성화하고 `http`, `https`만 허용
 
-- 사용자의 입력 값을 white list 방식으로 필터링
-- 무작위 URL을 받아야 할 경우 반대로 블랙리스트 URL 지정
-
-<참고 : 삽입 코드의 예>
+삽입 코드의 예시는 다음과 같다.
 
 |                 설명                  |                                                               삽입 코드의 예                                                               |
 |:-----------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------:|
@@ -240,21 +139,11 @@ public class ReferrerCheckInterceptor implements HandlerInterceptor {
 
 ### 9. HTTP 응답 분할
 
-- HTTP Request(Response) Message 구조
+입력값에 CR(`\r`, %0d), LF(`\n`, %0a) 문자가 포함되어 HTTP 헤더가 분리되는 취약점으로, 개행 문자(CRLF)를 삽입하여 서버가 보낸 하나의 응답을 두 개 이상의 응답으로 해석하게 만든다.
 
-```http request
-HTTP/1.1 403 Forbidden
-Server: Apache
-Content-Type: test/heal:charset-i8o-8953-1
-Date: Wed, 10 Aug 2016 09:23:25 GHT
-Keep-Alive: timeout-5, max-1000
-Connection: Keep-Alive
-Age: 3464
-Date: Wed, 10 Aug 2016 09:46:25 GMT
-Content-Length: 220
+#### HTTP 메시지 구조와 원리
 
-«IDOCTYPE HIML PUBLIC™ T-77IETF//DID HIMI 2.0//EN">
-```
+HTTP 프로토콜은 헤더와 본문(Body)을 `CRLF` (Carriage Return `\r` + Line Feed `\n`)로 구분한다.
 
 |        Start Line        |
 |:------------------------:|
@@ -264,171 +153,132 @@ Content-Length: 220
 |     CRLF(Empty Line)     |
 |           Body           |
 
-HTTP 요청에 들어 있는 인자 값이 HTTP 응답 헤더에 포함되어 사용자에게 다시 전달될 때 입력값에 CR(CarriageReturn, %0d) + LF(LineFeed, %0a)와 같은 개행 문자가 존재할 경우
-HTTP 응답이 두 개 이상으로 분리될 수 있는데, 공격자는 CRLF를 이용해 여러 개의 HTTP 응답을 만들어 해당 응답 메시지에 악의적인 코드를 주입
+공격 핵심은 헤더에 `CRLF(%0d%0a)`를 주입하여 강제로 줄을 바꿈으로써, 이후에 오는 데이터를 새로운 헤더나 별도의 응답 메시지로 인식하게 만드는 것이다.
 
-1. 인젝션 코드가 삽입 된 HTTP 코드 요청
+#### 공격 수행 과정
+
+공격자는 `Content-Length: 0` 헤더를 주입하여 첫 번째 응답을 강제로 종료시키고, 뒤이어 악성 코드가 담긴 두 번째 가짜 응답을 생성한다.
+
+##### 1. 악성 코드가 삽입된 요청 전송
+
+공격자는 파라미터에 CRLF와 가짜 응답 헤더를 인코딩하여 전송한다.
 
 ```http request
-GET /test?exampleParam=example%0d%0aContentLength:%200%0d%0d%0a%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2019%0d%0a%0d%0a<html>Attack</html>
-...
+GET /test?
+    param=Value%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2019%0d%0a%0d%0a<html>Attack</html>
+
 ```
 
-- 정상적인 HTTP Response
+- `%0d%0a`: 줄바꿈(CRLF)
+- `Content-Length: 0`: 첫 번째 응답이 여기서 끝난 것처럼 위장
+- `%0d%0a%0d%0a`: 헤더와 바디를 구분하는 빈 줄 삽입 (첫 번째 응답 종료)
+- `HTTP/1.1 200 OK...`: 두 번째 가짜 응답 시작
+
+##### 2. 서버의 처리 및 응답 분할
+
+서버는 입력값을 검증 없이 헤더에 포함시키며, 이로 인해 응답 패킷이 논리적으로 분할된다.
 
 ```http request
 HTTP/1.1 200 OK
-...(Header)
-```
+Set-Cookie: param=Value
+Content-Length: 0
 
-- 인젝션 코드로 생성 된 메시지:  
-  `%0d%0aContentLength:%200%0d%0d%0a%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2019%0d%0a%0d%0a<html>Attack</html>`
+# --- [여기서 첫 번째 응답이 종료된 것으로 처리됨] ---
 
-```http request
-ContentsLength: 0
-
-HTTP/1.1 200 OK
-Content-Type: text/html
-Content-Length: 19
-
-<html>Attack</html>
-```
-
-2. 서버 측에서 그대로 받아서 처리하여 HTTP 응답을 분할하여 2개가 존재
-
-```http request
-HTTP/1.1 200 OK
-... 
-    # 원래 응답 안에 인젝션 코드 출력
 HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Length: 19
 
 <html>Attack</html>
-... # 원래 응답 값 계속
+
+# --- [공격자가 주입한 가짜 응답이 실행됨] ---
+
 ```
 
-위와 같이 되면 `<html>Attack</html>`이 실행되고 원래 응답 값 일부를 모두 문자열로 인식하여 문자 그대로 화면에 출력하게 된다.
+##### 3. 결과 및 피해
 
-#### 안전한 코딩 기법
+- 브라우저나 프록시 서버는 이를 두 개의 별도 응답으로 인식
+- 첫 번째 응답은 `Content-Length: 0`에 의해 무시되거나 정상 처리된 것으로 간주
+- 두 번째 가짜 응답(`Attack`)이 사용자의 브라우저에서 실행되거나(XSS), 프록시 서버의 캐시에 저장되어 다른 사용자에게 악성 페이지가 노출 가능성 존재(Cache Poisoning)
 
-- 요청 파라미터 값에 HTTP 응답 헤더를 포함 시킬 경우 CR(\r), LF(\n) 같은 개행 문자 제거
-- 외부 입력 값이 헤더, 쿠키, 로그 등에 사용될 경우 항상 개행 문자 검증
-- 헤더에 사용되는 예약어 등은 white list로 제한을 권장
+#### 방어 및 대응 방안
 
-```java
-class Example {
-  ...
-
-    public void replaceCRLF() {
-        String contentType = request.getParameter("content-type");
-        String filteredContentType = contentType.replaceAll("\r", "").replaceAll("\n", "");
-      ...
-    }
-}
-```
+- 개행 문자 제거: HTTP 헤더에 들어가는 입력값에서 CR, LF 문자를 공백 등으로 치환
+- 라이브러리 활용: 최신 웹 프레임워크나 WAS는 기본적으로 헤더 내 개행 문자를 차단하는 기능을 내장하고 있음
 
 ## 캡슐화
 
-소프트웨어가 중요한 데이터나 기능성을 불충분하게 캡슐화 하는 경우, 인가된 데이터와 그렇지 않은 데이터를 구분하지 못하게 되어 중요한 정보가 노출되는 경우가 발생한다.  
-또한 객체 지향 방법론 중 중요한 개념으로도 사용되며 객체와 필드의 은닉을 통해 외부의 잘못된 사용을 방지하는 것으로 캡슐화가 부적절 혹은 불충분하게 되어 있으면 정보 은닉의 기능을 상실한다.
+객체 지향 프로그래밍의 정보 은닉 원칙을 위배하거나 불필요한 정보가 노출되는 경우 발생하는 취약점이다.
 
-### 디버그 코드
+### 1. 디버그 코드 잔존
 
-디버깅 목적으로 삽입 된 코드를 개발 완료된 이후에 제거하지 않은 경우 민감한 정보가 노출 될 수 있다.
+개발 편의를 위해 작성한 디버깅 코드(로그, 테스트 페이지 등)가 운영 환경에 남을 경우 중요 정보 유출 경로가 된다.
 
-#### 안전한 코딩기법
+#### 대응 방안
 
-- 배포 전 디버그 코드 삭제
-- 환경에 따른 출력 로그 레벨 제한 지정
+- 빌드 프로세스 제어: 운영 배포 시 디버그 코드가 제외되도록 전처리기 또는 빌드 스크립트 설정
+- 로깅 레벨 관리: 운영 환경에서는 디버그 레벨 로그가 출력되지 않도록 설정 파일 분리
 
-```typescript
-const app = await NestFactory.create(AppModule, {
-    logger: process.env.NODE_ENV === 'production'
-        ? ['error', 'warn', 'log']
-        : ['error', 'warn', 'log', 'verbose', 'debug']
-});
-```
+### 2. Public 메서드를 통한 Private 배열 반환
 
-### private Array(Object) 접근 제한
+`private` 배열을 `public` 메서드(Getter)가 그대로 반환할 경우, 외부에서 배열의 참조 주소를 통해 내부 데이터를 직접 수정할 수 있게 되어 이는 불변성(Immutability)을 깨뜨린다.
 
-`private`으로 선언 되었지만 `public`으로 선언 된 메서드를 통해 그대로 반환하면 그 배열의 주소값이 외부에 노출되어 외부에서 배열 수정이 가능해지며,  
-또한 `public` 메서드를 통해 `priviate` 선언된 배열에 저장하면 `private` 배열을 외부에서 접근할 수 있게 된다.
+#### 대응 방안
 
-#### 안전한 코딩기법
-
-- `private`로 선언된 배열을 `public`을 통해 선언 된 메서드를 통해 반환 하지 않도록 함
-- 필요한 경우엔 복제본을 반환 하거나 수정을 제어하는 `public` 메서드를 별도 선언
-
-##### before
+- 배열 반환 시 원본이 아닌 복사본을 생성하여 반환(Deep Copy 또는 Clone)
+- 배열 입력 시에도 복사본을 생성하여 내부 변수에 할당
 
 ```java
-class Example {
+public class SafeObject {
+
     private String[] colors;
 
+    // Getter: 복사본 반환
     public String[] getColors() {
-        return colors;
+        if (this.colors == null)
+            return null;
+        return Arrays.copyOf(this.colors, this.colors.length);
     }
 
-    public void setColors(String[] colors) {
-        this.colors = colors
-    }
-}
-```
-
-##### after
-
-```java
-class Example {
-    private String[] colors;
-
-    public String[] getColors() {
-        String[] ret = null;
-        if (this.colors != null) {
-            ret = new String[colors.length];
-            for (int i = 0; i < colors.length; i++) {
-                ret[i] = this.colors[i];
-            }
-            return ret;
-        }
-    }
-
-    public void setColors(String[] colors) {
-        this.colors = new String[colors.length];
-        for (int i = 0; i < colors.length; i++) {
-            this.colors[i] = colors[i];
+    // Setter: 복사해서 저장
+    public void setColors(String[] newColors) {
+        if (newColors != null) {
+            this.colors = Arrays.copyOf(newColors, newColors.length);
         }
     }
 }
 ```
 
-## 그 외
+## 기타 보안 약점
 
-### 1. 보안 기능
+### 1. 에러 처리(Error Handling)
 
-인증/접근 제어/기밀성/암호화 등을 올바르게 구현해야하는 것으로 중요한 정보를 암호화 없이 저장하거나 하드코딩 되어 노출 되는 경우가 없어야 한다.
+시스템 내부 에러 메시지(Stack Trace 등)가 사용자에게 그대로 노출될 경우, 서버 구조나 DB 정보 등 공격에 유용한 정보를 제공하게 된다.
 
-### 2. 코드 오류
+- 사용자에게는 약속된 에러 메시지만 노출
+- 상세 로그는 서버 내부에만 기록
 
-형변환 오류/반환/NullPointer 참조와 같이 오류를 발생시키거나, 자원을 필요 이상으로 할당하게 되어 시스템에 부하를 주는 경우가 없어야 한다.
+### 2. 경쟁 조건(Race Condition)
 
-### 3. API 오용
+검사 시점(Time of Check)과 사용 시점(Time of Use) 사이의 시간차를 이용하여 자원을 조작하는 공격이다(TOCTOU).
 
-의도된 사용에 반하는 방법으로 API를 사용하거나 보안에 취약한 API의 사용을 자제해야 한다.
+- 동기화(Synchronized) 블록 사용
+- DB 트랜잭션 격리 수준 적절히 설정
+- Node.js 환경의 경우 `pm2` 등 클러스터 모드 사용 시 프로세스 간 자원 공유 문제 주의
 
-### 4. 시간 및 상태
+### 3. 하드코딩된 중요 정보
 
-동시 또는 거의 동시 수행을 지원하느 병렬 시스템이나 하나 이상의 프로세스가 동작하는 환경에서 시간 및 상태를 부적절하게 관리하여 생길 수 있는 약점  
-Node 기반 프로젝트의 경우 pm2 cluster 모드를 통해 스케줄링을 돌릴 경우 동시에 여러 개의 프로세스가 접근할 수 있다.
+비밀번호, 암호화 키 등을 소스코드 내부에 텍스트로 저장하는 행위는 절대 금지한다.
 
-### 5. 에러 처리
+- 환경 변수(Environment Variable) 또는 별도의 설정 파일로 분리 관리
+- 소스코드 저장소 업로드 시 설정 파일 제외 확인 (.gitignore)
 
-에러를 처리하지 않거나 에러 정보에 중요 정보가 포함될 때 발생할 수 있는 취약점
+### 4. 그 외
 
-- 오류 메시지는 사용자에게 최소한의 정보만 포함
-- 예외 상황은 내부적으로 처리
-- 민감한 정보를 포함하는 오류 메시지는 출력하지 않도록 미리 정의된 메시지를 제공
-- try-catch 와 같은 제어문을 이용한 오류 상황 대응
+- 인증/접근 제어/기밀성/암호화 등 보안 기능 미흡
+- 코드 오류(형변환 오류/반환/NullPointer 참조 등)
+- API 오용(보안에 취약한 API 사용)
+- 시간 및 상태 관리 부적절(동시성 문제)
 
 ###### 참고자료
 
