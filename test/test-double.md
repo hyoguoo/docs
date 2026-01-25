@@ -28,7 +28,7 @@ layout: editorial
 
 ### 예시 코드
 
-- Dummy
+#### Dummy
 
 ```java
 public class DummyLogger {
@@ -46,7 +46,7 @@ public void dummyTest() {
 }
 ```
 
-- Fake
+#### Fake
 
 ```java
 public class FakeDatabase implements Database {
@@ -73,7 +73,7 @@ public void fakeTest() {
 }
 ```
 
-- Stub
+#### Stub
 
 ```java
 public class PaymentGatewayStub extends PaymentGateway {
@@ -99,7 +99,7 @@ public void processOrderWithStub() {
 }
 ```
 
-- Spy
+#### Spy
 
 ```java
 public class EmailServiceSpy extends EmailService {
@@ -135,7 +135,7 @@ public void spyTest() {
 }
 ```
 
-- Mock
+#### Mock
 
 ```java
 
