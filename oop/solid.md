@@ -4,197 +4,175 @@ layout: editorial
 
 # SOLID
 
-클린코드로 유명한 로버트 마틴이 정의한 객체 지향 설계의 5가지 원칙
+클린 코드로 유명한 로버트 마틴이 정립한 객체지향 설계의 5가지 핵심 원칙으로, 유지보수와 확장이 쉬운 소프트웨어를 만드는 것을 목표로 한다.
 
 ## SRP: 단일 책임 원칙(Single Responsibility Principle)
 
-- 하나의 클래스는 하나의 책임(목적)만 가져야 한다.
-    - 책임은 클 수도 있고, 작을 수도 있으며 상황에 따라 다르다.
-    - 클래스를 변경하는 이유가 하나의 이유여야 한다.
-- 변경에 용이하게 설계했다면 단일 책임 원칙을 잘 따른 것
+클래스는 단 한 가지의 변경 이유로 변경이 되어야 하며, 책임이 하나여야 한다.
 
-```java
-class Order {
-    private List<Item> items;
+- 핵심 업무 규칙(기획팀 요청)과 기술적인 처리 방식(DB, 이메일 등 인프라 담당)이 같은 클래스 내에 있다면 이는 SRP 위반
+- 해당 클래스를 변경해야 하는 이유가 오직 하나일 때, 단일 책임 원칙을 잘 지킨 것
 
-    public void addItem(Item item) {
-        // 아이템을 주문에 추가하는 로직
+```mermaid
+classDiagram
+    class OrderService_Bad {
+        +createOrder()
+        -saveToDB()
+        -sendEmail()
     }
 
-    public double calculateTotal() {
-        // 주문의 총 가격을 계산하는 로직
+    class OrderService_Good {
+        +createOrder()
     }
-}
+    class OrderRepository {
+        +save()
+    }
+    class Sender {
+        +sendReceipt()
+    }
 
-class Item {
-    private String name;
-    private double price;
-
-    // 아이템의 이름과 가격을 설정하는 생성자 및 메서드
-}
+    OrderService_Good --> OrderRepository: 위임
+    OrderService_Good --> Sender: 위임
 ```
 
-Order 클래스는 주문에 관련된 책임만 가지고 있고, Item 클래스는 아이템에 관련된 책임만 가지고 있다.
+관련된 기능이 모여 있어 수정 범위가 명확해지며, 다른 기능에 영향을 주지 않고 독립적인 변경이 가능해진다.
 
-## OCP: 개방-폐쇄 원칙 (Open-Closed principle)
+## OCP: 개방-폐쇄 원칙(Open-Closed principle)
 
-- 확장엔 열려있으나, 변경에는 닫혀있어야 한다.
-- 새로운 기능을 추가할 때 기존 코드를 변경하지 않고 확장할 수 있도록 설계해야 한다.
+기존 코드를 수정하지 않고 새로운 기능을 추가할 수 있는 유연한 구조를 만드는 것으로, 추상화와 다형성을 활용한다.
 
-```java
-interface Shape {
-    double calculateArea();
-}
+- 확장에 열려 있다: 새로운 요구사항이 왔을 때 새로운 클래스를 추가하여 기능 확장
+- 변경에 닫혀 있다: 기능을 추가할 때 기존 코드를 수정하지 않음
 
-class Circle implements Shape {
-    private double radius;
-
-    @Override
-    public double calculateArea() {
-        return Math.PI * radius * radius;
+```mermaid
+classDiagram
+    class Shape {
+        <<interface>>
+        +calculateArea()
     }
-}
-
-class Rectangle implements Shape {
-    private double width;
-    private double height;
-
-    @Override
-    public double calculateArea() {
-        return width * height;
+    class Circle {
+        +calculateArea()
     }
-}
-
-// 좋은 예, 기존 코드를 변경하지 않고 확장 가능
-class Test1 {
-    private Shape shape;
-
-    public Test1(Shape shape) {
-        this.shape = shape;
+    class Rectangle {
+        +calculateArea()
+    }
+    class Client {
     }
 
-    public void doSomething() {
-        shape.calculateArea();
-        // ...
-    }
-}
+    Shape <|.. Circle
+    Shape <|.. Rectangle
+    Client --> Shape: 의존
 
-
-// 나쁜 예, 기능을 추가하기 위해선 필드와 조건문을 추가해야하는 변경이 필요
-class Test2 {
-    private Circle circle = new Circle();
-    private Rectangle rectangle = new Rectangle();
-
-    public void doSomething(String shape) {
-        if (shape.equals("circle")) {
-            circle.calculateArea();
-        } else if (shape.equals("rectangle")) {
-            rectangle.calculateArea();
-        }
-        // ...
-    }
-}
 ```
 
-위 코드에서 기능을 추가하기 위해서는 Shape 인터페이스를 구현하는 클래스만 추가하면 된다.
+기존 코드를 건드리지 않으므로 회귀 버그 발생 가능성이 낮아진다.
 
-## LSP: 리스코프 치환 원칙 (Liskov Substitution Principle)
+## LSP: 리스코프 치환 원칙(Liskov Substitution Principle)
 
-- 객체는 정확성을 깨뜨리지 않으면서 상위 클래스의 객체를 하위 클래스로 대체 가능해야 한다.
-- 부모 클래스의 규악을 자식 클래스가 다 지켜야 한다는 것을 의미한다.
+서브 타입은 언제나 자신의 기반 타입(Super Type)으로 교체할 수 있어야 한다.
 
-```java
-class Parent {
-    public int calculate(int a, int b) {
-        return a + b;
+- 정확성을 깨뜨리지 않으면서 상위 클래스의 객체를 하위 클래스로 대체 가능해야 함
+- 자식 클래스는 부모 클래스의 규약 위반 금지
+
+모든 결제 수단이 환불 가능할 것이라 가정하고 인터페이스를 설계했으나, 이벤트 무료 포인트는 환불이 불가능한 제약이 있다면 LSP를 위반하게 된다.
+
+```mermaid
+classDiagram
+    class OrderCancelService {
+        +cancel(Payment payment)
     }
-}
 
-class Child extends Parent {
-    @Override
-    public int calculate(int a, int b) {
-        if (b == 0) {
-            throw new IllegalArgumentException("b cannot be zero");
-        }
-        return a / b;
+    class Payment {
+        <<interface>>
+        +pay()
+        +refund()
     }
-}
 
-public class test {
-    public static void main(String[] args) {
-        Parent p = new Child();
-        System.out.println(p.calculate(10, 0)); // IllegalArgumentException
+    class CreditCard {
+        +pay()
+        +refund()
     }
-}
+
+    class EventPoint {
+        +pay()
+        +refund()
+    }
+
+    OrderCancelService --> Payment: 의존
+    Payment <|.. CreditCard: 구현
+    Payment <|.. EventPoint: 구현
+    note for EventPoint "refund() 호출 시\nUnsupportedOperationException 발생\n(규약 위반)"
 ```
 
-위 코드에서 에러가 발생하지 않지만 넓이를 구하는데에 논리적인 차이가 있어 의도하지 않은 결과가 나올 수 있다.
+하위 타입이 상위 타입의 규약을 준수하므로 코드 변경 시 예기치 않은 부작용 감소하게 된다.
 
-## ISP: 인터페이스 분리 원칙 (Interface segregation principle)
+## ISP: 인터페이스 분리 원칙(Interface segregation principle)
 
-- 여러 기능을 포함한 범용 인터페이스 보단 특정 클라이언트를 위한 인터페이스 여러 개를 생성하는 것이 좋다.
-- 인터페이스가 명확해지며 대체 가능성이 높아진다.
+여러 기능을 포함한 범용 인터페이스 보단 특정 클라이언트를 위한 인터페이스 여러 개를 생성하는 것이 좋다.
 
-```java
-interface Printer {
-    void print(Document document);
-}
+- 인터페이스가 비대해지면, 이를 구현하는 클래스는 필요 없는 기능까지 불필요하게 구현 필요
+- 인터페이스를 기능별로 쪼개면 클라이언트는 꼭 필요한 기능만 알면 되므로 결합도 낮아짐
 
-interface Scanner {
-    void scan(Document document);
-}
-
-class AllInOnePrinter implements Printer, Scanner {
-    public void print(Document document) {
-        // 출력 로직
+```mermaid
+classDiagram
+    class SmartMachine {
+        <<interface>>
+        +print()
+        +scan()
+        +fax()
+    }
+    class SimplePrinter {
+        +print()
+        +scan(): Empty
+        +fax(): Empty
+    }
+    SmartMachine <|.. SimplePrinter
+    class Printer {
+        <<interface>>
+        +print()
+    }
+    class Scanner {
+        <<interface>>
+        +scan()
+    }
+    class RealPrinter {
+        +print()
     }
 
-    public void scan(Document document) {
-        // 스캔 로직
-    }
-}
+    Printer <|.. RealPrinter
 ```
 
-인터페이스를 여러 개로 분리하여 클래스에 필요한 인터페이스만 구현하도록 하면, 필요한 기능만 사용할 수 있고, 대체 가능성도 높아진다.  
-또한 불필요한 메서드를 구현하지 않아도 되고, 사용하는 클라이언트에겐 불필요한 메서드를 노출시키지 않는 장점이 있다.
+불필요한 의존성 제거하게 되어 인터페이스가 변경되어도 사용하지 않는 클라이언트에는 영향을 주지 않는다.
 
-## DIP: 의존 역전 원칙 (Dependency inversion principle)
+## DIP: 의존 역전 원칙(Dependency inversion principle)
 
-- "추상화에 의존해야하고, 구체화에 의존하면 안된다."를 따르는 원칙
-- 구현 클래스에 의존하지 않고, 인터페이스에 의존해야 한다.
-- 구현체에 의존하게 되면 변경이 어려워지고, 테스트도 어려워진다.
+고수준 모듈은 저수준 모듈에 의존해서는 안 되며, 둘 다 추상화에 의존하여 의존 방향을 역전시켜야 한다.
 
-```java
-interface PaymentProvider {
-    void processPayment(int amount);
-}
+- 고수준 모듈(비즈니스 로직)이 저수준 모듈(세부 구현 클래스)을 직접 참조하면 결합도가 높아짐
+- 중간에 인터페이스를 두어, 저수준 모듈이 인터페이스에 의존하게 만듦으로써 의존 방향 역전
 
-class KakaoPaymentProvider implements PaymentProvider {
-    public void processPayment(int amount) {
-        // 카카오페이 결제 로직
-    }
-}
+```mermaid
+flowchart LR
+    subgraph Bad[기존 의존성]
+        Service[주문 서비스] --> Kakao[카카오 결제]
+    end
 
-class OrderService {
-    private final PaymentProvider paymentProvider;
-
-    public OrderService(PaymentProvider paymentProvider) {
-        this.paymentProvider = paymentProvider;
-    }
-
-    public void processOrder(Order order) {
-        // 주문 처리 로직
-        paymentProvider.processPayment(order.getTotalAmount());
-    }
-}
-
-class OrderServiceTest {
-    void processOrder() {
-        OrderService orderService = new OrderService(new KakaoPaymentProvider());
-        orderService.processOrder(new Order());
-    }
-}
+    subgraph Good[DIP 적용]
+        Service2[주문 서비스] --> Interface[결제 인터페이스]
+        Kakao2[카카오 결제] ..-> Interface
+        Naver[네이버 결제] ..-> Interface
+    end
 ```
 
-위 코드는 인터페이스의 존재로 `OrderService -> PaymentProvider <- KakaoPaymentProvider`로 의존 방향이 역전되었기 때문에, 변경이 용이해진 코드가 된다.  
-하지만 인터페이스가 없었다면 `OrderService -> KakaoPaymentProvider`로 의존하게 되어 변경이 어려워지고, 테스트도 어렵게 된다.
+구현체가 변경되어도 고수준 모듈은 영향을 받지 않게되어 유연한 교체가 가능해진다.
+
+## SOLID 원칙 핵심 요약
+
+|        원칙        |  핵심 키워드   |                적용 효과                |
+|:----------------:|:---------:|:-----------------------------------:|
+|  SRP(단일 책임 원칙)   |  책임의 분리   |   응집도는 높이고 결합도는 낮추어 수정 범위를 명확하게 함   |
+|  OCP(개방-폐쇄 원칙)   |  유연한 확장   |  기존 코드를 수정하지 않고 기능을 확장하여 회귀 버그 방지   |
+| LSP(리스코프 치환 원칙)  |   규약 준수   | 하위 타입이 상위 규약을 완벽히 준수하여 다형성의 안정성 보장  |
+| ISP(인터페이스 분리 원칙) | 인터페이스 최적화 |  불필요한 의존성을 제거하여 인터페이스 변경 시 영향 최소화   |
+|  DIP(의존 역전 원칙)   |  의존성 주입   | 구현체가 아닌 추상화에 의존하여 부품 교체하듯 유연한 변경 가능 |
+
