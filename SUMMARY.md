@@ -214,8 +214,6 @@
   * [URI(Uniform Resource Identifier)](network/uri.md)
 * [Object-Oriented Programming](oop/README.md)
   * [Abstract(추상화)](oop/abstract.md)
-  * [Adapter](oop/adapter.md)
-  * [Facade](oop/facade.md)
   * [Function & Structure(기능 & 구조)](oop/function-structure.md)
   * [Introduce](oop/introduce.md)
   * [Role & Responsibility & Cooperation(역할 & 책임 & 협력)](oop/role-responsibility-cooperation.md)

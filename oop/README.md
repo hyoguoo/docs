@@ -10,6 +10,3 @@ layout: editorial
 * [Role & Responsibility & Cooperation](role-responsibility-cooperation.md)
 * [Function & Structure](function-structure.md)
 * [SOLID](solid.md)
-* Design Pattern
-    * [Adapter](adapter.md)
-    * [Facade](facade.md)
