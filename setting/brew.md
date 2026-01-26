@@ -2,73 +2,64 @@
 layout: editorial
 ---
 
-# brew
+# Homebrew
 
-각종 커맨드라인 프로그램과 일반 애플리케이션을 설치할 수 있는 패키지 매니저로 업데이트나 삭제 등을 간편하게 할 수 있다.
+Homebrew는 macOS용 패키지 관리자로, 커맨드라인 프로그램과 GUI 애플리케케이션의 설치, 업데이트, 삭제를 간편하게 관리할 수 있도록 돕는다.
 
-## brew 설치
+## 설치
 
-[brew](https://brew.sh) 공식 홈페이지에서 안내하는대로 설치(명령어 입력 후 일부 설치 과정에서 추가 명령어 입력이 필요할 수 있음)
+[Homebrew 공식 홈페이지](https://brew.sh)의 안내에 따라 설치를 진행한다. 설치 스크립트 실행 중 추가적인 사용자 확인이나 명령어 입력이 필요할 수 있다.
 
-## 설치할 수 있는 것
+## 패키지 종류
 
-- brew: 개발 관련 패키지
-- cask: 웹사이트에서 받을 수 있는 애플리케이션
-- mas: 앱스토어에서 받을 수 있는 애플리케이션
+Homebrew는 세 가지 종류의 패키지를 관리한다.
 
-### mas
+- `brew`: 커맨드라인 기반 애플리케이션 및 패키지
+- `cask`: 웹사이트에서 직접 내려받아 설치하는 애플리케이션
+- `mas`: Mac App Store를 통해 설치하는 애플리케이션
 
-일반 `brew`나 `cask`는 공식 홈페이지에서 검색하여 쉽게 설치할 수 있지만 AppStore에 등록된 id를 통해 설치해야한다.
+### mas-cli 사용법
+
+`mas`는 App Store 애플리케이션의 ID를 사용하여 설치를 진행한다.
+
+1. `mas` 명령어로 설치하려는 애플리케이션을 검색하여 ID를 확인(앱 스토어 URL의 ID와 동일)
+   ```shell
+   mas search "Magnet"
+   ```
+
+2. 확인된 ID를 사용하여 애플리케이션을 설치
+   ```shell
+   mas install 441258766
+   ```
+
+## Brewfile을 이용한 관리
+
+설치하려는 패키지 목록을 `Brewfile`이라는 하나의 파일로 작성하여 관리할 수 있다.
 
 ```shell
-mas install 441258766
-```
-
-위의 AppStore id를 확인하기 위해서는 AppStore 애플리케이션 페이지의 url의 id를 확인하거나 mas 조회 명령어로 검색하여 확인할 수 있다.
-
-```shell
-mas search "Magnet"
-```
-
-## Brewfile
-
-```shell
-# Brewfile
+# Brewfile 예시
 brew "git"
 brew "git-lfs"
 
 cask "discord"
 cask "docker"
-cask "eul"
-cask "figma"
 cask "google-chrome"
 cask "iterm2"
 cask "jetbrains-toolbox"
 cask "karabiner-elements"
-cask "keka"
-cask "logi-options-plus"
-cask "notion"
-cask "postman"
-cask "shottr"
-cask "visual-studio-code"
 
-mas "Aladin eBook", id: 1023251042
-mas "Amphetamine", id: 937984704
-mas "Cascadea", id: 1432182561
-mas "HolaTranslator", id: 1518955356
-mas "KakaoTalk", id: 869223134
-mas "Keys Multiplatform", id: 1494642810
 mas "Magnet", id: 441258766
-mas "Paste", id: 967805235
-mas "PrettyJSON for Safari", id: 1445328303
 mas "Slack", id: 803453959
-mas "Unicorn Blocker", id: 1231935892
-``` 
+```
 
-위의 설치할 수 있는 것들을 `Brewfile`에 명시 해두면 아래의 명령어로 한번에 설치할 수 있다.
+`Brewfile`을 사용하면 아래 명령어로 파일에 명시된 모든 패키지를 한 번에 설치할 수 있다.
 
 ```shell
 brew bundle
 ```
 
-반대로 현재 설치된 것들을 `brew bundle dump` 명령어를 입력하여 `Brewfile`로 추출할 수도 있다.
+반대로, 현재 시스템에 설치된 패키지 목록을 `Brewfile`로 생성하려면 다음 명령어를 사용한다.
+
+```shell
+brew bundle dump
+```

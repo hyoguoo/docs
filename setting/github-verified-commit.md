@@ -2,127 +2,118 @@
 layout: editorial
 ---
 
-# Github Verified Commit
+# GitHub Verified Commit 설정
+
+로컬 환경에서 생성한 GPG(GNU Privacy Guard) 키를 이용해 커밋에 서명하고, GitHub에서 `Verified` 딱지를 받기 위한 설정 방법을 안내한다.
 
 ![Verified Commit](image/verified-commit.png)
 
-로컬 커밋에서 GPG를 사용해 Verified Commit을 하기 위한 설정 방법
+### 1. GnuPG 설치
 
-## 설치
+GPG 암호 입력을 위한 GUI 프롬프트를 제공하는 `pinentry-mac`을 먼저 설치한다.
 
 ```shell
 brew install gnupg pinentry-mac
 ```
 
-## 키 생성
+### 2. GPG 키 생성
+
+아래 명령어를 실행하여 GPG 키를 생성한다.
 
 ```shell
 gpg --full-generate-key
 ```
 
-위 명령어 실행 후 아래 옵션으로 생성
+명령어 실행 후 나타나는 프롬프트에서 다음 옵션을 순서대로 선택한다.
 
-```
-(1) RSA and RSA
-keysize: 4096
-0 = key does not expire
-Real name: hyoguoo
-Email address: hyoguoo@gmail.com
-Comment:
-```
+- 키 종류: `(1) RSA and RSA`
+- 키 사이즈: `4096`
+- 키 유효 기간: `0` (key does not expire)
+- 사용자 정보: 이름(`Real name`)과 이메일 주소(`Email address`) 입력
+    - 이메일은 GitHub 계정과 반드시 일치
 
-옵션 설정을 마치면 암호를 입력하라는 메시지가 나오는데, 이 암호는 나중 단계에서 최초 커밋할 때 사용된다.
+옵션 설정을 마치면 키를 보호하기 위한 암호를 입력받는데, 이 암호는 커밋 서명 시 사용된다.
 
-## 생성 된 키 확인
+### 3. 생성된 GPG 키 ID 확인
+
+Git이 커밋에 서명할 때 사용하기 위한 생성된 GPG 키의 ID를 확인한다.
 
 ```shell
 gpg --list-secret-keys --keyid-format=long
 ```
 
 ```
-gpg: checking the trustdb
-gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
 /Users/hyogu/.gnupg/pubring.kbx
 -------------------------------
 sec   rsa4096/A*************** 2023-04-25 [SC]
-      B***************************************
+   B***************************************
 uid                 [ultimate] hyoguoo <hyoguoo@gmail.com>
 ssb   rsa4096/C*************** 2023-04-25 [E]
 ```
 
-위에 값 중 A로 시작하는 키가 있는 곳이 GPG Key ID
+위에 값 중 A로 시작하는 키가 있는 곳이 GPG Key ID다.
 
-## git config 설정
+### 4. Git 설정
 
-`.gitconfig` 파일에 아래의 내용 추가
+GPG 서명을 사용하도록 설정하기 위해, `.gitconfig` 파일에 아래 내용을 추가한다.
 
 ```
+# ~/.gitconfig
 [user]
-	name = hyoguoo
-	email = hyoguoo@gmail.com
-	signingkey = A***************
+    name = hyoguoo
+    email = hyoguoo@gmail.com
+    signingkey = A***************
 [commit]
-	gpgsign = true
+    gpgsign = true
 [gpg]
-	program = gpg
+    program = gpg
 ```
 
-## GPG Agent 설정
+`signingkey`에는 위에서 확인한 GPG 키 ID를 입력한다.
 
-- `pinentry` 설치 위치 확인
+### 5. GPG Agent 설정
+
+`pinentry-mac`을 사용하도록 GPG Agent 설정을 추가하고 Agent를 재시작한다.
 
 ```shell
-which pinentry-mac
+# pinentry-mac 경로를 gpg-agent.conf 파일에 추가
+echo "pinentry-program $(which pinentry-mac)" >> ~/.gnupg/gpg-agent.conf
 ```
 
-- 확인되는 설치 경로 `/opt/homebrew/bin/pinentry-mac` 기준 아래의 명령어 실행
-
 ```shell
-echo "pinentry-program /opt/homebrew/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
-```
-
-- GPG Agent 재실행
-
-```shell
+# GPG Agent 재시작
 killall gpg-agent
 ```
 
-## GiHub 키 등록
+### 6. GitHub에 GPG 공개키 등록
+
+로컬에서 생성한 GPG 키의 공개키를 GitHub 계정에 등록한다.
+
+#### 공개키 확인
+
+아래 명령어로 공개키를 터미널에 출력한다.
 
 ```shell
 gpg --armor --export A***************
 ```
 
-```
------BEGIN PGP PUBLIC KEY BLOCK-----
+명령어를 실행하여 출력된 `-----BEGIN PGP PUBLIC KEY BLOCK-----`부터 `-----END PGP PUBLIC KEY BLOCK-----`까지의 내용을 모두 복사한다.
 
-...
-...
-...
------END PGP PUBLIC KEY BLOCK-----
-```
+#### 키 등록
 
-위의 명령어를 실행해 GPG Key 확인하면 출력되는 내용(BEGIN ~ END까지)을 복사 후  
-`GitHub - Settings - SSH and GPG keys - New GPG key` 에서 복사한 내용을 붙여넣기 후 등록
+GitHub 설정의 `Settings > Access > SSH and GPG keys` 페이지로 이동하여 `New GPG key`를 클릭하고, 복사한 공개키를 붙여넣어 등록한다.
 
-## 커밋 확인
+### 7. 커밋 확인
 
-최초 커밋 시 위에서 설정한 비밀번호 입력하면 `Verified Commit`이 된다.
+모든 설정이 완료되면, 최초 커밋 암호 입력 이후 생성하는 커밋은 자동으로 서명되며 GitHub에서 `Verified`로 표시된다.(암호는 GPG 키 생성 시 설정한 암호)
 
-## 사용 중 커밋 에러가 발생하는 경우
+## GPG 서명 에러
 
-커밋 시 아래와 같은 GPG 서명 에러가 발생할 수 있다.
-
-```
-error: gpg failed to sign the data:
-gpg: signing failed: Bad CA certificate
-fatal: 커밋 오브젝트를 쓰는데 실패했습니다
-```
-
-이는 GPG 키에 대한 신뢰(trust) 설정이나 pinentry 설정이 제대로 되어 있지 않은 경우 발생할 수 있는데, 아래 단계를 통해 문제를 해결할 수 있다.
+커밋 시 `error: gpg failed to sign the data` 와 같은 에러가 발생하면 GPG 키 신뢰도나 `pinentry` 설정 문제일 수 있다.
 
 ### 1. GPG 키 확인 및 git에 등록된 키 일치 여부 확인
+
+먼저 GPG 키가 올바르게 설정되어 있는지 확인한다.
 
 ```shell
 gpg --list-secret-keys --keyid-format LONG
@@ -131,22 +122,20 @@ git config --global user.signingkey A***************
 
 ### 2. 해당 키에 대한 신뢰 수준을 `ultimate`로 수동 설정
 
+GPG 키에 대한 신뢰 수준을 `ultimate`으로 수동 설정한다.
+
 ```shell
 gpg --edit-key A***************
 ```
 
-프롬프트에서 다음과 같이 입력
+GPG 프롬프트가 나타나면 `trust`를 입력하고, 신뢰 수준을 `5`로 선택한 뒤 `quit`로 빠져나온다.
 
-```
-trust
-5
-```
+### 3. GPG Agent 재설정
 
-### 3. pinentry 경로 확인 및 gpg-agent 설정 파일에 반영
+`pinentry` 경로를 다시 설정하고 Agent를 재시작한다.
 
 ```shell
-which pinentry-mac
-echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
+echo "pinentry-program $(which pinentry-mac)" > ~/.gnupg/gpg-agent.conf
 killall gpg-agent
 ```
 

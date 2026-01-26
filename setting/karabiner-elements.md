@@ -4,23 +4,32 @@ layout: editorial
 
 # Karabiner-Elements
 
-## `Karabiner-Elements` 활용한 키 할당 변경
+## 사용자 정의 규칙 추가
 
-- path: `/.config/karabiner/assets/complex_modifications`
+`json` 확장자의 파일로 Rule 설정을 작성하여 Karabiner-Elements에 사용자 정의 규칙을 추가할 수 있다.
 
-![Karabiner-Elements Rule](image/karabiner.png)
+- 디렉토리: `~/.config/karabiner/assets/complex_modifications`
+- 활성화: `Complex Modifications > Rules` 설정에서 `Add rule`을 통해 활성화
 
-### 한글 자판 시 원화 `₩` 출력 방지
+## 설정
 
-시스템 전역으로 적용하게 되면 애플리케이션 내 창 전환이 안되는 문제가 있어서 IntelliJ에서만 적용되도록 설정  
-(`DefaultkeyBinding.dict` 파일을 통한 \`키 변경을 하게 되면 IntelliJ 내부에서는 한글 자판에선 그대로 `₩`가 출력)
+- 변경 키
+    - `from`: 변경 전 키 설정
+    - `to`: 변경 후 키 설정
+- 입력 소스 조건
+    - `input_source_if`: 특정 입력 소스(언어)일 때만 규칙이 적용되도록 설정
+- 활성화 규칙
+    - `frontmost_application_if`: 특정 애플리케이션이 활성화되어 있을 때만 규칙이 적용되도록 설정
+
+### 예시
 
 ```json
+// 한글 입력 시 원화(`₩`) 기호를 Grave Accent(\`)로 변경
 {
-  "title": "Change Won (₩) to grave accent (`)",
+  "title": "Change Won (₩) to grave accent (`) in IntelliJ",
   "rules": [
     {
-      "description": "Change Won (₩) to grave accent (`) in Korean layout.",
+      "description": "Change Won (₩) to grave accent (`) in Korean layout for IntelliJ.",
       "manipulators": [
         {
           "type": "basic",
@@ -61,24 +70,18 @@ layout: editorial
     }
   ]
 }
-```
 
-### COMMAND-H / COMMAND-M 비활성화
-
-`to`에 아무런 동작을 하지 않도록 하여 `from`에 할당한 키를 눌렀을 때 아무런 동작이 없도록 설정
-
-```json
+// 실수로 누르기 쉬운 시스템 단축키를 비활성화하여 원치 않는 동작 방지
 {
-  "title": "Disable Key",
+  "title": "Disable Unwanted Command-Shortcuts",
   "rules": [
     {
-      "description": "Disable COMMAND-M(Minimize)",
+      "description": "Disable COMMAND-H (Hide Window)",
       "manipulators": [
         {
           "type": "basic",
-          "description": "",
           "from": {
-            "key_code": "m",
+            "key_code": "h",
             "modifiers": {
               "mandatory": [
                 "command"
@@ -89,13 +92,12 @@ layout: editorial
       ]
     },
     {
-      "description": "Disable COMMAND-H(Hide Window)",
+      "description": "Disable COMMAND-M (Minimize)",
       "manipulators": [
         {
           "type": "basic",
-          "description": "",
           "from": {
-            "key_code": "h",
+            "key_code": "m",
             "modifiers": {
               "mandatory": [
                 "command"
