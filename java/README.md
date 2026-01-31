@@ -5,6 +5,7 @@ layout: editorial
 # Java
 
 * [JVM](jvm.md)
+* [JVM 실행 원리와 성능 최적화](jvm-execution-and-optimization.md)
 * [Garbage Collection](garbage-collection.md)
 * Basic
     * [Variable](variable.md)
