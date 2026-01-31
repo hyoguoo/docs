@@ -4,10 +4,11 @@ layout: editorial
 
 # Java
 
-* [JVM](jvm.md)
-* [JVM 실행 원리와 성능 최적화](jvm-execution-and-optimization.md)
-* [Garbage Collection](garbage-collection.md)
-* Basic
+* JVM
+    * [JVM 구조](jvm.md)
+    * [JVM 실행 원리와 성능 최적화](jvm-execution-and-optimization.md)
+    * [Garbage Collection](garbage-collection.md)
+* Basic Syntax
     * [Variable](variable.md)
     * [Operator](operator.md)
     * [Print](print.md)
