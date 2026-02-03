@@ -294,6 +294,7 @@
   * [Test Fixture(테스트 픽스처)](test/test-fixture.md)
 * [Docker](docker/README.md)
   * [Introduction(소개)](docker/introduction.md)
+  * [Architecture(아키텍처)](docker/architecture.md)
 * [Kafka](kafka/README.md)
   * [Introduction](kafka/introduction.md)
   * [Core Components](kafka/core-components.md)
