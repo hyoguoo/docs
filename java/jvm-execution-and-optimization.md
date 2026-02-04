@@ -253,7 +253,6 @@ public int getSafeCount() {
 
 ```java
 // 최적화 전 Java 코드
-// 4회 반복하는 간단한 루프입니다.
 public void exampleLoop() {
     for (int i = 0; i < 4; i++) {
         process(i);
@@ -261,7 +260,7 @@ public void exampleLoop() {
 }
 
 // JIT 컴파일러의 최적화 후
-// JIT은 루프 제어에 드는 비용(분기 예측)을 줄이기 위해 루프를 풀어헤칩니다.
+// JIT은 루프 제어에 드는 비용(분기 예측)을 줄이기 위해 루프 본문을 펼침
 public void exampleLoop() {
     process(0);
     process(1);
@@ -285,7 +284,7 @@ public void synchronizedLoop() {
 }
 
 // JIT 컴파일러의 최적화 후
-// JIT은 여러 번의 락 연산을 하나의 큰 락으로 병합하여 오버헤드를 줄입니다.
+// JIT은 여러 번의 락 연산을 하나의 큰 락으로 병합하여 오버헤드를 줄임
 public void synchronizedLoop() {
     synchronized (this) {
         for (int i = 0; i < 1000; i++) {
