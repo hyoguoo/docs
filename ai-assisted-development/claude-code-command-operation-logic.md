@@ -18,7 +18,7 @@ layout: editorial
 
 `CLAUDE.md`는 AI가 개발자의 의도를 벗어나거나 프로젝트의 기존 규칙을 위반하는 동작을 하지 않도록 한다.
 
-### 작동 방식
+### 동작 방식
 
 - 로드 시점: Claude Code 세션이 시작될 때 (CLI, IDE 확장 등 모든 환경에서) 시스템 프롬프트 이후 가장 먼저 로드
 - 컨텍스트 비용: `CLAUDE.md`는 항상 로드되므로, AI의 전체 컨텍스트 윈도우에서 차지하는 비중이 커져 토큰 비용이 증가하고 다른 중요한 정보가 밀려날 위험 존재
@@ -48,57 +48,19 @@ layout: editorial
 
 ---
 
-## 2. Commands
+## 2. Skills(Commands)
 
-Commands는 Claude Code 환경에서 사용자가 직접 터미널을 통해 특정 작업을 즉각적으로 수행하도록 하는 방법이다.
-
-### 핵심 개념
-
-- AI의 자동 판단을 기다리지 않고, 사용자가 원할 때 정해진 동작을 실행시키는 가장 직접적인 제어 수단
-- 내장된 기능(`내장 명령어`)과 사용자가 정의하는 기능(`사용자 정의 명령어`)으로 분류
-- 단순 반복 작업의 자동화부터 복잡한 워크플로우의 시작까지 다양한 형태로 활용
-
-### 사용자 정의 명령어
-
-사용자 정의 명령어는 `.md` 파일로 정의되며, 파일명이 곧 명령어의 이름이 된다.
-
-- 프로젝트별 Commands: `.claude/commands/` 디렉토리에 `.md` 파일을 생성
-- 사용자 전역 Commands: `~/.claude/commands/` 디렉토리에 `.md` 파일을 생성하며, 모든 프로젝트에서 해당 명령어 사용 가능
-
-### 작동 흐름 - `$ARGUMENTS`를 활용한 동적 실행
-
-사용자 정의 명령어는 Markdown 파일로 작성되며, `$ARGUMENTS` 키워드를 사용하여 동적인 인자를 전달받을 수 있다.
-
-#### 예시: `/test` 명령어 구현 (파일: `.claude/commands/test.md`)
-
-```markdown
-# .claude/commands/test.md
-
-Run tests based on the provided arguments.
-Arguments: $ARGUMENTS
-
-- If no argument is given, run all unit tests.
-- If 'integration' is given, run only the integration tests.
-- If a file path is given, run tests only in that specific file.
-```
-
-- `/test`: 모든 유닛 테스트 실행
-- `/test integration`: 통합 테스트만 실행
-- `/test src/user/service_test.go`: 특정 파일의 테스트만 실행
-
----
-
-## 3. Skills
-
-Claude Skills는 Claude 에이전트에게 구조화되고 강제 가능한 워크플로우를 제공하여 특정 작업을 반복 가능하고 일관되게 수행할 수 있도록 하는 전문화된 지시사항 패키지다.
+Claude Skills는 Claude 에이전트에게 구조화되고 강제 가능한 워크플로우를 제공하여 특정 작업을 반복 가능하고 일관되게 수행할 수 있도록 하는 전문화된 지시사항 패키지다.(Commands 기능과 통합)
 
 ### 핵심 개념
 
-기존에는 매 명령마다 긴 프롬프트를 작성해야 하거나 CLAUDE.MD에 모든 규칙을 넣어서 사용해야 했지만, Skills는 다음과 같은 이점이 있다.
+기존에는 매 명령마다 긴 프롬프트를 작성해야 하거나 CLAUDE.MD에 모든 규칙을 넣어서 사용해야 했지만, Skills는 다음과 같은 이점을 제공한다.
 
 - 재사용 가능한 지시사항: 한 번 정의된 전문 지식과 워크플로우를 다양한 맥락에서 재사용 가능
 - 컨텍스트 효율성: 필요할 때만 활성화되어 관련 정보만 로드하므로, AI의 컨텍스트 윈도우를 효율적으로 관리하고 토큰 비용을 절약
 - 구조화된 전문성: AI에게 단순히 정보를 제공하는 것을 넘어, 특정 작업을 수행하기 위한 명확한 단계와 제약 조건 제시
+- 자동 활성화: Claude는 사용자 요청과 현재 작업 컨텍스트에 따라 적절한 Skills를 자동으로 선택하고 활성화할 수 있음
+- 사용자 제어: 사용자는 명시적으로 특정 Skills를 호출하여 특정 동작을 실행 가능
 
 ### 구조 및 계층적 정보 로딩
 
@@ -139,7 +101,7 @@ graph TB
     style I fill: #d4edda
 ```
 
-### Skills 작동 흐름
+### Skills 동작 흐름
 
 ```mermaid
 sequenceDiagram
@@ -228,18 +190,28 @@ resources:                      # Skill이 참조할 수 있는 추가 파일/�
 
 위 파일을 직접 작성할 수도 있지만, Claude는 `skill-creator`라는 메타-Skill을 제공하기 때문에 대화형으로 Skill을 자동 생성할 수도 있다.
 
-### Commands vs. Skills
+### `$ARGUMENTS`를 활용한 동적 실행
 
-|  구분   |            Commands            |                  Skills                  |
-|:-----:|:------------------------------:|:----------------------------------------:|
-| 호출 방식 | 사용자 직접 호출 (`/command`), 내장 명령어 |   사용자 직접 호출 또는 AI 자동 호출 (@skill-name)    |
-|  복잡도  |   낮음 (주로 단일 `.md` 파일), 내장 기능   | 높음 (폴더 기반, `SKILL.md` 및 여러 리소스 파일 포함 가능) |
-| 주요 목적 | 빠른 단축키, 반복 작업 자동화, 내장 기능 직접 제어 |   도메인 지식 캡슐화, 복잡한 워크플로우, AI의 판단 기반 실행    |
-|  유연성  |  `$ARGUMENTS`를 통한 동적 인자 전달 가능  |   `SKILL.md` 내에서 더 복잡한 로직 및 스크립트 실행 가능   |
+사용자 정의 명령어는 Markdown 파일로 작성되며, `$ARGUMENTS` 키워드를 사용하여 동적인 인자를 전달받을 수 있다.
+
+```markdown
+# .claude/commands/test.md
+
+Run tests based on the provided arguments.
+Arguments: $ARGUMENTS
+
+- If no argument is given, run all unit tests.
+- If 'integration' is given, run only the integration tests.
+- If a file path is given, run tests only in that specific file.
+```
+
+- `/test`: 모든 유닛 테스트 실행
+- `/test integration`: 통합 테스트만 실행
+- `/test src/user/service_test.go`: 특정 파일의 테스트만 실행
 
 ---
 
-## 4. Subagents
+## 3. Subagents
 
 복잡한 문제를 효율적으로 해결하기 위해 AI는 작업을 더 작고 관리하기 쉬운 단위로 나누고, 각 단위에 최적화된 Subagent에게 위임하는 전략을 사용할 수 있다.
 
