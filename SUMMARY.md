@@ -298,6 +298,7 @@
   * [Image and Container(이미지와 컨테이너)](docker/image-and-container.md)
   * [Dockerfile](docker/dockerfile.md)
   * [Networking(네트워킹)](docker/networking.md)
+  * [Storage and Volume(스토리지와 볼륨)](docker/storage-and-volume.md)
 * [Kafka](kafka/README.md)
   * [Introduction](kafka/introduction.md)
   * [Core Components](kafka/core-components.md)

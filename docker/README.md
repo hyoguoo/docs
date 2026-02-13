@@ -9,3 +9,4 @@ layout: editorial
 * [Image and Container(이미지와 컨테이너)](image-and-container.md)
 * [Dockerfile](dockerfile.md)
 * [Networking(네트워킹)](networking.md)
+* [Storage and Volume(스토리지와 볼륨)](storage-and-volume.md)
