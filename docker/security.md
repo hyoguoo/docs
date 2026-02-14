@@ -23,7 +23,11 @@ layout: editorial
 
 ### 보안 위협과 격리 원리
 
-컨테이너 내의 루트 사용자는 기본적으로 호스트의 루트 사용자와 동일한 권한 수준(UID 0)을 가진다.
+도커 컨테이너는 별도의 설정이 없으면 내부 프로세스를 root(UID 0) 권한으로 구동하며, 이 권한이 호스트 OS에 미치는 실질적인 영향은 커널의 격리 및 매핑 정책에 따라 결정된다.
+
+- 권한 식별의 동일성: 컨테이너는 호스트의 커널을 공유하므로 내부의 root(UID 0)는 호스트 커널에서도 최상위 관리자 권한으로 인식되며, 호스트 자원에 직접 접근할 수 있는 보안 취약점 발생
+- 구조적 격리 한계: 네임스페이스를 통해 자원을 논리적으로 분리하더라도 컨테이너 탈출(Escape) 사고 위험 존재
+- 사용자 네임스페이스 해결책: 이를 방지하기 위해 사용자 네임스페이스를 활성화하여 컨테이너의 root를 호스트의 권한 없는 일반 사용자 UID로 매핑하여, 탈출 시에도 호스트 관리자 권한 획득 방지
 
 ```mermaid
 flowchart TD
@@ -37,7 +41,7 @@ flowchart TD
     end
 
     App -- " 1. Running as Root " --> Escape1[Container Breakout]
-    Escape1 -->|UID 0 Match| Root
+    Escape1 -->|Potential UID 0 Match| Root
     App -- " 2. Running as Non-Root " --> Escape2[Container Breakout]
     Escape2 -->|UID 1000+| User
     style Root fill: #f66, stroke: #333
@@ -47,13 +51,8 @@ flowchart TD
 ```
 
 - 컨테이너 탈출(Container Escape): 애플리케이션의 취약점을 통해 컨테이너 외부인 호스트 환경에 접근하는 공격 방식
-- 루트 실행의 위험성: 공격자가 컨테이너 탈출에 성공했을 때, 컨테이너가 루트로 구동 중이었다면 호스트 운영체제의 전체 제어권(root)을 즉시 획득
+- 루트 실행의 위험성: 공격자가 컨테이너 탈출에 성공했을 때, 컨테이너가 루트로 구동 중이었다면 호스트 운영체제의 제어권에 접근할 위험 존재
 - 권한 제한의 효과: 일반 사용자(non-root)로 구동 중인 경우, 탈출에 성공하더라도 호스트 내에서 제한된 권한만 가지게 되어 2차 피해를 최소화 가능
-
-### non-root 설정 예시
-
-- `RUN groupadd -r appgroup && useradd -r -g appgroup appuser`: 애플리케이션 전용 그룹과 사용자 생성
-- `USER appuser`: 이후 실행되는 모든 명령어 및 컨테이너 엔트리포인트를 해당 사용자 권한으로 실행
 
 ## 시크릿(Secret) 관리
 
