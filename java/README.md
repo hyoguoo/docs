@@ -36,6 +36,7 @@ layout: editorial
     * [Thread](thread.md)
     * [Monitor](monitor.md)
     * [Synchronization](synchronization.md)
+    * [Virtual Thread](virtual-thread.md)
 * Advanced
     * [Varargs](varargs.md)
     * [Generic](generic.md)
