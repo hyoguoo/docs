@@ -87,9 +87,6 @@ InnoDB는 MySQL에서 가장 많이 사용되는 스토리지 엔진으로, MySQ
     - 물리적인 위치를 순차적으로 유지해야 하기 때문에 레코드의 삽입/삭제 시 성능 저하
     - 모든 인덱스가 PK에 의존하여 PK 값이 큰 경우 인덱스의 크기가 커지게 되면서 페이지의 양도 많아짐
 
-
-- 이러한 구조는 이 있지만, PK의 크기가 크면 보조 인덱스의 전체 크기도 커지는 단점이 있다.
-
 ### 보조 인덱스의 구조와 데이터 접근
 
 - 보조 인덱스(Secondary Index)의 리프 노드는 데이터 레코드의 물리적 주소 대신, 해당 레코드의 프라이머리 키(PK) 값을 저장하는 구조
@@ -119,6 +116,31 @@ InnoDB는 MySQL에서 가장 많이 사용되는 스토리지 엔진으로, MySQ
 - 특정 레코드가 변경될 때마다, 변경 전의 데이터는 언두 로그(Undo Log)라는 별도의 공간에 저장
 - 이를 통해 각 트랜잭션은 자신의 격리 수준(Isolation Level)에 맞는 버전의 데이터를 조회
 - `ROLLBACK` 시에는 언두 로그에 저장된 이전 버전의 데이터를 사용하여 복구
+
+#### MVCC 동작 원리 - 시스템 컬럼과 언두 체인
+
+InnoDB의 모든 레코드에는 사용자가 정의한 컬럼 외에 3개의 숨겨진 시스템 컬럼이 포함되어 MVCC를 실현한다.
+
+1. DB_TRX_ID(6 bytes): 해당 레코드를 마지막으로 삽입하거나 업데이트한 트랜잭션의 식별자
+2. DB_ROLL_PTR(7 bytes): 롤백 포인터라고 하며, 언두 로그에 저장된 해당 레코드의 이전 버전 데이터(Snapshot)를 가리키는 주소
+3. DB_ROW_ID(6 bytes): 프라이머리 키가 없는 테이블에서 내부적으로 생성하는 행 식별자
+
+```mermaid
+graph LR
+    subgraph "InnoDB Buffer Pool (Current Page)"
+        R1[Record A <br/> TRX_ID: 102 <br/> ROLL_PTR: 0x001]
+    end
+    subgraph "Undo Log Space (Version Chain)"
+        V1[Snapshot 1 <br/> TRX_ID: 101 <br/> ROLL_PTR: 0x002]
+        V2[Snapshot 2 <br/> TRX_ID: 99 <br/> ROLL_PTR: NULL]
+    end
+    R1 -- " points to " --> V1
+    V1 -- " points to " --> V2
+```
+
+- 언두 체인(Undo Chain): `DB_ROLL_PTR`을 따라가면 해당 레코드의 과거 이력을 순차적으로 탐색 가능
+    - 옵티마이저는 트랜잭션의 시작 시점과 `DB_TRX_ID`를 비교하여, 어떤 버전의 데이터를 읽어야 할지 결정
+- 가비지 컬렉션: 더 이상 어떤 활성 트랜잭션에서도 참조하지 않는 오래된 언두 로그는 `Purge 스레드`에 의해 비동기적으로 삭제
 
 ### 잠금 없는 일관된 읽기(Non-Locking Consistent Read) 지원
 
