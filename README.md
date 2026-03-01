@@ -5,6 +5,9 @@ coverY: 0
 layout: editorial
 ---
 
+> [!CAUTION]
+> Deprecated! https://hyoguoo.github.io 이동
+
 # 📖 Docs
 
 ### Computer Science
